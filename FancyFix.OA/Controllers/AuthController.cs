@@ -88,7 +88,6 @@ namespace FancyFix.OA.Controllers
             return Redirect("/auth/login");
         }
 
-
         private bool ShowCode()
         {
             return Session[ErrorRate] != null && (int)Session[ErrorRate] >= LimitTime;

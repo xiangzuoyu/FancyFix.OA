@@ -1,0 +1,89 @@
+﻿@using FancyFix.OA.Model;
+@model Mng_PermissionGroup
+@{
+    Layout = "~/Views/Shared/_Layout_In.cshtml";
+}
+@section Css{
+    <link href="/Content/js/plugins/iCheck/flat/_all.css" rel="stylesheet" />
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box-header">
+            <h3 class="box-title">组名：@Model.GroupName</h3>
+        </div>
+        <div class="box">
+            <form action="/system/permission/savepermission" method="post">
+                <div class="box-body">
+                    <div class="table-responsive">
+                        <ul id="menuTree" class="layui-box layui-tree">
+                            @Html.Raw(ViewBag.strShowClass)
+                        </ul>
+                    </div>
+                    <div>
+                        <input type="hidden" name="id" value="@Model.Id " />
+                        <button type="button" id="cancel" class="btn btn-default pull-right margin" onclick="CloseWin()">取消</button>
+                        <button type="submit" class="btn btn-primary pull-right margin">保存</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section Js{
+    <script src="/Content/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="/Content/js/common/tools.js"></script>
+    <script>
+        layui.use('form', function () {
+            var form = layui.form();
+            //监听提交
+            form.on('submit(formAdd),submit(formUpdate)', function (data) {
+                return false;
+            });
+            $(".layui-show").each(function () {
+                var $this = $(this);
+                var $input = $this.find("input[type='checkbox']");
+                var isAll = true;
+                $($input).each(function () {
+                    if (!$(this).prop("checked")) {
+                        isAll = false;
+                        return false;
+                    }
+                });
+                if (isAll) {
+                    $this.prev().find("input[type='checkbox']").prop("checked", "checked");
+                }
+            });
+
+            $("input[type='checkbox']").click(function () {
+                var $this = $(this);
+                if ($this.is(":checked")) {
+                    $this.parents("li").eq(0).find("input:checkbox").prop("checked", true);
+                } else {
+                    $this.parents("li").eq(0).find("input:checkbox").prop("checked", false);
+                }
+            })
+
+            $("#menuTree cite").click(function () {
+                var $this = $(this).prev("input[type='checkbox']")
+                if ($this.is(":checked")) {
+                    $this.prop("checked", false);
+                    $this.parents("li").eq(0).find("input:checkbox").prop("checked", false);
+                } else {
+                    $this.prop("checked", true);
+                    $this.parents("li").eq(0).find("input:checkbox").prop("checked", true);
+
+                }
+            })
+
+            $(".layui-tree-spread").click(function () {
+                var $ul = $(this).parent("li").find("ul");
+                if ($ul.hasClass("layui-show"))
+                    $ul.removeClass("layui-show");
+                else
+                    $ul.addClass("layui-show");
+            })
+        });
+    </script>
+}
+
+

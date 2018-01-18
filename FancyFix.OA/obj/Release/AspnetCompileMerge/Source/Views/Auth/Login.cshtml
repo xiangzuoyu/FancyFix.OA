@@ -1,0 +1,97 @@
+﻿@{
+    Layout = null;
+    bool showCode = ViewBag.showCode;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>FancyFix OA登录</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/Content/css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/Content/css/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="/Content/css/fonts/ionicons.min.css">
+    <link rel="stylesheet" href="/Content/css/adminlte/AdminLTE.min.css">
+    <link rel="stylesheet" href="/Content/css/adminlte/skins/_all-skins.min.css">
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        body, html {
+            height: 0;
+        }
+
+        .canvas {
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            z-index: -1;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body class="login-page" style="background-color:#3c8dbc">
+
+            <div class="login-box">
+                <div class="login-logo">
+                    <a href="/"><i style="color:#fff;display:block; font-style:normal;">FancyFix OA </i></a>
+                </div>
+                <div class="login-box-body">
+                    <div class="canvas"></div>
+                    <p class="login-box-msg">Sign in to start your session</p>
+                    <form action="/auth/signin" method="post" onsubmit="return Sign()">
+                        <div class="form-group has-feedback">
+                            <input type="text" class="form-control" name="username" placeholder="用户名" value="@ViewBag.username" required="required">
+                            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                        </div>
+                        <div class="form-group has-feedback">
+                            <input type="password" class="form-control" name="password" placeholder="密码" required="required">
+                            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                        </div>
+                        @if (showCode)
+                        {
+                            <div class="row form-group">
+                                <div class="col-xs-8">
+                                    <input type="text" class="form-control" name="checkcode" placeholder="验证码" required="required">
+                                </div>
+                                <div class="col-xs-4">
+                                    <img id="imgcode" alt="点击刷新验证码" src="../common/verifyimage.aspx" onclick="this.src=this.src+'?'+ Math.random();" style="cursor:pointer;" />
+                                </div>
+                            </div>
+                        }
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <button type="submit" id="btnLogin" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+ 
+    <script src="/Content/js/plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="/Content/js/bootstrap/bootstrap.min.js"></script>
+    <script src="/Content/js/plugins/particle/js/jparticles.min.js"></script>
+    <script>
+        function InitCanvas() {
+            $(".canvas").jParticle({
+                background: "#339999",
+                color: "#E6E6E6"
+            });
+        }
+        function Sign() {
+            $("#btnLogin").html("Signing...");
+            return true;
+        }
+        $(function () {
+            //加载动态背景
+            //InitCanvas();
+            //$(window).resize(function () {
+            //    InitCanvas();
+            //});
+        })
+    </script>
+</body>
+</html>

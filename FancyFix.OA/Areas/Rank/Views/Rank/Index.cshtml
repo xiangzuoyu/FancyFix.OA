@@ -1,0 +1,64 @@
+﻿@using FancyFix.OA.Model
+@{
+    ViewBag.Title = "RankIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Css{
+    <link href="/Content/js/plugins/datatables/bootstrap-table.min.css" rel="stylesheet" />
+    <style>
+        .callout a {
+            text-decoration: none;
+            width: 150px;
+        }
+    </style>
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box-header">
+            <h3 class="box-title">积分模块：</h3>
+        </div>
+        <div class="box">
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box-body">
+                            <div class="callout callout-addcol center-block ad-jz">
+                                <a href="/rank/valuable">
+                                    <h3>查看价值观排名</h3>
+                                </a>
+                                <div class="icon">
+                                    <i class="fa fa-joomla"></i>
+                                </div>
+                            </div>
+                            <div class="callout callout-addcol ad-pm">
+                                <a href="/rank/point">
+                                    <h3>查看积分排名</h3>
+                                </a>
+                                <div class="icon">
+                                    <i class="fa fa-rocket"></i>
+                                </div>
+                            </div>
+                            <div class="callout callout-addcol ad-kpi">
+                                <a href="/rank/kpi">
+                                    <h3>查看KPI排名</h3>
+                                </a>
+                                <div class="icon">
+                                    <i class="fa fa-bar-chart-o"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Js{
+    <script src="/Content/js/common/tools.js"></script>
+    <script type="text/javascript">
+        layui.use(['layer'], function () {
+            var layer = layui.layer;
+        })
+    </script>
+}

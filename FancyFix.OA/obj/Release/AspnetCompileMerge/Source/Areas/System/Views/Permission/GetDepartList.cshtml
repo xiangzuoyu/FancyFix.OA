@@ -1,0 +1,53 @@
+﻿
+@{
+    ViewBag.Title = "GetDepartList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box-header">
+            <h3 class="box-title">选择部门</h3>
+        </div>
+        <form id="mainform" action="/system/permission/list" method="get">
+            <table class="layui-table">
+                <!--列宽度-->
+                <colgroup>
+                    <col class="col-lg-2">
+                    <col class="col-lg-10">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td align="right"><label for="departid" class="control-label">部门：</label></td>
+                        <td>
+                            <div class="form-group form-inline">
+                                <select class="form-control" id="departid" name="departid" loadattr="false" style="width:250px" required="required">
+                                    <option value="">请选择部门</option>
+                                    @Html.Raw(ViewBag.showClass)
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"></td>
+                        <td>
+                            <button type="submit" id="submit" class="btn btn-primary">提交</button>
+                            <button type="button" id="cancel" class="btn btn-default" onclick="CloseTab(); CloseWin()">取消</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+@section Js{
+    <script src="/Content/js/plugins/jqvalidate/jquery.validator.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/messages_cn.js"></script>
+    <script src="/Content/js/common/tools.js"></script>
+    <script>
+        layui.use('layer', function () {
+            //表单验证
+            $("#mainform").validate();
+        });
+    </script>
+}

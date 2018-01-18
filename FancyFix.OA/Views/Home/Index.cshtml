@@ -1,0 +1,119 @@
+﻿@{
+    ViewBag.Title = "Default";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Css{
+    <style>
+        .small-box {
+            cursor: pointer;
+        }
+    </style>
+}
+<section class="content">
+    <div class="row">
+        <div class="col-lg-12 col-xs-12">
+            <div class="small-box bg-aqua" onclick="javascript: window.location.href='/valuable/valuable/workerlist'">
+                <div class="inner">
+                    <h3>价值观</h3>
+                    <p>价值观考核</p>
+                    <a href="javascript:void(0)" class="small-box-footer">
+                        点击进入 <i class="fa fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-joomla"></i>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-lg-12 col-xs-12" style="margin-bottom:2px;">
+            <div class="small-box bg-green" onclick="javascript: window.location.href='/point/point/pointindex'">
+                <div class="inner">
+                    <h3>积分</h3>
+                    <p>积分模块</p>
+                    <a href="javascript:void(0)" class="small-box-footer">
+                        点击进入 <i class="fa fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-rocket"></i>
+                </div>
+               
+            </div>
+        </div>
+        <div class="col-lg-12 col-xs-12">
+            <div class="small-box bg-yellow" onclick="javascript: window.location.href='/kpi/kpi'">
+                <div class="inner">
+                    <h3>KPI</h3>
+                    <p>KPI考核</p>
+                    <a href="javascript:void(0)" class="small-box-footer">
+                        点击进入 <i class="fa fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-bar-chart-o"></i>
+                </div>
+                
+            </div>
+        </div>
+        <div class="col-lg-12 col-xs-12">
+            <div class="small-box bg-red" onclick="javascript: window.location.href='/rank/rank'">
+                <div class="inner">
+                    <h3>排名</h3>
+                    <p>查看各项排名</p>
+                    <a href="javascript:void(0)" class="small-box-footer">
+                        点击进入 <i class="fa fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+                <div class="icon">
+                    <i class="fa  fa-trophy"></i>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-xs-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">最新公告</h3>
+                </div>
+                <div class="box-body no-padding">
+                    <div class="mailbox-controls">
+                        <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
+                        <div class="pull-right">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-left"></i></button>
+                                <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive mailbox-messages">
+                        <table class="table table-hover table-striped">
+                            <tbody>
+                                @for (int i = 0; i < 0; i++)
+                                {
+                                    <tr>
+                                        <td><a href="javascript:void(0)">标题...</a></td>
+                                        <td>Trying to find a solution to this problem...</td>
+                                        <td>1 mins ago</td>
+                                    </tr>
+                                }
+                                <tr>
+                                    <td colspan="3" align="center">暂无数据</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="box-footer no-padding">
+                    <div class="mailbox-controls"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section Js{
+    <script src="/Content/js/common/tools.js"></script>
+}
+

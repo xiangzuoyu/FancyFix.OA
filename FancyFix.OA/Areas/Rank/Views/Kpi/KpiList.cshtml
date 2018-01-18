@@ -1,0 +1,73 @@
+﻿@using FancyFix.OA.Model
+@model Kpi_Process
+@{
+    ViewBag.Title = "ValueList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    List<Kpi_Records> recordlist = ViewBag.recordlist;
+    Mng_User userInfo = ViewBag.userInfo;
+}
+@section Css{
+    <link href="/Content/js/plugins/datatables/bootstrap-table.min.css" rel="stylesheet" />
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box-header">
+            <h3 class="box-title">【@userInfo.RealName】 @Model.Year 年 @Model.Month 月 指标 </h3>
+            <a href="/rank/kpi?year=@Model.Year&month=@Model.Month" class="btn btn-default pull-right">返回</a>
+        </div>
+        <div class="box">
+            <div class="box-body">
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <th style="text-align:center;">指标</th>
+                            <th style="text-align:center;" class="hidden-xs">定义</th>
+                            <th style="text-align:center;">权重</th>
+                            <th style="text-align:center;">得分</th>
+                            <th style="text-align:center;">操作</th>
+                        </tr>
+                        @if (recordlist != null && recordlist.Count > 0)
+                        {
+                            foreach (var item in recordlist)
+                            {
+                                <tr>
+                                    <td align="center">@item.Name</td>
+                                    <td class="hidden-xs">@CutString(item.Content, 100)</td>
+                                    <td align="center">@item.Score %</td>
+                                    <td align="center"><span class="badge bg-green">@item.ParScore</span></td>
+                                    <td align="center">
+                                        <a href="/rank/kpi/kpiinfo/@item.Id" class="btn btn-warning">查看</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td align="center" colspan="5">暂无数据</td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td align="center">总得分</td>
+                            <td align="center" class="hidden-xs"></td>
+                            <td align="center"></td>
+                            <td align="center">@(recordlist.Sum(o => o.FinishScore) ?? Model.Score)</td>
+                            <td align="center"></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Js{
+    <script src="/Content/js/common/tools.js"></script>
+    <script>
+        layui.use(['layer'], function () {
+            var layer = layui.layer;
+        })
+    </script>
+}

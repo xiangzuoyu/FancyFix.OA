@@ -1,0 +1,286 @@
+﻿@model  FancyFix.OA.Config.FileUploadConfig
+@{
+    int random = Math.Abs(Guid.NewGuid().GetHashCode());
+}
+<link href="/Content/js/plugins/webuploader/dist/webuploader.css" type="text/css" rel="stylesheet" />
+<style type="text/css">
+    .imgdiv {
+        position: relative;
+        margin: 5px;
+        padding: 5px;
+        width: 128px;
+        height: 98px;
+        border: 4px solid #ebe8e8;
+        background-color: #ebe8e8;
+        border-radius: 5px;
+    }
+
+    span.filename {
+        position: absolute;
+        vertical-align: middle;
+        text-align: center;
+        width: 110px;
+        color: #444;
+        word-wrap: break-word;
+    }
+
+    .btnImgDelete {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+    }
+
+    .imgdiv .progress {
+        position: absolute;
+        height: 4px;
+        background-color: #3c8dbc;
+        width: 0;
+    }
+</style>
+
+<div id="imgDiv@(random)" class="form-group form-inline">
+    <div id="imgList@(random)" class="form-group">
+    </div>
+    <div class="form-group form-inline" style="height:90px;">
+        <p class="layui-word-aux">支持格式：@Model.FileExt</p>
+        <p class="layui-word-aux">大小限制：小于 @(Math.Floor((double)(Model.MaxSize / 1024 / 1024))) MB</p>
+        <p class="layui-word-aux">数量限制：@Model.UploadNum 个</p>
+        <a id="btnUpload@(random)" class="btnup form-group">
+            <i class="glyphicon glyphicon-plus"></i>上传文件
+        </a>
+    </div>
+</div>
+<script src="/Content/js/plugins/webuploader/dist/webuploader.min.js"></script>
+<script src="/Content/js/plugins/sortable/Sortable.min.js"></script>
+<script type="text/javascript">
+    jQuery.support.cors = true;
+    $(function () {
+        var files = '@Model.Files.Trim(',')';
+        var $imgList = $("#imgList@(random)");
+
+        //填充图片
+        var array = files.split(',');
+        if (array && array.length > 0) {
+            var img = "";
+            $.each(array, function (i, v) {
+                if (v && v != '') {
+                    img += '<div class="form-group imgdiv">' +
+                    '<p class="progress"></p>' +
+                    '<span  class="filename">'+ v +'</span>' +
+                    '<input type="hidden" name="pic" value="' + v + '">' +
+                    '<div class="btnImgDelete"><a href="javascript:void(0)" class="btn btn-xs btn-danger">删除</a></div>' +
+                    '</div>'
+                }
+            });
+            $imgList.append(img);
+        }
+
+        //删除按钮
+        $("#imgDiv@(random)").on('click', '.btnImgDelete', function () {
+            var parent = $(this).parent();
+            var id = parent.attr("id");
+            if (id && uploader@(random)) uploader@(random).removeFile(id, true);
+            parent.remove();
+        });
+
+        //初始化控件
+        InitUploader();
+
+        //拖动排序
+        var list = document.getElementById("imgList@(random)");
+        Sortable.create(list, { group: "imgdiv" });
+    });
+
+    //初始化控件
+    var uploader@(random);
+    function InitUploader() {
+        //已存在则销毁
+        if (uploader@(random))
+            uploader@(random).destroy();
+
+        //页面元素
+        var $imgDiv = $("#imgDiv@(random)");
+        var $imgList = $("#imgList@(random)");
+        var $btnUpload = $("#btnUpload@(random)");
+
+        //配置属性
+        var maxSize = '@Model.MaxSize';
+        var maxSizeMB = '@(Math.Floor((double)(Model.MaxSize / 1024 / 1024))) '
+        var uploadNum = '@Model.UploadNum';
+        var fileExt = '@Model.FileExt.Trim(',')';
+
+        //处理minetype
+        var mineType = '';
+        var mineTypeArray = fileExt.split(',');
+        if (mineTypeArray && mineTypeArray.length > 0) {
+            for (var i in mineTypeArray) {
+                if (mineTypeArray[i] != '' && !mineTypeArray[i].startsWith('.')) {
+                    mineType += '.' + mineTypeArray[i] + ',';
+                }
+            }
+        }
+
+        //创建WebUploader对象
+        uploader@(random) = WebUploader.create({
+            // 选完文件后，是否自动上传。
+            auto: true,
+
+            //拖拽
+            //dnd: $("#imgList@(random) .imgdiv"),
+
+            // swf文件路径
+            swf: '/Content/js/plugins/webuploader/dist/webupload/Uploader.swf',
+
+            // 文件接收服务端。
+            server: '/api/upload/uploadfile',
+
+            // 选择文件的按钮。
+            pick: $btnUpload,
+
+            // 设置接收类型和图片格式。
+            accept: {
+                title: 'Files',
+                extensions: fileExt,
+                mimeTypes: mineType.trim(',')
+            },
+
+            ////缩略图生成配置
+            //thumb: {
+            //    width: 120,
+            //    height: 90
+            //},
+
+            //文件大小限制
+            fileSingleSizeLimit: maxSize,//单文件
+            //fileSizeLimit: maxSize,//总大小
+
+            //文件个数限制
+            fileNumLimit: uploadNum,
+
+            //重绘
+            //resize: false,
+
+            //可重复上传
+            duplicate: true,
+
+            //表单信息
+            formData: {
+                Uptype: '@(Model.Uptype)',
+                CheckCode: '@(Model.CheckCode)',
+                Key: '@(Model.Key)',
+                MaxSize: maxSize,
+                UploadNum: uploadNum,
+                Title: ''
+            },
+
+            method: 'POST',
+        });
+
+        // 当有文件添加进来的时候
+        uploader@(random).on('fileQueued', function (file) {  // webuploader事件.当选择文件后，文件被加载到文件队列中，触发该事件。
+            //添加文件标题
+            var title = $("#@Model.Title").val();
+            if (title && title != ''){
+                uploader@(random).options.formData.Title = title;
+            }
+            var $div = $(
+                    '<div id=' + file.id + ' class="form-group imgdiv">' +
+                        '<p class="progress"></p>' +
+                        '<span class="filename"></span>' +
+                        '<input type="hidden" name="pic">' +
+                        '<input type="hidden" name="picname">' +
+                        '<div class="btnImgDelete"><a href="javascript:void(0)" class="btn btn-xs btn-danger">删除</a></div>' +
+                    '</div>'
+                    ),
+                $img = $div.find('img');
+
+            //填充html
+            if (uploader@(random).options.fileNumLimit > 1)
+                $imgList.append($div);
+            else
+                $imgList.html($div);
+
+            // 创建缩略图
+            // 预览图片尺寸 120 x 90
+            @*uploader@(random).makeThumb(file, function (error, src) {   //webuploader方法
+                if (error) {
+                    $img.replaceWith('<span>不能预览</span>');
+                    return;
+                }
+                $img.attr('src', src).attr('alt', file.name);
+                $img.parent("a").attr('href', src);
+            }, 120, 90);*@
+        });
+        // 文件上传过程中创建进度条实时显示。
+        uploader@(random).on('uploadProgress', function (file, percentage) {
+            var $div = $('#' + file.id),
+                $percent = $div.find('.progress');
+
+            // 避免重复创建
+            if (!$percent.length) {
+                $percent = $('<p class="progress"></p>').appendTo($div);
+            }
+            $percent.css('width', percentage * 100 + '%');
+        });
+
+        // 文件上传成功，给item添加成功class, 用样式标记上传成功。
+        uploader@(random).on('uploadSuccess', function (file, response) {
+            var $div = $('#' + file.id);
+            if (response) {
+                if (response.code > 0) {
+                    //$div.find("img").attr("src", window.imgurl + response.url);
+                    //$div.find("img").parent("a").attr("href", window.imgurl + response.url);
+                    $div.find("span.filename").text(response.name);
+                    $div.find("input[name='pic']").val(response.url);
+                    $div.find("input[name='picname']").val(response.name);
+                    $div.find('.progress').remove();
+                } else if (response.code == 0) {
+                    $div.remove();
+                    ShowError(response.msg);
+                } else {
+                    $div.remove();
+                    ShowError("上传失败！");
+                    console.log(response.msg);
+                }
+            } else {
+                $div.remove();
+                ShowError("上传失败！");
+            }
+        });
+
+        // 文件上传失败，显示出错信息。
+        uploader@(random).on('uploadError', function (file, reason) {
+            $('#' + file.id).remove();
+            ShowError(reason);
+        });
+
+        // 文件验证错误，显示对应错误信息
+        uploader@(random).on('error', function (error) {
+            switch (error) {
+                case "Q_EXCEED_NUM_LIMIT":
+                    ShowError('上传失败，总上传数量必须小于等于' + uploadNum);
+                    break;
+                case "Q_EXCEED_SIZE_LIMIT":
+                    ShowError('上传失败，总文件大小不可超过' + maxSizeMB + 'MB！');
+                    break;
+                case "F_EXCEED_SIZE":
+                    ShowError('上传失败，请选择小于' + maxSizeMB + 'MB的文件！');
+                    break;
+                case "Q_TYPE_DENIED":
+                    ShowError('上传失败，格式有误，请选择后缀为' + fileExt + '的文件！');
+                    break;
+                case "F_DUPLICATE":
+                    ShowError("上传失败，不可重复上传同一个文件！");
+                    break;
+                default:
+                    ShowError("上传失败！错误信息：" + error);
+                    break;
+            }
+        });
+
+        // 完成上传完了，成功或者失败，先删除进度条。
+        uploader@(random).on('uploadComplete', function (file) {
+            $('#' + file.id).find('.progress').remove();
+        });
+    }
+</script>

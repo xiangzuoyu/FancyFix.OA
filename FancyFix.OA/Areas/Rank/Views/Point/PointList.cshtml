@@ -1,0 +1,127 @@
+﻿@using FancyFix.OA.Model
+@{
+    ViewBag.Title = "ValueList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    List<Point_Records> recordlist = ViewBag.recordlist;
+    Mng_User userInfo = ViewBag.userInfo;
+    int startyear = ViewBag.startyear;
+    int year = ViewBag.year;
+    int fromMonth = ViewBag.fromMonth;
+    int toMonth = ViewBag.toMonth;
+}
+@section Css{
+    <link href="/Content/js/plugins/datatables/bootstrap-table.min.css" rel="stylesheet" />
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box-header">
+            <h3 class="box-title">@userInfo.RealName 的积分列表：</h3>
+        </div>
+        <div class="box-header">
+            <select id="year" name="year" class="layui-select" style="max-width:100px;">
+                @for (int i = startyear; i <= DateTime.Now.Year; i++)
+                {
+                    <option value="@i" @(i == year ? "selected" : "")>@i 年</option>
+                }
+            </select>
+            <select id="fromMonth" name="fromMonth" class="layui-select" style="max-width:80px;">
+                @for (int i = 1; i <= 12; i++)
+                {
+                    <option value="@i" @(fromMonth == i ? "selected" : "")>@i 月</option>
+                }
+            </select>
+            <select id="toMonth" name="toMonth" class="layui-select" style="max-width:80px;">
+                @for (int i = 1; i <= 12; i++)
+                {
+                    <option value="@i" @(toMonth == i ? "selected" : "")>@i 月</option>
+                }
+            </select>
+            <a href="/rank/point?year=@ViewBag.year&fromMonth=@fromMonth&toMonth=@toMonth" class="btn btn-default pull-right">返回</a>
+        </div>
+        <div class="box">
+            <div class="box-body">
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <th style="text-align:center;">积分类型</th>
+                            <th style="text-align:center;" class="hidden-xs">活动内容</th>
+                            <th style="text-align:center;">活动时间</th>
+                            <th style="text-align:center;">积分</th>
+                            <th style="text-align:center;">操作</th>
+                        </tr>
+                        @if (recordlist != null && recordlist.Any())
+                        {
+                            foreach (var item in recordlist)
+                            {
+                                <tr>
+                                    <td align="center">@(item.PointId > 0 ? item.ClassName : "自定义")</td>
+                                    <td class="hidden-xs">@CutString(item.Content, 100)</td>
+                                    <td align="center">@(item.EventTime.Value.ToString("yyyy/MM/dd") )</td>
+                                    <td align="center">
+                                        <span class="badge @(item.Score >= 0 ? "bg-green" : "bg-red")">@item.Score</span>
+                                    </td>
+                                    <td align="center"><a href="/rank/point/pointinfo/@item.Id" class="btn btn-warning">详细</a></td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td align="center" colspan="5">暂无数据</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Js{
+    <script src="/Content/js/common/tools.js"></script>
+    <script>
+        layui.use(['layer'], function () {
+            var layer = layui.layer;
+
+            $("#year").change(function () {
+                var year = $(this).val();
+                var fromMonth = $("#fromMonth").val();
+                var toMonth = $("#toMonth").val();
+                PostWhere(year, fromMonth, toMonth);
+            })
+
+            $("#fromMonth").change(function () {
+                var fromMonth = $(this).val();
+                var year = $("#year").val();
+                var toMonth = $("#toMonth").val();
+                PostWhere(year, fromMonth, toMonth);
+            })
+
+            $("#toMonth").change(function () {
+                var toMonth = $(this).val();
+                var year = $("#year").val();
+                var fromMonth = $("#fromMonth").val();
+                PostWhere(year, fromMonth, toMonth);
+            })
+
+            function PostWhere(year, fromMonth, toMonth) {
+                if (CheckMonth(fromMonth, toMonth)) {
+                    var where = "year=" + parseInt(year);
+                    if (fromMonth > 0)
+                        where += "&fromMonth=" + parseInt(fromMonth);
+                    if (toMonth > 0)
+                        where += "&toMonth=" + parseInt(toMonth);
+                    window.location.href = window.location.pathname + "?" + where;
+                }
+            }
+
+            function CheckMonth(fromMonth, toMonth) {
+                if (parseInt(fromMonth) > parseInt(toMonth)) {
+                    layer.msg('月份选择有误！', { icon: 2 });
+                    return false;
+                }
+                return true;
+            }
+        })
+    </script>
+}

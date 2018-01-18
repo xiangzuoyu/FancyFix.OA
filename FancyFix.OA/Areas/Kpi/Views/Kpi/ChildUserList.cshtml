@@ -1,0 +1,96 @@
+﻿@using FancyFix.OA.Model
+@{
+    ViewBag.Title = "ChildUserList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Mng_User> userlist = ViewBag.userlist;
+    int startyear = ViewBag.StartYear;
+    int year = ViewBag.year;
+    int month = ViewBag.month;
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box-header">
+            <h3 class="box-title">选择进程：</h3>
+            <select id="year" name="year" class="layui-select" style="max-width:100px;">
+                @for (int i = startyear; i <= DateTime.Now.Year + 1; i++)
+                {
+                    <option value="@i" @(i == year ? "selected" : "")>@i 年</option>
+                }
+            </select>
+            <select id="month" name="month" class="layui-select" style="max-width:80px;">
+                @for (int i = 1; i <= 12; i++)
+                {
+                    <option value="@i" @(month == i ? "selected" : "")>@i 月</option>
+                }
+            </select>
+            <a href="/kpi/kpi/index" class="btn btn-default pull-right">返回</a>
+        </div>
+        <div class="box">
+            <div class="box-body">
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <th style="text-align:center;">员工</th>
+                            <th style="text-align:center;">部门</th>
+                            <th style="text-align:center;">职位</th>
+                            <th style="text-align:center;">得分</th>
+                            <th style="text-align:center;">操作</th>
+                        </tr>
+                        @if (userlist != null && userlist.Count > 0)
+                        {
+                            foreach (var item in userlist)
+                            {
+                                <tr>
+                                    <td align="center">@item.RealName</td>
+                                    <td align="center">@item.DepartMentName</td>
+                                    <td align="center">@item.GroupName</td>
+                                    <td align="center">@item.Score</td>
+                                    <td align="center">
+                                        <a href="/kpi/kpi/childkpilist/@item.Id?year=@year&month=@month" class="btn btn-warning">查看</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td align="center" colspan="5">暂无数据</td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Js{
+    <script src="/Content/js/common/tools.js"></script>
+    <script>
+        layui.use(['layer'], function () {
+            var layer = layui.layer;
+
+            $("#year").change(function () {
+                var year = $(this).val();
+                var month = $("#month").val();
+                PostWhere(year, month);
+            })
+
+            $("#month").change(function () {
+                var month = $(this).val();
+                var year = $("#year").val();
+                PostWhere(year, month);
+            })
+
+            function PostWhere(year, month) {
+                var where = "year=" + parseInt(year);
+                if (month > 0)
+                    where += "&month=" + parseInt(month);
+                window.location.href = window.location.pathname + "?" + where;
+            }
+        })
+    </script>
+}
+
+
+

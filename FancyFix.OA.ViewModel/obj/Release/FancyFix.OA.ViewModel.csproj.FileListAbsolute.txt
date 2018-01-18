@@ -1,0 +1,5 @@
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.ViewModel\bin\Release\FancyFix.OA.ViewModel.dll
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.ViewModel\bin\Release\FancyFix.OA.ViewModel.pdb
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.ViewModel\obj\Release\FancyFix.OA.ViewModel.dll
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.ViewModel\obj\Release\FancyFix.OA.ViewModel.pdb
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.ViewModel\obj\Release\FancyFix.OA.ViewModel.csprojResolveAssemblyReference.cache

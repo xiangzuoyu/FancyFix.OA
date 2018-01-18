@@ -1,0 +1,68 @@
+﻿@using FancyFix.OA.Model
+@{
+    ViewBag.Title = "ValueList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Valuable_List> valuablelist = ViewBag.valuablelist;
+    List<Valuable_Records> recordlist = ViewBag.recordlist;
+}
+@section Css{
+    <link href="/Content/js/plugins/datatables/bootstrap-table.min.css" rel="stylesheet" />
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box-header">
+            <h3 class="box-title">@ViewBag.userName ：@ViewBag.currentYear 年 @ViewBag.currentMonth 月</h3>
+            <a href="/valuable/valuable/childuserlist?year=@ViewBag.currentYear&month=@ViewBag.currentMonth" class="btn btn-default pull-right">返回</a>
+        </div>
+        <div class="box">
+            <div class="box-body">
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <th style="text-align:center;">价值观</th>
+                            <th style="text-align:center;" class="hidden-xs">考核内容说明</th>
+                            <th style="text-align:center;">权重</th>
+                            <th style="text-align:center;">自评分</th>
+                            <th style="text-align:center;">上级评分</th>
+                            <th style="text-align:center;">操作</th>
+                        </tr>
+                        @if (valuablelist != null && valuablelist.Count > 0)
+                        {
+                            foreach (var item in valuablelist)
+                            {
+                                var record = recordlist.Find(o => o.Vid == item.Id);
+                                <tr>
+                                    <td align="center">@item.ClassName</td>
+                                    <td class="hidden-xs">@CutString(item.Content, 100)</td>
+                                    <td align="center">@item.Score</td>
+                                    <td align="center"><span class="badge bg-yellow">@(record?.RankScore ?? 0)</span></td>
+                                    <td align="center"><span class="badge bg-green">@(record?.Score ?? 0)</span></td>
+                                    <td align="center">
+                                        @if (record != null)
+                                        {
+                                            <a href="/valuable/valuable/childvaluerecord/@item.Id?userId=@ViewBag.userId&year=@ViewBag.currentYear&month=@ViewBag.currentMonth" class="btn btn-warning">评审</a>
+                                        }
+                                        else
+                                        {
+                                            <span>员工未完成自评</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td align="center" colspan="6">暂无数据</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Js{
+    <script src="/Content/js/common/tools.js"></script>
+}

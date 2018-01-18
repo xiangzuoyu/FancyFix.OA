@@ -1,0 +1,124 @@
+﻿@using FancyFix.OA.Model;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Config_Process> list = ViewBag.list;
+    Config_Process mod = ViewBag.model;
+}
+<style>
+    .table th {
+        text-align: center;
+        vertical-align: middle !important;
+    }
+
+    .cname {
+        color: #367fa9;
+        font-weight: bold;
+    }
+
+    a:hover {
+        color: #f56954;
+    }
+</style>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box-header">
+            <h3 class="box-title">价值观进程管理</h3>
+        </div>
+        <div class="box">
+            @if (mod != null && mod.Id > 0)
+            {
+                var months = mod.Process.TrimEnd(',').Split(',').ToList();
+                <div class="box-body">
+                    <form class="layui-form" method="post" action="/valuable/process/update">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <input type="text" name="year" placeholder="添加年份" lay-verify="required" required="required" class="form-control pull-left" value="@mod.Year">
+                            </div>
+                            <div class="form-group">
+                                @for (int i = 1; i <= 12; i++)
+                                {
+                                    <input type="checkbox" name="month" title="@(i)月" value="@i" lay-skin="primary" @(months.Contains(i.ToString())?"checked":"")>
+                                }
+                            </div>
+                            <div class="form-group">
+                                <input type="hidden" name="id" value="@mod.Id">
+                                <button type="submit" class="btn btn-sm btn-primary btn-flat pull-left" lay-submit lay-filter="formUpdate">修改</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            }
+            <div class="box-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover no-margin">
+                        <thead>
+                            <tr>
+                                <th>年份</th>
+                                <th>进程</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (list != null && list.Count > 0)
+                            {
+                                foreach (var item in list)
+                                {
+                                    <tr>
+                                        <td align="center">
+                                            @item.Year
+                                        </td>
+                                        <td align="center">
+                                            @(string.Join("月,", item.Process.TrimEnd(',').Split(',')) + "月")
+                                        </td>
+                                        <td align="center">
+                                            <a class="btn btn-primary btn-md" href="/valuable/process?id=@item.Id">编辑</a>
+                                            <a class="btn btn-danger btn-md" href="/valuable/process/delete?id=@item.Id">删除</a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr><td height=25 colspan="5">此分类下暂且没有分类...</td></tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="box-body">
+                <form class="layui-form" method="post" action="/valuable/process/add">
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <input type="text" name="year" placeholder="添加年份" lay-verify="required" required="required" class="form-control pull-left">
+                        </div>
+                        <div class="form-group">
+                            @for (int i = 1; i <= 12; i++)
+                            {
+                                <input type="checkbox" name="month" title="@(i)月" value="@i" lay-skin="primary" checked>
+                            }
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-sm btn-primary btn-flat pull-left" lay-submit lay-filter="formAdd">添加</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Js{
+    <script>
+        layui.use('form', function () {
+            var form = layui.form();
+            //监听提交
+            form.on('submit(formAdd),submit(formUpdate)', function (data) {
+                return false;
+            });
+        });
+    </script>
+}
+
+
+
+

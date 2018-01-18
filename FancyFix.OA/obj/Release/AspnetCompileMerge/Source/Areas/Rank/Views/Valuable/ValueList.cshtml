@@ -1,0 +1,74 @@
+﻿@using FancyFix.OA.Model
+@{
+    ViewBag.Title = "ValueList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Valuable_Records> recordlist = ViewBag.recordlist;
+    Mng_User userInfo = ViewBag.userInfo;
+    int fromMonth = ViewBag.fromMonth;
+    int toMonth = ViewBag.toMonth;
+    int year = ViewBag.year;
+}
+@section Css{
+    <link href="/Content/js/plugins/datatables/bootstrap-table.min.css" rel="stylesheet" />
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box-header">
+            <h3 class="box-title">@userInfo.RealName ：@year 年 @fromMonth 月 @(fromMonth != toMonth ? $"至 {toMonth} 月" : "")</h3>
+            <a href="/rank/valuable?year=@ViewBag.year&fromMonth=@fromMonth&toMonth=@toMonth" class="btn btn-default pull-right">返回</a>
+        </div>
+        @if (IsSuperAdmin || IsDepartAdmin)
+        {
+            <div class="box-header">
+                <a href="/rank/valuable/toexcel/@userInfo.Id?year=@year&fromMonth=@fromMonth&toMonth=@toMonth" class="btn btn-default pull-left">导出到Excel</a>
+            </div>
+        }
+        <div class="box">
+            <div class="box-body">
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <th style="text-align:center;">进程</th>
+                            <th style="text-align:center;">价值观</th>
+                            <th style="text-align:center;" class="hidden-xs">考核内容说明</th>
+                            <th style="text-align:center;">自评分</th>
+                            <th style="text-align:center;">上级评分</th>
+                            <th style="text-align:center;">操作</th>
+                        </tr>
+                        @if (recordlist != null && recordlist.Any())
+                        {
+                            foreach (var item in recordlist)
+                            {
+                                <tr>
+                                    <td align="center">@item.Month 月</td>
+                                    <td align="center">@item.ClassName</td>
+                                    <td class="hidden-xs">@CutString(item.Content, 100)</td>
+                                    <td align="center"><span class="badge bg-yellow">@(item?.RankScore ?? 0)</span></td>
+                                    <td align="center"><span class="badge bg-green">@(item?.Score ?? 0)</span></td>
+                                    <td align="center"><a href="javascript:void(0)" data-id="@item.Id" class="btn btn-warning">案例</a></td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td align="center" colspan="6">暂无数据</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Js{
+    <script src="/Content/js/common/tools.js"></script>
+    <script>
+        layui.use(['layer'], function () {
+            var layer = layui.layer;
+            $(".btn-warning").click(function () {
+                OpenWin("案例详情", "/rank/valuable/samplelist?id=" + $(this).data("id"), '650px', '50%');
+            })
+        })
+    </script>
+}

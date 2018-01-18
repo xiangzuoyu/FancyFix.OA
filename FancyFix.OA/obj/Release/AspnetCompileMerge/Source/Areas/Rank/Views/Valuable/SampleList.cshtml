@@ -1,0 +1,69 @@
+﻿@using FancyFix.OA.Model;
+@model Valuable_List
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout_In.cshtml";
+
+    Valuable_Records record = ViewBag.record;
+    IList<Valuable_Sample> samplelist = ViewBag.samplelist;
+}
+@section Css{
+    <link href="/Content/js/plugins/iCheck/flat/_all.css" rel="stylesheet" />
+    <style>
+        .form-group {
+            margin-bottom: 0;
+        }
+    </style>
+}
+<div class="row">
+    <div class="col-md-12">
+        <table class="layui-table">
+            <!--列宽度-->
+            <colgroup>
+                <col class="col-lg-2 col-xs-4">
+                <col class="col-lg-10 col-xs-8">
+            </colgroup>
+            <tbody>
+                <tr>
+                    <td align="right"><label for="classid" class="control-label">价值观：</label></td>
+                    <td>
+                        <div class="form-group form-inline">
+                            @Model.ClassName
+                        </div>
+                    </td>
+                </tr>
+                @if (samplelist != null && samplelist.Any())
+                {
+                    int i = 1;
+                    foreach (var item in samplelist)
+                    {
+                        <tr>
+                            <td align="right"><label for="classid" class="control-label">案例@(i)：</label></td>
+                            <td>
+                                <div class="form-group form-inline">
+                                    @item.Content
+                                </div>
+                            </td>
+                        </tr>
+                        i++;
+                    }
+                }
+                @*<tr>
+                    <td align="right"></td>
+                    <td>
+                        <button type="button" id="cancel" class="btn btn-default" onclick="javascript: window.history.go(-1)">返回</button>
+                    </td>
+                </tr>*@
+            </tbody>
+        </table>
+    </div>
+</div>
+@section Js{
+    <script src="/Content/js/common/tools.js"></script>
+    <script>
+        layui.use(['layer'], function () {
+            var layer = layui.layer;
+
+        })
+    </script>
+}

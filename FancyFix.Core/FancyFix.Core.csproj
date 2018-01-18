@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{938F322A-AFE4-4A7A-8F43-6B2A9205ECD3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FancyFix.Core</RootNamespace>
+    <AssemblyName>FancyFix.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Dos.Common">
+      <HintPath>..\..\..\Utils\Doc.ORM\DataAccess\bin\Debug\Dos.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Dos.DataAccess">
+      <HintPath>..\..\..\Utils\Doc.ORM\DataAccess\bin\Debug\Dos.DataAccess.dll</HintPath>
+    </Reference>
+    <Reference Include="Dos.ORM">
+      <HintPath>..\..\..\Utils\Doc.ORM\DataAccess\bin\Debug\Dos.ORM.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Admin\AdminState.cs" />
+    <Compile Include="Admin\IAdminInfo.cs" />
+    <Compile Include="Admin\PermissionManager.cs" />
+    <Compile Include="Crypt\WebKey.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Utils\Tools\FancyFix.Tools.csproj">
+      <Project>{d967950c-ccf5-47a4-a202-6930f2c8e20d}</Project>
+      <Name>FancyFix.Tools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FancyFix.OA.Bll\FancyFix.OA.Bll.csproj">
+      <Project>{0690c5cb-a415-4fc7-a046-3eba33e8da6e}</Project>
+      <Name>FancyFix.OA.Bll</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FancyFix.OA.Model\FancyFix.OA.Model.csproj">
+      <Project>{308cf2c3-bc41-4ab0-8bd9-fa3defcaa3c4}</Project>
+      <Name>FancyFix.OA.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

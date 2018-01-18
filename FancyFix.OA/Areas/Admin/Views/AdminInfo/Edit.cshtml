@@ -1,0 +1,123 @@
+﻿@model FancyFix.OA.Model.Mng_User
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Css{
+    <style>
+        .form-group {
+            margin-bottom: 0;
+        }
+    </style>
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="box-header">
+            <h3 class="box-title">个人资料修改</h3>
+        </div>
+        <form id="mainform" action="/admin/admininfo/save" method="post">
+            <table class="layui-table">
+                <!--列宽度-->
+                <colgroup>
+                    <col class="col-lg-2">
+                    <col class="col-lg-10">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td align="right"><label for="username" class="control-label">用户名：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Model.UserName
+                            </div>
+                        </td>
+                    </tr>
+                    @if (Model.ParUserId > 0)
+                    {
+                        <tr>
+                            <td align="right"><label for="paruser" class="control-label">上级领导：</label></td>
+                            <td>
+                                <div class="form-group">
+                                    @FancyFix.OA.Bll.BllMng_User.GetNameById(Model.ParUserId.Value)
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td align="right"><label class="control-label">头像：</label></td>
+                        <td>
+                            @Html.Partial("UploadImg", new FancyFix.OA.Config.ImgUploadConfig { Pics = Model?.Pic ?? "", Uptype = "web", FileExt = "gif,png,jpg,jpeg", UploadNum = 1, MaxSize = 1024 * 1024 * 1, Domain = "local" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">真实姓名：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="title" name="realname" placeholder="姓名" value="@Model.RealName" style="width:200px;" required="required">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">Email：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="email" name="email" placeholder="Email" value="@Model.Email" style="width:200px;">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">QQ：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="title" name="qq" placeholder="QQ" value="@Model.QQ" style="width:200px;">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">手机号码：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="title" name="tel" placeholder="手机号码" value="@Model.Tel" style="width:200px;">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="password" class="control-label">新密码：</label></td>
+                        <td>
+                            <div class="form-group form-inline">
+                                <input type="password" class="form-control" id="password" name="password" placeholder="输入密码" value="" style="width:200px;" autocomplete="off" minlength="6" maxlength="20">
+                                <span class="layui-word-aux">(不修改密码请留空)</span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="rpassword" class="control-label">确认密码：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="password" class="form-control" id="rpassword" name="rpassword" placeholder="再次输入密码" value="" style="width:200px;" autocomplete="off" minlength="6" maxlength="20">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"></td>
+                        <td>
+                            <button type="submit" id="submit" class="btn btn-primary">提交</button>
+                            <button type="button" id="cancel" class="btn btn-default" onclick="CloseWin(); CloseTab();">取消</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+@section Js{
+    <script src="/Content/js/plugins/jqvalidate/jquery.validator.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/messages_cn.js"></script>
+    <script src="/Content/js/common/tools.js"></script>
+    <script>
+        layui.use(['layer'], function () {
+            var layer = layui.layer;
+            //表单验证
+            $("#mainform").validate();
+        })
+    </script>
+}

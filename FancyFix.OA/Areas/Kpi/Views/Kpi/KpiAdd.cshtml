@@ -1,0 +1,190 @@
+﻿@using FancyFix.OA.Model;
+@model Kpi_Records
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    int year = ViewBag.year;
+    int month = ViewBag.month;
+}
+@section Css{
+    <link href="/Content/js/plugins/iCheck/flat/_all.css" rel="stylesheet" />
+    <style>
+        .form-group {
+            margin-bottom: 0;
+        }
+    </style>
+}
+<div class="row">
+    <div class="col-md-12">
+        <form id="mainform" action="/kpi/kpi/kpisave" method="post">
+            <table class="layui-table">
+                <!--列宽度-->
+                <colgroup>
+                    <col class="col-lg-2 col-xs-4">
+                    <col class="col-lg-10 col-xs-8">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td align="right"><label for="year" class="control-label">进程：</label></td>
+                        <td>
+                            <div class="form-group form-inline">
+                                @(Model?.Year ?? year ) 年 @(Model?.Month ?? month) 月
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="name" class="control-label">指标：</label></td>
+                        <td>
+                            <div class="form-group form-inline">
+                                <input type="text" class="form-control" name="name" id="name" value="@(Model?.Name ?? "")" required="required"  maxlength="50">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="content" class="control-label">定义：</label></td>
+                        <td>
+                            <div class="form-group form-inline">
+                                <textarea class="form-control" id="content" name="content" rows="5" required="required" style="width:100%;">@(Model?.Content ?? "")</textarea>
+                            </div>
+                        </td>
+                    </tr>
+                    @*<tr>
+                        <td align="right"><label for="target_highest" class="control-label">挑战目标：</label></td>
+                        <td>
+                            <div class="form-group form-inline">
+                                <input type="text" class="form-control" name="target_highest" id="target_highest" value="@(Model?.Target_Highest ?? "")" style="width:250px;" maxlength="50" placeholder="挑战目标">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="target_highest" class="control-label">标准目标：</label></td>
+                        <td>
+                            <div class="form-group form-inline">
+                                <input type="text" class="form-control" name="target_normal" id="target_normal" value="@(Model?.Target_Normal ?? "")" style="width:250px;" required="required" maxlength="50" placeholder="标准目标">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="target_highest" class="control-label">最低目标：</label></td>
+                        <td>
+                            <div class="form-group form-inline">
+                                <input type="text" class="form-control" name="target_lowest" id="target_lowest" value="@(Model?.Target_Lowest ?? "")" style="width:250px;" maxlength="50" placeholder="最低目标">
+                            </div>
+                        </td>
+                    </tr>*@
+                    <tr>
+                        <td align="right"><label for="score" class="control-label">权重：</label></td>
+                        <td>
+                            <div class="form-group form-inline">
+                                <input type="text" class="form-control" name="score" id="score" value="@(Model?.Score ?? 0)" style="width:100px;" number="true" required="required"> %
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="scoreremark" class="control-label">评分标准：</label></td>
+                        <td>
+                            <div class="form-group form-inline">
+                                <textarea class="form-control" id="targetremark" name="targetremark" rows="5" required="required" style="width:100%;" placeholder="评分标准">@(Model?.TargetRemark ?? "")</textarea>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="scoreremark" class="control-label">评分人：</label></td>
+                        <td>
+                            <div class="form-group form-inline">
+                                @if (Model != null)
+                                {
+                                    <input type="hidden" id="paruserid" name="paruserid" value="@Model.ParUserId">
+                                    <span id="username">@Model.ParUserName</span>
+                                    if (!Model.IsApprove.Value)
+                                    {
+                                        <button type="button" id="btnClear" class="btn btn-default">清除</button>
+                                        <button type="button" id="btnSetPar" class="btn btn-default">选择上级</button>
+                                        <span>(不选则读取默认上级)</span>
+                                    }
+                                }
+                                else
+                                {
+                                    <input type="hidden" id="paruserid" name="paruserid" value="">
+                                    <span id="username"></span>
+                                    <button type="button" id="btnClear" class="btn btn-default hidden">清除</button>
+                                    <button type="button" id="btnSetPar" class="btn btn-default">选择上级</button>
+                                    <span>(不选则读取默认上级)</span>
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"></td>
+                        <td>
+                            <input type="hidden" id="id" name="id" value="@(Model != null ? Model.Id : 0)">
+                            <input type="hidden" id="pid" name="pid" value="@ViewBag.pid">
+                            <input type="hidden" name="year" value="@year">
+                            <input type="hidden" name="month" value="@month">
+                            @if (Model == null || (!Model?.IsApprove ?? false))
+                            {
+                                <button type="submit" id="btnPass" class="btn btn-primary">提交</button>
+                            }
+                            <a href="/kpi/kpi/kpilist?year=@(Model?.Year?? year)&month=@(Model?.Month ?? month)" id="cancel" class="btn btn-default">返回</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+@section Js{
+    <script src="/Content/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/jquery.validator.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/messages_cn.js"></script>
+    <script src="/Content/js/common/tools.js"></script>
+    <script>
+        layui.use(['layer'], function () {
+            var layer = layui.layer;
+
+            //iCheck初始化
+            $('input[type="checkbox"],input[type="radio"]').iCheck({
+                checkboxClass: 'icheckbox_flat-blue',
+                radioClass: 'iradio_flat-blue'
+            });
+
+            //表单验证
+            var $form = $("#mainform");
+            $form.validate();
+
+            //通过
+            $("#btnPass").click(function () {
+                $form.valid();
+            });
+
+            //选择员工
+            var issingle = "true";
+            $("#btnSetPar").on('click', function () {
+                var userid = $("#userid").val();
+                OpenWin("选择上级", "/common/getadmintree?userid=" + userid + "&callback=SetUser&issingle=" + issingle, '600px', '100%');
+            });
+            //清除员工
+            $("#btnClear").on('click', function () {
+                $("#paruserid").val('');
+                $("#username").text('');
+                $(this).addClass('hidden');
+            });
+        })
+        function SetUser(array) {
+            if (array.length > 0) {
+                var userids = "";
+                var names = "";
+                for (var i in array) {
+                    userids += array[i].id + ",";
+                    names += array[i].name + ",";
+                }
+                $("#paruserid").val(userids.substring(0, userids.lastIndexOf(',')));
+                $("#username").text(names.substring(0, names.lastIndexOf(',')));
+                $("#btnClear").removeClass('hidden');
+            } else {
+                alert('选择有误！');
+            }
+        }
+    </script>
+}

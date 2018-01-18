@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.16
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FancyFix.OA", "FancyFix.OA\FancyFix.OA.csproj", "{BC1222CF-8916-4E1E-90C2-44BCCFC88B6D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D967950C-CCF5-47A4-A202-6930F2C8E20D} = {D967950C-CCF5-47A4-A202-6930F2C8E20D}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FancyFix.Tools", "..\..\Utils\Tools\FancyFix.Tools.csproj", "{D967950C-CCF5-47A4-A202-6930F2C8E20D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FancyFix.OA.Bll", "FancyFix.OA.Bll\FancyFix.OA.Bll.csproj", "{0690C5CB-A415-4FC7-A046-3EBA33E8DA6E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FancyFix.Core", "FancyFix.Core\FancyFix.Core.csproj", "{938F322A-AFE4-4A7A-8F43-6B2A9205ECD3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FancyFix.OA.Model", "FancyFix.OA.Model\FancyFix.OA.Model.csproj", "{308CF2C3-BC41-4AB0-8BD9-FA3DEFCAA3C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FancyFix.OA.ViewModel", "FancyFix.OA.ViewModel\FancyFix.OA.ViewModel.csproj", "{1EF98CA7-D454-432A-854C-F09E5520B3BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FancyFix.Mapper", "FancyFix.Mapper\FancyFix.Mapper.csproj", "{122D597A-6825-4385-8147-7FAA3921BFDC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BC1222CF-8916-4E1E-90C2-44BCCFC88B6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC1222CF-8916-4E1E-90C2-44BCCFC88B6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC1222CF-8916-4E1E-90C2-44BCCFC88B6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC1222CF-8916-4E1E-90C2-44BCCFC88B6D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D967950C-CCF5-47A4-A202-6930F2C8E20D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D967950C-CCF5-47A4-A202-6930F2C8E20D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D967950C-CCF5-47A4-A202-6930F2C8E20D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D967950C-CCF5-47A4-A202-6930F2C8E20D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0690C5CB-A415-4FC7-A046-3EBA33E8DA6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0690C5CB-A415-4FC7-A046-3EBA33E8DA6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0690C5CB-A415-4FC7-A046-3EBA33E8DA6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0690C5CB-A415-4FC7-A046-3EBA33E8DA6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{938F322A-AFE4-4A7A-8F43-6B2A9205ECD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{938F322A-AFE4-4A7A-8F43-6B2A9205ECD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{938F322A-AFE4-4A7A-8F43-6B2A9205ECD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{938F322A-AFE4-4A7A-8F43-6B2A9205ECD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{308CF2C3-BC41-4AB0-8BD9-FA3DEFCAA3C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{308CF2C3-BC41-4AB0-8BD9-FA3DEFCAA3C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{308CF2C3-BC41-4AB0-8BD9-FA3DEFCAA3C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{308CF2C3-BC41-4AB0-8BD9-FA3DEFCAA3C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1EF98CA7-D454-432A-854C-F09E5520B3BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1EF98CA7-D454-432A-854C-F09E5520B3BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1EF98CA7-D454-432A-854C-F09E5520B3BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1EF98CA7-D454-432A-854C-F09E5520B3BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{122D597A-6825-4385-8147-7FAA3921BFDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{122D597A-6825-4385-8147-7FAA3921BFDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{122D597A-6825-4385-8147-7FAA3921BFDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{122D597A-6825-4385-8147-7FAA3921BFDC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,121 @@
+﻿@using FancyFix.OA.Model;
+@model Point_List
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout_In.cshtml";
+}
+@section Css{
+    <link href="/Content/js/plugins/iCheck/flat/_all.css" rel="stylesheet" />
+    <style>
+        .form-group {
+            margin-bottom: 0;
+        }
+    </style>
+}
+<div class="row">
+    <div class="col-md-12">
+        <form id="mainform" action="/point/pointlist/save" method="post">
+            <table class="layui-table">
+                <!--列宽度-->
+                <colgroup>
+                    <col class="col-lg-2">
+                    <col class="col-lg-10">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td align="right"><label for="classid" class="control-label">积分类型：</label></td>
+                        <td>
+                            <div class="form-group form-inline">
+                                <select class="form-control" id="classid" name="classid" required="required">
+                                    <option value="">请选择一个分类</option>
+                                    @Html.Raw(ViewBag.classHtml)
+                                </select>
+                                <span id="classPathStr" class="layui-word-aux error"></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">积分项名称：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="pointname" name="pointname" placeholder="积分项名称" value="@(Model?.PointName ?? "")" required="required" style="width:250px;">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">积分项分值：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="pointscore" name="pointscore" placeholder="积分项分值" value="@(Model?.PointScore ?? 0)" required="required" style="width:250px;" intger="true">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">分值说明：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="scoreremark" name="scoreremark" placeholder="分值说明" value="@(Model?.ScoreRemark ?? "")" required="required" style="width:250px;">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">积分项说明：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <textarea class="form-control" id="remark" name="remark" type="text/plain" placeholder="积分项说明" style="height:80px;" required="required">@(Model?.Remark ?? "")</textarea>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">统计时间描述：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="counttime" name="counttime" placeholder="统计时间" value="@(Model?.CountTime ?? "")" required="required" style="width:250px;">
+                            </div>
+                        </td>
+                    </tr>
+                    @*<tr>
+                        <td align="right"><label class="control-label">是否自行申请：</label></td>
+                        <td>
+                            <input type="checkbox" class="form-control" name="countbyself" @(Model?.CountBySelf ?? false ? "checked=\"checked\"" : "") value="true">
+                        </td>
+                    </tr>*@
+                    <tr>
+                        <td align="right"></td>
+                        <td>
+                            <input type="hidden" id="id" name="id" value="@(Model?.Id ?? 0)">
+                            <button type="submit" id="btnPass" class="btn btn-primary">保存</button>
+                            <button type="button" id="cancel" class="btn btn-default" onclick="CloseWin()">取消</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+@section Js{
+    <script src="/Content/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/jquery.validator.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/messages_cn.js"></script>
+    <script src="/Content/js/common/tools.js"></script>
+    <script>
+        layui.use(['layer'], function () {
+            var layer = layui.layer;
+
+            //iCheck初始化
+            $('input[type="checkbox"],input[type="radio"]').iCheck({
+                checkboxClass: 'icheckbox_flat-blue',
+                radioClass: 'iradio_flat-blue'
+            });
+
+            //表单验证
+            var $form = $("#mainform");
+            $form.validate();
+
+            //通过
+            $("#btnPass").click(function () {
+                $form.valid();
+            });
+        })
+    </script>
+}

@@ -1,0 +1,110 @@
+﻿@using FancyFix.OA.Model;
+@model Kpi_Records
+@{
+    bool isInner = ViewBag.isInner;
+    ViewBag.Title = "Edit";
+    if (isInner)
+    {
+        Layout = "~/Views/Shared/_Layout_In.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+<div class="row">
+    <div class="col-md-12">
+        <table class="layui-table">
+            <!--列宽度-->
+            <colgroup>
+                <col class="col-lg-2 col-xs-4">
+                <col class="col-lg-10 col-xs-8">
+            </colgroup>
+            <tbody>
+                @if (!isInner)
+                {
+                    <tr>
+                        <td align="right"><label for="year" class="control-label">进程：</label></td>
+                        <td>
+                            @Model.Year 年 @Model.Month 月
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td align="right"><label for="name" class="control-label">指标：</label></td>
+                    <td>
+                        @Model.Name
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><label for="content" class="control-label">定义：</label></td>
+                    <td>
+                        @Model.Content
+                    </td>
+                </tr>
+                @*<tr>
+                        <td align="right"><label for="target_highest" class="control-label">目标：</label></td>
+                        <td>
+                            <p>挑战目标:  @Model.Target_Highest</p>
+                            <p>标准目标:  @Model.Target_Normal</p>
+                            <p>最低目标:  @Model.Target_Lowest</p>
+                        </td>
+                    </tr>*@
+                <tr>
+                    <td align="right"><label for="score" class="control-label">权重：</label></td>
+                    <td>
+                        @Model.Score %
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><label for="targetremark" class="control-label">评分标准：</label></td>
+                    <td>
+                        @Model.TargetRemark
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><label for="parusername" class="control-label">评分人：</label></td>
+                    <td>
+                        @Model.ParUserName
+                    </td>
+                </tr>
+                @if (!isInner)
+                {
+                    <tr>
+                        <td align="right"><label for="parscore" class="control-label">得分：</label></td>
+                        <td>
+                            @if (Model.IsApprove.Value)
+                            {
+                                <span>@Model.ParScore</span>
+                            }
+                            else
+                            {
+                                <span class="badge">未评分</span>
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="remark" class="control-label">备注：</label></td>
+                        <td>
+                            @Model.Remark
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"></td>
+                        <td>
+                            <a href="/kpi/kpi/kpilist?year=@Model.Year&month=@Model.Month" id="cancel" class="btn btn-default">返回</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@section Js{
+    <script src="/Content/js/common/tools.js"></script>
+    <script>
+        layui.use(['layer'], function () {
+            var layer = layui.layer;
+        })
+    </script>
+}

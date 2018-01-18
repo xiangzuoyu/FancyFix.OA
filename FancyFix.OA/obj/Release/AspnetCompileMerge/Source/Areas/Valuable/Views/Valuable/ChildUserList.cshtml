@@ -1,0 +1,60 @@
+﻿@using FancyFix.OA.Model
+@{
+    ViewBag.Title = "ValueList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Mng_User> childlist = ViewBag.childlist;
+}
+@section Css{
+    <link href="/Content/js/plugins/datatables/bootstrap-table.min.css" rel="stylesheet" />
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box-header">
+            <h3 class="box-title">下级列表：@ViewBag.currentYear 年 @ViewBag.currentMonth 月</h3>
+            <a href="/valuable/valuable/workerlist?year=@ViewBag.currentYear" class="btn btn-default pull-right">返回</a>
+        </div>
+        <div class="box">
+            <div class="box-body">
+                <table class="table table-bordered" align="center">
+                    <tbody>
+                        <tr>
+                            <th style="text-align:center;">姓名</th>
+                            <th style="text-align:center;">评审状态</th>
+                            <th style="text-align:center;">操作</th>
+                        </tr>
+                        @if (childlist != null && childlist.Any())
+                        {
+                            foreach (var item in childlist)
+                            {
+                                <tr>
+                                    <td align="center">@item.RealName</td>
+                                    <td align="center">@Html.Raw(item.IsApproved ? "<span class=\"label label-success\">已完成</span>" : "<span class=\"label label-danger\">未完成</span>")</td>
+                                    <td align="center">
+                                        @if (item.IsRecorded)
+                                        {
+                                            <a href="/valuable/valuable/childvaluelist?userId=@item.Id&year=@ViewBag.currentYear&month=@ViewBag.currentMonth" class="btn btn-warning">查看详细</a>
+                                        }
+                                        else
+                                        {
+                                            <a href="javascript:void(0)" class="btn btn-default">该员工未完成全部自评</a>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td align="center" colspan="3">暂无数据</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Js{
+    <script src="/Content/js/common/tools.js"></script>
+}

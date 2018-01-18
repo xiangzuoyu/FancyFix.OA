@@ -1,0 +1,168 @@
+﻿@using FancyFix.OA.Model;
+@model Point_Records
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    Point_List pointModel = ViewBag.pointModel;
+    int pointId = ViewBag.pointId;
+}
+@section Css{
+    <link href="/Content/js/plugins/iCheck/flat/_all.css" rel="stylesheet" />
+    <link href="/Content/js/plugins/datepicker/datepicker3.css" rel="stylesheet" />
+    <style>
+        .form-group {
+            margin-bottom: 0;
+        }
+    </style>
+}
+<div class="row">
+    <div class="col-md-12">
+        <form id="mainform" action="/point/point/childpointsave" method="post">
+            <table class="layui-table">
+                <!--列宽度-->
+                <colgroup>
+                    <col class="col-lg-2 col-xs-4">
+                    <col class="col-lg-10 col-xs-8">
+                </colgroup>
+                <tbody>
+                    @if (pointId > 0)
+                    {
+                        <tr>
+                            <td align="right"><label for="pointId" class="control-label">积分标准：</label></td>
+                            <td>
+                                <div class="form-group form-inline">
+                                    [@(pointModel.ClassName)] @(pointModel.PointName)
+                                    <input type="hidden" class="form-control" name="pointId" id="pointId" value="@(pointModel.Id)">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"><label for="remark" class="control-label">标准说明：</label></td>
+                            <td>
+                                <div class="form-group form-inline">
+                                    @(pointModel.Remark)
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"><label for="pointscore" class="control-label">标准分值：</label></td>
+                            <td>
+                                <div class="form-group form-inline">
+                                    @(pointModel.ScoreRemark)
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td align="right"><label for="pointId" class="control-label">积分标准：</label></td>
+                            <td>
+                                <div class="form-group form-inline">
+                                    自定义事件
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td align="right"><label for="groupid" class="control-label">当事人：</label></td>
+                        <td>
+                            @Model.UserName
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="content" class="control-label">事件描述：</label></td>
+                        <td>
+                            @Model.Content
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="eventtime" class="control-label">事发时间：</label></td>
+                        <td>
+                            @Model.EventTime.Value.ToString("yyyy-MM-dd")
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="pointscore" class="control-label">申请分值：</label></td>
+                        <td>
+                            @Model.Score
+                        </td>
+                    </tr>
+                    @if (Model.IsApprove.Value)
+                    {
+                        <tr>
+                            <td align="right"><label for="ispass" class="control-label">审批结果：</label></td>
+                            <td>
+                                @Html.Raw(Model.IsPass.Value ? "<span class=\"label label-success\">已通过</span>" : "<span class=\"label label-danger\">未通过</span>")
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"><label for="remark" class="control-label">备注：</label></td>
+                            <td>
+                                @Model.Remark
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td align="right"><label for="ispass" class="control-label">是否通过：</label></td>
+                            <td>
+                                <input type="checkbox" name="ispass" value="true" @(Model.IsApprove.Value ? "checked=checked" : "")>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"><label for="remark" class="control-label">备注：</label></td>
+                            <td>
+                                <textarea class="form-control" id="remark" name="remark" rows="5">@Model.Remark</textarea>
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td align="right"></td>
+                        <td>
+                            <input type="hidden" id="id" name="id" value="@Model.Id">
+                            <input type="hidden" id="pointId" name="pointId" value="@pointId">
+                            @if (Model.IsApprove.Value)
+                            {
+                                <button type="button" class="btn btn-default bg-green">已审批</button>
+                            }
+                            else
+                            {
+                                <button type="submit" id="btnPass" class="btn btn-primary">提交</button>
+                            }
+                            <a href="/point/point/childpointlist/@(Model.UserId)" id="cancel" class="btn btn-default">返回</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+@section Js{
+    <script src="/Content/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/jquery.validator.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/messages_cn.js"></script>
+    <script src="/Content/js/common/tools.js"></script>
+    <script>
+        layui.use(['layer'], function () {
+            var layer = layui.layer;
+
+            //iCheck初始化
+            $('input[type="checkbox"],input[type="radio"]').iCheck({
+                checkboxClass: 'icheckbox_flat-blue',
+                radioClass: 'iradio_flat-blue'
+            });
+
+            //表单验证
+            var $form = $("#mainform");
+            $form.validate();
+
+            //通过
+            $("#btnPass").click(function () {
+                $form.valid();
+            });
+        })
+    </script>
+}

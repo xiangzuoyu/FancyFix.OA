@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<preserve resultType="2" virtualPath="/Areas/Admin/Views/AdminInfo/Edit.cshtml" hash="ffffffffbd170dc0" filehash="17262e85efba" flags="110000" assembly="App_Web_11lkw0r5" type="ASP._Page_Areas_Admin_Views_AdminInfo_Edit_cshtml">
+    <filedeps>
+        <filedep name="/Areas/Admin/Views/AdminInfo/Edit.cshtml" />
+    </filedeps>
+</preserve>

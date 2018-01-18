@@ -1,0 +1,106 @@
+﻿@using FancyFix.OA.Model
+@{
+    ViewBag.Title = "PointList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Point_Records> recordlist = ViewBag.recordlist;
+    int isSelf = ViewBag.isSelf;
+}
+@section Css{
+    <link href="/Content/js/plugins/datatables/bootstrap-table.min.css" rel="stylesheet" />
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box-header">
+            <h3 class="box-title">积分列表：</h3>
+            <select id="isself" class="layui-select" style="max-width:130px;">
+                <option value="0" @(isSelf == 0 ? "selected" : "")>全部</option>
+                <option value="1" @(isSelf == 1 ? "selected" : "")>自申</option>
+                <option value="2" @(isSelf == 2 ? "selected" : "")>代申</option>
+            </select>
+            <a href="/point/point/pointchoose" class="btn btn-default pull-right">新增项</a>
+            <a href="/point/point/pointindex" class="btn btn-default pull-right">返回</a>
+        </div>
+        <div class="box">
+            <div class="box-body">
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <th style="text-align:center;">积分项</th>
+                            <th style="text-align:center;" class="hidden-xs">事件描述</th>
+                            <th style="text-align:center;">事发时间</th>
+                            <th style="text-align:center;">当事人</th>
+                            <th style="text-align:center;">申请分值</th>
+                            <th style="text-align:center;">审批状态</th>
+                            <th style="text-align:center;">操作</th>
+                        </tr>
+                        @if (recordlist != null && recordlist.Any())
+                        {
+                            foreach (var item in recordlist)
+                            {
+                                <tr>
+                                    <td align="center">@(item.PointId > 0 ? item.PointName : "自定义")</td>
+                                    <td class="hidden-xs">@CutString(item.Content, 100)</td>
+                                    <td align="center">@item.EventTime.Value.ToString("yyyy/MM/dd")</td>
+                                    <td align="center">@item.UserName</td>
+                                    <td align="center">@item.Score</td>
+                                    <td align="center">@Html.Raw(item.IsApprove.Value ? (item.IsPass.Value ? "<span class=\"label label-success\">已通过</span>" : "<span class=\"label label-danger\">未通过</span>") : "<span class=\"label label-warning\">待审批</span>")</td>
+                                    <td align="center">
+                                        <a href="/point/point/pointedit/@item.Id" class="btn btn-warning">查看</a>
+                                        @if (!item.IsApprove.Value || IsSuperAdmin || IsDepartAdmin)
+                                        {
+                                            <a href="javascript:void(0)" data-id="@item.Id" class="btn btn-danger btnDel">删除</a>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td align="center" colspan="7">暂无数据</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="box-footer clearfix">
+                <div class="no-margin pull-right">
+                    @Html.Raw(ViewBag.pageStr)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Js{
+    <script src="/Content/js/common/tools.js"></script>
+    <script type="text/javascript">
+        layui.use(['layer'], function () {
+            var layer = layui.layer;
+
+            $(".table").on('click', 'a.btnDel', function () {
+                var $this = $(this);
+                layer.confirm('确定删除该记录吗？', {
+                    btn: ['确定', '取消']
+                }, function (index, layero) {
+                    var id = $this.data("id");
+                    $.post('/point/point/pointdelete/' + id, function (data) {
+                        if (data)
+                            window.location.reload();
+                        else
+                            ShowError('删除失败！');
+                    });
+                    layer.close(index);
+                }, function (index) {
+                    layer.close(index);
+                });
+            });
+
+            //分类选择
+            $("#isself").change(function () {
+                var classId = $(this).val();
+                window.location.href = window.location.pathname + "?isself=" + classId;
+            });
+        })
+    </script>
+}

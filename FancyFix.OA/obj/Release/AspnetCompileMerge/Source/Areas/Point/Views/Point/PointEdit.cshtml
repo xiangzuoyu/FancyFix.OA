@@ -1,0 +1,238 @@
+﻿@using FancyFix.OA.Model;
+@model Point_Records
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    Point_List pointModel = ViewBag.pointModel;
+    int pointId = ViewBag.pointId;
+}
+@section Css{
+    <link href="/Content/js/plugins/iCheck/flat/_all.css" rel="stylesheet" />
+    <link href="/Content/js/plugins/datepicker/datepicker3.css" rel="stylesheet" />
+    <style>
+        .form-group {
+            margin-bottom: 0;
+        }
+    </style>
+}
+<div class="row">
+    <div class="col-md-12">
+        <form id="mainform" action="/point/point/pointsave" method="post">
+            <table class="layui-table">
+                <!--列宽度-->
+                <colgroup>
+                    <col class="col-lg-2 col-xs-4">
+                    <col class="col-lg-10 col-xs-8">
+                </colgroup>
+                <tbody>
+                    @if (pointId > 0)
+                    {
+                        <tr>
+                            <td align="right"><label for="pointId" class="control-label">积分标准：</label></td>
+                            <td>
+                                <div class="form-group form-inline">
+                                    [@(pointModel.ClassName)] @(pointModel.PointName)
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"><label for="remark" class="control-label">标准说明：</label></td>
+                            <td>
+                                <div class="form-group form-inline">
+                                    @(pointModel.Remark)
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"><label for="pointscore" class="control-label">标准分值：</label></td>
+                            <td>
+                                <div class="form-group form-inline">
+                                    @(pointModel.ScoreRemark)
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td align="right"><label for="pointId" class="control-label">积分标准：</label></td>
+                            <td>
+                                <div class="form-group form-inline">
+                                    自定义事件
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    @if (IsSuperAdmin || IsDepartAdmin)
+                    {
+                        <tr>
+                            <td align="right"><label for="groupid" class="control-label">当事人：</label></td>
+                            <td>
+                                @if (Model != null)
+                                {
+                                    <input type="hidden" id="userid" name="userid" value="@Model.UserId">
+                                    <span id="username">@Model.UserName</span>
+                                    if (!Model.IsApprove.Value)
+                                    {
+                                        <button type="button" id="btnClear" class="btn btn-default">清除</button>
+                                        <button type="button" id="btnSetPar" class="btn btn-default">选择员工</button>
+                                        <span>(不选则默认自己)</span>
+                                    }
+                                }
+                                else
+                                {
+                                    <input type="hidden" id="userid" name="userid" value="">
+                                    <span id="username"></span>
+                                    <button type="button" id="btnClear" class="btn btn-default hidden">清除</button>
+                                    <button type="button" id="btnSetPar" class="btn btn-default">选择员工</button>
+                                    <span>(不选则默认自己)</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                    @if (Model != null && Model.IsApprove.Value)
+                    {
+
+                        <tr>
+                            <td align="right"><label for="content" class="control-label">事件描述：</label></td>
+                            <td>
+                                @Model.Content
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"><label for="eventtime" class="control-label">事发时间：</label></td>
+                            <td>
+                                @Model.EventTime.Value.ToString("yyyy-MM-dd")
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"><label for="pointscore" class="control-label">申请分值：</label></td>
+                            <td>
+                                @Model.Score
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"><label for="ispass" class="control-label">审批结果：</label></td>
+                            <td>
+                                @Html.Raw(Model.IsPass.Value ? "<span class=\"label label-success\">已通过</span>" : "<span class=\"label label-danger\">未通过</span>")
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"><label for="pointscore" class="control-label">上级备注：</label></td>
+                            <td>
+                                @Model.Remark
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td align="right"><label for="content" class="control-label">事件描述：</label></td>
+                            <td>
+                                <div class="form-group">
+                                    <textarea class="form-control" id="content" name="content" rows="5" required="required">@(Model != null? Model.Content : "")</textarea>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"><label for="eventtime" class="control-label">事发时间：</label></td>
+                            <td>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="eventtime" id="eventtime" value="@(Model != null ? Model.EventTime.Value.ToString("yyyy-MM-dd") : DateTime.Now.ToString("yyyy-MM-dd"))" style="width:100px;" required="required" readonly="readonly">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"><label for="pointscore" class="control-label">申请分值：</label></td>
+                            <td>
+                                <div class="form-group form-inline">
+                                    <input type="text" class="form-control" name="pointscore" id="pointscore" value="@(Model!=null ? Model.Score: (pointModel?.PointScore ?? 0))" style="width:100px;" number="true" required="required">
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td align="right"></td>
+                        <td>
+                            <input type="hidden" id="id" name="id" value="@(Model != null ? Model.Id : 0)">
+                            <input type="hidden" id="pointId" name="pointId" value="@pointId">
+                            @if (Model != null && Model.IsApprove.Value)
+                            {
+                                <button type="button" class="btn btn-default bg-green">已审批</button>
+                            }
+                            else
+                            {
+                                <button type="submit" id="btnPass" class="btn btn-primary">提交</button>
+                            }
+                            <a href="@(Model != null?"/point/point/pointlist":"/point/point/pointchoose")" id="cancel" class="btn btn-default">返回</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+@section Js{
+    <script src="/Content/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/jquery.validator.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/messages_cn.js"></script>
+    <script src="/Content/js/plugins/datepicker/bootstrap-datepicker.js"></script>
+    <script src="/Content/js/plugins/datepicker/locales/bootstrap-datepicker.zh-CN.js"></script>
+    <script src="/Content/js/common/tools.js"></script>
+    <script>
+        layui.use(['layer'], function () {
+            var layer = layui.layer;
+
+            //iCheck初始化
+            $('input[type="checkbox"],input[type="radio"]').iCheck({
+                checkboxClass: 'icheckbox_flat-blue',
+                radioClass: 'iradio_flat-blue'
+            });
+
+            //表单验证
+            var $form = $("#mainform");
+            $form.validate();
+
+            //通过
+            $("#btnPass").click(function () {
+                $form.valid();
+            });
+
+            $('#eventtime').datepicker({
+                language: 'zh-CN',
+                autoclose: true,
+                todayHighlight: true,
+                format: 'yyyy-mm-dd'
+            });
+
+            //选择员工
+            var issingle = @(Model != null ? "true" : "false");
+            $("#btnSetPar").on('click', function () {
+                var userid = $("#userid").val();
+                OpenWin("选择员工", "/common/getadmintree?userid=" + userid + "&callback=SetUser&issingle=" + issingle , '600px', '100%');
+            });
+            //清除员工
+            $("#btnClear").on('click', function () {
+                $("#userid").val('');
+                $("#username").text('');
+                $(this).addClass('hidden');
+            });
+        })
+        function SetUser(array) {
+            if (array.length > 0) {
+                var userids = "";
+                var names = "";
+                for (var i in array) {
+                    userids += array[i].id + ",";
+                    names += array[i].name + ",";
+                }
+                $("#userid").val(userids.substring(0, userids.lastIndexOf(',')));
+                $("#username").text(names.substring(0, names.lastIndexOf(',')));
+                $("#btnClear").removeClass('hidden');
+            } else {
+                alert('选择有误！');
+            }
+        }
+    </script>
+}

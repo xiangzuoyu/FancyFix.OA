@@ -1,0 +1,45 @@
+﻿<script id="menu-tpl" type="text/html" data-url="/api/menu/getmenulist" data-menuid="main-menu">
+    <li class="header">主菜单</li>
+    <li class="treeview active">
+        <a href="javascript:;" data-id="-1" data-url="/home/index" data-title="首页">
+            <i class="fa fa-home"></i> <span>首页</span>
+        </a>
+    </li>
+    {{# if(d && d.children.length>0){ }}
+    {{# $.each(d.children, function(index, submenu){ }}
+    <li class="treeview">
+        <a href="javascript:;" data-id="{{submenu.id}}" data-url="{{submenu.attributes.url}}" data-title="{{submenu.text}}">
+            <i class="fa fa-star-o"></i> <span>{{submenu.text}}</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        {{# if(submenu.children && submenu.children.length>0){ }}
+        <ul class="treeview-menu">
+            {{# $.each(submenu.children, function(index, secMenu){ }}
+            <li>
+                <a href="javascript:;" data-id="{{secMenu.id}}" data-url="{{secMenu.attributes.url}}" data-title="{{secMenu.text}}">
+                    <i class="fa fa-circle-o"></i>{{secMenu.text}}
+                    {{# if(secMenu.children && secMenu.children.length>0){ }}
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                    {{# } }}
+                </a>
+                {{# if(secMenu.children && secMenu.children.length>0){ }}
+                <ul class="treeview-menu">
+                    {{# $.each(secMenu.children, function(index, thirdMenu){ }}
+                    <li>
+                        <a href="javascript:;" data-id="{{thirdMenu.id}}" data-url="{{thirdMenu.attributes.url}}" data-title="{{thirdMenu.text}}"><i class="fa fa-circle-o"></i> {{thirdMenu.text}}</a>
+                    </li>
+                    {{# }); }}
+                </ul>
+                {{# } }}
+            </li>
+            {{# }); }}
+        </ul>
+        {{# } }}
+    </li>
+    {{# }); }}
+    {{# } }}
+</script>

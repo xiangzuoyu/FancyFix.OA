@@ -1,0 +1,107 @@
+﻿@using FancyFix.OA.Model;
+@model Mng_User
+@{
+    ViewBag.Title = "Default";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string departmentName = FancyFix.OA.Bll.BllSys_Class<Mng_DepartmentClass>.Instance().GetClassName(MyDepartId);
+    string pic = "/Content/img/adminlte/img/user2-160x160.jpg";
+    if (!string.IsNullOrEmpty(MyInfo.Pic))
+    {
+        pic = MyInfo.Pic;
+    }
+    else if (!MyInfo.Sex.Value)
+    {
+        pic = "/Content/img/adminlte/img/user7-128x128.jpg";
+    }
+}
+<section class="content">
+    <div class="row">
+        <div class="col-md-3">
+            <!-- Profile Image -->
+            <div class="box box-primary">
+                <div class="box-body box-profile">
+                    <img class="profile-user-img img-responsive img-circle" src="@pic" alt="User profile picture">
+                    <h3 class="profile-username text-center">@Model.RealName</h3>
+                    <p class="text-muted text-center"></p>
+                    <ul class="list-group list-group-unbordered" style="margin-top:10px;">
+                        <li class="list-group-item">
+                            <b>所属部门</b> <a class="pull-right">@departmentName</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>性别</b> <a class="pull-right">@(Model.Sex.Value ? "男" : "女")</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Email</b> <a class="pull-right">@Model.Email</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>QQ</b> <a class="pull-right">@Model.QQ</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>手机</b> <a class="pull-right">@Model.Tel</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>最近登录时间</b> <a class="pull-right">@Model.LoginTime</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>最近登录IP</b> <a class="pull-right">@Model.LoginIp</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>登录次数</b> <a class="pull-right">@Model.LoginTimes</a>
+                        </li>
+                    </ul>
+                    <a href="javascript:void(0)" id="btnedit" class="btn btn-primary btn-block"><b>修改信息</b></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">最新询盘列表</h3>
+                </div>
+                <div class="box-body no-padding">
+                    <div class="mailbox-controls">
+                        <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
+                        <div class="pull-right">
+                            1-12/999
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-left"></i></button>
+                                <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive mailbox-messages">
+                        <table class="table table-hover table-striped">
+                            <tbody>
+                                @for (int i = 0; i < 12; i++)
+                                {
+                                    <tr>
+                                        <td class="mailbox-star"><a href="#"><i class="fa fa-envelope-o text-yellow"></i></a></td>
+                                        <td class="mailbox-name"><a href="read-mail.html">标题...</a></td>
+                                        <td class="mailbox-subject">
+                                            <b>内容</b> - Trying to find a solution to this problem...
+                                        </td>
+                                        <td class="mailbox-attachment"></td>
+                                        <td class="mailbox-date">1 mins ago</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="box-footer no-padding">
+                    <div class="mailbox-controls"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section Js{
+    <script src="/Content/js/common/tools.js"></script>
+    <script type="text/javascript">
+        //菜单选中事件
+        $("#btnedit").on('click', function () {
+            OpenTab('个人资料修改', '/admin/admininfo/edit');
+        });
+    </script>
+}
+

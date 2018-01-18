@@ -1,0 +1,101 @@
+﻿@using FancyFix.OA.Model;
+@{
+    Layout = "~/Views/Shared/_Layout_In.cshtml";
+}
+@section Css{
+    <link href="/Content/js/plugins/iCheck/flat/_all.css" rel="stylesheet" />
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box-header">
+            <h3 class="box-title">所有人员</h3>
+        </div>
+        <div class="box">
+            <div class="box-body">
+                <div class="table-responsive">
+                    <ul id="menuTree" class="layui-box layui-tree">
+                        @Html.Raw(ViewBag.strShowClass)
+                    </ul>
+                </div>
+                <div>
+                    <button type="button" id="cancel" class="btn btn-default pull-right margin" onclick="CloseWin()">取消</button>
+                    <button type="button" id="btnok" class="btn btn-primary pull-right margin">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Js{
+    <script src="/Content/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="/Content/js/common/tools.js"></script>
+    <script>
+        layui.use('form', function () {
+            var form = layui.form();
+            //监听提交
+            form.on('submit(formAdd),submit(formUpdate)', function (data) {
+                return false;
+            });
+
+            var $tree = $("#menuTree");
+            var isSingle = @(ViewBag.isSingle); //是否单选
+
+            $("input[type='checkbox']").click(function () {
+                var $this = $(this);
+                if ($this.is(":checked")) {
+                    if (isSingle) $tree.find("input:checkbox").prop("checked", false);//单选，先清空所有
+                    $this.parents("li").eq(0).find("input:checkbox").prop("checked", true);
+                } else {
+                    $this.parents("li").eq(0).find("input:checkbox").prop("checked", false);
+                }
+            })
+
+            $("#menuTree cite").click(function () {
+                var $li = $(this).parent().parent();
+                if ($li.find("i.layui-tree-spread").size() > 0) {
+                    var $ul = $li.find("ul").eq(0);
+                    if ($ul.hasClass("layui-show"))
+                        $ul.removeClass("layui-show");
+                    else
+                        $ul.addClass("layui-show");
+                } else {
+                    var $this = $(this).prev("input[type='checkbox']")
+                    if ($this.is(":checked")) {
+                        $this.prop("checked", false);
+                    } else {
+                        if (isSingle) $tree.find("input:checkbox").prop("checked", false);//单选，先清空所有
+                        $this.prop("checked", true);
+                    }
+                }
+            })
+
+            $(".layui-tree-spread").click(function () {
+                var $ul = $(this).parent("li").find("ul").eq(0);
+                if ($ul.hasClass("layui-show"))
+                    $ul.removeClass("layui-show");
+                else
+                    $ul.addClass("layui-show");
+            })
+
+            $("#btnok").click(function () {
+                var check = $("#menuTree").find("input:checked");
+                if (check.size() > 0) {
+                    var array = [];
+                    $.each(check, function (i, v) {
+                        array.push({ id: $(v).val(), name: $(v).next().text() });
+                    });
+                    parent.@(ViewBag.callback)(array);
+                }
+                //关闭窗口
+                var w = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(w);
+            })
+
+            var check = $("#menuTree").find("input:checked");
+            if (check.size() > 0) {
+                check.parents("ul").addClass("layui-show");
+            }
+        });
+    </script>
+}
+
+

@@ -1,0 +1,169 @@
+﻿@using FancyFix.OA.Model.Business
+@{
+    ViewBag.Title = "Point";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    List<Rank_Point> ranklist = ViewBag.ranklist;
+    int startyear = ViewBag.startyear;
+
+    int year = ViewBag.year;
+    int fromMonth = ViewBag.fromMonth;
+    int toMonth = ViewBag.toMonth;
+    double top = ViewBag.top;
+}
+@section Css{
+    <link href="/Content/js/plugins/datatables/bootstrap-table.min.css" rel="stylesheet" />
+    <style>
+        .callout a {
+            text-decoration: none;
+            width: 150px;
+        }
+    </style>
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box-header">
+            <h3 class="box-title">积分排名：</h3>
+        </div>
+        <div class="box-header">
+            <div class="pull-left form-group">
+                <select id="year" name="year" class="layui-select" style="max-width:100px;">
+                    @for (int i = startyear; i <= DateTime.Now.Year; i++)
+                    {
+                        <option value="@i" @(i == year ? "selected" : "")>@i 年</option>
+                    }
+                </select>
+                <select id="fromMonth" name="fromMonth" class="layui-select" style="max-width:80px;">
+                    @for (int i = 1; i <= 12; i++)
+                    {
+                        <option value="@i" @(fromMonth == i ? "selected" : "")>@i 月</option>
+                    }
+                </select>
+                <select id="toMonth" name="toMonth" class="layui-select" style="max-width:80px;">
+                    @for (int i = 1; i <= 12; i++)
+                    {
+                        <option value="@i" @(toMonth == i ? "selected" : "")>@i 月</option>
+                    }
+                </select>
+            </div>
+            <div class="pull-left form-group" style="margin-left:5px;">
+                <span class="form-contorl pull-left layui-form-mid">取前</span>
+                <input type="text" name="top" id="top" placeholder="%" class="layui-input pull-left" value="@top" style="max-width:60px">
+                <span class="form-contorl pull-left layui-form-mid">%</span>
+                <a id="btn-submit" href="javascript:void(0)" class="btn btn-default pull-left">确定</a>
+            </div>
+            <a href="/rank/rank" class="btn btn-default pull-right">返回</a>
+        </div>
+        @if (IsSuperAdmin || IsDepartAdmin)
+        {
+            <div class="box-header">
+                <a href="/rank/point/toexcel?year=@year&fromMonth=@fromMonth&toMonth=@toMonth&top=@top" class="btn btn-default pull-left">导出到Excel</a>
+            </div>
+        }
+        <div class="box">
+            <div class="box-body">
+                <table class="table table-bordered" align="center">
+                    <tbody>
+                        <tr>
+                            <th style="text-align:center;">排名</th>
+                            <th style="text-align:center;">姓名</th>
+                            <th style="text-align:center;" class="hidden-xs">部门</th>
+                            <th style="text-align:center;">总分</th>
+                            <th style="text-align:center;">操作</th>
+                        </tr>
+                        @if (ranklist != null && ranklist.Any())
+                        {
+                            foreach (var item in ranklist)
+                            {
+                                <tr>
+                                    <td align="center">@item.Rank</td>
+                                    <td align="center">@item.RealName</td>
+                                    <td align="center" class="hidden-xs">@item.DepartName</td>
+                                    <td align="center">@item.Score</td>
+                                    <td align="center">
+                                        <a href="/rank/point/pointlist/@item.UserId?year=@year&fromMonth=@fromMonth&toMonth=@toMonth" class="btn btn-warning">查看</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td align="center" colspan="5">暂无数据</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Js{
+    <script src="/Content/js/common/tools.js"></script>
+    <script type="text/javascript">
+        layui.use(['layer'], function () {
+            var layer = layui.layer;
+
+            $("#year").change(function () {
+                var year = $(this).val();
+                var fromMonth = $("#fromMonth").val();
+                var toMonth = $("#toMonth").val();
+                var top = $("#top").val();
+                PostWhere(year, fromMonth, toMonth, top);
+            })
+
+            $("#fromMonth").change(function () {
+                var fromMonth = $(this).val();
+                var year = $("#year").val();
+                var toMonth = $("#toMonth").val();
+                var top = $("#top").val();
+                PostWhere(year, fromMonth, toMonth, top);
+            })
+
+            $("#toMonth").change(function () {
+                var toMonth = $(this).val();
+                var year = $("#year").val();
+                var fromMonth = $("#fromMonth").val();
+                var top = $("#top").val();
+                PostWhere(year, fromMonth, toMonth, top);
+            })
+
+            //$("#top").change(function () {
+            //    var top = $(this).val();
+            //    var year = $("#year").val();
+            //    var fromMonth = $("#fromMonth").val();
+            //    var toMonth = $("#toMonth").val();
+            //    PostWhere(year, fromMonth, toMonth, top);
+            //})
+
+            $("#btn-submit").click(function () {
+                var top = $("#top").val();
+                var year = $("#year").val();
+                var fromMonth = $("#fromMonth").val();
+                var toMonth = $("#toMonth").val();
+                PostWhere(year, fromMonth, toMonth, top);
+            })
+
+            function PostWhere(year, fromMonth, toMonth, top) {
+                if (CheckMonth(fromMonth, toMonth)) {
+                    var where = "year=" + parseInt(year);
+                    if (fromMonth > 0)
+                        where += "&fromMonth=" + parseInt(fromMonth);
+                    if (toMonth > 0)
+                        where += "&toMonth=" + parseInt(toMonth);
+                    if (top > 0)
+                        where += "&top=" + parseInt(top);
+                    window.location.href = window.location.pathname + "?" + where;
+                }
+            }
+
+            function CheckMonth(fromMonth, toMonth) {
+                if (parseInt(fromMonth) > parseInt(toMonth)) {
+                    layer.msg('月份选择有误！', { icon: 2 });
+                    return false;
+                }
+                return true;
+            }
+        })
+    </script>
+}

@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{308CF2C3-BC41-4AB0-8BD9-FA3DEFCAA3C4}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FancyFix.OA.Model</RootNamespace>
+    <AssemblyName>FancyFix.OA.Model</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Dos.Common">
+      <HintPath>..\..\..\Utils\Doc.ORM\DataAccess\bin\Debug\Dos.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Dos.ORM">
+      <HintPath>..\..\..\Utils\Doc.ORM\DataAccess\bin\Debug\Dos.ORM.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Business\Rank_Kpi.cs" />
+    <Compile Include="Business\Rank_Point.cs" />
+    <Compile Include="Business\Rank_Valuable.cs" />
+    <Compile Include="Config_Process.cs" />
+    <Compile Include="Extensions\Point_Records.cs" />
+    <Compile Include="Extensions\Point_Class.cs" />
+    <Compile Include="Extensions\Rank_Class.cs" />
+    <Compile Include="Extensions\Point_List.cs" />
+    <Compile Include="Extensions\Kpi_Process.cs" />
+    <Compile Include="Extensions\Valuable_Records.cs" />
+    <Compile Include="Extensions\Valuable_List.cs" />
+    <Compile Include="Extensions\Valuable_Class.cs" />
+    <Compile Include="Extensions\Mng_User.cs" />
+    <Compile Include="Extensions\Mng_DepartmentClass.cs" />
+    <Compile Include="Extensions\Mng_MenuClass.cs" />
+    <Compile Include="Extensions\Mng_PermissionGroup.cs" />
+    <Compile Include="Kpi_Process.cs" />
+    <Compile Include="Kpi_Records.cs" />
+    <Compile Include="Mng_DepartmentClass.cs" />
+    <Compile Include="Mng_MenuClass.cs" />
+    <Compile Include="Mng_PermissionGroup.cs" />
+    <Compile Include="Mng_PermissionGroupSet.cs" />
+    <Compile Include="Mng_PermissionPersonSet.cs" />
+    <Compile Include="Mng_User.cs" />
+    <Compile Include="Point_Class.cs" />
+    <Compile Include="Point_List.cs" />
+    <Compile Include="Point_Records.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rank_Class.cs" />
+    <Compile Include="Sys_Class.cs" />
+    <Compile Include="Valuable_Class.cs" />
+    <Compile Include="Valuable_List.cs" />
+    <Compile Include="Valuable_Records.cs" />
+    <Compile Include="Valuable_Sample.cs" />
+    <Compile Include="Web_Error.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

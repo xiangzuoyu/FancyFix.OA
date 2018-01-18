@@ -1,0 +1,11 @@
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\bin\Release\FancyFix.OA.Model.dll
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\bin\Release\FancyFix.OA.Model.pdb
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\bin\Release\Dos.Common.dll
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\bin\Release\Dos.ORM.dll
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\bin\Release\Dos.Common.pdb
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\bin\Release\Dos.Common.xml
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\bin\Release\Dos.ORM.pdb
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\bin\Release\Dos.ORM.xml
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\obj\Release\FancyFix.OA.Model.dll
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\obj\Release\FancyFix.OA.Model.pdb
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\obj\Release\FancyFix.OA.Model.csprojResolveAssemblyReference.cache

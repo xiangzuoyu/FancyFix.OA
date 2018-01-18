@@ -1,0 +1,148 @@
+﻿@using FancyFix.OA.Model
+@{
+    ViewBag.Title = "PointList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Css{
+    <link href="/Content/js/plugins/datatables/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="/Content/js/plugins/iCheck/flat/_all.css" rel="stylesheet" />
+    <style>
+        .form-group {
+            margin-bottom: 0;
+        }
+    </style>
+
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box-header">
+            <div class="form-group">
+                <span class="pull-left">请选择积分类：</span>
+                <select id="classid" class="layui-select" style="max-width:130px;">
+                    @Html.Raw(ViewBag.classlist)
+                    <option value="-1">├自定义 </option>
+                </select>
+                <a href="/point/point/pointlist" id="cancel" class="btn btn-default pull-right">返回列表</a>
+            </div>
+        </div>
+        <div class="box">
+            <div class="box-body">
+                <form method="post" action="/point/point/pointedit">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th style="text-align:center;">选择</th>
+                                <th style="text-align:center;">项目名称</th>
+                                <th style="text-align:center;">分值</th>
+                                <th style="text-align:center;" class="hidden-xs">说明</th>
+                                @*<th style="text-align:center;">统计人</th>*@
+                                <th style="text-align:center;">统计时间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @*<tr>
+                                    <td align="center"><input type="checkbox" name="pointId" value="@item.Id">@item.PointName</td>
+                                    <td align="center">@item.PointScore</td>
+                                    <td align="center">@item.Remark</td>
+                                    <td align="center">@(item.CountBySelf.Value ? "自行申请" : "行政")</td>
+                                    <td align="center">@item.CountTime</td>
+                                </tr>*@
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="5">
+                                    <div class="pull-right">
+                                        <button type="submit" id="btnPass" class="btn btn-primary">下一步</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Js{
+    <script src="/Content/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="/Content/js/common/tools.js"></script>
+    <script type="text/javascript">
+        layui.use(['layer'], function () {
+            var layer = layui.layer;
+
+            //iCheck初始化
+            $('input[type="checkbox"],input[type="radio"]').iCheck({
+                checkboxClass: 'icheckbox_flat-blue',
+                radioClass: 'iradio_flat-blue'
+            });
+
+            //分类选择
+            $("#classid").change(function () {
+                var classId = parseInt($(this).val());
+                if (classId > 0) {    //其他选择项
+                    $.ajax({
+                        type: "POST",  //提交方式
+                        url: "/point/point/GetPointList/" + classId,//路径
+                        success: function (result) {//返回数据根据结果进行相应的处理
+                            if (result && result.length > 0) {
+                                var html = "";
+                                $.each(result, function (i, v) {
+                                    html += "<tr>";
+                                    html += "<td align=\"center\"><input type=\"radio\" name=\"pointId\" value=" + v.Id + "></td>";
+                                    html += "<td class=\"title\" align=\"center\" data-content=\"" + v.Remark + "\">" + v.PointName + "</td>";
+                                    html += "<td align=\"center\">" + v.PointScore + "</td>";
+                                    html += "<td align=\"center\" class=\"hidden-xs\">" + (v.Remark != null && v.Remark !== '' ? v.Remark : "无") + "</td>";
+                                    //html += "<td align=\"center\">" + (v.CountBySelf ? "自行申请" : "行政") + "</td>";
+                                    html += "<td align=\"center\">" + v.CountTime + "</td>";
+                                    html += "</tr>";
+                                })
+                                $(".table tbody").html(html);
+                                $('input[type="checkbox"],input[type="radio"]').iCheck({
+                                    checkboxClass: 'icheckbox_flat-blue',
+                                    radioClass: 'iradio_flat-blue'
+                                });
+                            } else {
+                                $(".table tbody").html("<tr><td align=\"center\" colspan=\"5\">暂无数据</td></tr>");
+                            }
+                            CheckStatus();
+                        }, error: function () {
+                            $(".table tbody").html("<tr><td align=\"center\" colspan=\"5\">请求数据失败，请重试...</td></tr>");
+                        }
+                    });
+                }  
+                else if (classId == -1) {  //自定义项
+                    $(".table tbody").html("<tr><td align=\"center\" colspan=\"5\">自定义项</td></tr>");
+                    $("#btnPass").show();
+                } else {
+                    $("#btnPass").hide();
+                }
+            });
+
+            $("#classid").change();
+
+            //标题点击预览
+            $(".table").on('click', 'td.title', function () {
+                var content = $(this).data("content");
+                if (content != null && content != "") {
+                    layer.tips(content, $(this), {
+                        tips: [3, '#3c8dbc'],
+                        time: 5000
+                    });
+                }
+            });
+
+            $(".table").on('ifChecked', 'input[type=radio]', function () {
+                CheckStatus();
+            });
+
+            function CheckStatus() {
+                if ($(".table tbody").find("input[type=radio]:checked").size() > 0) {
+                    $("#btnPass").show();
+                } else {
+                    $("#btnPass").hide();
+                }
+            }
+        })
+    </script>
+}

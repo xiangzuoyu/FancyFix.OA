@@ -1,0 +1,79 @@
+﻿@using FancyFix.OA.Model
+@{
+    ViewBag.Title = "PointList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Point_Records> recordlist = ViewBag.recordlist;
+    Mng_User userInfo = ViewBag.userInfo;
+    bool isApproved = ViewBag.isApproved;
+}
+@section Css{
+    <link href="/Content/js/plugins/datatables/bootstrap-table.min.css" rel="stylesheet" />
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box-header">
+            <h3 class="box-title">@userInfo.RealName 积分列表：</h3>
+            <select id="isapproved" class="layui-select" style="max-width:130px;">
+                <option value="false" @(isApproved ? "" : "selected")>未审批</option>
+                <option value="true" @(isApproved ? "selected" : "")>已审批</option>
+            </select>
+            <a href="/point/point/childuserlist" class="btn btn-default pull-right">返回</a>
+        </div>
+        <div class="box">
+            <div class="box-body">
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <th style="text-align:center;">积分项</th>
+                            <th style="text-align:center;" class="hidden-xs">事件描述</th>
+                            <th style="text-align:center;">事发时间</th>
+                            <th style="text-align:center;">申请分值</th>
+                            <th style="text-align:center;">审核状态</th>
+                            <th style="text-align:center;">操作</th>
+                        </tr>
+                        @if (recordlist != null && recordlist.Any())
+                        {
+                            foreach (var item in recordlist)
+                            {
+                                <tr>
+                                    <td align="center">@(item.PointId > 0 ? item.PointName : "自定义")</td>
+                                    <td class="hidden-xs">@CutString(item.Content, 100)</td>
+                                    <td align="center">@item.EventTime.Value.ToString("yyyy/MM/dd")</td>
+                                    <td align="center">@item.Score</td>
+                                    <td align="center">@Html.Raw(item.IsApprove.Value ? (item.IsPass.Value ? "<span class=\"label label-success\">已通过</span>" : "<span class=\"label label-danger\">未通过</span>") : "<span class=\"label label-warning\">待审批</span>")</td>
+                                    <td align="center">
+                                        <a href="/point/point/childpointedit/@item.Id" class="btn btn-warning">@(item.IsApprove.Value? "查看" : "审批")</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td align="center" colspan="6">暂无数据</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="box-footer clearfix">
+                <div class="no-margin pull-right">
+                    @Html.Raw(ViewBag.pageStr)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Js{
+    <script src="/Content/js/common/tools.js"></script>
+    <script type="text/javascript">
+        layui.use(['layer'], function () {
+            var layer = layui.layer;
+
+            $("#isapproved").change(function () {
+                window.location.href = window.location.pathname + "?isapproved=" + $(this).val();
+            })
+        })
+    </script>
+}

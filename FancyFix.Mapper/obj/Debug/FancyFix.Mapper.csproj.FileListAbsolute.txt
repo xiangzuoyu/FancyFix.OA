@@ -1,0 +1,14 @@
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.Mapper\bin\Debug\FancyFix.Mapper.dll
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.Mapper\bin\Debug\FancyFix.Mapper.pdb
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.Mapper\bin\Debug\AutoMapper.dll
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.Mapper\bin\Debug\FancyFix.OA.Model.dll
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.Mapper\bin\Debug\FancyFix.OA.ViewModel.dll
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.Mapper\bin\Debug\Dos.ORM.dll
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.Mapper\bin\Debug\FancyFix.OA.Model.pdb
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.Mapper\bin\Debug\FancyFix.OA.ViewModel.pdb
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.Mapper\bin\Debug\AutoMapper.xml
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.Mapper\bin\Debug\Dos.ORM.pdb
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.Mapper\bin\Debug\Dos.ORM.xml
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.Mapper\obj\Debug\FancyFix.Mapper.csprojResolveAssemblyReference.cache
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.Mapper\obj\Debug\FancyFix.Mapper.dll
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.Mapper\obj\Debug\FancyFix.Mapper.pdb

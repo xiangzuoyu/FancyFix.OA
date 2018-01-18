@@ -1,0 +1,61 @@
+﻿@using FancyFix.OA.Model
+@{
+    ViewBag.Title = "PointList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int childCount = ViewBag.childCount;
+}
+@section Css{
+    <link href="/Content/js/plugins/datatables/bootstrap-table.min.css" rel="stylesheet" />
+    <style>
+        .callout a {
+            text-decoration: none;
+            width: 150px;
+        }
+    </style>
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box-header">
+            <h3 class="box-title">KPI模块：</h3>
+        </div>
+        <div class="box">
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box-body">
+                            <div class="callout callout-danger center-block">
+                                <a href="/kpi/kpi/kpiset">
+                                    <h4>快速创建进程</h4>
+                                    <p>选择一个历史进程为模版，快速创建进程</p>
+                                </a>
+                            </div>
+                            <div class="callout callout-success">
+                                <a href="/kpi/kpi/kpilist">
+                                    <h4>查看进程</h4>
+                                    <p>选择指定进程，查看，添加或修改进程KPI目标项</p>
+                                </a>
+                            </div>
+                            @if (IsSuperAdmin || IsDepartAdmin || childCount > 0)
+                            {
+                                <div class="callout callout-warning">
+                                    <a href="/kpi/kpi/childuserlist">
+                                        <h4>KPI评分</h4>
+                                        <p>给下级员工的KPI目标评分</p>
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Js{
+    <script src="/Content/js/common/tools.js"></script>
+    <script type="text/javascript">
+        layui.use(['layer'], function () {
+            var layer = layui.layer;
+        })
+    </script>
+}

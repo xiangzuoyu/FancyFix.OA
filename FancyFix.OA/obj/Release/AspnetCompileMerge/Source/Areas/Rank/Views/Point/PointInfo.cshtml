@@ -1,0 +1,89 @@
+﻿@using FancyFix.OA.Model;
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    Point_List classinfo = ViewBag.classinfo;
+    Point_Records record = ViewBag.record;
+}
+<div class="row">
+    <div class="col-md-12">
+        <table class="layui-table">
+            <!--列宽度-->
+            <colgroup>
+                <col class="col-lg-2 col-xs-4">
+                <col class="col-lg-10 col-xs-8">
+            </colgroup>
+            <tbody>
+                <tr>
+                    <td align="right"><label for="classid" class="control-label">积分项：</label></td>
+                    <td>
+                        <div class="form-group form-inline">
+                            @(classinfo != null ? "[" + classinfo.ClassName + "]" + classinfo.PointName : "自定义项")
+                        </div>
+                    </td>
+                </tr>
+                @if (classinfo != null)
+                {
+                    <tr>
+                        <td align="right"><label for="classid" class="control-label">积分描述：</label></td>
+                        <td>
+                            <div class="form-group form-inline">
+                                @classinfo.Remark
+                            </div>
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td align="right"><label for="classid" class="control-label">当事人：</label></td>
+                    <td>
+                        <div class="form-group form-inline">
+                            @record.UserName
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><label for="classid" class="control-label">活动内容：</label></td>
+                    <td>
+                        <div class="form-group form-inline">
+                            @record.Content
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><label for="classid" class="control-label">活动时间：</label></td>
+                    <td>
+                        <div class="form-group form-inline">
+                            @record.EventTime.Value.ToString("yyyy/MM/dd")
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><label for="classid" class="control-label">积分值：</label></td>
+                    <td>
+                        <div class="form-group form-inline">
+                            @record.Score
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><label for="classid" class="control-label">审核备注：</label></td>
+                    <td>
+                        <div class="form-group form-inline">
+                            @record.Remark
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"></td>
+                    <td>
+                        <button type="button" id="cancel" class="btn btn-default" onclick="javascript: window.history.go(-1)">返回</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+@section Js{
+    <script src="/Content/js/common/tools.js"></script>
+}

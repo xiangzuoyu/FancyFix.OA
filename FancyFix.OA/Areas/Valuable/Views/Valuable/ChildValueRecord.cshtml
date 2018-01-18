@@ -1,0 +1,167 @@
+﻿@using FancyFix.OA.Model;
+@model Valuable_List
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    Valuable_Records record = ViewBag.record;
+    IEnumerable<Rank_Class> rankclass = ViewBag.rankclass;
+    IList<Valuable_Sample> samplelist = ViewBag.samplelist;
+}
+@section Css{
+    <link href="/Content/js/plugins/iCheck/flat/_all.css" rel="stylesheet" />
+    <style>
+        .form-group {
+            margin-bottom: 0;
+        }
+    </style>
+}
+<div class="row">
+    <div class="col-md-12">
+        <form id="mainform" action="/valuable/valuable/childsave" method="post">
+            <table class="layui-table">
+                <!--列宽度-->
+                <colgroup>
+                    <col class="col-lg-2 col-xs-3">
+                    <col class="col-lg-10 col-xs-9">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td align="right"><label for="classid" class="control-label">价值观：</label></td>
+                        <td>
+                            <div class="form-group form-inline">
+                                @Model.ClassName
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">内容：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Model.Content
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">权重：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Model.Score
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">自评分：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @FancyFix.OA.Bll.BllRank_Class.Instance().GetClassName(record.Rank.Value) (@record.RankScore 分)
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">案例：</label></td>
+                        <td>
+                            <div class="form-group" id="samples">
+                                @if (samplelist != null && samplelist.Any())
+                                {
+                                    int i = 1;
+                                    foreach (var item in samplelist)
+                                    {
+                                        <div>
+                                            <label>案例@(i)</label>
+                                            <div>
+                                                @item.Content
+                                            </div>
+                                        </div>
+                                        i++;
+                                    }
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                    @if (ViewBag.isLock)
+                    {
+                        <tr>
+                            <td align="right"><label class="control-label">评分：</label></td>
+                            <td id="rank">
+                                @record.Score
+                            </td>
+                        </tr>
+                        if (record != null && !string.IsNullOrWhiteSpace(record.Remark))
+                        {
+                            <tr>
+                                <td align="right"><label class="control-label">备注：</label></td>
+                                <td id="rank">
+                                    @record.Remark
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td align="right"><label class="control-label">评分：</label></td>
+                            <td id="rank">
+                                @if (rankclass != null && rankclass.Any())
+                                {
+                                    foreach (var item in rankclass)
+                                    {
+                                        <div class="form-group">
+                                            <input type="radio" class="form-control" name="rank" @(item.Score == record.Score.Value ? "checked=checked" : "") value="@item.Id" />@(item.ClassName + "(" + item.Score + "分)")
+                                        </div>
+                                    }
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"><label class="control-label">备注：</label></td>
+                            <td>
+                                <div class="form-group">
+                                    <textarea name="remark" id="remark" class="form-control" maxlength="500" style="width:100%">@(record?.Remark ?? "")</textarea>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td align="right"></td>
+                        <td>
+                            <input type="hidden" id="id" name="id" value="@Model.Id">
+                            <input type="hidden" id="rid" name="rid" value="@(record?.Id ?? 0)">
+                            @if (!ViewBag.isLock)
+                            {
+                                <button type="submit" id="btnPass" class="btn btn-primary">提交</button>
+                            }
+                            <button type="button" id="cancel" class="btn btn-default" onclick="javascript: window.history.go(-1)">取消</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+@section Js{
+    <script src="/Content/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/jquery.validator.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/messages_cn.js"></script>
+    <script src="/Content/js/common/tools.js"></script>
+    <script>
+        layui.use(['layer'], function () {
+            var layer = layui.layer;
+
+            //iCheck初始化
+            $('input[type="checkbox"],input[type="radio"]').iCheck({
+                checkboxClass: 'icheckbox_flat-blue',
+                radioClass: 'iradio_flat-blue'
+            });
+
+            //表单验证
+            var $form = $("#mainform");
+            $form.validate();
+
+            //通过
+            $("#btnPass").click(function () {
+                $form.valid();
+            });
+        })
+    </script>
+}

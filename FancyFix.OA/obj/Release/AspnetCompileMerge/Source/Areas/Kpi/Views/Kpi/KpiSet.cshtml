@@ -1,0 +1,217 @@
+﻿@using FancyFix.OA.Model
+@{
+    ViewBag.Title = "KpiSet";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int startyear = ViewBag.startyear;
+    int year = ViewBag.year;
+    int month = ViewBag.month;
+
+    List<Kpi_Process> modelList = ViewBag.modelList;
+}
+@section Css{
+    <link href="/Content/js/plugins/datatables/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="/Content/js/plugins/iCheck/flat/_all.css" rel="stylesheet" />
+    <style>
+        .form-group {
+            margin-bottom: 0;
+        }
+    </style>
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box-header">
+            <div class="form-group">
+                <span class="pull-left">选择模版：</span>
+                <select id="modellist" name="modellist" class="layui-select" style="max-width:150px;">
+                    @if (modelList != null && modelList.Count > 0)
+                    {
+                        <option value="0">请选择</option>
+                        foreach (var item in modelList)
+                        {
+                            <option value="@item.Id">@item.Year 年 @item.Month 月</option>
+                        }
+                    }
+                    else
+                    {
+                        <option value="-1">暂无模版</option>
+                    }
+                </select>
+                <a href="javascript:window.history.go(-1);" id="cancel" class="btn btn-default pull-right">返回</a>
+            </div>
+        </div>
+        <div class="box">
+            <div class="box-body">
+                <form id="myform" method="get" action="/kpi/kpi/kpilist">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th style="text-align:center;">选择</th>
+                                <th style="text-align:center;">指标</th>
+                                <th style="text-align:center;" class="hidden-xs">定义</th>
+                                @*<th style="text-align:center;" class="hidden-xs">目标值</th>*@
+                                <th style="text-align:center;">权重</th>
+                                <th style="text-align:center;">评分人</th>
+                                <th style="text-align:center;">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td align="center" colspan="7">暂无数据</td></tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="7">
+                                    <div class="pull-left">
+                                        导入到：
+                                        <select id="year" name="year" class="layui-select" style="max-width:100px;">
+                                            @for (int i = startyear; i <= DateTime.Now.Year + 1; i++)
+                                            {
+                                                <option value="@i" @(i == year ? "selected" : "")>@i 年</option>
+                                            }
+                                        </select>
+                                        <select id="month" name="month" class="layui-select" style="max-width:80px;">
+                                            @for (int i = 1; i <= 12; i++)
+                                            {
+                                                <option value="@i" @(month == i ? "selected" : "")>@i 月</option>
+                                            }
+                                        </select>
+                                        <span id="msg" class="text-red"></span>
+                                    </div>
+                                    <div class="pull-right">
+                                        <button type="submit" id="btnPass" class="btn btn-primary">下一步</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Js{
+    <script src="/Content/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="/Content/js/common/tools.js"></script>
+    <script type="text/javascript">
+        layui.use(['layer'], function () {
+            var layer = layui.layer;
+
+            //iCheck初始化
+            $('input[type="checkbox"],input[type="radio"]').iCheck({
+                checkboxClass: 'icheckbox_flat-blue',
+                radioClass: 'iradio_flat-blue'
+            });
+
+            //分类选择
+            $("#modellist").change(function () {
+                var pid = $(this).val();
+                if (pid > 0) {
+                    var loading = layer.load(1);
+                    $.ajax({
+                        type: "POST",  //提交方式
+                        url: "/kpi/kpi/GetProcessKpi/" + pid,//路径
+                        success: function (result) {//返回数据根据结果进行相应的处理
+                            if (result && result.length > 0) {
+                                var html = "";
+                                $.each(result, function (i, v) {
+                                    html += "<tr>";
+                                    html += "<td align=\"center\"><input type=\"checkbox\" name=\"rid\" checked=\"checked\" value=" + v.Id + "></td>";
+                                    html += "<td align=\"center\">" + v.Name + "</td>";
+                                    html += "<td class=\"hidden-xs title\" align=\"center\" data-content=\"" + v.Content + "\">" + v.Content.substring(100) + "</td>";
+                                    //html += "<td class=\"hidden-xs\" align=\"center\"><p>挑战目标：" + v.Target_Highest + "</p><p>标准目标：" + v.Target_Normal + "</p><p>最低目标：" + v.Target_Lowest + "</p></td>";
+                                    html += "<td align=\"center\">" + v.Score + " %</td>";
+                                    html += "<td align=\"center\">" + v.ParUserName + "</td>";
+                                    html += "<td align=\"center\"><button type=\"button\" data-id=\"" + v.Id + "\" class=\"btn btn-warning btnInfo\">查看</button></td>";
+                                    html += "</tr>";
+                                })
+                                $(".table tbody").html(html);
+                                $('input[type="checkbox"],input[type="radio"]').iCheck({
+                                    checkboxClass: 'icheckbox_flat-blue',
+                                    radioClass: 'iradio_flat-blue'
+                                });
+                                IsProcessCreate();
+                            } else {
+                                $(".table tbody").html("<tr><td align=\"center\" colspan=\"7\">暂无数据</td></tr>");
+                            }
+                        }, error: function (xhr) {
+                            $(".table tbody").html("<tr><td align=\"center\" colspan=\"7\">请求数据失败，请重试...</td></tr>");
+                        }, complete: function () {
+                            layer.close(loading);
+                        }
+                    });
+                } else {
+                    $(".table tbody").html("<tr><td align=\"center\" colspan=\"7\">暂无数据</td></tr>");
+                    CheckBox();
+                }
+            });
+
+            //标题点击预览
+            $(".table").on('click', 'td.title', function () {
+                var content = $(this).data("content");
+                if (content != null && content != "") {
+                    layer.tips(content, $(this), {
+                        tips: [3, '#3c8dbc'],
+                        time: 5000
+                    });
+                }
+            });
+
+            //进程下拉框触发
+            $("#year,#month").change(function () {
+                IsProcessCreate();
+            });
+
+            $(".table").on('click', '.btnInfo', function () {
+                var id = $(this).data("id");
+                OpenWin("查看详情", "/kpi/kpi/kpiinfo/" + id + "?isInner=true", '500px', '500px');
+            })
+
+            $(".table").on('ifChanged', 'input[type=checkbox]', function (event) {
+                CheckBox();
+            });
+
+            //验证是否选中至少一个指标
+            function CheckBox() {
+                if ($(".table input[type='checkbox']:checked").size() == 0)
+                    $("#myform").attr("action", "/kpi/kpi/kpilist");
+                else
+                    $("#myform").attr("action", "/kpi/kpi/kpimodelcreate");
+            }
+
+            //进程是否已生成
+            function IsProcessCreate() {
+                var year = $("#year").val();
+                var month = $("#month").val();
+                if (year > 0 && month > 0) {
+                    var loading = layer.load(1);
+                    $.ajax({
+                        type: "POST",  //提交方式
+                        url: "/kpi/kpi/IsProcessCreate?year=" + year + "&month=" + month,
+                        success: function (result) {
+                            if (result) {
+                                $(".table input:checkbox").attr("disabled", "disabled").iCheck('uncheck').iCheck('disable');
+                                $("#myform").attr("action", "/kpi/kpi/kpilist");
+                                $("#msg").text("【该进程已生成，不能导入！】");
+                                $("#btnPass").hide();
+                            } else {
+                                $(".table input:checkbox").removeAttr("disabled").iCheck('enable').iCheck('check');
+                                if ($("input[type='checkbox']:checked").size() > 0)
+                                    $("#myform").attr("action", "/kpi/kpi/kpimodelcreate");
+                                $("#msg").text("");
+                                $("#btnPass").show();
+                            }
+                        }, complete: function () {
+                            layer.close(loading);
+                        }
+                    });
+                } else {
+                    layer.msg('请选择进程！');
+                }
+            }
+        })
+    </script>
+}
+
+
+
+

@@ -1,0 +1,177 @@
+﻿@model FancyFix.OA.Model.Mng_User
+@{
+    ViewBag.Title = "Add";
+    bool showLayout = ViewBag.showLayout;
+    if (showLayout)
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout_In.cshtml";
+    }
+}
+@section Css{
+    <link href="/Content/js/plugins/iCheck/flat/_all.css" rel="stylesheet" />
+    <style>
+        .form-group {
+            margin-bottom: 0;
+        }
+    </style>
+}
+<div class="row">
+    <div class="col-md-12">
+        @if (showLayout)
+        {
+            <div class="box-header">
+                <h3 class="box-title">增加人员信息</h3>
+            </div>
+        }
+        <form id="mainform" action="/admin/adminmanage/save" method="post">
+            <table class="layui-table">
+                <!--列宽度-->
+                <colgroup>
+                    <col class="col-lg-2">
+                    <col class="col-lg-10">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td align="right"><label for="username" class="control-label">用户名：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="password" name="new-username" value="" style="display:none;">
+                                <input type="text" class="form-control" id="username" name="username" placeholder="用户名" style="width:200px;" required="required" autocomplete="new-username" minlength="3" maxlength="15">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="password" class="control-label">密码：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="password" name="new-password" value="" style="display:none;">
+                                <input type="password" class="form-control" id="password" name="password" placeholder="密码" required="required" style="width:200px;" autocomplete="new-password" minlength="6" maxlength="20">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">姓名：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="title" name="realname" placeholder="姓名" style="width:200px;" required="required">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="sex" class="control-label">性 别：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="radio" class="form-control" name="sex" required="required" value="true" checked="checked"> 男
+                                <input type="radio" class="form-control" name="sex" required="required" value="false"> 女
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="departid" class="control-label">部门：</label></td>
+                        <td>
+                            <div class="form-group form-inline">
+                                <select class="form-control" id="departid" name="departid" loadattr="false" style="width:250px" required="required">
+                                    <option value="">请选择部门</option>
+                                    @Html.Raw(ViewBag.departmentHtml)
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    @*<tr>
+                            <td align="right"><label for="title" class="control-label">照片：</label></td>
+                            <td>
+                                <div class="form-group">
+
+                                </div>
+                            </td>
+                        </tr>*@
+                    <tr>
+                        <td align="right"><label for="groupid" class="control-label">岗位：</label></td>
+                        <td>
+                            <div id="grouparea" class="form-group form-inline">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="groupid" class="control-label">上级：</label></td>
+                        <td>
+                            <input type="hidden" id="paruserid" name="paruserid" value="0">
+                            <span id="parusername"></span>
+                            <button type="button" id="btnSetPar" class="btn btn-default">设置上级</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"></td>
+                        <td>
+                            <input type="hidden" id="showlayout" name="showlayout" value="@showLayout.ToString()">
+                            <button type="submit" id="submit" class="btn btn-primary">提交</button>
+                            <button type="button" id="cancel" class="btn btn-default" onclick="CloseWin()">取消</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+@section Js{
+    <script src="/Content/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/jquery.validator.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/messages_cn.js"></script>
+    <script src="/Content/js/common/tools.js"></script>
+    <script>
+        layui.use(['layer'], function () {
+            var layer = layui.layer;
+
+            //iCheck初始化
+            $('input[type="checkbox"],input[type="radio"]').iCheck({
+                checkboxClass: 'icheckbox_flat-blue',
+                radioClass: 'iradio_flat-blue'
+            });
+
+            //表单验证
+            $("#mainform").validate();
+
+            //动态获取权限组
+            $("#departid").change(function () {
+                var departId = $(this).val();
+                var $div = $("#grouparea");
+                if (departId > 0) {
+                    $.post('/admin/adminmanage/getpermissiongroup', { departId: departId }, function (data) {
+                        var html = '';
+                        if (data && data.length > 0) {
+                            $.each(data, function (i, v) {
+                                html += "<input type=\"radio\" class=\"form-control\" name=\"groupid\" value=\"" + v.Id + "\">" + v.GroupName;
+                            });
+                            $div.html(html);
+                            $('input[type="radio"]').iCheck({
+                                checkboxClass: 'icheckbox_flat-blue',
+                                radioClass: 'iradio_flat-blue'
+                            });
+                        } else {
+                            layer.msg('该部门未设置权限组！');
+                            $div.html('');
+                        }
+                    })
+                } else {
+                    $div.html('');
+                }
+            });
+            $("#departid").change();
+
+            //上级设置
+            $("#btnSetPar").on('click', function () {
+                var userid = $("#paruserid").val();
+                OpenWin("设置上级", "/admin/adminmanage/getadmintree?userid=" + userid, '600px', '100%');
+            });
+        })
+
+        function SetPar(id, name) {
+            $("#paruserid").val(id);
+            $("#parusername").text(name);
+        }
+    </script>
+}

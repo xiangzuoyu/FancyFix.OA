@@ -66,7 +66,7 @@ namespace FancyFix.OA.Controllers
                 Tools.Utility.Admin.SetSession(model.Id, model);
 
                 //清除权限缓存
-                PermissionManager.ClearPermissions(model.Id);
+                PermissionManager.ClearPermissions();
 
                 //清除登录次数限制
                 if (Session[ErrorRate] != null)
@@ -82,8 +82,7 @@ namespace FancyFix.OA.Controllers
             Tools.Utility.Admin.Remove();
 
             //清除权限
-            int adminId = Tools.Utility.Admin.GetAdminId();
-            PermissionManager.ClearPermissions(adminId);
+            PermissionManager.ClearPermissions();
 
             return Redirect("/auth/login");
         }

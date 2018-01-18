@@ -11,8 +11,8 @@ namespace FancyFix.Core.Admin
     /// </summary>
     public class PermissionManager
     {
-        private static string Permission_Ids = "Permission_Ids_";
-        private static string Permission_Urls = "Permission_Urls_";
+        private static string Permission_Ids = "Permission_Ids";
+        private static string Permission_Urls = "Permission_Urls";
         private static object _lock = new object();
 
         //超级管理员ID集合
@@ -29,18 +29,16 @@ namespace FancyFix.Core.Admin
             {
                 if (admin != null && HttpContext.Current?.Session != null)
                 {
-                    var sessionName = Permission_Ids + admin.Id;
-
-                    if (HttpContext.Current.Session[sessionName] != null)
+                    if (HttpContext.Current.Session[Permission_Ids] != null)
                     {
-                        return HttpContext.Current.Session[sessionName] as List<int>;
+                        return HttpContext.Current.Session[Permission_Ids] as List<int>;
                     }
                     else
                     {
                         var perIds = OA.Bll.BllMng_User.GetPermissionIds(admin);
                         if (perIds != null && perIds.Count > 0)
                         {
-                            HttpContext.Current.Session.Add(sessionName, perIds);
+                            HttpContext.Current.Session.Add(Permission_Ids, perIds);
                             return perIds;
                         }
                     }
@@ -60,18 +58,16 @@ namespace FancyFix.Core.Admin
             {
                 if (admin != null && HttpContext.Current?.Session != null)
                 {
-                    var sessionName = Permission_Urls + admin.Id;
-
-                    if (HttpContext.Current.Session[sessionName] != null)
+                    if (HttpContext.Current.Session[Permission_Urls] != null)
                     {
-                        return HttpContext.Current.Session[sessionName] as List<string>;
+                        return HttpContext.Current.Session[Permission_Urls] as List<string>;
                     }
                     else
                     {
                         var perUrls = OA.Bll.BllMng_User.GetPermissionUrls(admin);
                         if (perUrls != null && perUrls.Count > 0)
                         {
-                            HttpContext.Current.Session.Add(sessionName, perUrls);
+                            HttpContext.Current.Session.Add(Permission_Urls, perUrls);
                             return perUrls;
                         }
                     }
@@ -119,12 +115,12 @@ namespace FancyFix.Core.Admin
         /// <summary>
         /// 清除权限
         /// </summary>
-        public static void ClearPermissions(int adminId)
+        public static void ClearPermissions()
         {
             lock (_lock)
             {
-                HttpContext.Current.Session.Remove(Permission_Ids + adminId);
-                HttpContext.Current.Session.Remove(Permission_Urls + adminId);
+                HttpContext.Current.Session.Remove(Permission_Ids);
+                HttpContext.Current.Session.Remove(Permission_Urls);
             }
         }
     }

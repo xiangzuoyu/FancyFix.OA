@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArtTaskList.cs" />
     <Compile Include="Business\Rank_Kpi.cs" />
     <Compile Include="Business\Rank_Point.cs" />
     <Compile Include="Business\Rank_Valuable.cs" />

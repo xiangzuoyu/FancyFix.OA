@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BllArtTaskList.cs" />
     <Compile Include="BllKpi_Process.cs" />
     <Compile Include="BllMng_User.cs" />
     <Compile Include="BllMng_DepartmentClass.cs" />

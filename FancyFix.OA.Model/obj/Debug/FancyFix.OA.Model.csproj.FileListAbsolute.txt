@@ -1,11 +1,9 @@
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\bin\Debug\FancyFix.OA.Model.dll
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\bin\Debug\FancyFix.OA.Model.pdb
-E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\bin\Debug\Dos.Common.dll
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\bin\Debug\Dos.ORM.dll
-E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\bin\Debug\Dos.Common.pdb
-E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\bin\Debug\Dos.Common.xml
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\bin\Debug\Dos.ORM.pdb
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\bin\Debug\Dos.ORM.xml
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\obj\Debug\FancyFix.OA.Model.dll
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\obj\Debug\FancyFix.OA.Model.pdb
-E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\obj\Debug\FancyFix.OA.Model.csprojResolveAssemblyReference.cache
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\bin\Debug\Dos.DataAccess.dll
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\bin\Debug\Dos.DataAccess.pdb

@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<servers>
+  <server id="c1530782-ce11-4c41-aa51-d69f5afc8f98" name="127.0.0.1(SQL Server2012及以上版本)[all]" database="all" dbtype="SqlServer9">
+    <connectionstring><![CDATA[Data Source=127.0.0.1;Initial Catalog=master;User Id=sa;Password=123]]></connectionstring>
+  </server>
+</servers>

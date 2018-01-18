@@ -1,0 +1,11 @@
+E:\workspace\源代码\DFKC.B2B\通用组件模块\Doc.ORM\DataAccess\bin\Debug\Dos.DataAccess.dll
+E:\workspace\源代码\DFKC.B2B\通用组件模块\Doc.ORM\DataAccess\bin\Debug\Dos.DataAccess.pdb
+E:\workspace\源代码\DFKC.B2B\通用组件模块\Doc.ORM\DataAccess\bin\Debug\Dos.Common.dll
+E:\workspace\源代码\DFKC.B2B\通用组件模块\Doc.ORM\DataAccess\bin\Debug\Dos.ORM.dll
+E:\workspace\源代码\DFKC.B2B\通用组件模块\Doc.ORM\DataAccess\bin\Debug\Dos.Common.pdb
+E:\workspace\源代码\DFKC.B2B\通用组件模块\Doc.ORM\DataAccess\bin\Debug\Dos.Common.xml
+E:\workspace\源代码\DFKC.B2B\通用组件模块\Doc.ORM\DataAccess\bin\Debug\Dos.ORM.pdb
+E:\workspace\源代码\DFKC.B2B\通用组件模块\Doc.ORM\DataAccess\bin\Debug\Dos.ORM.xml
+E:\workspace\源代码\DFKC.B2B\通用组件模块\Doc.ORM\DataAccess\obj\Debug\DataAccess.csprojResolveAssemblyReference.cache
+E:\workspace\源代码\DFKC.B2B\通用组件模块\Doc.ORM\DataAccess\obj\Debug\Dos.DataAccess.dll
+E:\workspace\源代码\DFKC.B2B\通用组件模块\Doc.ORM\DataAccess\obj\Debug\Dos.DataAccess.pdb

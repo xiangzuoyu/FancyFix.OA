@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D967950C-CCF5-47A4-A202-6930F2C8E20D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Tools</RootNamespace>
+    <AssemblyName>Tools</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=6.2.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\..\OA\FancyFix.OA\packages\AutoMapper.6.2.2\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Dos.Common">
+      <HintPath>..\Doc.ORM\Dos.Common\bin\Debug\Dos.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Facebook, Version=6.0.10.0, Culture=neutral, PublicKeyToken=58cb4f2111d1e6de, processorArchitecture=MSIL">
+      <HintPath>..\..\OA\FancyFix.OA\packages\Facebook.7.0.6\lib\net45\Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="HttpWebAdapters">
+      <HintPath>Dll\HttpWebAdapters.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\..\OA\FancyFix.OA\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\OA\FancyFix.OA\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI">
+      <HintPath>Dll\NPOI 2.2.0.0\dotnet4\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML">
+      <HintPath>Dll\NPOI 2.2.0.0\dotnet4\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net">
+      <HintPath>Dll\NPOI 2.2.0.0\dotnet4\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats">
+      <HintPath>Dll\NPOI 2.2.0.0\dotnet4\NPOI.OpenXmlFormats.dll</HintPath>
+    </Reference>
+    <Reference Include="NSoup, Version=0.8.0.0, Culture=neutral, PublicKeyToken=6d44e53f0a65e802, processorArchitecture=MSIL">
+      <HintPath>..\..\OA\FancyFix.OA\packages\NSoup.0.8.0\lib\net40\NSoup.dll</HintPath>
+    </Reference>
+    <Reference Include="PayPal, Version=1.9.1.0, Culture=neutral, PublicKeyToken=5b4afc1ccaef40fb, processorArchitecture=MSIL">
+      <HintPath>..\..\OA\FancyFix.OA\packages\PayPal.1.9.1\lib\net451\PayPal.dll</HintPath>
+    </Reference>
+    <Reference Include="StackExchange.Redis">
+      <HintPath>Dll\StackExchange.Redis.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\OA\FancyFix.OA\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\OA\FancyFix.OA\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\OA\FancyFix.OA\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\OA\FancyFix.OA\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\OA\FancyFix.OA\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\OA\FancyFix.OA\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Auth\AuthHelper.cs" />
+    <Compile Include="Auth\AuthToken.cs" />
+    <Compile Include="Auth\FacebookConfig.cs" />
+    <Compile Include="Auth\FacebookHelper.cs" />
+    <Compile Include="Auth\LinkinConfig.cs" />
+    <Compile Include="Auth\LinkinHelper.cs" />
+    <Compile Include="Auth\WebApiHelper.cs" />
+    <Compile Include="Enums\Log.cs" />
+    <Compile Include="Enums\Notify.cs" />
+    <Compile Include="Enums\Site.cs" />
+    <Compile Include="Mapper\MappingHelper.cs" />
+    <Compile Include="Common\Common.cs" />
+    <Compile Include="Common\StringCheck.cs" />
+    <Compile Include="Common\StringProcess.cs" />
+    <Compile Include="Config\Setting.cs" />
+    <Compile Include="Config\SettingsCollection.cs" />
+    <Compile Include="Config\SiteOption.cs" />
+    <Compile Include="Config\SiteOptionCollection.cs" />
+    <Compile Include="Config\UploadConfig.cs" />
+    <Compile Include="Config\UploadProvice.cs" />
+    <Compile Include="Entity\EntityPro.cs" />
+    <Compile Include="Entity\GoogleAdv.cs" />
+    <Compile Include="Entity\HotKeyword.cs" />
+    <Compile Include="Entity\EntityOrder.cs" />
+    <Compile Include="Entity\LoginExt.cs" />
+    <Compile Include="Entity\RegMember.cs" />
+    <Compile Include="Entity\ConfigUpload.cs" />
+    <Compile Include="Enums\Tools.cs" />
+    <Compile Include="Enums\ESite.cs" />
+    <Compile Include="Enums\Spider.cs" />
+    <Compile Include="Http\HttpHelper.cs" />
+    <Compile Include="Json\Json.cs" />
+    <Compile Include="Json\Question.cs" />
+    <Compile Include="Json\ToJsonResult.cs" />
+    <Compile Include="Log4netExt\IWebLog.cs" />
+    <Compile Include="Log4netExt\WebLogHelper.cs" />
+    <Compile Include="Log4netExt\WebLogImpl.cs" />
+    <Compile Include="Nsoup\NsoupHelper.cs" />
+    <Compile Include="Paypal\Configuration.cs" />
+    <Compile Include="Paypal\LogPaypal.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Redis\RedisProvider.cs" />
+    <Compile Include="Redis\RedisSession.cs" />
+    <Compile Include="Special\Common.cs" />
+    <Compile Include="Special\FacebokLoginHelper.cs" />
+    <Compile Include="Special\ImageCreate.cs" />
+    <Compile Include="Special\RecProduct.cs" />
+    <Compile Include="Tool\DataTableHelper.cs" />
+    <Compile Include="Tool\EncryptionHelper.cs" />
+    <Compile Include="Tool\ExcelHelper.cs" />
+    <Compile Include="Tool\ImageTools.cs" />
+    <Compile Include="Tool\JsonHelper.cs" />
+    <Compile Include="Tool\Log.cs" />
+    <Compile Include="Tool\LogHelper.cs" />
+    <Compile Include="Tool\PathHandle.cs" />
+    <Compile Include="Tool\SendMail.cs" />
+    <Compile Include="Tool\SpiderHelper.cs" />
+    <Compile Include="Tool\StringSimilarityTools.cs" />
+    <Compile Include="Tool\uploader.cs" />
+    <Compile Include="Tool\VerifyImage.cs" />
+    <Compile Include="Ueditor\Config.cs" />
+    <Compile Include="Ueditor\ConfigHandler.cs" />
+    <Compile Include="Ueditor\CrawlerHandler.cs" />
+    <Compile Include="Ueditor\Handler.cs" />
+    <Compile Include="Ueditor\ListFileHandler.cs" />
+    <Compile Include="Ueditor\NotSupportedHandler.cs" />
+    <Compile Include="Ueditor\PathFormater.cs" />
+    <Compile Include="Ueditor\UploadHandler.cs" />
+    <Compile Include="Usual\Chinese.cs" />
+    <Compile Include="Usual\Common.cs" />
+    <Compile Include="Usual\EncryptionHelper.cs" />
+    <Compile Include="Usual\Extensions.cs" />
+    <Compile Include="Usual\Hz2Py.cs" />
+    <Compile Include="Usual\SafeEcho.cs" />
+    <Compile Include="Usual\StringCheck.cs" />
+    <Compile Include="Usual\StringExtension.cs" />
+    <Compile Include="Usual\StringSafe.cs" />
+    <Compile Include="Usual\Utils.cs" />
+    <Compile Include="Utility\Admin.cs" />
+    <Compile Include="Utility\CacheHelper.cs" />
+    <Compile Include="Utility\CheckClient.cs" />
+    <Compile Include="Utility\CookieHelper.cs" />
+    <Compile Include="Utility\IListSort.cs" />
+    <Compile Include="Utility\IPSearcher.cs" />
+    <Compile Include="Utility\SSOJson.cs" />
+    <Compile Include="Utility\User.cs" />
+    <Compile Include="Utility\Web.cs" />
+    <Compile Include="Utility\XmlHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

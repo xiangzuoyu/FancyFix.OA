@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<servers>
+  <server id="82fab2f8-efd5-4b3c-bea0-376630214c92" name="127.0.0.1(MySql)[all]" database="all" dbtype="MySql">
+    <connectionstring><![CDATA[server=127.0.0.1;user id=root; password=root; Port=3306;database=; pooling=false]]></connectionstring>
+  </server>
+</servers>

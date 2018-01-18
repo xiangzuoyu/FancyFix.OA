@@ -1,0 +1,100 @@
+DateTime:2017/8/8 11:12:44
+Message:登录失败。该登录名来自不受信任的域，不能与 Windows 身份验证一起使用。
+select name,user_name() cuser,'DB' type,crdate dates from sysdatabases
+Source:Dos.Tool
+StackTrace:   在 Dos.DbObjects.SQL2005.DbObject.Query(String DbName, String SQLString) 位置 E:\workspace\源代码\DFKC.B2B\通用组件模块\Doc.ORM\Dos.Tool-master\Dos.Tool-master\DbDAL\SQL2005\DbObject.cs:行号 590
+   在 Dos.DbObjects.SQL2005.DbObject.GetDBList() 位置 E:\workspace\源代码\DFKC.B2B\通用组件模块\Doc.ORM\Dos.Tool-master\Dos.Tool-master\DbDAL\SQL2005\DbObject.cs:行号 315
+   在 Dos.Tools.LeftPanel.getDatabaseinfo() 位置 E:\workspace\源代码\DFKC.B2B\通用组件模块\Doc.ORM\Dos.Tool-master\Dos.Tool-master\Forms\LeftPanel.cs:行号 264
+   在 Dos.Tools.LeftPanel.连接ToolStripMenuItem_Click(Object sender, EventArgs e) 位置 E:\workspace\源代码\DFKC.B2B\通用组件模块\Doc.ORM\Dos.Tool-master\Dos.Tool-master\Forms\LeftPanel.cs:行号 203
+   在 System.Windows.Forms.ToolStripItem.RaiseEvent(Object key, EventArgs e)
+   在 System.Windows.Forms.ToolStripMenuItem.OnClick(EventArgs e)
+   在 System.Windows.Forms.ToolStripItem.HandleClick(EventArgs e)
+   在 System.Windows.Forms.ToolStripItem.HandleMouseUp(MouseEventArgs e)
+   在 System.Windows.Forms.ToolStripItem.FireEventInteractive(EventArgs e, ToolStripItemEventType met)
+   在 System.Windows.Forms.ToolStripItem.FireEvent(EventArgs e, ToolStripItemEventType met)
+   在 System.Windows.Forms.ToolStrip.OnMouseUp(MouseEventArgs mea)
+   在 System.Windows.Forms.ToolStripDropDown.OnMouseUp(MouseEventArgs mea)
+   在 System.Windows.Forms.Control.WmMouseUp(Message& m, MouseButtons button, Int32 clicks)
+   在 System.Windows.Forms.Control.WndProc(Message& m)
+   在 System.Windows.Forms.ScrollableControl.WndProc(Message& m)
+   在 System.Windows.Forms.ToolStrip.WndProc(Message& m)
+   在 System.Windows.Forms.ToolStripDropDown.WndProc(Message& m)
+   在 System.Windows.Forms.Control.ControlNativeWindow.OnMessage(Message& m)
+   在 System.Windows.Forms.Control.ControlNativeWindow.WndProc(Message& m)
+   在 System.Windows.Forms.NativeWindow.Callback(IntPtr hWnd, Int32 msg, IntPtr wparam, IntPtr lparam)
+--------------------------------------------------------------
+DateTime:2017/8/8 11:12:57
+Message:登录失败。该登录名来自不受信任的域，不能与 Windows 身份验证一起使用。
+select name,user_name() cuser,'DB' type,crdate dates from sysdatabases
+Source:Dos.Tool
+StackTrace:   在 Dos.DbObjects.SQL2005.DbObject.Query(String DbName, String SQLString) 位置 E:\workspace\源代码\DFKC.B2B\通用组件模块\Doc.ORM\Dos.Tool-master\Dos.Tool-master\DbDAL\SQL2005\DbObject.cs:行号 590
+   在 Dos.DbObjects.SQL2005.DbObject.GetDBList() 位置 E:\workspace\源代码\DFKC.B2B\通用组件模块\Doc.ORM\Dos.Tool-master\Dos.Tool-master\DbDAL\SQL2005\DbObject.cs:行号 315
+   在 Dos.Tools.LeftPanel.getDatabaseinfo() 位置 E:\workspace\源代码\DFKC.B2B\通用组件模块\Doc.ORM\Dos.Tool-master\Dos.Tool-master\Forms\LeftPanel.cs:行号 264
+   在 Dos.Tools.LeftPanel.刷新ToolStripMenuItem1_Click(Object sender, EventArgs e) 位置 E:\workspace\源代码\DFKC.B2B\通用组件模块\Doc.ORM\Dos.Tool-master\Dos.Tool-master\Forms\LeftPanel.cs:行号 213
+   在 System.Windows.Forms.ToolStripItem.RaiseEvent(Object key, EventArgs e)
+   在 System.Windows.Forms.ToolStripMenuItem.OnClick(EventArgs e)
+   在 System.Windows.Forms.ToolStripItem.HandleClick(EventArgs e)
+   在 System.Windows.Forms.ToolStripItem.HandleMouseUp(MouseEventArgs e)
+   在 System.Windows.Forms.ToolStripItem.FireEventInteractive(EventArgs e, ToolStripItemEventType met)
+   在 System.Windows.Forms.ToolStripItem.FireEvent(EventArgs e, ToolStripItemEventType met)
+   在 System.Windows.Forms.ToolStrip.OnMouseUp(MouseEventArgs mea)
+   在 System.Windows.Forms.ToolStripDropDown.OnMouseUp(MouseEventArgs mea)
+   在 System.Windows.Forms.Control.WmMouseUp(Message& m, MouseButtons button, Int32 clicks)
+   在 System.Windows.Forms.Control.WndProc(Message& m)
+   在 System.Windows.Forms.ScrollableControl.WndProc(Message& m)
+   在 System.Windows.Forms.ToolStrip.WndProc(Message& m)
+   在 System.Windows.Forms.ToolStripDropDown.WndProc(Message& m)
+   在 System.Windows.Forms.Control.ControlNativeWindow.OnMessage(Message& m)
+   在 System.Windows.Forms.Control.ControlNativeWindow.WndProc(Message& m)
+   在 System.Windows.Forms.NativeWindow.Callback(IntPtr hWnd, Int32 msg, IntPtr wparam, IntPtr lparam)
+--------------------------------------------------------------
+DateTime:2017/8/8 11:13:00
+Message:用户 'sa' 登录失败。
+select name,user_name() cuser,'DB' type,crdate dates from sysdatabases
+Source:Dos.Tool
+StackTrace:   在 Dos.DbObjects.SQL2005.DbObject.Query(String DbName, String SQLString) 位置 E:\workspace\源代码\DFKC.B2B\通用组件模块\Doc.ORM\Dos.Tool-master\Dos.Tool-master\DbDAL\SQL2005\DbObject.cs:行号 590
+   在 Dos.DbObjects.SQL2005.DbObject.GetDBList() 位置 E:\workspace\源代码\DFKC.B2B\通用组件模块\Doc.ORM\Dos.Tool-master\Dos.Tool-master\DbDAL\SQL2005\DbObject.cs:行号 315
+   在 Dos.Tools.LeftPanel.getDatabaseinfo() 位置 E:\workspace\源代码\DFKC.B2B\通用组件模块\Doc.ORM\Dos.Tool-master\Dos.Tool-master\Forms\LeftPanel.cs:行号 264
+   在 Dos.Tools.LeftPanel.连接ToolStripMenuItem_Click(Object sender, EventArgs e) 位置 E:\workspace\源代码\DFKC.B2B\通用组件模块\Doc.ORM\Dos.Tool-master\Dos.Tool-master\Forms\LeftPanel.cs:行号 203
+   在 System.Windows.Forms.ToolStripItem.RaiseEvent(Object key, EventArgs e)
+   在 System.Windows.Forms.ToolStripMenuItem.OnClick(EventArgs e)
+   在 System.Windows.Forms.ToolStripItem.HandleClick(EventArgs e)
+   在 System.Windows.Forms.ToolStripItem.HandleMouseUp(MouseEventArgs e)
+   在 System.Windows.Forms.ToolStripItem.FireEventInteractive(EventArgs e, ToolStripItemEventType met)
+   在 System.Windows.Forms.ToolStripItem.FireEvent(EventArgs e, ToolStripItemEventType met)
+   在 System.Windows.Forms.ToolStrip.OnMouseUp(MouseEventArgs mea)
+   在 System.Windows.Forms.ToolStripDropDown.OnMouseUp(MouseEventArgs mea)
+   在 System.Windows.Forms.Control.WmMouseUp(Message& m, MouseButtons button, Int32 clicks)
+   在 System.Windows.Forms.Control.WndProc(Message& m)
+   在 System.Windows.Forms.ScrollableControl.WndProc(Message& m)
+   在 System.Windows.Forms.ToolStrip.WndProc(Message& m)
+   在 System.Windows.Forms.ToolStripDropDown.WndProc(Message& m)
+   在 System.Windows.Forms.Control.ControlNativeWindow.OnMessage(Message& m)
+   在 System.Windows.Forms.Control.ControlNativeWindow.WndProc(Message& m)
+   在 System.Windows.Forms.NativeWindow.Callback(IntPtr hWnd, Int32 msg, IntPtr wparam, IntPtr lparam)
+--------------------------------------------------------------
+DateTime:2017/8/8 11:13:25
+Message:登录失败。该登录名来自不受信任的域，不能与 Windows 身份验证一起使用。
+select name,user_name() cuser,'DB' type,crdate dates from sysdatabases
+Source:Dos.Tool
+StackTrace:   在 Dos.DbObjects.SQL2005.DbObject.Query(String DbName, String SQLString) 位置 E:\workspace\源代码\DFKC.B2B\通用组件模块\Doc.ORM\Dos.Tool-master\Dos.Tool-master\DbDAL\SQL2005\DbObject.cs:行号 590
+   在 Dos.DbObjects.SQL2005.DbObject.GetDBList() 位置 E:\workspace\源代码\DFKC.B2B\通用组件模块\Doc.ORM\Dos.Tool-master\Dos.Tool-master\DbDAL\SQL2005\DbObject.cs:行号 315
+   在 Dos.Tools.LeftPanel.getDatabaseinfo() 位置 E:\workspace\源代码\DFKC.B2B\通用组件模块\Doc.ORM\Dos.Tool-master\Dos.Tool-master\Forms\LeftPanel.cs:行号 264
+   在 Dos.Tools.LeftPanel.连接ToolStripMenuItem_Click(Object sender, EventArgs e) 位置 E:\workspace\源代码\DFKC.B2B\通用组件模块\Doc.ORM\Dos.Tool-master\Dos.Tool-master\Forms\LeftPanel.cs:行号 203
+   在 System.Windows.Forms.ToolStripItem.RaiseEvent(Object key, EventArgs e)
+   在 System.Windows.Forms.ToolStripMenuItem.OnClick(EventArgs e)
+   在 System.Windows.Forms.ToolStripItem.HandleClick(EventArgs e)
+   在 System.Windows.Forms.ToolStripItem.HandleMouseUp(MouseEventArgs e)
+   在 System.Windows.Forms.ToolStripItem.FireEventInteractive(EventArgs e, ToolStripItemEventType met)
+   在 System.Windows.Forms.ToolStripItem.FireEvent(EventArgs e, ToolStripItemEventType met)
+   在 System.Windows.Forms.ToolStrip.OnMouseUp(MouseEventArgs mea)
+   在 System.Windows.Forms.ToolStripDropDown.OnMouseUp(MouseEventArgs mea)
+   在 System.Windows.Forms.Control.WmMouseUp(Message& m, MouseButtons button, Int32 clicks)
+   在 System.Windows.Forms.Control.WndProc(Message& m)
+   在 System.Windows.Forms.ScrollableControl.WndProc(Message& m)
+   在 System.Windows.Forms.ToolStrip.WndProc(Message& m)
+   在 System.Windows.Forms.ToolStripDropDown.WndProc(Message& m)
+   在 System.Windows.Forms.Control.ControlNativeWindow.OnMessage(Message& m)
+   在 System.Windows.Forms.Control.ControlNativeWindow.WndProc(Message& m)
+   在 System.Windows.Forms.NativeWindow.Callback(IntPtr hWnd, Int32 msg, IntPtr wparam, IntPtr lparam)
+--------------------------------------------------------------

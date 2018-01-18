@@ -30,14 +30,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Dos.Common">
-      <HintPath>..\..\..\Utils\Doc.ORM\DataAccess\bin\Debug\Dos.Common.dll</HintPath>
+    <Reference Include="Dos.Common, Version=1.0.8.4, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Utils\Doc.ORM\DataAccess\bin\Debug\Dos.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Dos.DataAccess">
-      <HintPath>..\..\..\Utils\Doc.ORM\DataAccess\bin\Debug\Dos.DataAccess.dll</HintPath>
+    <Reference Include="Dos.DataAccess, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Utils\Doc.ORM\DataAccess\bin\Debug\Dos.DataAccess.dll</HintPath>
     </Reference>
-    <Reference Include="Dos.ORM">
-      <HintPath>..\..\..\Utils\Doc.ORM\DataAccess\bin\Debug\Dos.ORM.dll</HintPath>
+    <Reference Include="Dos.ORM, Version=1.10.6.2, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Utils\Doc.ORM\DataAccess\bin\Debug\Dos.ORM.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -59,10 +62,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Utils\Tools\FancyFix.Tools.csproj">
-      <Project>{d967950c-ccf5-47a4-a202-6930f2c8e20d}</Project>
-      <Name>FancyFix.Tools</Name>
-    </ProjectReference>
     <ProjectReference Include="..\FancyFix.OA.Bll\FancyFix.OA.Bll.csproj">
       <Project>{0690c5cb-a415-4fc7-a046-3eba33e8da6e}</Project>
       <Name>FancyFix.OA.Bll</Name>
@@ -70,6 +69,10 @@
     <ProjectReference Include="..\FancyFix.OA.Model\FancyFix.OA.Model.csproj">
       <Project>{308cf2c3-bc41-4ab0-8bd9-fa3defcaa3c4}</Project>
       <Name>FancyFix.OA.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utils\Tools\FancyFix.Tools.csproj">
+      <Project>{d967950c-ccf5-47a4-a202-6930f2c8e20d}</Project>
+      <Name>FancyFix.Tools</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

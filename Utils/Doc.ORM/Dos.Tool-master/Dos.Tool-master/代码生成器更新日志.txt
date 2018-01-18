@@ -1,0 +1,55 @@
+﻿即将更新：
+	*）增加自动更新实体生成器功能
+
+2016-05-19 Dos.Tool(v2.0.3.0)
+	*）修复MySql不能正确地生成自增列方法。
+	*）修复“实体类_最新.tpl”并不是最新的bug。
+	*）修复MySql表名为内置函数名生成代码时出错。
+	*）实体生成器现在支持模板生成了，可以自定义模板生成任意想要的代码。
+	*）“实体生成器”更名为“Dos.Tool代码生成器”。
+
+2016-05-04 Dos.Tools.EntityDesign(v1.9.0.0)
+	*）解决MySql右键数据库刷新时提示“不支持的关键字Port”。
+	*）解决新增MySql连接时不点击“测试连接”会出现的一个bug。
+	*）增加换肤功能。
+	*）批量生成设置子文件夹，现在不会自动生成到命名空间中去。
+	*）解决批量生成中的一个Bug。
+	*）恢复实体类[Serializable]标记
+	*）实体类[Entity("TableName")]标记修改为[Table("TableName")]，以解决序列化时多了一个TypeId字段的Bug。
+
+2016-01-04 Dos.Tools.EntityDesign(v1.8.8.5)
+	*）实体类生成方式与Dos.ORM v1.10.3.0配合，解决lambda写法是取的实体类名不是实际表名的Bug。
+
+2015-09-22 Dos.Tools.EntityDesign(v1.8.8.3)
+	*）修改部分类型映射关系。
+	*）增加MariaDB数据库选项。同时准备加入PostgreSQL选项。
+	*）程序名称由【Dos.Tools.EntityDesign】修改为【Dos.Tools】。
+	*）配置文件结构优化，统一放到Config文件夹下。
+	*）程序生气改为默认X86架构。
+	*）配置增加mediumtext类型映射为string。
+	*）增加启动实体生成器时判断程序是否为最新版。
+	*）数字字段名现在是生成以“_”开头，不再是以“F”开头。如以前数字段名：55，生成的属性名为F55，现在则为_55。
+
+2015-09-07 Dos.Tools.EntityDesign(v1.8.7.5)
+	*）暂时去除生成默认值功能（有bug，后面再重新开放）
+	*）tinyint(1)修改为仅在MySql下才生成Bool类型。（感谢群友【更新中】发现此Bug）
+	*）char(36)修改为仅在MySql下才生成Guid类型。（感谢群友【更新中】发现此Bug）
+	*）解决x64不能连接SQlite数据库的bug
+	*）取消实体类的SetPropertyValues映射，考虑到单表查询也会用到别名然后扩展类属性，此时SetPropertyValues无法映射别名数据，因此取消，ORM底层映射全部采用Emit。同时实体生成器v1.8.7.0生成的实体类将不再生成SetPropertyValues方法，此实体类仅适用于Dos.ORM v1.9.9.2 以及上版本。
+	*）生成的实体现在会加上数据库默认值。如：private bool IsCan = true;
+	*）解决MySql连接域名数据库地址错误的Bug。（感谢群友：贾世唯，博客园：http://www.cnblogs.com/jswjia/）
+	*）smallint现在是生成short类型，不再是int类型。
+	*）tinyint(1)现在是生成bool类型，不再是int类型。
+	*）datetime2现在是生成DateTime类型，不再是object。
+
+2015-05-21 Dos.Tools.EntityDesign(v1.8.2)
+	*）SqlServer数据库字段ntext类型现在是生成string类型，不再是object。
+
+2015-05-21 Dos.Tools.EntityDesign(v1.8.1)
+	*）解决“路劲”错别字。
+	*）解决“批量生成实体类”未把表名中的空格以“_”替代的Bug。
+	*）现在生成实体类会加上partial，以便多表关联查询返回实体增加“扩展字段”。
+ 
+2015-05-10 Dos.Tools.EntityDesign(v1.8.0)
+	*）实体生成器正式更名为Dos.Tools.EntityDesign
+	*）字段char(36)类型现在是生成Guid，不再是string。

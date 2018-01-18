@@ -46,11 +46,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Dos.DataAccess">
-      <HintPath>..\..\..\Utils\Doc.ORM\DataAccess\bin\Debug\Dos.DataAccess.dll</HintPath>
+    <Reference Include="Dos.DataAccess, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Utils\Doc.ORM\DataAccess\bin\Debug\Dos.DataAccess.dll</HintPath>
     </Reference>
-    <Reference Include="Dos.ORM">
-      <HintPath>..\..\..\Utils\Doc.ORM\DataAccess\bin\Debug\Dos.ORM.dll</HintPath>
+    <Reference Include="Dos.ORM, Version=1.10.6.2, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Utils\Doc.ORM\DataAccess\bin\Debug\Dos.ORM.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a" />
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -1660,6 +1662,10 @@
     <ProjectReference Include="..\FancyFix.OA.ViewModel\FancyFix.OA.ViewModel.csproj">
       <Project>{1ef98ca7-d454-432a-854c-f09e5520b3bb}</Project>
       <Name>FancyFix.OA.ViewModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utils\Tools\FancyFix.Tools.csproj">
+      <Project>{d967950c-ccf5-47a4-a202-6930f2c8e20d}</Project>
+      <Name>FancyFix.Tools</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

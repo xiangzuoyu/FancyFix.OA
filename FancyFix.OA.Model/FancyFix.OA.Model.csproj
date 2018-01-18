@@ -30,11 +30,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Dos.Common">
-      <HintPath>..\..\..\Utils\Doc.ORM\DataAccess\bin\Debug\Dos.Common.dll</HintPath>
+    <Reference Include="Dos.DataAccess">
+      <HintPath>..\Utils\Doc.ORM\DataAccess\bin\Debug\Dos.DataAccess.dll</HintPath>
     </Reference>
-    <Reference Include="Dos.ORM">
-      <HintPath>..\..\..\Utils\Doc.ORM\DataAccess\bin\Debug\Dos.ORM.dll</HintPath>
+    <Reference Include="Dos.ORM, Version=1.10.6.2, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Utils\Doc.ORM\DataAccess\bin\Debug\Dos.ORM.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

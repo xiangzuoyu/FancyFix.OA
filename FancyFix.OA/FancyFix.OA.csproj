@@ -1805,6 +1805,7 @@
     <Content Include="Areas\Valuable\Views\Process\Index.cshtml" />
     <Content Include="Areas\ArtTask\Views\web.config" />
     <Content Include="Areas\ArtTask\Views\ArtTaskList\List.cshtml" />
+    <Content Include="Areas\ArtTask\Views\ArtTaskList\Insert.cshtml" />
     <Content Include="Areas\ArtTask\Views\ArtTaskList\Edit.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Common\GetAdminTree.cshtml" />

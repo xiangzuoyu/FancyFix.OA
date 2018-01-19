@@ -16,26 +16,38 @@ namespace FancyFix.OA.Bll
             return new BllArtTaskList();
         }
 
-        public static IList<ArtTaskList> PageList(int page, int pageSize, out long records)
+        public static IEnumerable<ArtTaskList> PageList(int page, int pageSize, out long records, int display)
         {
             var where = new Where<ArtTaskList>();
-            where.And(o => true);
+            where.And(o => o.Display != 4);
+
+            if (display > 0)
+                where.And(o => o.Display == display);
 
             var p = Db.Context.From<ArtTaskList>()
                 //.Select((a)=>new { })
                 .Where(where);
             records = p.Count();
-            return p.Page(pageSize, page).OrderBy(o => o.Id).ToList();
+            return p.Page(pageSize, page).OrderByDescending(o => o.SubmittedDate).ToList();
         }
 
-        public static bool Add(ArtTaskList model)
+        public static bool CancelTask(int id)
         {
-            return Insert(model) > 0;
+            var model = First(o => o.Id == id);
+            if (model == null)
+                return false;
+            model.Display = 4;
+            return Update(model) > 0;
         }
 
-        public static bool Update(ArtTaskList model)
+        public static bool CompleteTask(int id)
         {
-            return Repository<ArtTaskList>.Update(model) > 0;
+            var model = First(o => o.Id == id);
+            if (model == null)
+                return false;
+            model.CompletionDate = DateTime.Now;
+            model.Display = 3;
+            return Update(model) > 0;
         }
     }
 }

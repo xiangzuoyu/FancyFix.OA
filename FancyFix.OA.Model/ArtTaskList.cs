@@ -197,7 +197,7 @@ namespace FancyFix.OA.Model
             }
         }
         /// <summary>
-		/// 需求状态，1：显示，2：已删除
+		/// 需求状态；1：未分配，2：已分配，3：完成，4：已删除
 		/// </summary>
 		public int? Display
         {
@@ -333,9 +333,9 @@ namespace FancyFix.OA.Model
             /// </summary>
             public readonly static Field AMPM = new Field("AMPM", "ArtTaskList", "上下午");
             /// <summary>
-            /// 需求状态，1：显示，2：已删除
+            /// 需求状态；1：未分配，2：已分配，3：完成，4：已删除
             /// </summary>
-            public readonly static Field Display = new Field("Display", "ArtTaskList", "需求状态，1：显示，2：已删除");
+            public readonly static Field Display = new Field("Display", "ArtTaskList", "需求状态；1：未分配，2：已分配，3：完成，4：已删除");
         }
         #endregion
 

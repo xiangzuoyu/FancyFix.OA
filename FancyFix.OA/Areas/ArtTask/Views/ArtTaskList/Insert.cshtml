@@ -1,9 +1,8 @@
 ﻿@using FancyFix.OA.Model;
 @model ArtTaskList
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Insert";
     Layout = "~/Views/Shared/_Layout_In.cshtml";
-    List<Mng_User> designerList = ViewBag.designerList;
 }
 
 @section Css{
@@ -12,17 +11,12 @@
         .form-group {
             margin-bottom: 0;
         }
-
-        .input_radio {
-            margin-left: 3px;
-            margin-right: 10px;
-        }
     </style>
 }
 
 <div class="row">
     <div class="col-md-12">
-        <form id="mainform" action="/arttask/arttasklist/edit" method="post">
+        <form id="mainform" action="/arttask/arttasklist/insert" method="post">
             <table class="layui-table">
                 <!--列宽度-->
                 <colgroup>
@@ -35,7 +29,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="text" class="form-control" id="number" name="number" placeholder="编号" value="@(Model?.Number ?? "")"
-                                       required="required" style="width:250px;" readonly="readonly">
+                                       required="required" style="width:250px;">
                             </div>
                         </td>
                     </tr>
@@ -44,7 +38,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="text" class="form-control" id="title" name="title" placeholder="标题" value="@(Model?.Title ?? "")"
-                                       required="required" style="width:250px;" readonly="readonly">
+                                       required="required" style="width:250px;">
                             </div>
                         </td>
                     </tr>
@@ -53,7 +47,7 @@
                         <td>
                             <div class="form-group">
                                 <textarea class="form-control" id="content" name="content" type="text/plain" placeholder="详细" style="height:80px;"
-                                          required="required" readonly="readonly">@(Model?.Content ?? "")</textarea>
+                                          required="required">@(Model?.Content ?? "")</textarea>
                             </div>
                         </td>
                     </tr>
@@ -62,7 +56,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="text" class="form-control" id="duedate" name="duedate" placeholder="截止日期" required="required" style="width:250px;"
-                                       value="@(Model != null ? Model.DueDate.Value.ToString("yyyy-MM-dd") : "")" readonly="readonly">
+                                       value="@(Model != null ? Model.DueDate.Value.ToString("yyyy-MM-dd") : "")">
                             </div>
                         </td>
                     </tr>
@@ -71,51 +65,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="text" class="form-control" id="phone" name="phone" placeholder="手机号" value="@(Model?.Phone ?? "")"
-                                       required="required" style="width:250px;" readonly="readonly">
-                            </div>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td align="right"><label for="estimatedstartdate" class="control-label">预计开始日期：</label></td>
-                        <td>
-                            <div class="form-group">
-                                <input type="text" class="form-control" id="estimatedstartdate" name="estimatedstartdate" placeholder="预计开始日期" required="required" style="width:150px;" value="@(Model != null ? Model.EstimatedStartDate.Value.ToString("yyyy-MM-dd") : "")">
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="right"><label for="estimatedstartdate" class="control-label">预计完成日期：</label></td>
-                        <td>
-                            <div class="form-group">
-                                <input type="text" class="form-control" id="estimatedenddate" name="estimatedenddate" placeholder="预计结束日期" required="required" style="width:150px;" value="@(Model != null ? Model.EstimatedEndDate.Value.ToString("yyyy-MM-dd") : "")">
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="right"><label for="estimatedstartdate" class="control-label">完成时间段：</label></td>
-                        <td>
-                            <div class="form-group">
-                                <input type="radio" id="1" name="ampm" value="1" @(Model.AMPM == 1 ? "checked" : "")>
-                                <label for="1" class="input_radio">上午</label>
-                                <input type="radio" id="2" name="ampm" value="2"  @(Model.AMPM == 2 ? "checked" : "")>
-                                <label for="2" class="input_radio">下午</label>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="right"><label for="phone" class="control-label">设计师：</label></td>
-                        <td>
-                            <div class="form-group">
-                                @if (designerList != null && designerList.Any())
-                                {
-                                    for (int i = 0; i < designerList.Count; i++)
-                                    {
-                                        var item = designerList[i];
-                                        <input type="radio" id="@(item.Id)" name="designerid" value="@(item.Id)" @(item.Id == Model.DesignerId ? "checked" : "")>
-                                        <label for="@(item.Id)" class="input_radio">@(item.RealName)</label>
-                                    }
-                                }
+                                    style="width:250px;">
                             </div>
                         </td>
                     </tr>
@@ -148,25 +98,13 @@
             });
 
             //日期控件
-            $("#estimatedstartdate").click(function () {
+            $("#duedate").click(function () {
                 laydate({
                     elem: this,
+                    istime: true,
                     min: laydate.now(),
-                    format: 'YYYY-MM-DD hh:mm:ss',
-                    choose: function (dates) {
-                        end.min = dates; //开始日选好后，重置结束日的最小日期
-                        end.start = dates //将结束日的初始值设定为开始日
-                    }
+                    format: 'YYYY-MM-DD hh:mm:ss'
                 });
-            });
-
-            var end = {
-                format: 'YYYY-MM-DD hh:mm:ss'
-            };
-
-            $("#estimatedenddate").click(function () {
-                end.elem = this;
-                laydate(end);
             });
 
             //表单验证
@@ -180,7 +118,3 @@
         })
     </script>
 }
-
-
-
-

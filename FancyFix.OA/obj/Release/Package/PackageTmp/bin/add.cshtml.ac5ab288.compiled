@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<preserve resultType="2" virtualPath="/Areas/Admin/Views/AdminManage/Add.cshtml" hash="ffffffffbd170dc0" filehash="ffffea8552529427" flags="110000" assembly="App_Web_pwpmwxuj" type="ASP._Page_Areas_Admin_Views_AdminManage_Add_cshtml">
+<preserve resultType="2" virtualPath="/Areas/Admin/Views/AdminManage/Add.cshtml" hash="ffffffffbd170dc0" filehash="ffffea8552529427" flags="110000" assembly="App_Web_qmgmga2k" type="ASP._Page_Areas_Admin_Views_AdminManage_Add_cshtml">
     <filedeps>
         <filedep name="/Areas/Admin/Views/AdminManage/Add.cshtml" />
     </filedeps>

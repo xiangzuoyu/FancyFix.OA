@@ -25,3 +25,5 @@ FancyFix.OA/FancyFix.OA.csproj.user
 FancyFix.OA/FancyFix.OA.csproj
 FancyFix.OA.Model/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
 *.user
+.vs/FancyFix.OA/v15/.suo
+FancyFix.OA/Areas/ArtTask/Views/web.config

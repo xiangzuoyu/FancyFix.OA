@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<preserve resultType="2" virtualPath="/Areas/Kpi/Views/Kpi/KpiAdd.cshtml" hash="ffffffffbd170dc0" filehash="284c6538892b" flags="110000" assembly="App_Web_yqqxr1o5" type="ASP._Page_Areas_Kpi_Views_Kpi_KpiAdd_cshtml">
+<preserve resultType="2" virtualPath="/Areas/Kpi/Views/Kpi/KpiAdd.cshtml" hash="ffffffffbd170dc0" filehash="284c6538892b" flags="110000" assembly="App_Web_ymxxcorb" type="ASP._Page_Areas_Kpi_Views_Kpi_KpiAdd_cshtml">
     <filedeps>
         <filedep name="/Areas/Kpi/Views/Kpi/KpiAdd.cshtml" />
     </filedeps>

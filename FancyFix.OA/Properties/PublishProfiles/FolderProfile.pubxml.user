@@ -11,82 +11,85 @@
   </PropertyGroup>
   <ItemGroup>
     <File Include="Areas/Admin/Views/AdminInfo/Edit.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/Admin/Views/AdminManage/Add.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/Admin/Views/AdminManage/Edit.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/Admin/Views/AdminManage/GetAdminTree.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/Admin/Views/AdminManage/List.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/Admin/Views/AdminPermission/GroupSetTree.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/Admin/Views/web.config">
       <publishTime>10/13/2017 13:12:58</publishTime>
     </File>
+    <File Include="Areas/DesignerTask/Views/web.config">
+      <publishTime>01/19/2018 09:27:25</publishTime>
+    </File>
     <File Include="Areas/Kpi/Views/Kpi/ChildKpiApprove.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/Kpi/Views/Kpi/ChildKpiList.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/Kpi/Views/Kpi/ChildUserList.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/Kpi/Views/Kpi/Index.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/Kpi/Views/Kpi/KpiAdd.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/Kpi/Views/Kpi/KpiInfo.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/Kpi/Views/Kpi/KpiList.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/Kpi/Views/Kpi/KpiSet.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/Kpi/Views/web.config">
       <publishTime>12/01/2017 10:00:25</publishTime>
     </File>
     <File Include="Areas/Point/Views/Point/ChildPointEdit.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/Point/Views/Point/ChildPointList.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/Point/Views/Point/ChildUserList.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/Point/Views/Point/PointChoose.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/Point/Views/Point/PointEdit.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/Point/Views/Point/PointIndex.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/Point/Views/Point/PointList.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/Point/Views/PointClass/List.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/Point/Views/PointList/Edit.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/Point/Views/PointList/List.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/Point/Views/Shared/_Layout.cshtml">
       <publishTime>11/20/2017 09:48:21</publishTime>
@@ -98,94 +101,94 @@
       <publishTime>11/20/2017 09:48:20</publishTime>
     </File>
     <File Include="Areas/Rank/Views/Kpi/Index.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/Rank/Views/Kpi/KpiInfo.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/Rank/Views/Kpi/KpiList.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/Rank/Views/Point/Index.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/Rank/Views/Point/PointInfo.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/Rank/Views/Point/PointList.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/Rank/Views/Rank/Index.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/Rank/Views/Valuable/Index.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/Rank/Views/Valuable/SampleList.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/Rank/Views/Valuable/ValueList.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/Rank/Views/web.config">
       <publishTime>11/09/2017 11:08:59</publishTime>
     </File>
     <File Include="Areas/System/Views/DepartmentClass/List.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/System/Views/MenuClass/List.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/System/Views/Permission/GetDepartList.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/System/Views/Permission/GroupSetTree.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/System/Views/Permission/List.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/System/Views/web.config">
       <publishTime>10/13/2017 13:13:07</publishTime>
     </File>
     <File Include="Areas/Valuable/Views/Process/Index.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/Valuable/Views/RankClass/List.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/Valuable/Views/Valuable/ChildUserList.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/Valuable/Views/Valuable/ChildValueList.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/Valuable/Views/Valuable/ChildValueRecord.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/Valuable/Views/Valuable/ValueList.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/Valuable/Views/Valuable/ValueRecord.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/Valuable/Views/Valuable/WorkerList.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/Valuable/Views/ValuableClass/List.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/Valuable/Views/ValuableList/Edit.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/Valuable/Views/ValuableList/List.cshtml">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Areas/Valuable/Views/web.config">
       <publishTime>12/08/2017 11:02:38</publishTime>
     </File>
     <File Include="bin/add.cshtml.ac5ab288.compiled">
-      <publishTime>01/18/2018 17:13:51</publishTime>
+      <publishTime>01/19/2018 14:34:53</publishTime>
     </File>
     <File Include="bin/Antlr3.Runtime.dll">
       <publishTime>02/22/2013 08:43:40</publishTime>
@@ -194,10 +197,10 @@
       <publishTime>02/22/2013 08:43:40</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>01/18/2018 17:13:50</publishTime>
+      <publishTime>01/19/2018 14:34:52</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>01/18/2018 17:13:49</publishTime>
+      <publishTime>01/19/2018 14:34:52</publishTime>
     </File>
     <File Include="bin/App_Web_00tlzlhj.dll">
       <publishTime>01/15/2018 16:02:27</publishTime>
@@ -369,6 +372,9 @@
     </File>
     <File Include="bin/App_Web_1odjfnva.dll">
       <publishTime>01/15/2018 14:27:52</publishTime>
+    </File>
+    <File Include="bin/App_Web_1om330ma.dll">
+      <publishTime>01/19/2018 14:34:55</publishTime>
     </File>
     <File Include="bin/App_Web_1p5ydos2.dll">
       <publishTime>12/26/2017 13:25:01</publishTime>
@@ -658,6 +664,9 @@
     <File Include="bin/App_Web_5cei2yxk.dll">
       <publishTime>12/27/2017 11:56:54</publishTime>
     </File>
+    <File Include="bin/App_Web_5d0jzt5u.dll">
+      <publishTime>01/19/2018 14:35:00</publishTime>
+    </File>
     <File Include="bin/App_Web_5fegn4ro.dll">
       <publishTime>12/19/2017 10:52:12</publishTime>
     </File>
@@ -666,6 +675,9 @@
     </File>
     <File Include="bin/App_Web_5kbbdfou.dll">
       <publishTime>01/08/2018 11:12:15</publishTime>
+    </File>
+    <File Include="bin/App_Web_5khaot3y.dll">
+      <publishTime>01/19/2018 14:34:59</publishTime>
     </File>
     <File Include="bin/App_Web_5mvzuymd.dll">
       <publishTime>12/20/2017 17:59:43</publishTime>
@@ -778,8 +790,14 @@
     <File Include="bin/App_Web_b211k43b.dll">
       <publishTime>12/22/2017 17:37:36</publishTime>
     </File>
+    <File Include="bin/App_Web_b3gddrbs.dll">
+      <publishTime>01/19/2018 14:34:59</publishTime>
+    </File>
     <File Include="bin/App_Web_b3ou3yn0.dll">
       <publishTime>12/19/2017 11:23:46</publishTime>
+    </File>
+    <File Include="bin/App_Web_b4bxfkhh.dll">
+      <publishTime>01/19/2018 14:34:57</publishTime>
     </File>
     <File Include="bin/App_Web_b5ezu50m.dll">
       <publishTime>01/09/2018 15:37:36</publishTime>
@@ -910,6 +928,9 @@
     <File Include="bin/App_Web_cwn0ueoo.dll">
       <publishTime>01/11/2018 17:52:26</publishTime>
     </File>
+    <File Include="bin/App_Web_cylwe142.dll">
+      <publishTime>01/19/2018 14:35:01</publishTime>
+    </File>
     <File Include="bin/App_Web_czctwwxd.dll">
       <publishTime>01/11/2018 17:55:28</publishTime>
     </File>
@@ -939,6 +960,9 @@
     </File>
     <File Include="bin/App_Web_dbuwaudh.dll">
       <publishTime>12/19/2017 11:57:31</publishTime>
+    </File>
+    <File Include="bin/App_Web_ddoterrb.dll">
+      <publishTime>01/19/2018 14:34:58</publishTime>
     </File>
     <File Include="bin/App_Web_dekd5x55.dll">
       <publishTime>12/22/2017 17:37:35</publishTime>
@@ -1021,11 +1045,17 @@
     <File Include="bin/App_Web_el1gqau4.dll">
       <publishTime>12/26/2017 10:09:54</publishTime>
     </File>
+    <File Include="bin/App_Web_elhmyzjk.dll">
+      <publishTime>01/19/2018 14:34:57</publishTime>
+    </File>
     <File Include="bin/App_Web_encbluf1.dll">
       <publishTime>12/27/2017 11:56:57</publishTime>
     </File>
     <File Include="bin/App_Web_eoi02nxo.dll">
       <publishTime>01/15/2018 14:27:51</publishTime>
+    </File>
+    <File Include="bin/App_Web_eoratj4m.dll">
+      <publishTime>01/19/2018 14:34:58</publishTime>
     </File>
     <File Include="bin/App_Web_eq2fa5w5.dll">
       <publishTime>01/15/2018 16:02:29</publishTime>
@@ -1053,6 +1083,9 @@
     </File>
     <File Include="bin/App_Web_eu3fwpj4.dll">
       <publishTime>12/19/2017 11:49:36</publishTime>
+    </File>
+    <File Include="bin/App_Web_evhuoxmu.dll">
+      <publishTime>01/19/2018 14:34:58</publishTime>
     </File>
     <File Include="bin/App_Web_exgpfpga.dll">
       <publishTime>01/11/2018 15:21:05</publishTime>
@@ -1101,6 +1134,9 @@
     </File>
     <File Include="bin/App_Web_fgiwjvo0.dll">
       <publishTime>12/27/2017 14:28:50</publishTime>
+    </File>
+    <File Include="bin/App_Web_fhfuh3p1.dll">
+      <publishTime>01/19/2018 14:34:57</publishTime>
     </File>
     <File Include="bin/App_Web_ficopjq2.dll">
       <publishTime>12/27/2017 14:28:53</publishTime>
@@ -1225,6 +1261,9 @@
     <File Include="bin/App_Web_gumdcrwf.dll">
       <publishTime>12/18/2017 13:46:31</publishTime>
     </File>
+    <File Include="bin/App_Web_guywuo5b.dll">
+      <publishTime>01/19/2018 14:34:55</publishTime>
+    </File>
     <File Include="bin/App_Web_gv2xcx2f.dll">
       <publishTime>01/11/2018 17:55:32</publishTime>
     </File>
@@ -1306,6 +1345,9 @@
     <File Include="bin/App_Web_hsbwc1bh.dll">
       <publishTime>01/18/2018 14:52:50</publishTime>
     </File>
+    <File Include="bin/App_Web_hsf03cko.dll">
+      <publishTime>01/19/2018 14:35:00</publishTime>
+    </File>
     <File Include="bin/App_Web_hsvkcjii.dll">
       <publishTime>12/19/2017 13:31:59</publishTime>
     </File>
@@ -1317,6 +1359,9 @@
     </File>
     <File Include="bin/App_Web_hutcxx4v.dll">
       <publishTime>12/19/2017 10:52:12</publishTime>
+    </File>
+    <File Include="bin/App_Web_hv1wde3e.dll">
+      <publishTime>01/19/2018 14:34:55</publishTime>
     </File>
     <File Include="bin/App_Web_hv4quko1.dll">
       <publishTime>12/27/2017 11:56:55</publishTime>
@@ -1363,6 +1408,9 @@
     <File Include="bin/App_Web_ickpbvpx.dll">
       <publishTime>12/20/2017 18:22:34</publishTime>
     </File>
+    <File Include="bin/App_Web_idcoaf5l.dll">
+      <publishTime>01/19/2018 14:34:56</publishTime>
+    </File>
     <File Include="bin/App_Web_if0vdkd4.dll">
       <publishTime>01/09/2018 15:37:40</publishTime>
     </File>
@@ -1371,6 +1419,9 @@
     </File>
     <File Include="bin/App_Web_ii4g2jhq.dll">
       <publishTime>12/20/2017 17:59:39</publishTime>
+    </File>
+    <File Include="bin/App_Web_ik4w2ayx.dll">
+      <publishTime>01/19/2018 14:34:57</publishTime>
     </File>
     <File Include="bin/App_Web_ilihhtos.dll">
       <publishTime>12/26/2017 13:29:16</publishTime>
@@ -1741,6 +1792,9 @@
     <File Include="bin/App_Web_mxalhxsu.dll">
       <publishTime>12/19/2017 11:57:38</publishTime>
     </File>
+    <File Include="bin/App_Web_mxstjj2l.dll">
+      <publishTime>01/19/2018 14:34:54</publishTime>
+    </File>
     <File Include="bin/App_Web_n240ifd1.dll">
       <publishTime>01/11/2018 16:48:13</publishTime>
     </File>
@@ -1840,6 +1894,9 @@
     <File Include="bin/App_Web_ocxy0tx1.dll">
       <publishTime>12/18/2017 13:46:33</publishTime>
     </File>
+    <File Include="bin/App_Web_oefhepzb.dll">
+      <publishTime>01/19/2018 14:34:54</publishTime>
+    </File>
     <File Include="bin/App_Web_of0ihxle.dll">
       <publishTime>01/11/2018 17:52:22</publishTime>
     </File>
@@ -1906,6 +1963,9 @@
     <File Include="bin/App_Web_p2ffink0.dll">
       <publishTime>01/09/2018 17:28:18</publishTime>
     </File>
+    <File Include="bin/App_Web_p35fvd5b.dll">
+      <publishTime>01/19/2018 14:35:00</publishTime>
+    </File>
     <File Include="bin/App_Web_pbqln0ow.dll">
       <publishTime>01/09/2018 15:37:41</publishTime>
     </File>
@@ -1965,6 +2025,9 @@
     </File>
     <File Include="bin/App_Web_pybodcya.dll">
       <publishTime>01/11/2018 17:55:30</publishTime>
+    </File>
+    <File Include="bin/App_Web_pylxle1s.dll">
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="bin/App_Web_q11zmxc1.dll">
       <publishTime>01/11/2018 17:55:28</publishTime>
@@ -2026,6 +2089,9 @@
     <File Include="bin/App_Web_qm2ngmju.dll">
       <publishTime>01/11/2018 14:32:16</publishTime>
     </File>
+    <File Include="bin/App_Web_qmgmga2k.dll">
+      <publishTime>01/19/2018 14:34:53</publishTime>
+    </File>
     <File Include="bin/App_Web_qmrxecxw.dll">
       <publishTime>12/19/2017 11:23:44</publishTime>
     </File>
@@ -2061,6 +2127,9 @@
     </File>
     <File Include="bin/App_Web_r0xtknyk.dll">
       <publishTime>01/18/2018 11:52:46</publishTime>
+    </File>
+    <File Include="bin/App_Web_r2al11fg.dll">
+      <publishTime>01/19/2018 14:34:56</publishTime>
     </File>
     <File Include="bin/App_Web_rauvtde4.dll">
       <publishTime>01/17/2018 15:48:56</publishTime>
@@ -2590,6 +2659,9 @@
     <File Include="bin/App_Web_xeprzuuq.dll">
       <publishTime>01/11/2018 14:32:11</publishTime>
     </File>
+    <File Include="bin/App_Web_xet1r2b3.dll">
+      <publishTime>01/19/2018 14:34:53</publishTime>
+    </File>
     <File Include="bin/App_Web_xevj4naf.dll">
       <publishTime>12/18/2017 13:46:28</publishTime>
     </File>
@@ -2598,6 +2670,9 @@
     </File>
     <File Include="bin/App_Web_xgyqby4e.dll">
       <publishTime>12/26/2017 10:09:53</publishTime>
+    </File>
+    <File Include="bin/App_Web_xinxrhe4.dll">
+      <publishTime>01/19/2018 14:34:56</publishTime>
     </File>
     <File Include="bin/App_Web_xkqy3zls.dll">
       <publishTime>12/26/2017 10:09:47</publishTime>
@@ -2694,6 +2769,9 @@
     </File>
     <File Include="bin/App_Web_ymowuzlk.dll">
       <publishTime>12/26/2017 13:44:28</publishTime>
+    </File>
+    <File Include="bin/App_Web_ymxxcorb.dll">
+      <publishTime>01/19/2018 14:34:54</publishTime>
     </File>
     <File Include="bin/App_Web_yndq4dso.dll">
       <publishTime>12/20/2017 17:59:46</publishTime>
@@ -2834,37 +2912,37 @@
       <publishTime>12/06/2017 15:08:08</publishTime>
     </File>
     <File Include="bin/childkpiapprove.cshtml.e30ae49.compiled">
-      <publishTime>01/18/2018 17:13:52</publishTime>
+      <publishTime>01/19/2018 14:34:54</publishTime>
     </File>
     <File Include="bin/childkpilist.cshtml.e30ae49.compiled">
-      <publishTime>01/18/2018 17:13:52</publishTime>
+      <publishTime>01/19/2018 14:34:54</publishTime>
     </File>
     <File Include="bin/childpointedit.cshtml.84d7f22.compiled">
-      <publishTime>01/18/2018 17:13:53</publishTime>
+      <publishTime>01/19/2018 14:34:54</publishTime>
     </File>
     <File Include="bin/childpointlist.cshtml.84d7f22.compiled">
-      <publishTime>01/18/2018 17:13:53</publishTime>
+      <publishTime>01/19/2018 14:34:54</publishTime>
     </File>
     <File Include="bin/childuserlist.cshtml.84d7f22.compiled">
-      <publishTime>01/18/2018 17:13:53</publishTime>
+      <publishTime>01/19/2018 14:34:54</publishTime>
     </File>
     <File Include="bin/childuserlist.cshtml.d6bfd036.compiled">
-      <publishTime>01/18/2018 17:13:57</publishTime>
+      <publishTime>01/19/2018 14:34:58</publishTime>
     </File>
     <File Include="bin/childuserlist.cshtml.e30ae49.compiled">
-      <publishTime>01/18/2018 17:13:52</publishTime>
+      <publishTime>01/19/2018 14:34:54</publishTime>
     </File>
     <File Include="bin/childvaluelist.cshtml.d6bfd036.compiled">
-      <publishTime>01/18/2018 17:13:57</publishTime>
+      <publishTime>01/19/2018 14:34:58</publishTime>
     </File>
     <File Include="bin/childvaluerecord.cshtml.d6bfd036.compiled">
-      <publishTime>01/18/2018 17:13:57</publishTime>
+      <publishTime>01/19/2018 14:34:58</publishTime>
     </File>
     <File Include="bin/classlist.cshtml.639c3968.compiled">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="bin/default.cshtml.a8d08dba.compiled">
-      <publishTime>01/18/2018 17:13:59</publishTime>
+      <publishTime>01/19/2018 14:35:00</publishTime>
     </File>
     <File Include="bin/Dos.Common.dll">
       <publishTime>12/18/2017 09:46:35</publishTime>
@@ -2885,58 +2963,58 @@
       <publishTime>01/15/2018 14:12:10</publishTime>
     </File>
     <File Include="bin/edit.cshtml.3f34c8f2.compiled">
-      <publishTime>01/18/2018 17:13:54</publishTime>
+      <publishTime>01/19/2018 14:34:55</publishTime>
     </File>
     <File Include="bin/edit.cshtml.92da6931.compiled">
-      <publishTime>01/18/2018 17:13:58</publishTime>
+      <publishTime>01/19/2018 14:34:59</publishTime>
     </File>
     <File Include="bin/edit.cshtml.ac5ab288.compiled">
-      <publishTime>01/18/2018 17:13:51</publishTime>
+      <publishTime>01/19/2018 14:34:53</publishTime>
     </File>
     <File Include="bin/edit.cshtml.e95e790e.compiled">
-      <publishTime>01/18/2018 17:13:51</publishTime>
+      <publishTime>01/19/2018 14:34:53</publishTime>
     </File>
     <File Include="bin/error.cshtml.639c3968.compiled">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="bin/Facebook.dll">
       <publishTime>04/13/2015 15:48:00</publishTime>
     </File>
     <File Include="bin/FancyFix.Core.dll">
-      <publishTime>01/18/2018 17:13:36</publishTime>
+      <publishTime>01/19/2018 14:34:30</publishTime>
     </File>
     <File Include="bin/FancyFix.Core.dll.config">
       <publishTime>12/18/2017 13:39:49</publishTime>
     </File>
     <File Include="bin/FancyFix.Core.pdb">
-      <publishTime>01/18/2018 17:13:36</publishTime>
+      <publishTime>01/19/2018 14:34:30</publishTime>
     </File>
     <File Include="bin/FancyFix.Mapper.dll">
-      <publishTime>01/18/2018 17:13:36</publishTime>
+      <publishTime>01/19/2018 14:34:29</publishTime>
     </File>
     <File Include="bin/FancyFix.Mapper.pdb">
-      <publishTime>01/18/2018 17:13:36</publishTime>
+      <publishTime>01/19/2018 14:34:29</publishTime>
     </File>
     <File Include="bin/FancyFix.OA.Bll.dll">
-      <publishTime>01/18/2018 17:13:36</publishTime>
+      <publishTime>01/19/2018 14:34:30</publishTime>
     </File>
     <File Include="bin/FancyFix.OA.Bll.dll.config">
       <publishTime>12/18/2017 13:39:49</publishTime>
     </File>
     <File Include="bin/FancyFix.OA.Bll.pdb">
-      <publishTime>01/18/2018 17:13:36</publishTime>
+      <publishTime>01/19/2018 14:34:30</publishTime>
     </File>
     <File Include="bin/FancyFix.OA.dll">
-      <publishTime>01/18/2018 17:13:40</publishTime>
+      <publishTime>01/19/2018 14:34:37</publishTime>
     </File>
     <File Include="bin/FancyFix.OA.Model.dll">
-      <publishTime>01/18/2018 17:13:35</publishTime>
+      <publishTime>01/19/2018 14:34:29</publishTime>
     </File>
     <File Include="bin/FancyFix.OA.Model.pdb">
-      <publishTime>01/18/2018 17:13:35</publishTime>
+      <publishTime>01/19/2018 14:34:29</publishTime>
     </File>
     <File Include="bin/FancyFix.OA.pdb">
-      <publishTime>01/18/2018 17:13:40</publishTime>
+      <publishTime>01/19/2018 14:34:37</publishTime>
     </File>
     <File Include="bin/FancyFix.OA.ViewModel.dll">
       <publishTime>01/11/2018 14:31:50</publishTime>
@@ -2957,103 +3035,103 @@
       <publishTime>11/17/2017 13:48:33</publishTime>
     </File>
     <File Include="bin/getadmintree.cshtml.ac5ab288.compiled">
-      <publishTime>01/18/2018 17:13:51</publishTime>
+      <publishTime>01/19/2018 14:34:53</publishTime>
     </File>
     <File Include="bin/getadmintree.cshtml.c0b6c42e.compiled">
-      <publishTime>01/18/2018 17:13:59</publishTime>
+      <publishTime>01/19/2018 14:35:00</publishTime>
     </File>
     <File Include="bin/getdepartlist.cshtml.3d57030f.compiled">
-      <publishTime>01/18/2018 17:13:56</publishTime>
+      <publishTime>01/19/2018 14:34:57</publishTime>
     </File>
     <File Include="bin/groupsettree.cshtml.3d57030f.compiled">
-      <publishTime>01/18/2018 17:13:56</publishTime>
+      <publishTime>01/19/2018 14:34:57</publishTime>
     </File>
     <File Include="bin/groupsettree.cshtml.e3f174bd.compiled">
-      <publishTime>01/18/2018 17:13:52</publishTime>
+      <publishTime>01/19/2018 14:34:54</publishTime>
     </File>
     <File Include="bin/ICSharpCode.SharpZipLib.dll">
       <publishTime>08/23/2016 13:40:20</publishTime>
     </File>
     <File Include="bin/index.cshtml.2bebef68.compiled">
-      <publishTime>01/18/2018 17:13:56</publishTime>
+      <publishTime>01/19/2018 14:34:57</publishTime>
     </File>
     <File Include="bin/index.cshtml.3a5ce9e3.compiled">
-      <publishTime>01/18/2018 17:13:55</publishTime>
+      <publishTime>01/19/2018 14:34:56</publishTime>
     </File>
     <File Include="bin/index.cshtml.4ac6bf0.compiled">
-      <publishTime>01/18/2018 17:13:54</publishTime>
+      <publishTime>01/19/2018 14:34:55</publishTime>
     </File>
     <File Include="bin/index.cshtml.5b8c18.compiled">
-      <publishTime>01/18/2018 17:13:54</publishTime>
+      <publishTime>01/19/2018 14:34:56</publishTime>
     </File>
     <File Include="bin/index.cshtml.a8d08dba.compiled">
-      <publishTime>01/18/2018 17:13:59</publishTime>
+      <publishTime>01/19/2018 14:35:00</publishTime>
     </File>
     <File Include="bin/index.cshtml.e30ae49.compiled">
-      <publishTime>01/18/2018 17:13:52</publishTime>
+      <publishTime>01/19/2018 14:34:54</publishTime>
     </File>
     <File Include="bin/index.cshtml.f05e7503.compiled">
-      <publishTime>01/18/2018 17:13:55</publishTime>
+      <publishTime>01/19/2018 14:34:56</publishTime>
     </File>
     <File Include="bin/index_backup.cshtml.a8d08dba.compiled">
-      <publishTime>01/18/2018 17:13:59</publishTime>
+      <publishTime>01/19/2018 14:35:00</publishTime>
     </File>
     <File Include="bin/index_info.cshtml.a8d08dba.compiled">
-      <publishTime>01/18/2018 17:13:59</publishTime>
+      <publishTime>01/19/2018 14:35:00</publishTime>
     </File>
     <File Include="bin/kpiadd.cshtml.e30ae49.compiled">
-      <publishTime>01/18/2018 17:13:52</publishTime>
+      <publishTime>01/19/2018 14:34:54</publishTime>
     </File>
     <File Include="bin/kpiinfo.cshtml.4ac6bf0.compiled">
-      <publishTime>01/18/2018 17:13:54</publishTime>
+      <publishTime>01/19/2018 14:34:55</publishTime>
     </File>
     <File Include="bin/kpiinfo.cshtml.e30ae49.compiled">
-      <publishTime>01/18/2018 17:13:52</publishTime>
+      <publishTime>01/19/2018 14:34:54</publishTime>
     </File>
     <File Include="bin/kpilist.cshtml.4ac6bf0.compiled">
-      <publishTime>01/18/2018 17:13:54</publishTime>
+      <publishTime>01/19/2018 14:34:55</publishTime>
     </File>
     <File Include="bin/kpilist.cshtml.e30ae49.compiled">
-      <publishTime>01/18/2018 17:13:52</publishTime>
+      <publishTime>01/19/2018 14:34:54</publishTime>
     </File>
     <File Include="bin/kpiset.cshtml.e30ae49.compiled">
-      <publishTime>01/18/2018 17:13:52</publishTime>
+      <publishTime>01/19/2018 14:34:54</publishTime>
     </File>
     <File Include="bin/list.cshtml.3d57030f.compiled">
-      <publishTime>01/18/2018 17:13:56</publishTime>
+      <publishTime>01/19/2018 14:34:57</publishTime>
     </File>
     <File Include="bin/list.cshtml.3f34c8f2.compiled">
-      <publishTime>01/18/2018 17:13:54</publishTime>
+      <publishTime>01/19/2018 14:34:55</publishTime>
     </File>
     <File Include="bin/list.cshtml.590979a8.compiled">
-      <publishTime>01/18/2018 17:13:57</publishTime>
+      <publishTime>01/19/2018 14:34:58</publishTime>
     </File>
     <File Include="bin/list.cshtml.5d3c2f13.compiled">
-      <publishTime>01/18/2018 17:13:56</publishTime>
+      <publishTime>01/19/2018 14:34:57</publishTime>
     </File>
     <File Include="bin/list.cshtml.92da6931.compiled">
-      <publishTime>01/18/2018 17:13:58</publishTime>
+      <publishTime>01/19/2018 14:34:59</publishTime>
     </File>
     <File Include="bin/list.cshtml.ac5ab288.compiled">
-      <publishTime>01/18/2018 17:13:51</publishTime>
+      <publishTime>01/19/2018 14:34:53</publishTime>
     </File>
     <File Include="bin/list.cshtml.b0bd81ee.compiled">
-      <publishTime>01/18/2018 17:13:53</publishTime>
+      <publishTime>01/19/2018 14:34:55</publishTime>
     </File>
     <File Include="bin/list.cshtml.db4ced1a.compiled">
-      <publishTime>01/18/2018 17:13:55</publishTime>
+      <publishTime>01/19/2018 14:34:57</publishTime>
     </File>
     <File Include="bin/list.cshtml.e975ddc7.compiled">
-      <publishTime>01/18/2018 17:13:57</publishTime>
+      <publishTime>01/19/2018 14:34:58</publishTime>
     </File>
     <File Include="bin/log4net.dll">
       <publishTime>03/08/2017 19:26:22</publishTime>
     </File>
     <File Include="bin/login.cshtml.dcb67440.compiled">
-      <publishTime>01/18/2018 17:13:59</publishTime>
+      <publishTime>01/19/2018 14:35:00</publishTime>
     </File>
     <File Include="bin/menu.cshtml.639c3968.compiled">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="bin/Microsoft.AI.Agent.Intercept.dll">
       <publishTime>11/30/2016 16:07:42</publishTime>
@@ -3095,22 +3173,22 @@
       <publishTime>10/23/2017 16:17:36</publishTime>
     </File>
     <File Include="bin/pointchoose.cshtml.84d7f22.compiled">
-      <publishTime>01/18/2018 17:13:53</publishTime>
+      <publishTime>01/19/2018 14:34:54</publishTime>
     </File>
     <File Include="bin/pointedit.cshtml.84d7f22.compiled">
-      <publishTime>01/18/2018 17:13:53</publishTime>
+      <publishTime>01/19/2018 14:34:54</publishTime>
     </File>
     <File Include="bin/pointindex.cshtml.84d7f22.compiled">
-      <publishTime>01/18/2018 17:13:53</publishTime>
+      <publishTime>01/19/2018 14:34:54</publishTime>
     </File>
     <File Include="bin/pointinfo.cshtml.5b8c18.compiled">
-      <publishTime>01/18/2018 17:13:54</publishTime>
+      <publishTime>01/19/2018 14:34:56</publishTime>
     </File>
     <File Include="bin/pointlist.cshtml.5b8c18.compiled">
-      <publishTime>01/18/2018 17:13:54</publishTime>
+      <publishTime>01/19/2018 14:34:56</publishTime>
     </File>
     <File Include="bin/pointlist.cshtml.84d7f22.compiled">
-      <publishTime>01/18/2018 17:13:53</publishTime>
+      <publishTime>01/19/2018 14:34:54</publishTime>
     </File>
     <File Include="bin/roslyn/csc.exe">
       <publishTime>06/27/2016 14:50:24</publishTime>
@@ -3191,7 +3269,7 @@
       <publishTime>06/27/2016 14:50:24</publishTime>
     </File>
     <File Include="bin/samplelist.cshtml.f05e7503.compiled">
-      <publishTime>01/18/2018 17:13:55</publishTime>
+      <publishTime>01/19/2018 14:34:56</publishTime>
     </File>
     <File Include="bin/StackExchange.Redis.dll">
       <publishTime>08/01/2017 12:19:14</publishTime>
@@ -3227,43 +3305,43 @@
       <publishTime>01/28/2015 04:04:30</publishTime>
     </File>
     <File Include="bin/Tools.dll">
-      <publishTime>01/18/2018 16:36:47</publishTime>
+      <publishTime>01/18/2018 17:18:28</publishTime>
     </File>
     <File Include="bin/Tools.dll.config">
       <publishTime>12/18/2017 13:39:49</publishTime>
     </File>
     <File Include="bin/Tools.pdb">
-      <publishTime>01/18/2018 16:36:47</publishTime>
+      <publishTime>01/18/2018 17:18:28</publishTime>
     </File>
     <File Include="bin/unauthorized.cshtml.639c3968.compiled">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="bin/uploadfile.cshtml.639c3968.compiled">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="bin/uploadimg.cshtml.639c3968.compiled">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="bin/valuelist.cshtml.d6bfd036.compiled">
-      <publishTime>01/18/2018 17:13:57</publishTime>
+      <publishTime>01/19/2018 14:34:58</publishTime>
     </File>
     <File Include="bin/valuelist.cshtml.f05e7503.compiled">
-      <publishTime>01/18/2018 17:13:55</publishTime>
+      <publishTime>01/19/2018 14:34:56</publishTime>
     </File>
     <File Include="bin/valuerecord.cshtml.d6bfd036.compiled">
-      <publishTime>01/18/2018 17:13:57</publishTime>
+      <publishTime>01/19/2018 14:34:58</publishTime>
     </File>
     <File Include="bin/verifyimage.aspx.38131f0b.compiled">
-      <publishTime>01/18/2018 17:13:58</publishTime>
+      <publishTime>01/19/2018 14:34:59</publishTime>
     </File>
     <File Include="bin/wangeditor.cshtml.639c3968.compiled">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="bin/WebGrease.dll">
       <publishTime>09/10/2013 17:28:38</publishTime>
     </File>
     <File Include="bin/workerlist.cshtml.d6bfd036.compiled">
-      <publishTime>01/18/2018 17:13:57</publishTime>
+      <publishTime>01/19/2018 14:34:58</publishTime>
     </File>
     <File Include="bin/zh-Hans/System.Net.Http.Formatting.resources.dll">
       <publishTime>01/28/2015 04:02:44</publishTime>
@@ -3296,16 +3374,16 @@
       <publishTime>01/28/2015 04:04:32</publishTime>
     </File>
     <File Include="bin/_layout.cshtml.639c3968.compiled">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="bin/_layout_in.cshtml.639c3968.compiled">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="bin/_viewstart.cshtml.65a2d1ee.compiled">
-      <publishTime>01/18/2018 17:14:00</publishTime>
+      <publishTime>01/19/2018 14:35:01</publishTime>
     </File>
     <File Include="Common/verifyimage.aspx">
-      <publishTime>01/18/2018 17:14:01</publishTime>
+      <publishTime>01/19/2018 14:35:02</publishTime>
     </File>
     <File Include="Content/bootstrap.css">
       <publishTime>08/07/2017 13:40:31</publishTime>
@@ -7421,61 +7499,61 @@
       <publishTime>12/18/2017 11:41:30</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>01/18/2018 17:13:44</publishTime>
+      <publishTime>01/19/2018 14:34:45</publishTime>
     </File>
     <File Include="Views/Auth/Login.cshtml">
-      <publishTime>01/18/2018 17:14:12</publishTime>
+      <publishTime>01/19/2018 14:35:13</publishTime>
     </File>
     <File Include="Views/Common/GetAdminTree.cshtml">
-      <publishTime>01/18/2018 17:14:12</publishTime>
+      <publishTime>01/19/2018 14:35:13</publishTime>
     </File>
     <File Include="Views/Home/Default.cshtml">
-      <publishTime>01/18/2018 17:14:12</publishTime>
+      <publishTime>01/19/2018 14:35:13</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>01/18/2018 17:14:12</publishTime>
+      <publishTime>01/19/2018 14:35:13</publishTime>
     </File>
     <File Include="Views/Home/Index_backup.cshtml">
-      <publishTime>01/18/2018 17:14:12</publishTime>
+      <publishTime>01/19/2018 14:35:13</publishTime>
     </File>
     <File Include="Views/Home/Index_info.cshtml">
-      <publishTime>01/18/2018 17:14:12</publishTime>
+      <publishTime>01/19/2018 14:35:13</publishTime>
     </File>
     <File Include="Views/Shared/ClassList.cshtml">
-      <publishTime>01/18/2018 17:14:12</publishTime>
+      <publishTime>01/19/2018 14:35:13</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
-      <publishTime>01/18/2018 17:14:12</publishTime>
+      <publishTime>01/19/2018 14:35:13</publishTime>
     </File>
     <File Include="Views/Shared/Menu.cshtml">
-      <publishTime>01/18/2018 17:14:12</publishTime>
+      <publishTime>01/19/2018 14:35:13</publishTime>
     </File>
     <File Include="Views/Shared/UnAuthorized.cshtml">
-      <publishTime>01/18/2018 17:14:12</publishTime>
+      <publishTime>01/19/2018 14:35:13</publishTime>
     </File>
     <File Include="Views/Shared/UploadFile.cshtml">
-      <publishTime>01/18/2018 17:14:12</publishTime>
+      <publishTime>01/19/2018 14:35:13</publishTime>
     </File>
     <File Include="Views/Shared/UploadImg.cshtml">
-      <publishTime>01/18/2018 17:14:12</publishTime>
+      <publishTime>01/19/2018 14:35:13</publishTime>
     </File>
     <File Include="Views/Shared/WangEditor.cshtml">
-      <publishTime>01/18/2018 17:14:12</publishTime>
+      <publishTime>01/19/2018 14:35:13</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>01/18/2018 17:14:12</publishTime>
+      <publishTime>01/19/2018 14:35:13</publishTime>
     </File>
     <File Include="Views/Shared/_Layout_In.cshtml">
-      <publishTime>01/18/2018 17:14:12</publishTime>
+      <publishTime>01/19/2018 14:35:13</publishTime>
     </File>
     <File Include="Views/Web.config">
       <publishTime>10/17/2017 11:08:31</publishTime>
     </File>
     <File Include="Views/_ViewStart.cshtml">
-      <publishTime>01/18/2018 17:14:12</publishTime>
+      <publishTime>01/19/2018 14:35:13</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>01/09/2018 17:28:05</publishTime>
+      <publishTime>01/19/2018 14:34:39</publishTime>
     </File>
   </ItemGroup>
 </Project>

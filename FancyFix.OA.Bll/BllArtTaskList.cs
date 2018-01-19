@@ -16,14 +16,16 @@ namespace FancyFix.OA.Bll
             return new BllArtTaskList();
         }
 
-        public static IList<ArtTaskList> GetList()
+        public static IList<ArtTaskList> PageList(int page, int pageSize, out long records)
         {
             var where = new Where<ArtTaskList>();
             where.And(o => true);
 
             var p = Db.Context.From<ArtTaskList>()
+                //.Select((a)=>new { })
                 .Where(where);
-            return p.OrderBy(o => o.Id).ToList();
+            records = p.Count();
+            return p.Page(pageSize, page).OrderBy(o => o.Id).ToList();
         }
 
         public static bool Add(ArtTaskList model)

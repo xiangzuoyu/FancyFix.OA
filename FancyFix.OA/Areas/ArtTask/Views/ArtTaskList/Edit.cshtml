@@ -1,0 +1,120 @@
+﻿@using FancyFix.OA.Model;
+@model ArtTaskList
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout_In.cshtml";
+}
+
+@section Css{
+    <link href="/Content/js/plugins/iCheck/flat/_all.css" rel="stylesheet" />
+    <style>
+        .form-group {
+            margin-bottom: 0;
+        }
+    </style>
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <form id="mainform" action="/arttask/arttasklist/save" method="post">
+            <table class="layui-table">
+                <!--列宽度-->
+                <colgroup>
+                    <col class="col-lg-2">
+                    <col class="col-lg-10">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td align="right"><label for="number" class="control-label">编号：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="number" name="number" placeholder="编号" value="@(Model?.Number ?? "")"
+                                       required="required" style="width:250px;">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">标题：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="title" name="title" placeholder="标题" value="@(Model?.Title ?? "")"
+                                       required="required" style="width:250px;">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="content" class="control-label">详细：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <textarea class="form-control" id="content" name="content" type="text/plain" placeholder="详细" style="height:80px;"
+                                          required="required">@(Model?.Content ?? "")</textarea>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="duedate" class="control-label">截止日期：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="duedate" name="duedate" placeholder="截止日期" required="required" style="width:250px;"
+                                       value="@(Model != null ? Model.DueDate.Value.ToString("yyyy-MM-dd") : "")">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="phone" class="control-label">联系方式：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="phone" name="phone" placeholder="手机号" value="@(Model?.Phone ?? "")"
+                                       required="required" style="width:250px;">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"></td>
+                        <td>
+                            <input type="hidden" id="id" name="id" value="@(Model?.Id ?? 0)">
+                            <button type="submit" id="btnPass" class="btn btn-primary">保存</button>
+                            <button type="button" id="cancel" class="btn btn-default" onclick="CloseWin()">取消</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+@section Js{
+    <script src="/Content/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/jquery.validator.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/messages_cn.js"></script>
+    <script src="/Content/js/common/tools.js"></script>
+    <script>
+        layui.use(['layer', 'laydate'], function () {
+            var layer = layui.layer;
+            var laydate = layui.laydate;
+            //iCheck初始化
+            $('input[type="checkbox"],input[type="radio"]').iCheck({
+                checkboxClass: 'icheckbox_flat-blue',
+                radioClass: 'iradio_flat-blue'
+            });
+
+            //日期控件
+            $("#duedate").click(function () {
+                laydate({
+                    elem: this,
+                    istime: true,
+                    min: laydate.now(),
+                    format: 'YYYY-MM-DD hh:mm:ss'
+                });
+            });
+
+            //表单验证
+            var $form = $("#mainform");
+            $form.validate();
+
+            //通过
+            $("#btnPass").click(function () {
+                $form.valid();
+            });
+        })
+    </script>
+}

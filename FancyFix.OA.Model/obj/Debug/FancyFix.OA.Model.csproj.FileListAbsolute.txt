@@ -8,3 +8,14 @@ E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\obj\Debug\Fanc
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\bin\Debug\Dos.DataAccess.dll
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\bin\Debug\Dos.DataAccess.pdb
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\obj\Debug\FancyFix.OA.Model.csprojResolveAssemblyReference.cache
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\bin\Debug\FancyFix.OA.Model.dll
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\bin\Debug\FancyFix.OA.Model.pdb
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\bin\Debug\Dos.DataAccess.dll
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\bin\Debug\Dos.ORM.dll
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\bin\Debug\Dos.DataAccess.pdb
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\bin\Debug\Dos.ORM.pdb
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\bin\Debug\Dos.ORM.xml
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\obj\Debug\FancyFix.OA.Model.csprojResolveAssemblyReference.cache
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\obj\Debug\FancyFix.OA.Model.csproj.CoreCompileInputs.cache
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\obj\Debug\FancyFix.OA.Model.dll
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\obj\Debug\FancyFix.OA.Model.pdb

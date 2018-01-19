@@ -172,8 +172,9 @@
     <Compile Include="Areas\Admin\Controllers\AdminInfoController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminManageController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminPermissionController.cs" />
+    <Compile Include="Areas\ArtTask\ArtTaskAreaRegistration.cs" />
+    <Compile Include="Areas\ArtTask\Controllers\ArtTaskListController.cs" />
     <Compile Include="Areas\BaseClassController.cs" />
-    <Compile Include="Areas\DesignerTask\DesignerTaskAreaRegistration.cs" />
     <Compile Include="Areas\Kpi\Controllers\KpiController.cs" />
     <Compile Include="Areas\Kpi\KpiAreaRegistration.cs" />
     <Compile Include="Areas\Point\Controllers\PointClassController.cs" />
@@ -1484,9 +1485,8 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\Shared\" />
-    <Folder Include="Areas\DesignerTask\Controllers\" />
-    <Folder Include="Areas\DesignerTask\Models\" />
-    <Folder Include="Areas\DesignerTask\Views\Shared\" />
+    <Folder Include="Areas\ArtTask\Models\" />
+    <Folder Include="Areas\ArtTask\Views\Shared\" />
     <Folder Include="Areas\Kpi\Models\" />
     <Folder Include="Areas\Kpi\Views\Shared\" />
     <Folder Include="Areas\Point\Models\" />
@@ -1803,7 +1803,9 @@
     <Content Include="Areas\Rank\Views\Kpi\KpiList.cshtml" />
     <Content Include="Areas\Rank\Views\Kpi\KpiInfo.cshtml" />
     <Content Include="Areas\Valuable\Views\Process\Index.cshtml" />
-    <Content Include="Areas\DesignerTask\Views\web.config" />
+    <Content Include="Areas\ArtTask\Views\web.config" />
+    <Content Include="Areas\ArtTask\Views\ArtTaskList\List.cshtml" />
+    <Content Include="Areas\ArtTask\Views\ArtTaskList\Edit.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Common\GetAdminTree.cshtml" />
   </ItemGroup>

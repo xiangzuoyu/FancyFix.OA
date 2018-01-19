@@ -1,22 +1,22 @@
 ﻿using System.Web.Mvc;
 
-namespace FancyFix.OA.Areas.DesignerTask
+namespace FancyFix.OA.Areas.ArtTask
 {
-    public class DesignerTaskAreaRegistration : AreaRegistration 
+    public class ArtTaskAreaRegistration : AreaRegistration 
     {
         public override string AreaName 
         {
             get 
             {
-                return "DesignerTask";
+                return "ArtTask";
             }
         }
 
         public override void RegisterArea(AreaRegistrationContext context) 
         {
             context.MapRoute(
-                "DesignerTask_default",
-                "DesignerTask/{controller}/{action}/{id}",
+                "ArtTask_default",
+                "ArtTask/{controller}/{action}/{id}",
                 new { action = "Index", id = UrlParameter.Optional }
             );
         }

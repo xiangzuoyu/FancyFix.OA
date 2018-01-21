@@ -42,6 +42,9 @@
                     <button id="btn_add" type="button" class="btn btn-default">
                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
                     </button>
+                    <button id="btn_calendar" type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>需求安排
+                    </button>
                 </div>
                 <table id="table" class="table table-bordered table-hover"></table>
             </div>
@@ -195,12 +198,16 @@
             //分配任务
             $("#table").on('click', '.btnEdit', function () {
                 var id = $(this).attr("data-id");
-                OpenWin("分配", "/arttask/arttasklist/edit/" + id, '800px', '700px');
+                OpenWin("分配需求", "/arttask/arttasklist/showcalendar/" + id, '80%', '90%');
             });
 
             //新增
             $("#btn_add").on('click', function () {
-                OpenWin("添加", "/arttask/arttasklist/insert", '800px', '560px');
+                OpenWin("添加需求", "/arttask/arttasklist/insert", '800px', '560px');
+            });
+            //显示日历
+            $("#btn_calendar").on('click', function () {
+                OpenWin("需求排期", "/arttask/arttasklist/showcalendar", '80%', '90%');
             });
 
             //监听提交

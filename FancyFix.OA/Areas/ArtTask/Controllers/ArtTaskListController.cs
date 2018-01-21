@@ -70,6 +70,7 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
         {
             artTaskList.SubmitterId = MyInfo.Id;
             artTaskList.SubmittedDate = DateTime.Now;
+            artTaskList.Display = 1;
 
             string msg = Bll.BllArtTaskList.Insert(artTaskList) > 0 ? "成功" : "失败";
             return LayerAlertSuccessAndRefresh("添加" + msg);
@@ -77,7 +78,7 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
         #endregion
 
         #region 分配需求
-        public ActionResult Edit(int id = 0)
+        public ActionResult Edit(int id = 0, string datetime = "")
         {
             ArtTaskList model = null;
             string classHtml = string.Empty;
@@ -86,6 +87,9 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
             ViewBag.designerList = adminlist.FindAll(o => o.DepartId == 10) ?? new List<Mng_User>();
             if (id > 0)
                 model = Bll.BllArtTaskList.First(o => o.Id == id);
+
+            if (!string.IsNullOrEmpty(datetime) && model != null && model.Display == 1)
+                model.EstimatedStartDate = datetime.ToDateTime();
 
             return View(model);
         }
@@ -107,5 +111,26 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
         }
         #endregion
 
+        #region 日历显示
+        public ActionResult ShowCalendar(int id = 0)
+        {
+            ArtTaskList model = null;
+            if (id > 0)
+                model = Bll.BllArtTaskList.First(o => o.Id == id);
+            ViewBag.TaskId = id;
+
+            //获取设计部人员
+            var adminlist = AdminData.GetList() ?? new List<Mng_User>();
+            ViewBag.designerList = adminlist.FindAll(o => o.DepartId == 10) ?? new List<Mng_User>();
+
+            return View(model);
+        }
+
+        public JsonResult TaskList()
+        {
+
+            return Json(new { result = Bll.BllArtTaskList.GetList() });
+        }
+        #endregion
     }
 }

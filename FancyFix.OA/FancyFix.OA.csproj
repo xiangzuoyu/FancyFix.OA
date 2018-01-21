@@ -268,6 +268,7 @@
     <Content Include="Content\css\bootstrap\bootstrap-theme.min.css" />
     <Content Include="Content\css\bootstrap\bootstrap.css" />
     <Content Include="Content\css\bootstrap\bootstrap.min.css" />
+    <Content Include="Content\css\calendar\style.css" />
     <Content Include="Content\css\fonts\font-awesome.min.css" />
     <Content Include="Content\css\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\css\fonts\ionicons.min.css" />
@@ -307,6 +308,9 @@
     <Content Include="Content\js\bootstrap\bootstrap.js" />
     <Content Include="Content\js\bootstrap\bootstrap.min.js" />
     <Content Include="Content\js\bootstrap\npm.js" />
+    <Content Include="Content\js\calendar\calender.js" />
+    <Content Include="Content\js\calendar\ChineseCalendar.js" />
+    <Content Include="Content\js\calendar\tools.js" />
     <Content Include="Content\js\common\frame.js" />
     <Content Include="Content\js\common\skuatter.js" />
     <Content Include="Content\js\common\tools.js" />
@@ -1807,6 +1811,7 @@
     <Content Include="Areas\ArtTask\Views\ArtTaskList\List.cshtml" />
     <Content Include="Areas\ArtTask\Views\ArtTaskList\Insert.cshtml" />
     <Content Include="Areas\ArtTask\Views\ArtTaskList\Edit.cshtml" />
+    <Content Include="Areas\ArtTask\Views\ArtTaskList\ShowCalendar.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Common\GetAdminTree.cshtml" />
   </ItemGroup>

@@ -70,7 +70,7 @@
                         <td align="right"><label for="phone" class="control-label">联系方式：</label></td>
                         <td>
                             <div class="form-group">
-                                <input type="text" class="form-control" id="phone" name="phone" placeholder="手机号" value="@(Model?.Phone ?? "")"
+                                <input type="text" class="form-control" id="phone" name="phone" placeholder="手机号" value="@(Model?.Phone)"
                                        required="required" style="width:250px;" readonly="readonly">
                             </div>
                         </td>
@@ -80,7 +80,8 @@
                         <td align="right"><label for="estimatedstartdate" class="control-label">预计开始日期：</label></td>
                         <td>
                             <div class="form-group">
-                                <input type="text" class="form-control" id="estimatedstartdate" name="estimatedstartdate" placeholder="预计开始日期" required="required" style="width:150px;" value="@(Model != null ? Model.EstimatedStartDate.Value.ToString("yyyy-MM-dd") : "")">
+                                <input type="text" class="form-control" id="estimatedstartdate" name="estimatedstartdate" placeholder="预计开始日期" required="required" value="@(Model != null ? Model.EstimatedStartDate?.ToString("yyyy-MM-dd") : "")"
+                                        readonly="readonly" style="width:150px;background-color:#fff;">
                             </div>
                         </td>
                     </tr>
@@ -88,7 +89,8 @@
                         <td align="right"><label for="estimatedstartdate" class="control-label">预计完成日期：</label></td>
                         <td>
                             <div class="form-group">
-                                <input type="text" class="form-control" id="estimatedenddate" name="estimatedenddate" placeholder="预计结束日期" required="required" style="width:150px;" value="@(Model != null ? Model.EstimatedEndDate.Value.ToString("yyyy-MM-dd") : "")">
+                                <input type="text" class="form-control" id="estimatedenddate" name="estimatedenddate" placeholder="预计结束日期" required="required" value="@(Model != null ? Model.EstimatedEndDate?.ToString("yyyy-MM-dd") : "")"
+                                        readonly="readonly" style="width:150px;background-color:#fff;">
                             </div>
                         </td>
                     </tr>
@@ -96,9 +98,9 @@
                         <td align="right"><label for="estimatedstartdate" class="control-label">完成时间段：</label></td>
                         <td>
                             <div class="form-group">
-                                <input type="radio" id="1" name="ampm" value="1" @(Model.AMPM == 1 ? "checked" : "")>
+                                <input type="radio" id="1" name="ampm" value="1" @(Model.AMPM == 1 ? "checked" : "") @(Model.AMPM == null ? "checked" : "")>
                                 <label for="1" class="input_radio">上午</label>
-                                <input type="radio" id="2" name="ampm" value="2"  @(Model.AMPM == 2 ? "checked" : "")>
+                                <input type="radio" id="2" name="ampm" value="2" @(Model.AMPM == 2 ? "checked" : "")>
                                 <label for="2" class="input_radio">下午</label>
                             </div>
                         </td>
@@ -112,7 +114,8 @@
                                     for (int i = 0; i < designerList.Count; i++)
                                     {
                                         var item = designerList[i];
-                                        <input type="radio" id="@(item.Id)" name="designerid" value="@(item.Id)" @(item.Id == Model.DesignerId ? "checked" : "")>
+                                        <input type="radio" id="@(item.Id)" name="designerid" value="@(item.Id)" @((item.Id == Model.DesignerId) ? "checked" : "")
+                                               @((Model.DesignerId == null && i == 0) ? "checked" : "")>
                                         <label for="@(item.Id)" class="input_radio">@(item.RealName)</label>
                                     }
                                 }

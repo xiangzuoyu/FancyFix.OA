@@ -2,3 +2,9 @@ E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.ViewModel\bin\Debug\
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.ViewModel\bin\Debug\FancyFix.OA.ViewModel.pdb
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.ViewModel\obj\Debug\FancyFix.OA.ViewModel.dll
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.ViewModel\obj\Debug\FancyFix.OA.ViewModel.pdb
+F:\Git\FancyFix.OA\FancyFix.OA.ViewModel\bin\Debug\FancyFix.OA.ViewModel.dll
+F:\Git\FancyFix.OA\FancyFix.OA.ViewModel\bin\Debug\FancyFix.OA.ViewModel.pdb
+F:\Git\FancyFix.OA\FancyFix.OA.ViewModel\obj\Debug\FancyFix.OA.ViewModel.csprojResolveAssemblyReference.cache
+F:\Git\FancyFix.OA\FancyFix.OA.ViewModel\obj\Debug\FancyFix.OA.ViewModel.dll
+F:\Git\FancyFix.OA\FancyFix.OA.ViewModel\obj\Debug\FancyFix.OA.ViewModel.pdb
+F:\Git\FancyFix.OA\FancyFix.OA.ViewModel\obj\Debug\FancyFix.OA.ViewModel.csproj.CoreCompileInputs.cache

@@ -27,3 +27,4 @@ FancyFix.OA.Model/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
 *.user
 .vs/FancyFix.OA/v15/.suo
 FancyFix.OA/Areas/ArtTask/Views/web.config
+/.vs/FancyFix.OA/v15/Server/sqlite3

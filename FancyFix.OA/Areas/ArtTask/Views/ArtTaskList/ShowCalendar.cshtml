@@ -1,0 +1,156 @@
+﻿@using FancyFix.OA.Model;
+@model ArtTaskList
+@{
+    ViewBag.Title = "ShowCalendar";
+    Layout = "~/Views/Shared/_Layout_In.cshtml";
+    List<Mng_User> designerList = ViewBag.designerList;
+}
+
+@section Css{
+    <link href="~/Content/css/calendar/style.css?1" rel="stylesheet" />
+    <style type="text/css">
+        .tb960x90, .tb300x250 {
+            display: none !important;
+            display: none
+        }
+
+        #calendar .container {
+            width: 100%;
+        }
+
+        #renderMonth .day li {
+            width: 14.27%;
+        }
+
+        #control input {
+            height: 25px;
+        }
+
+        .btn {
+            line-height: 0.428571;
+        }
+
+        #renderMonth .week li {
+            right: 0;
+        }
+
+        .sidebar {
+            padding-bottom: 0;
+        }
+
+        #calendar .btns input.funBtn {
+            width: 52px;
+            height: 25px;
+        }
+
+        .checked {
+            color: #5FB878;
+        }
+
+        .nowTask {
+            float: right;
+        }
+
+            .nowTask b {
+                color: #FF5722;
+            }
+    </style>
+}
+
+<div id="calendar">
+    @*<header class="header"></header>*@
+    <div class="btns">
+        @if (designerList != null && designerList.Any())
+        {
+            for (int i = 0; i < designerList.Count; i++)
+            {
+                var item = designerList[i];
+                <input type="button" value="@(item.RealName)" class="funBtn checked">
+                @*<input type="radio" id="@(item.Id)" name="designerid" value="@(item.Id)" @((i == 0) ? "checked" : "")>
+                    <label for="@(item.Id)" class="input_radio">@(item.RealName)</label>*@
+            }
+        }
+        <span class="nowTask">当前选中需求：<b>@(Model != null ? (Model?.Title) : "无")</b></span>
+
+    </div>
+
+    <aside class="sidebar" style="display:none;">
+        <div class="wrapper">
+            <div class="title">
+                <span class="btn btn-prev"><</span>
+                <span class="date">2017年9月</span>
+                <span class="btn btn-next">></span>
+            </div>
+            <ul class="week">
+                <li>日</li>
+                <li>一</li>
+                <li>二</li>
+                <li>三</li>
+                <li>四</li>
+                <li>五</li>
+                <li>六</li>
+            </ul>
+            <ul class="day"></ul>
+        </div>
+    </aside>
+    <div class="container">
+        <div id="renderMonth" class="render render-show">
+            <h2 class="title">2017年9月</h2>
+            <ul class="week">
+                <li>周日</li>
+                <li>周一</li>
+                <li>周二</li>
+                <li>周三</li>
+                <li>周四</li>
+                <li>周五</li>
+                <li>周六</li>
+            </ul>
+            <ul class="day" style="border-left: 1px solid #e6e5e6;border-top: 1px solid #e6e5e6;"></ul>
+        </div>
+        <div id="renderFullYear" class="render">
+            <div class="title">
+                <h2>2017年</h2>
+                <p>
+                    <span class="lunar-year"><i></i>丁酉鸡年</span>
+                    <span class="info"><i></i>农历初一</span>
+                </p>
+            </div>
+            <ul class="month"></ul>
+        </div>
+        <div id="control">
+            <input type="button" value="<" class="btn btn-prev">
+            <input type="button" value="今天" class="today">
+            <input type="button" value=">" class="btn btn-next">
+        </div>
+        <div id="popup">
+            <h3 class="title">七夕节</h3>
+            <i class="arrow arrow-left"></i>
+            <i class="arrow arrow-right"></i>
+            <p class="date">2017年8月28日</p>
+            <p class="lunar">丁酉鸡年</p>
+        </div>
+    </div>
+</div>
+
+@section Js{
+    <script src="~/Content/js/calendar/tools.js?1"></script>
+    @*<script src="~/Content/js/calendar/ChineseCalendar.js"></script>*@
+    <script src="~/Content/js/calendar/calender.js"></script>
+    <script src="/Content/js/common/tools.js"></script>
+    <script>
+        layui.use(['layer', 'laydate'], function () {
+            //var layer = layui.layer;
+             //双击弹出窗体分配需求
+           if ('@ViewBag.TaskId'>0) {
+               $("#renderMonth .day").on('dblclick', 'li', function () {
+                   var datetime = $(this).attr("data-time");
+                    @*OpenWin("分配需求", "/arttask/arttasklist/edit/" + '@ViewBag.TaskId' + "&datetime" + datetime, '80%', '90%');*@
+                   OpenWin("分配需求", "/arttask/arttasklist/edit/" + '@ViewBag.TaskId' + "?datetime=" + datetime, '750px', '680px');
+                });
+            }
+        })
+
+
+
+    </script>
+}

@@ -31,6 +31,11 @@ namespace FancyFix.OA.Bll
             return p.Page(pageSize, page).OrderByDescending(o => o.SubmittedDate).ToList();
         }
 
+        /// <summary>
+        /// 取消需求
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public static bool CancelTask(int id)
         {
             var model = First(o => o.Id == id);
@@ -40,6 +45,11 @@ namespace FancyFix.OA.Bll
             return Update(model) > 0;
         }
 
+        /// <summary>
+        /// 设置需求完成
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public static bool CompleteTask(int id)
         {
             var model = First(o => o.Id == id);
@@ -48,6 +58,23 @@ namespace FancyFix.OA.Bll
             model.CompletionDate = DateTime.Now;
             model.Display = 3;
             return Update(model) > 0;
+        }
+
+        /// <summary>
+        /// 获取显示在日历上的需求
+        /// </summary>
+        /// <returns></returns>
+        public static IEnumerable<ArtTaskList> GetList()
+        {
+            var nowdate = DateTime.Now;
+            DateTime startdate = DateTime.Parse(nowdate.ToString("yyyy-MM-dd"));
+            DateTime enddate = DateTime.Parse(nowdate.AddDays(30).ToString("yyyy-MM-dd"));
+
+            var list = Db.Context.From<ArtTaskList>()
+                .Where(o => o.EstimatedEndDate >= startdate && o.EstimatedEndDate <= enddate && o.Display == 2)
+                .ToList();
+
+            return list;
         }
     }
 }

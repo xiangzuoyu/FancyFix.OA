@@ -150,7 +150,27 @@
             }
         })
 
-
+        var getTasklist = {
+            parameter: {
+                nowMonths:0
+            },
+            init: function () {
+                $("#control .btn").on('click', function () {
+                    getTasklist.ajax();
+                })
+            },
+            ajax: function () {
+                $.ajax({
+                    url: "/arttask/arttasklist/tasklist/",
+                    type: "get",
+                    data: { months:getTasklist.parameter},
+                    success: function (data) {
+                        console.log(data);
+                    }
+                })
+            }
+        }
+        getTasklist.init();
 
     </script>
 }

@@ -8,7 +8,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
-    <ProjectGuid>9975ffbe-40f1-49b5-a331-abd54be76576</ProjectGuid>
+    <ProjectGuid>08ca8227-c82d-4ed9-a8da-c01faa846cd4</ProjectGuid>
     <!-- update GUID here -->
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -51,7 +51,7 @@
       <Aliases>mqttf</Aliases>
     </Reference>
     <Reference Include="Dos.ORM">
-      <HintPath>F:\工作\Fancy-fix\OA\Utils\Doc.ORM\Dos.ORM\bin\Debug\Dos.ORM.dll</HintPath>
+      <HintPath>F:\yuzuoxiang\GitHub\FancyFix.OA\Utils\Doc.ORM\Dos.ORM\bin\Debug\Dos.ORM.dll</HintPath>
       <Aliases>dorm</Aliases>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
@@ -86,7 +86,7 @@
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="Dos.DataAccess">
-      <HintPath>F:\Git\FancyFix.OA\Utils\Doc.ORM\DataAccess\bin\Debug\Dos.DataAccess.dll</HintPath>
+      <HintPath>F:\yuzuoxiang\GitHub\FancyFix.OA\Utils\Doc.ORM\DataAccess\bin\Debug\Dos.DataAccess.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="Microsoft.CSharp">

@@ -1,96 +1,95 @@
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 <>f__AnonymousType0`2 生成存根: 类型已密封。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 <>f__AnonymousType1`2 生成存根: 类型已密封。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 <>f__AnonymousType2`3 生成存根: 类型已密封。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.BatchCommander 生成存根: 类型已密封。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.DosORMCommonExpand 生成存根: 类型已密封。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.Check 生成存根: 类型已密封。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.PreconditionException 生成存根: 类型已密封。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.PostconditionException 生成存根: 类型已密封。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.InvariantException 生成存根: 类型已密封。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.AssertionException 生成存根: 类型已密封。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.FastInvokeHandler 生成存根: 类型已密封。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.FastCreateInstanceHandler 生成存根: 类型已密封。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.FastPropertyGetHandler 生成存根: 类型已密封。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.FastPropertySetHandler 生成存根: 类型已密封。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.DynamicCalls 生成存根: 类型已密封。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.FieldType 生成存根: 类型是一个值类型。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.ColumnFunction 生成存根: 类型是一个值类型。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.JoinType 生成存根: 类型是一个值类型。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.EntityState 生成存根: 类型是一个值类型。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.LogHandler 生成存根: 类型已密封。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.ILogable 生成存根: 类型对 exported or assembly(Dos.ORM.Fakes) 不可见。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.Database 生成存根: 类型已密封。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.DatabaseType 生成存根: 类型是一个值类型。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.DbSession 生成存根: 类型已密封。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.WhereType 生成存根: 类型是一个值类型。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.QueryOperator 生成存根: 类型是一个值类型。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.ExpressionToClip`1 生成存根: 类型已密封。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.FieldExtend 生成存根: 类型已密封。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.OrderByOperater 生成存根: 类型是一个值类型。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.ProviderFactory 生成存根: 类型已密封。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.SerializationManager 生成存根: 类型已密封。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 <PrivateImplementationDetails> 生成存根: 类型已密封。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 <>f__AnonymousType0`2 生成填充码: 类型不受支持，因为存在内部限制。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 <>f__AnonymousType1`2 生成填充码: 类型不受支持，因为存在内部限制。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 <>f__AnonymousType2`3 生成填充码: 类型不受支持，因为存在内部限制。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.CommandCreator+<>c__DisplayClass2_0`1 生成填充码: 类型不受支持，因为存在内部限制。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.CommandCreator+<>c__DisplayClass7_0`1 生成填充码: 类型不受支持，因为存在内部限制。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.DataUtils+<>c 生成填充码: 类型不受支持，因为存在内部限制。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.DataUtils+<>o__34`1 生成填充码: 类型不受支持，因为存在内部限制。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.DataUtils+DBConvert 生成填充码: 类型对 exported or assembly(Dos.ORM.Fakes) 不可见。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.Check+GreaterThanOrEqualStrategy`1 生成填充码: 类型对 exported or assembly(Dos.ORM.Fakes) 不可见。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.Check+GreaterThanStrategy`1 生成填充码: 类型对 exported or assembly(Dos.ORM.Fakes) 不可见。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.Check+ICheckStrategy 生成填充码: 类型是一个接口。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.Check+IsAssignableToStrategy`1 生成填充码: 类型对 exported or assembly(Dos.ORM.Fakes) 不可见。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.Check+LessThanOrEqualStrategy`1 生成填充码: 类型对 exported or assembly(Dos.ORM.Fakes) 不可见。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.Check+LessThanStrategy`1 生成填充码: 类型对 exported or assembly(Dos.ORM.Fakes) 不可见。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.Check+NotNullCheckStrategy 生成填充码: 类型对 exported or assembly(Dos.ORM.Fakes) 不可见。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.Check+NotNullOrEmptyStrategy 生成填充码: 类型对 exported or assembly(Dos.ORM.Fakes) 不可见。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.FastInvokeHandler 生成填充码: 类型是一个委托。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.FastCreateInstanceHandler 生成填充码: 类型是一个委托。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.FastPropertyGetHandler 生成填充码: 类型是一个委托。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.FastPropertySetHandler 生成填充码: 类型是一个委托。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.EntityUtils+<>c 生成填充码: 类型不受支持，因为存在内部限制。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.EntityUtils+<>c__DisplayClass57_0 生成填充码: 类型不受支持，因为存在内部限制。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.EntityUtils+<>c__DisplayClass59_0 生成填充码: 类型不受支持，因为存在内部限制。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.EntityUtils+<>c__DisplayClass64_0 生成填充码: 类型不受支持，因为存在内部限制。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.EntityUtils+<>c__DisplayClass64_1 生成填充码: 类型不受支持，因为存在内部限制。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.EntityUtils+<>c__DisplayClass64_2 生成填充码: 类型不受支持，因为存在内部限制。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.EntityUtils+<>c__DisplayClass64_3 生成填充码: 类型不受支持，因为存在内部限制。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.EntityUtils+<>c__DisplayClass71_0 生成填充码: 类型不受支持，因为存在内部限制。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.EntityUtils+<>o__76`1 生成填充码: 类型不受支持，因为存在内部限制。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.EntityUtils+<ReaderToEnumerable>d__76`1 生成填充码: 类型不受支持，因为存在内部限制。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.EntityUtils+DynamicPropertyDescriptor 生成填充码: 类型对 exported or assembly(Dos.ORM.Fakes) 不可见。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.EntityUtils+FastExpandoCustomTypeDescriptor 生成填充码: 类型对 exported or assembly(Dos.ORM.Fakes) 不可见。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.EntityUtils+FastExpandoDescriptionProvider 生成填充码: 类型对 exported or assembly(Dos.ORM.Fakes) 不可见。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.EntityUtils+PropInfo 生成填充码: 类型对 exported or assembly(Dos.ORM.Fakes) 不可见。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.EntityUtils+ReadEntityInvoker`1 生成填充码: 类型是一个委托。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.FieldType 生成填充码: 类型是一个枚举。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.ColumnFunction 生成填充码: 类型是一个枚举。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.JoinType 生成填充码: 类型是一个枚举。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.EntityState 生成填充码: 类型是一个枚举。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.LogHandler 生成填充码: 类型是一个委托。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.ILogable 生成填充码: 类型是一个接口。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.DatabaseType 生成填充码: 类型是一个枚举。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.DbSession+<>c__123`1 生成填充码: 类型不受支持，因为存在内部限制。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.Entity+ModelComparer 生成填充码: 类型对 exported or assembly(Dos.ORM.Fakes) 不可见。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.WhereType 生成填充码: 类型是一个枚举。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.QueryOperator 生成填充码: 类型是一个枚举。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.ExpressionToClip`1+<>c 生成填充码: 类型不受支持，因为存在内部限制。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.FastEvaluator+<>c 生成填充码: 类型不受支持，因为存在内部限制。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.HashedListCache`1+Comparer 生成填充码: 类型对 exported or assembly(Dos.ORM.Fakes) 不可见。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.HashedListCache`1+Hasher 生成填充码: 类型对 exported or assembly(Dos.ORM.Fakes) 不可见。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.IEvaluator 生成填充码: 类型是一个接口。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.IExpressionCache`1 生成填充码: 类型是一个接口。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.PartialEvaluatorBase+Nominator 生成填充码: 类型对 exported or assembly(Dos.ORM.Fakes) 不可见。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.FromSection`1+<>c 生成填充码: 类型不受支持，因为存在内部限制。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.FromSection`1+<>o__59 生成填充码: 类型不受支持，因为存在内部限制。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.FromSection`1+<ToEnumerable>d__59 生成填充码: 类型不受支持，因为存在内部限制。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.FromSection+<>c 生成填充码: 类型不受支持，因为存在内部限制。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.FromSection+<>c__DisplayClass85_0 生成填充码: 类型不受支持，因为存在内部限制。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.OrderByOperater 生成填充码: 类型是一个枚举。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.SerializationManager+TypeDeserializeHandler 生成填充码: 类型是一个委托。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.SerializationManager+TypeSerializeHandler 生成填充码: 类型是一个委托。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.Section+<>o__10`1 生成填充码: 类型不受支持，因为存在内部限制。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.Section+<ToEnumerable>d__10`1 生成填充码: 类型不受支持，因为存在内部限制。
-F:\Git\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 <PrivateImplementationDetails> 生成填充码: 类型不受支持，因为存在内部限制。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 <>f__AnonymousType0`2 生成存根: 类型已密封。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 <>f__AnonymousType1`2 生成存根: 类型已密封。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 <>f__AnonymousType2`3 生成存根: 类型已密封。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.BatchCommander 生成存根: 类型已密封。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.DosORMCommonExpand 生成存根: 类型已密封。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.Check 生成存根: 类型已密封。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.PreconditionException 生成存根: 类型已密封。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.PostconditionException 生成存根: 类型已密封。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.InvariantException 生成存根: 类型已密封。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.AssertionException 生成存根: 类型已密封。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.FastInvokeHandler 生成存根: 类型已密封。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.FastCreateInstanceHandler 生成存根: 类型已密封。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.FastPropertyGetHandler 生成存根: 类型已密封。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.FastPropertySetHandler 生成存根: 类型已密封。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.DynamicCalls 生成存根: 类型已密封。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.FieldType 生成存根: 类型是一个值类型。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.ColumnFunction 生成存根: 类型是一个值类型。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.JoinType 生成存根: 类型是一个值类型。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.EntityState 生成存根: 类型是一个值类型。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.LogHandler 生成存根: 类型已密封。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.ILogable 生成存根: 类型对 exported or assembly(Dos.ORM.Fakes) 不可见。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.Database 生成存根: 类型已密封。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.DatabaseType 生成存根: 类型是一个值类型。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.DbSession 生成存根: 类型已密封。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.WhereType 生成存根: 类型是一个值类型。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.QueryOperator 生成存根: 类型是一个值类型。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.ExpressionToClip`1 生成存根: 类型已密封。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.FieldExtend 生成存根: 类型已密封。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.OrderByOperater 生成存根: 类型是一个值类型。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.ProviderFactory 生成存根: 类型已密封。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.SerializationManager 生成存根: 类型已密封。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 <PrivateImplementationDetails> 生成存根: 类型已密封。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 <>f__AnonymousType0`2 生成填充码: 类型不受支持，因为存在内部限制。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 <>f__AnonymousType1`2 生成填充码: 类型不受支持，因为存在内部限制。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 <>f__AnonymousType2`3 生成填充码: 类型不受支持，因为存在内部限制。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.CommandCreator+<>c__DisplayClass2_0`1 生成填充码: 类型不受支持，因为存在内部限制。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.CommandCreator+<>c__DisplayClass7_0`1 生成填充码: 类型不受支持，因为存在内部限制。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.DataUtils+<>c 生成填充码: 类型不受支持，因为存在内部限制。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.DataUtils+<>o__34`1 生成填充码: 类型不受支持，因为存在内部限制。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.DataUtils+DBConvert 生成填充码: 类型对 exported or assembly(Dos.ORM.Fakes) 不可见。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.Check+GreaterThanOrEqualStrategy`1 生成填充码: 类型对 exported or assembly(Dos.ORM.Fakes) 不可见。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.Check+GreaterThanStrategy`1 生成填充码: 类型对 exported or assembly(Dos.ORM.Fakes) 不可见。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.Check+ICheckStrategy 生成填充码: 类型是一个接口。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.Check+IsAssignableToStrategy`1 生成填充码: 类型对 exported or assembly(Dos.ORM.Fakes) 不可见。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.Check+LessThanOrEqualStrategy`1 生成填充码: 类型对 exported or assembly(Dos.ORM.Fakes) 不可见。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.Check+LessThanStrategy`1 生成填充码: 类型对 exported or assembly(Dos.ORM.Fakes) 不可见。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.Check+NotNullCheckStrategy 生成填充码: 类型对 exported or assembly(Dos.ORM.Fakes) 不可见。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.Check+NotNullOrEmptyStrategy 生成填充码: 类型对 exported or assembly(Dos.ORM.Fakes) 不可见。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.FastInvokeHandler 生成填充码: 类型是一个委托。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.FastCreateInstanceHandler 生成填充码: 类型是一个委托。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.FastPropertyGetHandler 生成填充码: 类型是一个委托。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.FastPropertySetHandler 生成填充码: 类型是一个委托。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.EntityUtils+<>c 生成填充码: 类型不受支持，因为存在内部限制。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.EntityUtils+<>c__DisplayClass57_0 生成填充码: 类型不受支持，因为存在内部限制。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.EntityUtils+<>c__DisplayClass59_0 生成填充码: 类型不受支持，因为存在内部限制。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.EntityUtils+<>c__DisplayClass64_0 生成填充码: 类型不受支持，因为存在内部限制。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.EntityUtils+<>c__DisplayClass64_1 生成填充码: 类型不受支持，因为存在内部限制。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.EntityUtils+<>c__DisplayClass64_2 生成填充码: 类型不受支持，因为存在内部限制。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.EntityUtils+<>c__DisplayClass64_3 生成填充码: 类型不受支持，因为存在内部限制。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.EntityUtils+<>c__DisplayClass71_0 生成填充码: 类型不受支持，因为存在内部限制。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.EntityUtils+<>o__76`1 生成填充码: 类型不受支持，因为存在内部限制。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.EntityUtils+<ReaderToEnumerable>d__76`1 生成填充码: 类型不受支持，因为存在内部限制。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.EntityUtils+DynamicPropertyDescriptor 生成填充码: 类型对 exported or assembly(Dos.ORM.Fakes) 不可见。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.EntityUtils+FastExpandoCustomTypeDescriptor 生成填充码: 类型对 exported or assembly(Dos.ORM.Fakes) 不可见。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.EntityUtils+FastExpandoDescriptionProvider 生成填充码: 类型对 exported or assembly(Dos.ORM.Fakes) 不可见。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.EntityUtils+PropInfo 生成填充码: 类型对 exported or assembly(Dos.ORM.Fakes) 不可见。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.EntityUtils+ReadEntityInvoker`1 生成填充码: 类型是一个委托。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.FieldType 生成填充码: 类型是一个枚举。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.ColumnFunction 生成填充码: 类型是一个枚举。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.JoinType 生成填充码: 类型是一个枚举。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.EntityState 生成填充码: 类型是一个枚举。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.LogHandler 生成填充码: 类型是一个委托。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.ILogable 生成填充码: 类型是一个接口。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.DatabaseType 生成填充码: 类型是一个枚举。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.Entity+ModelComparer 生成填充码: 类型对 exported or assembly(Dos.ORM.Fakes) 不可见。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.WhereType 生成填充码: 类型是一个枚举。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.QueryOperator 生成填充码: 类型是一个枚举。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.ExpressionToClip`1+<>c 生成填充码: 类型不受支持，因为存在内部限制。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.FastEvaluator+<>c 生成填充码: 类型不受支持，因为存在内部限制。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.HashedListCache`1+Comparer 生成填充码: 类型对 exported or assembly(Dos.ORM.Fakes) 不可见。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.HashedListCache`1+Hasher 生成填充码: 类型对 exported or assembly(Dos.ORM.Fakes) 不可见。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.IEvaluator 生成填充码: 类型是一个接口。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.IExpressionCache`1 生成填充码: 类型是一个接口。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.PartialEvaluatorBase+Nominator 生成填充码: 类型对 exported or assembly(Dos.ORM.Fakes) 不可见。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.FromSection`1+<>c 生成填充码: 类型不受支持，因为存在内部限制。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.FromSection`1+<>o__59 生成填充码: 类型不受支持，因为存在内部限制。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.FromSection`1+<ToEnumerable>d__59 生成填充码: 类型不受支持，因为存在内部限制。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.FromSection+<>c 生成填充码: 类型不受支持，因为存在内部限制。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.FromSection+<>c__DisplayClass85_0 生成填充码: 类型不受支持，因为存在内部限制。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.OrderByOperater 生成填充码: 类型是一个枚举。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.SerializationManager+TypeDeserializeHandler 生成填充码: 类型是一个委托。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.SerializationManager+TypeSerializeHandler 生成填充码: 类型是一个委托。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.Section+<>o__10`1 生成填充码: 类型不受支持，因为存在内部限制。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 Dos.ORM.Section+<ToEnumerable>d__10`1 生成填充码: 类型不受支持，因为存在内部限制。
+F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\Fakes\Dos.ORM.fakes : warning : 无法为 <PrivateImplementationDetails> 生成填充码: 类型不受支持，因为存在内部限制。

@@ -66,8 +66,6 @@
             {
                 var item = designerList[i];
                 <input type="button" value="@(item.RealName)" class="funBtn checked">
-                @*<input type="radio" id="@(item.Id)" name="designerid" value="@(item.Id)" @((i == 0) ? "checked" : "")>
-                    <label for="@(item.Id)" class="input_radio">@(item.RealName)</label>*@
             }
         }
         <span class="nowTask">当前选中需求：<b>@(Model != null ? (Model?.Title) : "无")</b></span>
@@ -93,6 +91,7 @@
             <ul class="day"></ul>
         </div>
     </aside>
+
     <div class="container">
         <div id="renderMonth" class="render render-show">
             <h2 class="title">2017年9月</h2>

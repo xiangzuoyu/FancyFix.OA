@@ -65,17 +65,17 @@
     <Compile Include="ServiceBase.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\工作\Fancy-fix\OA\Utils\Doc.ORM\DataAccess\Dos.DataAccess.csproj">
-      <Project>{7d86cd94-20f0-46cb-aea3-04a674620862}</Project>
-      <Name>Dos.DataAccess</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\工作\Fancy-fix\OA\Utils\Doc.ORM\Dos.ORM\Dos.ORM.csproj">
-      <Project>{4bef1983-f275-4807-96ea-25b973bd6e94}</Project>
-      <Name>Dos.ORM</Name>
-    </ProjectReference>
     <ProjectReference Include="..\FancyFix.OA.Model\FancyFix.OA.Model.csproj">
       <Project>{308cf2c3-bc41-4ab0-8bd9-fa3defcaa3c4}</Project>
       <Name>FancyFix.OA.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utils\Doc.ORM\DataAccess\Dos.DataAccess.csproj">
+      <Project>{7d86cd94-20f0-46cb-aea3-04a674620862}</Project>
+      <Name>Dos.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utils\Doc.ORM\Dos.ORM\Dos.ORM.csproj">
+      <Project>{4bef1983-f275-4807-96ea-25b973bd6e94}</Project>
+      <Name>Dos.ORM</Name>
     </ProjectReference>
     <ProjectReference Include="..\Utils\Tools\FancyFix.Tools.csproj">
       <Project>{d967950c-ccf5-47a4-a202-6930f2c8e20d}</Project>

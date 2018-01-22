@@ -89,7 +89,7 @@
     <Fakes Include="Fakes\Dos.ORM.fakes" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\工作\Fancy-fix\OA\Utils\Doc.ORM\Dos.ORM\Dos.ORM.csproj">
+    <ProjectReference Include="..\Utils\Doc.ORM\Dos.ORM\Dos.ORM.csproj">
       <Project>{4bef1983-f275-4807-96ea-25b973bd6e94}</Project>
       <Name>Dos.ORM</Name>
     </ProjectReference>

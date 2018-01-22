@@ -55,8 +55,7 @@
                         <td align="right"><label for="duedate" class="control-label">截止日期：</label></td>
                         <td>
                             <div class="form-group">
-                                <input type="text" class="form-control" id="duedate" name="duedate" placeholder="截止日期" required="required" style="width:250px;"
-                                       value="@(Model != null ? Model.DueDate.Value.ToString("yyyy-MM-dd") : "")">
+                                <input type="text" class="form-control" id="duedate" name="duedate" placeholder="截止日期" required="required" style="width:250px;" readonly="readonly" value="@(Model != null ? Model.DueDate.Value.ToString("yyyy-MM-dd") : "")">
                             </div>
                         </td>
                     </tr>

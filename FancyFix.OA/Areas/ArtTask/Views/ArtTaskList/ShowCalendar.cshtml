@@ -43,9 +43,10 @@
             height: 25px;
         }
 
-        .checked {
-            color: #5FB878;
-        }
+            #calendar .btns input.funBtn.checked {
+                background-color: #5FB878;
+                color: #fff;
+            }
 
         .nowTask {
             float: right;
@@ -54,6 +55,16 @@
             .nowTask b {
                 color: #FF5722;
             }
+
+        #renderMonth .day li {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .taskTitle {
+            color: #FF5722;
+        }
     </style>
 }
 
@@ -65,13 +76,10 @@
             for (int i = 0; i < designerList.Count; i++)
             {
                 var item = designerList[i];
-                <input type="button" value="@(item.RealName)" class="funBtn checked">
-                @*<input type="radio" id="@(item.Id)" name="designerid" value="@(item.Id)" @((i == 0) ? "checked" : "")>
-                    <label for="@(item.Id)" class="input_radio">@(item.RealName)</label>*@
+                <span class="layui-btn layui-btn-small @(i==0?"":"layui-btn-primary")" data-id="@(item.Id)">@(item.RealName)</span>
             }
         }
         <span class="nowTask">当前选中需求：<b>@(Model != null ? (Model?.Title) : "无")</b></span>
-
     </div>
 
     <aside class="sidebar" style="display:none;">
@@ -93,6 +101,7 @@
             <ul class="day"></ul>
         </div>
     </aside>
+
     <div class="container">
         <div id="renderMonth" class="render render-show">
             <h2 class="title">2017年9月</h2>
@@ -133,42 +142,123 @@
 </div>
 
 @section Js{
-    <script src="~/Content/js/calendar/tools.js?1"></script>
+    <script>
+        //用于日历翻页时触发的空方法
+        CalenderExpandEvent = {
+            clickAfterEvent: function () { }
+        }
+    </script>
+    <script src="~/Content/js/calendar/tools.js"></script>
     @*<script src="~/Content/js/calendar/ChineseCalendar.js"></script>*@
-    <script src="~/Content/js/calendar/calender.js"></script>
+    <script src="~/Content/js/calendar/calender.js?2"></script>
     <script src="/Content/js/common/tools.js"></script>
     <script>
         layui.use(['layer', 'laydate'], function () {
             //var layer = layui.layer;
-             //双击弹出窗体分配需求
-           if ('@ViewBag.TaskId'>0) {
-               $("#renderMonth .day").on('dblclick', 'li', function () {
-                   var datetime = $(this).attr("data-time");
-                    @*OpenWin("分配需求", "/arttask/arttasklist/edit/" + '@ViewBag.TaskId' + "&datetime" + datetime, '80%', '90%');*@
-                   OpenWin("分配需求", "/arttask/arttasklist/edit/" + '@ViewBag.TaskId' + "?datetime=" + datetime, '750px', '680px');
-                });
-            }
+            //双击弹出窗体分配需求
+            //事业部双击日历进入新增页面，设计部双击日历进入分配页面
+            $("#renderMonth .day").on('dblclick', 'li', function () {
+                var datetime = $(this).attr("data-time");
+                //console.log(datetime)
+                var url = "/arttask/arttasklist/"
+                    + (('@ViewBag.TaskId' > 0)
+                    ? "edit/" + ('@ViewBag.TaskId' + "?datetime=" + datetime)
+                    : "insert");
+
+                OpenWin("分配需求", url , '750px', '680px');
+            });
         })
 
         var getTasklist = {
+            designerData: null,
             parameter: {
-                nowMonths:0
+                designerId: 0,
+                starttime: '',
+                endtime: ''
             },
             init: function () {
+                //默认加载第一位设计师需求
+                getTasklist.parameter.designerId = $(".layui-btn.layui-btn-small").first().attr("data-id");
+
+                getTasklist.loadDateTime();
+
+                //绑定选择设计师按钮
+                $(".layui-btn.layui-btn-small").on('click', function () {
+                    var id = $(this).attr("data-id");
+                    if (getTasklist.parameter.designerId == id)
+                        return;
+
+                    //设置样式
+                    $(".layui-btn.layui-btn-small").addClass("layui-btn-primary")
+                    $(this).removeClass("layui-btn-primary");
+                    //修改选中的设计师ID
+                    getTasklist.parameter.designerId = id;
+
+                    getTasklist.eachTask()
+                    //console.log(getTasklist.parameter.designerId)
+                })
+
+                //修改预先绑定的日历翻页时触发的事件
+                CalenderExpandEvent.clickAfterEvent = function () {
+                    getTasklist.loadDateTime();
+                }
+
+                //绑定日期翻页事件
                 $("#control .btn").on('click', function () {
                     getTasklist.ajax();
+                    getTasklist.loadDateTime();
                 })
+                getTasklist.ajax();
+            },
+            //设置当前日历页面需要加载的日期
+            loadDateTime: function () {
+                getTasklist.parameter.starttime = $("#renderMonth .day li").first().attr("data-time");
+                getTasklist.parameter.endtime = $("#renderMonth .day li").last().attr("data-time");
+                //console.log(getTasklist.parameter.starttime, getTasklist.parameter.endtime);
             },
             ajax: function () {
-                $.ajax({
-                    url: "/arttask/arttasklist/tasklist/",
-                    type: "get",
-                    data: { months:getTasklist.parameter},
-                    success: function (data) {
-                        console.log(data);
-                    }
+                $.get('/arttask/arttasklist/tasklist', getTasklist.parameter, function (data) {
+                    getTasklist.designerData = data;
+                    getTasklist.eachTask()
                 })
+            },
+            //
+            eachTask: function () {
+                //清空原来的记录
+                $("#renderMonth .day li>span").remove();
+
+                for (var i = 0; i < getTasklist.designerData.result.length; i++) {
+                    var model = getTasklist.designerData.result[i];
+                    if (getTasklist.parameter.designerId == model.DesignerId.toString()) {
+                        var arr = getTasklist.getEachDate(model.EstimatedStartDate, model.EstimatedEndDate);
+
+                        for (var j = 0; j < arr.length; j++) {
+                            $("[data-time=" + arr[j] + "]").append('<span class=\"taskTitle\" title=\"' + model.Title + '\">' + model.Title + '<br/></span>');
+                            //console.log($("[data-time=" + arr[j] + "]"))
+                        }
+                        //console.log(arr);
+                    }
+                }
+            },
+            //遍历两个日期之间的所有日期返回数组
+            getEachDate: function (start, end) {
+                var startTime = new Date(Number(start.replace('/Date(', '').replace(')/', '')));
+                var endTime = new Date(Number(end.replace('/Date(', '').replace(')/', '')));
+                var i = 0;
+                var arr = new Array();
+                while ((endTime.getTime() - startTime.getTime()) >= 0) {
+                    var year = startTime.getFullYear();
+                    var month = startTime.getMonth() + 1;
+                    month = month < 10 ? "0" + month : month;
+                    var day = startTime.getDate().toString().length == 1 ? "0" + startTime.getDate() : startTime.getDate();
+                    var vardate = year + '-' + month + "-" + day;
+                    arr[i] = vardate;
+                    startTime.setDate(startTime.getDate() + 1);
+                    i++;
+                }
+                return arr;
             }
+
         }
         getTasklist.init();
 

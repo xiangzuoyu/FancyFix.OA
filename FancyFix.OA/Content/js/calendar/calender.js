@@ -58,7 +58,7 @@
 
         renderFullMonth()
         tools.renderDetailMonth(detailMonth_day, year, month)
-        dateEvent()
+        dateEvent() 
     }
 
     // 渲染侧边栏&全年月份
@@ -110,7 +110,7 @@
             } else {
                 month--
             }
-
+            
             initalToday()
         }
         sidebar_nextBtn.onclick = function () {
@@ -120,7 +120,7 @@
             } else {
                 month++
             }
-
+            
             initalToday()
         }
 
@@ -138,7 +138,7 @@
                 } else {
                     month--
                 }
-
+                
                 tools.renderDetailMonth(detailMonth_day, year, month)
             } else {
                 year--
@@ -199,5 +199,7 @@
         document.onclick = function () {
             popup.style.display = 'none'
         }
+        //预先绑定一个空方法，后期再修改
+        CalenderExpandEvent.clickAfterEvent()
     }
 })(window)

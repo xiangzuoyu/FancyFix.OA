@@ -67,7 +67,7 @@ namespace FancyFix.OA.Bll
         public static IEnumerable<ArtTaskList> GetList(DateTime starttime, DateTime endtime, int designerId = 0)
         {
             var list = Db.Context.From<ArtTaskList>()
-                .Where(o => o.EstimatedEndDate >= starttime && o.EstimatedEndDate <= endtime && o.Display == 2)
+                .Where(o => o.Display == 2)
                 .ToList();
 
             return list;

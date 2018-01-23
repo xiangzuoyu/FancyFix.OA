@@ -28,18 +28,21 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
             var adminlist = AdminData.GetList();
             foreach (var item in list)
             {
-                if (item.SubmitterId != null && item.SubmitterId > 0 && adminlist != null)
-                    item.SubmitterName = adminlist.Find(o => o.Id == item.SubmitterId)?.RealName ?? "";
-                else
-                    item.SubmitterName = "";
-
-                if (item.DesignerId != null && item.DesignerId > 0 && adminlist != null)
-                    item.DesignerName = adminlist.Find(o => o.Id == item.DesignerId)?.RealName ?? "";
-                else
-                    item.DesignerName = "";
+                item.SubmitterName = GetUserNameById(item.SubmitterId, adminlist);
+                item.DesignerName = GetUserNameById(item.DesignerId, adminlist);
             }
 
             return BspTableJson(list, records);
+        }
+
+        //根据用户ID获取用户昵称
+        private string GetUserNameById(int? id, List<Mng_User> list)
+        {
+            string name = "";
+            if (id != null && id > 0 && list != null)
+                name = list.Find(o => o.Id == id)?.RealName ?? "";
+
+            return name;
         }
 
         //取消需求

@@ -136,9 +136,9 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
             return View(model);
         }
         [HttpGet]
-        public JsonResult TaskList(DateTime starttime, DateTime endtime, int designerId = 0)
+        public JsonResult TaskList(int designerId = 0)
         {
-            var list = Bll.BllArtTaskList.GetList(starttime, endtime, designerId);
+            var list = Bll.BllArtTaskList.GetList(designerId);
             return Json(new { result = list }, JsonRequestBehavior.AllowGet);
         }
         #endregion

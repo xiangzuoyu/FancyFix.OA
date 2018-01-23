@@ -93,7 +93,6 @@
     <div class="btns">
         @if (designerList != null && designerList.Any())
         {
-
             for (int i = 0; i < designerList.Count; i++)
             {
                 var item = designerList[i];
@@ -191,7 +190,7 @@
                 var url = "/arttask/arttasklist/"
                     + (('@ViewBag.TaskId' > 0)
                         ? "edit/" + ('@ViewBag.TaskId' + "?datetime=" + datetime + "&designerId=" + getTasklist.parameter.designerId)
-                    : "insert");
+                        : "insert");
 
                 OpenWin("分配需求", url , '750px', '700px');
             });
@@ -201,8 +200,8 @@
             designerData: null,
             parameter: {
                 designerId: 0,
-                starttime: '',
-                endtime: ''
+                //starttime: '',
+                //endtime: ''
             },
             init: function () {
                 //默认加载第一位设计师需求
@@ -236,8 +235,8 @@
             },
             //设置当前日历页面需要加载的日期
             loadDateTime: function () {
-                getTasklist.parameter.starttime = $("#renderMonth .day li").first().attr("data-time");
-                getTasklist.parameter.endtime = $("#renderMonth .day li").last().attr("data-time");
+                //getTasklist.parameter.starttime = $("#renderMonth .day li").first().attr("data-time");
+                //getTasklist.parameter.endtime = $("#renderMonth .day li").last().attr("data-time");
                 //console.log(getTasklist.parameter.starttime, getTasklist.parameter.endtime);
             },
             ajax: function () {

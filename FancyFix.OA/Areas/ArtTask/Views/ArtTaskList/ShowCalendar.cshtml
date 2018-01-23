@@ -198,6 +198,18 @@
 
             getTasklist.init();
         })
+
+        //初始化快捷方式选择设计师
+        document.onkeydown = function (event) {
+            var e = event || window.event || arguments.callee.caller.arguments[0];
+            console.log(e.keyCode)
+            var No = e.keyCode - 49;
+            //console.log($('#calendar .btns .layui-btn'))
+            var arr = $('#calendar .btns .layui-btn');
+            if (No < arr.length)
+                $(arr[No]).trigger("click");
+        }; 
+
         var getTasklist = {
             designerData: null,
             parameter: {

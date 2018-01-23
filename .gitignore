@@ -41,3 +41,6 @@ FancyFix.OA/Web.config
 .vs/FancyFix.OA/v15/.suo
 *.dll
 *.pdb
+*.dll
+*.pdb
+.vs/FancyFix.OA/v15/.suo

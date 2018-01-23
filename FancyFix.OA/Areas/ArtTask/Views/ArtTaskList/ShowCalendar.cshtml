@@ -198,7 +198,6 @@
             getTasklist.init();
         })
         var getTasklist = {
-<<<<<<< HEAD
             designerData: null,
             parameter: {
                 designerId: 0,
@@ -208,17 +207,6 @@
             init: function () {
                 //默认加载第一位设计师需求
                 getTasklist.parameter.designerId =@ViewBag.CurrentDesigner>0 ? @ViewBag.CurrentDesigner : $(".layui-btn.layui-btn-small").first().attr("data-id");
-=======
-                designerData: null,
-                parameter: {
-                    designerId: 0,
-                    starttime: '',
-                    endtime: ''
-                },
-                init: function () {
-                    //默认加载第一位设计师需求
-                    getTasklist.parameter.designerId = @ViewBag.CurrentDesigner > 0 ? @ViewBag.CurrentDesigner : $(".layui-btn.layui-btn-small").first().attr("data-id");
->>>>>>> 4c3057b884113aeda4b236d2fa39d664d29282ab
 
                     getTasklist.loadDateTime();
 
@@ -243,8 +231,6 @@
                         getTasklist.loadDateTime();
                         getTasklist.ajax();
                     }
-
-<<<<<<< HEAD
                 getTasklist.ajax();
             },
             //设置当前日历页面需要加载的日期
@@ -264,28 +250,6 @@
             eachTask: function () {
                 //清空原来的记录
                 $("#renderMonth .day li>span").remove();
-=======
-                    getTasklist.ajax();
-                },
-                //设置当前日历页面需要加载的日期
-                loadDateTime: function () {
-                    getTasklist.parameter.starttime = $("#renderMonth .day li").first().attr("data-time");
-                    getTasklist.parameter.endtime = $("#renderMonth .day li").last().attr("data-time");
-                    //console.log(getTasklist.parameter.starttime, getTasklist.parameter.endtime);
-                },
-                ajax: function () {
-                    //console.log(getTasklist.parameter);
-                    $.get('/arttask/arttasklist/tasklist', getTasklist.parameter, function (data) {
-                        getTasklist.designerData = data;
-                        getTasklist.eachTask();
-                    })
-                },
-                //
-                eachTask: function () {
-                    //清空原来的记录
-                    $("#renderMonth .day li>span").remove();
->>>>>>> 4c3057b884113aeda4b236d2fa39d664d29282ab
-
                     for (var i = 0; i < getTasklist.designerData.result.length; i++) {
                         var model = getTasklist.designerData.result[i];
                         if (getTasklist.parameter.designerId == model.DesignerId.toString()) {

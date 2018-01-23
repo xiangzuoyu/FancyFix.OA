@@ -111,3 +111,4 @@ E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\obj\Debug\Fake
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\obj\Debug\Fakes\dorm\o\f.csproj.FileListAbsolute.txt
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\obj\Debug\Fakes\dorm\o\f.csprojResolveAssemblyReference.cache
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\obj\Debug\Fakes\fakes.args
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\obj\Debug\FancyFix.OA.Model.csprojResolveAssemblyReference.cache

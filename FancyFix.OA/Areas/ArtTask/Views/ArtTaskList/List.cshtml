@@ -40,10 +40,10 @@
                 </section>
                 <div id="toolbar" class="btn-group">
                     <button id="btn_add" type="button" class="btn btn-default">
-                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 新增需求
                     </button>
                     <button id="btn_calendar" type="button" class="btn btn-default">
-                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>需求安排
+                        <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> 查看需求排期
                     </button>
                 </div>
                 <table id="table" class="table table-bordered table-hover"></table>
@@ -154,20 +154,18 @@
                             align: 'center',
                             formatter: function (v, r, i) {
                                 var ele = "";
-                                if ("@ViewBag.ArtTaskIds" == "True" && (r.Display == 1 || r.Display==2))
+                                if ("@ViewBag.ArtTaskIds" == "True")
                                 {
                                     ele += "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnEdit btn btn-md btn-primary\">";
                                     ele  += (r.Display == 1 ? "分配" : "修改") + "</a> ";
                                     //只有已分配的任务才会显示完成按钮
                                     if (r.Display == 2)
                                         ele += "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnComplete btn btn-md btn-primary\">完成</a> ";
-
+                                    if (r.Display == 1)
+                                        ele += "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnDel btn btn-md btn-danger\">取消</a>";
                                 }
                                 if (r.Display == 3)
                                     ele += "<a href=\"javascript:;\"   data-id=\"" + r.Id + "\" class=\"layui-btn layui-btn-disabled\">已完成</a> ";
-                                if (r.Display == 1)
-                                    ele += "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnDel btn btn-md btn-danger\">取消</a>";
-
                                 return ele;
                             }
                         }]
@@ -216,8 +214,21 @@
 
             //需求详细
             function ShowDetailedFormatter(v, r, i) {
-                return "<div title=\"" + v + "\">详细</div>"
+                return "<div class='detail' title=\"" + v + "\"><a href='javascript:void(0)'>详细</a></div>"
             }
+
+            //详细提示
+            var tip;
+            $("#table").on('mouseover','div.detail', function () {
+                tip = layer.tips($(this).attr("title"), $(this) , {
+                    tips: [1, '#166067'],
+                    time: 4000
+                });
+            }).on('mouseout', 'div.detail', function () {
+                if (tip) {
+                    layer.close(tip);
+                }
+            });
 
             //需求状态
             function ShowStatesFormatter(v, r, i) {

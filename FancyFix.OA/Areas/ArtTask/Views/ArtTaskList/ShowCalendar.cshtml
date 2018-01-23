@@ -155,9 +155,9 @@
             <ul class="month"></ul>
         </div>
         <div id="control">
-            <input type="button" value="<" class="btn btn-prev">
-            <input type="button" value="今天" class="today">
-            <input type="button" value=">" class="btn btn-next">
+            <input type="button" value="上一月" class="btn btn-prev" style="width:70px;">
+            <input type="button" value="回到本月" class="today" style="width:80px;">
+            <input type="button" value="下一月" class="btn btn-next" style="width:70px;">
         </div>
         <div id="popup">
             <h3 class="title">七夕节</h3>
@@ -193,110 +193,111 @@
                         ? "edit/" + ('@ViewBag.TaskId' + "?datetime=" + datetime + "&designerId=" + getTasklist.parameter.designerId)
                     : "insert");
 
-                OpenWin("分配需求", url , '750px', '700px');
+                OpenWin("分配需求", url , '70%', '90%');
             });
+
+            getTasklist.init();
         })
-
         var getTasklist = {
-            designerData: null,
-            parameter: {
-                designerId: 0,
-                starttime: '',
-                endtime: ''
-            },
-            init: function () {
-                //默认加载第一位设计师需求
-                getTasklist.parameter.designerId =@ViewBag.CurrentDesigner>0 ? @ViewBag.CurrentDesigner : $(".layui-btn.layui-btn-small").first().attr("data-id");
+                designerData: null,
+                parameter: {
+                    designerId: 0,
+                    starttime: '',
+                    endtime: ''
+                },
+                init: function () {
+                    //默认加载第一位设计师需求
+                    getTasklist.parameter.designerId = @ViewBag.CurrentDesigner > 0 ? @ViewBag.CurrentDesigner : $(".layui-btn.layui-btn-small").first().attr("data-id");
 
-                getTasklist.loadDateTime();
-
-                //绑定选择设计师按钮
-                $(".layui-btn.layui-btn-small").on('click', function () {
-                    var id = $(this).attr("data-id");
-                    if (getTasklist.parameter.designerId == id)
-                        return;
-
-                    //设置样式
-                    $(".layui-btn.layui-btn-small").addClass("layui-btn-primary")
-                    $(this).removeClass("layui-btn-primary");
-                    //修改选中的设计师ID
-                    getTasklist.parameter.designerId = id;
-                    getTasklist.eachTask()
-                    //console.log(getTasklist.parameter.designerId)
-                })
-
-                //绑定日期翻页事件
-                //修改预先绑定的日历翻页时触发的事件
-                CalenderExpandEvent.clickAfterEvent = function () {
                     getTasklist.loadDateTime();
+
+                    //绑定选择设计师按钮
+                    $(".layui-btn.layui-btn-small").on('click', function () {
+                        var id = $(this).attr("data-id");
+                        if (getTasklist.parameter.designerId == id)
+                            return;
+
+                        //设置样式
+                        $(".layui-btn.layui-btn-small").addClass("layui-btn-primary")
+                        $(this).removeClass("layui-btn-primary");
+                        //修改选中的设计师ID
+                        getTasklist.parameter.designerId = id;
+                        getTasklist.eachTask()
+                        //console.log(getTasklist.parameter.designerId)
+                    })
+
+                    //绑定日期翻页事件
+                    //修改预先绑定的日历翻页时触发的事件
+                    CalenderExpandEvent.clickAfterEvent = function () {
+                        getTasklist.loadDateTime();
+                        getTasklist.ajax();
+                    }
+
                     getTasklist.ajax();
-                }
+                },
+                //设置当前日历页面需要加载的日期
+                loadDateTime: function () {
+                    getTasklist.parameter.starttime = $("#renderMonth .day li").first().attr("data-time");
+                    getTasklist.parameter.endtime = $("#renderMonth .day li").last().attr("data-time");
+                    //console.log(getTasklist.parameter.starttime, getTasklist.parameter.endtime);
+                },
+                ajax: function () {
+                    //console.log(getTasklist.parameter);
+                    $.get('/arttask/arttasklist/tasklist', getTasklist.parameter, function (data) {
+                        getTasklist.designerData = data;
+                        getTasklist.eachTask();
+                    })
+                },
+                //
+                eachTask: function () {
+                    //清空原来的记录
+                    $("#renderMonth .day li>span").remove();
 
-                getTasklist.ajax();
-            },
-            //设置当前日历页面需要加载的日期
-            loadDateTime: function () {
-                getTasklist.parameter.starttime = $("#renderMonth .day li").first().attr("data-time");
-                getTasklist.parameter.endtime = $("#renderMonth .day li").last().attr("data-time");
-                //console.log(getTasklist.parameter.starttime, getTasklist.parameter.endtime);
-            },
-            ajax: function () {
-                //console.log(getTasklist.parameter);
-                $.get('/arttask/arttasklist/tasklist', getTasklist.parameter, function (data) {
-                    getTasklist.designerData = data;
-                    getTasklist.eachTask()
-                })
-            },
-            //
-            eachTask: function () {
-                //清空原来的记录
-                $("#renderMonth .day li>span").remove();
+                    for (var i = 0; i < getTasklist.designerData.result.length; i++) {
+                        var model = getTasklist.designerData.result[i];
+                        if (getTasklist.parameter.designerId == model.DesignerId.toString()) {
+                            var arr = getTasklist.getEachDate(model.EstimatedStartDate, model.EstimatedEndDate);
+                            var randomColor = getTasklist.getRandomColor();
+                            for (var j = 0; j < arr.length; j++) {
+                                var html = '<span class=\"taskTitle\" style=\'color:' + randomColor + '\' title=\"' + model.Title + '\">';
+                                //最后一天要加上下午
+                                if (j == (arr.length - 1))
+                                    html += model.AMPM == 1 ? " <em class=\"AM\">上</em> " : " <em class=\"PM\">下</em> ";
+                                html += model.Title + '<br/></span>';
 
-                for (var i = 0; i < getTasklist.designerData.result.length; i++) {
-                    var model = getTasklist.designerData.result[i];
-                    if (getTasklist.parameter.designerId == model.DesignerId.toString()) {
-                        var arr = getTasklist.getEachDate(model.EstimatedStartDate, model.EstimatedEndDate);
-                        var randomColor = getTasklist.getRandomColor();
-                        for (var j = 0; j < arr.length; j++) {
-                            var html = '<span class=\"taskTitle\" style=\'color:' + randomColor + '\' title=\"' + model.Title + '\">';
-                            //最后一天要加上下午
-                            if (j == (arr.length - 1))
-                                html += model.AMPM == 1 ? " <em class=\"AM\">上</em> " : " <em class=\"PM\">下</em> ";
-                            html += model.Title+'<br/></span>';
-
-                            $("[data-time=" + arr[j] + "]").append(html);
+                                $("[data-time=" + arr[j] + "]").append(html);
+                            }
                         }
                     }
+                },
+                //遍历两个日期之间的所有日期返回数组
+                getEachDate: function (start, end) {
+                    var startTime = new Date(Number(start.replace('/Date(', '').replace(')/', '')));
+                    var endTime = new Date(Number(end.replace('/Date(', '').replace(')/', '')));
+                    var i = 0;
+                    var arr = new Array();
+                    while ((endTime.getTime() - startTime.getTime()) >= 0) {
+                        var year = startTime.getFullYear();
+                        var month = startTime.getMonth() + 1;
+                        month = month < 10 ? "0" + month : month;
+                        var day = startTime.getDate().toString().length == 1 ? "0" + startTime.getDate() : startTime.getDate();
+                        var vardate = year + '-' + month + "-" + day;
+                        arr[i] = vardate;
+                        startTime.setDate(startTime.getDate() + 1);
+                        i++;
+                    }
+                    return arr;
+                },
+                //子页面添加成功后调用的方法
+                addDataSuccess: function () {
+                    getTasklist.ajax();
+                    parent.$table.bootstrapTable('refresh');
+                },
+                //随机生成一种颜色
+                getRandomColor: function () {
+                    return '#' + Math.floor(Math.random() * 256).toString(10);
                 }
-            },
-            //遍历两个日期之间的所有日期返回数组
-            getEachDate: function (start, end) {
-                var startTime = new Date(Number(start.replace('/Date(', '').replace(')/', '')));
-                var endTime = new Date(Number(end.replace('/Date(', '').replace(')/', '')));
-                var i = 0;
-                var arr = new Array();
-                while ((endTime.getTime() - startTime.getTime()) >= 0) {
-                    var year = startTime.getFullYear();
-                    var month = startTime.getMonth() + 1;
-                    month = month < 10 ? "0" + month : month;
-                    var day = startTime.getDate().toString().length == 1 ? "0" + startTime.getDate() : startTime.getDate();
-                    var vardate = year + '-' + month + "-" + day;
-                    arr[i] = vardate;
-                    startTime.setDate(startTime.getDate() + 1);
-                    i++;
-                }
-                return arr;
-            },
-            //子页面添加成功后调用的方法
-            addDataSuccess: function () {
-                getTasklist.ajax();
-                parent.$table.bootstrapTable('refresh');
-            },
-            //随机生成一种颜色
-            getRandomColor: function () {
-                return '#' + Math.floor(Math.random() * 256).toString(10);
-            }
         }
-        getTasklist.init();
+        
     </script>
 }

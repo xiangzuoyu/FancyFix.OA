@@ -31,3 +31,9 @@ FancyFix.OA/Areas/ArtTask/Views/web.config
 .vs/FancyFix.OA/v15/.suo
 .vs/FancyFix.OA/v15/.suo
 *.dll
+*.dll
+*.pdb
+.vs/FancyFix.OA/v15/.suo
+FancyFix.OA/Web.config
+*.dll
+*.pdb

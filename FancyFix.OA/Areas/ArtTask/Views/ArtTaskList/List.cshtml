@@ -40,10 +40,10 @@
                 </section>
                 <div id="toolbar" class="btn-group">
                     <button id="btn_add" type="button" class="btn btn-default">
-                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 新增需求
                     </button>
                     <button id="btn_calendar" type="button" class="btn btn-default">
-                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>需求安排
+                        <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> 查看需求排期
                     </button>
                 </div>
                 <table id="table" class="table table-bordered table-hover"></table>
@@ -165,8 +165,12 @@
                                         ele += "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnDel btn btn-md btn-danger\">取消</a>";
                                 }
                                 if (r.Display == 3)
+<<<<<<< HEAD
                                     ele += "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"layui-btn layui-btn-disabled\">已完成</a> ";
 
+=======
+                                    ele += "<a href=\"javascript:;\"   data-id=\"" + r.Id + "\" class=\"layui-btn layui-btn-disabled\">已完成</a> ";
+>>>>>>> 4c3057b884113aeda4b236d2fa39d664d29282ab
                                 return ele;
                             }
                         }]
@@ -215,8 +219,21 @@
 
             //需求详细
             function ShowDetailedFormatter(v, r, i) {
-                return "<div title=\"" + v + "\">详细</div>"
+                return "<div class='detail' title=\"" + v + "\"><a href='javascript:void(0)'>详细</a></div>"
             }
+
+            //详细提示
+            var tip;
+            $("#table").on('mouseover','div.detail', function () {
+                tip = layer.tips($(this).attr("title"), $(this) , {
+                    tips: [1, '#166067'],
+                    time: 4000
+                });
+            }).on('mouseout', 'div.detail', function () {
+                if (tip) {
+                    layer.close(tip);
+                }
+            });
 
             //需求状态
             function ShowStatesFormatter(v, r, i) {

@@ -77,3 +77,14 @@ F:\Git\FancyFix.OA\Utils\Doc.ORM\DataAccess\obj\Debug\Dos.DataAccess.csprojResol
 F:\Git\FancyFix.OA\Utils\Doc.ORM\DataAccess\obj\Debug\Dos.DataAccess.csproj.CoreCompileInputs.cache
 F:\Git\FancyFix.OA\Utils\Doc.ORM\DataAccess\obj\Debug\Dos.DataAccess.dll
 F:\Git\FancyFix.OA\Utils\Doc.ORM\DataAccess\obj\Debug\Dos.DataAccess.pdb
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\Utils\Doc.ORM\DataAccess\bin\Debug\Dos.DataAccess.dll
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\Utils\Doc.ORM\DataAccess\bin\Debug\Dos.DataAccess.pdb
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\Utils\Doc.ORM\DataAccess\bin\Debug\Dos.Common.dll
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\Utils\Doc.ORM\DataAccess\bin\Debug\Dos.ORM.dll
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\Utils\Doc.ORM\DataAccess\bin\Debug\Dos.Common.pdb
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\Utils\Doc.ORM\DataAccess\bin\Debug\Dos.Common.xml
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\Utils\Doc.ORM\DataAccess\bin\Debug\Dos.ORM.pdb
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\Utils\Doc.ORM\DataAccess\bin\Debug\Dos.ORM.xml
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\Utils\Doc.ORM\DataAccess\obj\Debug\Dos.DataAccess.csprojResolveAssemblyReference.cache
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\Utils\Doc.ORM\DataAccess\obj\Debug\Dos.DataAccess.dll
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\Utils\Doc.ORM\DataAccess\obj\Debug\Dos.DataAccess.pdb

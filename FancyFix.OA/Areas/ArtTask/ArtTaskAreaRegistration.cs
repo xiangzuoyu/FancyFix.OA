@@ -2,22 +2,23 @@
 
 namespace FancyFix.OA.Areas.ArtTask
 {
-    public class ArtTaskAreaRegistration : AreaRegistration 
+    public class ArtTaskAreaRegistration : AreaRegistration
     {
-        public override string AreaName 
+        public override string AreaName
         {
-            get 
+            get
             {
                 return "ArtTask";
             }
         }
 
-        public override void RegisterArea(AreaRegistrationContext context) 
+        public override void RegisterArea(AreaRegistrationContext context)
         {
             context.MapRoute(
                 "ArtTask_default",
                 "ArtTask/{controller}/{action}/{id}",
-                new { action = "Index", id = UrlParameter.Optional }
+                new { action = "Index", id = UrlParameter.Optional },
+                namespaces: new[] { "FancyFix.OA.Areas.ArtTask.Controllers" }
             );
         }
     }

@@ -8,7 +8,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
-    <ProjectGuid>005a488f-acd8-430b-af2c-6b8268f7cdf9</ProjectGuid>
+    <ProjectGuid>a8f678f6-16fc-42ff-a187-3306e9baca7f</ProjectGuid>
     <!-- update GUID here -->
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -45,13 +45,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.QualityTools.Testing.Fakes">
-      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\PublicAssemblies\Microsoft.QualityTools.Testing.Fakes.dll</HintPath>
+      <HintPath>D:\Softwares\VS2017\Common7\IDE\PublicAssemblies\Microsoft.QualityTools.Testing.Fakes.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>False</EmbedInteropTypes>
       <Aliases>mqttf</Aliases>
     </Reference>
     <Reference Include="Dos.ORM">
-      <HintPath>F:\Git\FancyFix.OA\Utils\Doc.ORM\Dos.ORM\bin\Debug\Dos.ORM.dll</HintPath>
+      <HintPath>E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\Utils\Doc.ORM\Dos.ORM\bin\Debug\Dos.ORM.dll</HintPath>
       <Aliases>dorm</Aliases>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
@@ -86,7 +86,7 @@
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="Dos.DataAccess">
-      <HintPath>F:\Git\FancyFix.OA\Utils\Doc.ORM\DataAccess\bin\Debug\Dos.DataAccess.dll</HintPath>
+      <HintPath>E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\Utils\Doc.ORM\DataAccess\bin\Debug\Dos.DataAccess.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="Microsoft.CSharp">

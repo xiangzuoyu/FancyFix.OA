@@ -203,7 +203,7 @@ body {
         #renderMonth .day li {
             display: inline-block;
             width: 106px;
-            height: 88px;
+            height: 100px;
             padding: 6px;
             border-right: 1px solid #e6e5e6;
             border-bottom: 1px solid #e6e5e6;

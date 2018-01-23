@@ -158,7 +158,7 @@
                 year++
             }
 
-            initalToday()
+            initalToday() 
         }
 
         for (var i = 0; i < sidebar_date.length; i++) {
@@ -199,6 +199,7 @@
         document.onclick = function () {
             popup.style.display = 'none'
         }
+        
         //预先绑定一个空方法，后期再修改
         CalenderExpandEvent.clickAfterEvent()
     }

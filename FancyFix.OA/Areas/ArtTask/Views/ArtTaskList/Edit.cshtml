@@ -81,7 +81,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="text" class="form-control" id="estimatedstartdate" name="estimatedstartdate" placeholder="预计开始日期" required="required" value="@(Model != null ? Model.EstimatedStartDate?.ToString("yyyy-MM-dd") : "")"
-                                        readonly="readonly" style="width:150px;background-color:#fff;">
+                                       readonly="readonly" style="width:150px;background-color:#fff;">
                             </div>
                         </td>
                     </tr>
@@ -90,7 +90,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="text" class="form-control" id="estimatedenddate" name="estimatedenddate" placeholder="预计结束日期" required="required" value="@(Model != null ? Model.EstimatedEndDate?.ToString("yyyy-MM-dd") : "")"
-                                        readonly="readonly" style="width:150px;background-color:#fff;">
+                                       readonly="readonly" style="width:150px;background-color:#fff;">
                             </div>
                         </td>
                     </tr>
@@ -154,8 +154,9 @@
             $("#estimatedstartdate").click(function () {
                 laydate({
                     elem: this,
+                    type: 'date',
                     min: laydate.now(),
-                    format: 'YYYY-MM-DD hh:mm:ss',
+                    format: 'YYYY-MM-DD',
                     choose: function (dates) {
                         end.min = dates; //开始日选好后，重置结束日的最小日期
                         end.start = dates //将结束日的初始值设定为开始日
@@ -164,8 +165,15 @@
             });
 
             var end = {
-                format: 'YYYY-MM-DD hh:mm:ss'
+                type: 'date',
+                format: 'YYYY-MM-DD'
             };
+            //双击进入时设计结束日的初始值
+            if ('@ViewBag.StartDate' != '')
+            {
+                end.min = '@ViewBag.StartDate';  
+                end.start = '@ViewBag.StartDate' 
+            }
 
             $("#estimatedenddate").click(function () {
                 end.elem = this;

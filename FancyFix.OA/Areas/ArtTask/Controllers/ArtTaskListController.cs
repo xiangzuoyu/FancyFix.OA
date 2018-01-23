@@ -78,7 +78,7 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
         #endregion
 
         #region 分配需求
-        public ActionResult Edit(int id = 0, string datetime = "")
+        public ActionResult Edit(int id = 0, string datetime = "", int designerId = 0)
         {
             ArtTaskList model = null;
             string classHtml = string.Empty;
@@ -89,7 +89,11 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
                 model = Bll.BllArtTaskList.First(o => o.Id == id);
 
             if (!string.IsNullOrEmpty(datetime) && model != null && model.Display == 1)
+            {
+                model.DesignerId = designerId;
                 model.EstimatedStartDate = datetime.ToDateTime();
+                ViewBag.StartDate = model.EstimatedStartDate;
+            }
 
             return View(model);
         }
@@ -107,7 +111,7 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
             model.EstimatedEndDate = artTaskList.EstimatedEndDate;
             model.Display = 2;
             string msg = Bll.BllArtTaskList.Update(model) > 0 ? "成功" : "失败";
-            return LayerAlertSuccessAndRefresh("添加" + msg);
+            return LayerAlertAndCallback("添加" + msg, "getTasklist.addDataSuccess()");
         }
         #endregion
 
@@ -118,6 +122,12 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
             if (id > 0)
                 model = Bll.BllArtTaskList.First(o => o.Id == id);
             ViewBag.TaskId = id;
+
+            ViewBag.CurrentDesigner = 0;
+            if (model != null && model.Display == 2)
+            {
+                ViewBag.CurrentDesigner = model?.DesignerId;
+            }
 
             //获取设计部人员
             var adminlist = AdminData.GetList() ?? new List<Mng_User>();

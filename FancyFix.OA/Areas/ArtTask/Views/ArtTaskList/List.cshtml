@@ -94,9 +94,7 @@
                         //showColumns: true,                  //是否显示所有的列
                         //showRefresh: true,                  //是否显示刷新按钮
                         //showToggle: true,                   //是否显示详细视图和列表视图的切换按钮
-                        columns: [{
-                            checkbox: true
-                        }, {
+                        columns: [  {
                             field: 'Number',
                             title: '编号',
                             align: 'center'
@@ -218,7 +216,7 @@
 
             //需求详细
             function ShowDetailedFormatter(v, r, i) {
-                return "<div title=\"" + v + "\">鼠标悬停查时显示详细</div>"
+                return "<div title=\"" + v + "\">详细</div>"
             }
 
             //需求状态

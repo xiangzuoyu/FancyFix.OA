@@ -7,7 +7,7 @@
 }
 
 @section Css{
-    <link href="~/Content/css/calendar/style.css?1" rel="stylesheet" />
+    <link href="~/Content/css/calendar/style.css?3" rel="stylesheet" />
     <style type="text/css">
         .tb960x90, .tb300x250 {
             display: none !important;
@@ -63,20 +63,48 @@
         }
 
         .taskTitle {
-            color: #FF5722;
+            color: #5FB878;
+            font-size: 1px;
         }
+
+            .taskTitle em {
+                display: inline-block;
+                width: 20px;
+                height: 20px;
+                line-height: 20px;
+                margin-right: 2px;
+                text-align: center;
+                color: #fff;
+                background-color: #FF5722;
+                border-radius: 50%;
+            }
+
+                .taskTitle em.AM {
+                    background-color: #46b0ff;
+                }
+
+                .taskTitle em.PM {
+                    background-color: #7b838f;
+                }
     </style>
 }
 
 <div id="calendar">
-    @*<header class="header"></header>*@
     <div class="btns">
         @if (designerList != null && designerList.Any())
         {
+
             for (int i = 0; i < designerList.Count; i++)
             {
                 var item = designerList[i];
-                <span class="layui-btn layui-btn-small @(i==0?"":"layui-btn-primary")" data-id="@(item.Id)">@(item.RealName)</span>
+                if (ViewBag.CurrentDesigner > 0)
+                {
+                    <span class="layui-btn layui-btn-small @(ViewBag.CurrentDesigner == item.Id ? "":"layui-btn-primary")" data-id="@(item.Id)">@(item.RealName)</span>
+                }
+                else
+                {
+                    <span class="layui-btn layui-btn-small @(i==0?"":"layui-btn-primary")" data-id="@(item.Id)">@(item.RealName)</span>
+                }
             }
         }
         <span class="nowTask">当前选中需求：<b>@(Model != null ? (Model?.Title) : "无")</b></span>
@@ -150,7 +178,7 @@
     </script>
     <script src="~/Content/js/calendar/tools.js"></script>
     @*<script src="~/Content/js/calendar/ChineseCalendar.js"></script>*@
-    <script src="~/Content/js/calendar/calender.js?2"></script>
+    <script src="~/Content/js/calendar/calender.js?11"></script>
     <script src="/Content/js/common/tools.js"></script>
     <script>
         layui.use(['layer', 'laydate'], function () {
@@ -162,10 +190,10 @@
                 //console.log(datetime)
                 var url = "/arttask/arttasklist/"
                     + (('@ViewBag.TaskId' > 0)
-                    ? "edit/" + ('@ViewBag.TaskId' + "?datetime=" + datetime)
+                        ? "edit/" + ('@ViewBag.TaskId' + "?datetime=" + datetime + "&designerId=" + getTasklist.parameter.designerId)
                     : "insert");
 
-                OpenWin("分配需求", url , '750px', '680px');
+                OpenWin("分配需求", url , '750px', '700px');
             });
         })
 
@@ -178,7 +206,7 @@
             },
             init: function () {
                 //默认加载第一位设计师需求
-                getTasklist.parameter.designerId = $(".layui-btn.layui-btn-small").first().attr("data-id");
+                getTasklist.parameter.designerId =@ViewBag.CurrentDesigner>0 ? @ViewBag.CurrentDesigner : $(".layui-btn.layui-btn-small").first().attr("data-id");
 
                 getTasklist.loadDateTime();
 
@@ -193,21 +221,17 @@
                     $(this).removeClass("layui-btn-primary");
                     //修改选中的设计师ID
                     getTasklist.parameter.designerId = id;
-
                     getTasklist.eachTask()
                     //console.log(getTasklist.parameter.designerId)
                 })
 
+                //绑定日期翻页事件
                 //修改预先绑定的日历翻页时触发的事件
                 CalenderExpandEvent.clickAfterEvent = function () {
                     getTasklist.loadDateTime();
+                    getTasklist.ajax();
                 }
 
-                //绑定日期翻页事件
-                $("#control .btn").on('click', function () {
-                    getTasklist.ajax();
-                    getTasklist.loadDateTime();
-                })
                 getTasklist.ajax();
             },
             //设置当前日历页面需要加载的日期
@@ -217,6 +241,7 @@
                 //console.log(getTasklist.parameter.starttime, getTasklist.parameter.endtime);
             },
             ajax: function () {
+                //console.log(getTasklist.parameter);
                 $.get('/arttask/arttasklist/tasklist', getTasklist.parameter, function (data) {
                     getTasklist.designerData = data;
                     getTasklist.eachTask()
@@ -231,12 +256,16 @@
                     var model = getTasklist.designerData.result[i];
                     if (getTasklist.parameter.designerId == model.DesignerId.toString()) {
                         var arr = getTasklist.getEachDate(model.EstimatedStartDate, model.EstimatedEndDate);
-
+                        var randomColor = getTasklist.getRandomColor();
                         for (var j = 0; j < arr.length; j++) {
-                            $("[data-time=" + arr[j] + "]").append('<span class=\"taskTitle\" title=\"' + model.Title + '\">' + model.Title + '<br/></span>');
-                            //console.log($("[data-time=" + arr[j] + "]"))
+                            var html = '<span class=\"taskTitle\" style=\'color:' + randomColor + '\' title=\"' + model.Title + '\">';
+                            //最后一天要加上下午
+                            if (j == (arr.length - 1))
+                                html += model.AMPM == 1 ? " <em class=\"AM\">上</em> " : " <em class=\"PM\">下</em> ";
+                            html += model.Title+'<br/></span>';
+
+                            $("[data-time=" + arr[j] + "]").append(html);
                         }
-                        //console.log(arr);
                     }
                 }
             },
@@ -257,10 +286,17 @@
                     i++;
                 }
                 return arr;
+            },
+            //子页面添加成功后调用的方法
+            addDataSuccess: function () {
+                getTasklist.ajax();
+                parent.$table.bootstrapTable('refresh');
+            },
+            //随机生成一种颜色
+            getRandomColor: function () {
+                return '#' + Math.floor(Math.random() * 256).toString(10);
             }
-
         }
         getTasklist.init();
-
     </script>
 }

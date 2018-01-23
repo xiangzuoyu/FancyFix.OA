@@ -1491,6 +1491,9 @@
     <Folder Include="Areas\Admin\Views\Shared\" />
     <Folder Include="Areas\ArtTask\Models\" />
     <Folder Include="Areas\ArtTask\Views\Shared\" />
+    <Folder Include="Areas\DesignerTask\Controllers\" />
+    <Folder Include="Areas\DesignerTask\Models\" />
+    <Folder Include="Areas\DesignerTask\Views\Shared\" />
     <Folder Include="Areas\Kpi\Models\" />
     <Folder Include="Areas\Kpi\Views\Shared\" />
     <Folder Include="Areas\Point\Models\" />
@@ -1808,9 +1811,9 @@
     <Content Include="Areas\Rank\Views\Kpi\KpiInfo.cshtml" />
     <Content Include="Areas\Valuable\Views\Process\Index.cshtml" />
     <Content Include="Areas\ArtTask\Views\web.config" />
-    <Content Include="Areas\ArtTask\Views\ArtTaskList\List.cshtml" />
     <Content Include="Areas\ArtTask\Views\ArtTaskList\Insert.cshtml" />
     <Content Include="Areas\ArtTask\Views\ArtTaskList\Edit.cshtml" />
+    <Content Include="Areas\ArtTask\Views\ArtTaskList\List.cshtml" />
     <Content Include="Areas\ArtTask\Views\ArtTaskList\ShowCalendar.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Common\GetAdminTree.cshtml" />

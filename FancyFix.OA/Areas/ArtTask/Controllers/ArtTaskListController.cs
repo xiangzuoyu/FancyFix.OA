@@ -2,8 +2,6 @@
 using FancyFix.OA.Model;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Configuration;
 
@@ -61,6 +59,8 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
         //新增需求
         public ActionResult Insert()
         {
+            ViewBag.DemandTypeList = Bll.BllDemandType.GetList() ?? new List<DemandType>();
+            ViewBag.DetailTypeList = Bll.BllDetailType.GetList() ?? new List<DetailType>();
             return View();
         }
         /// <summary>
@@ -74,6 +74,7 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
             artTaskList.SubmitterId = MyInfo.Id;
             artTaskList.SubmittedDate = DateTime.Now;
             artTaskList.Display = 1;
+            artTaskList.DepartmentId = MyInfo.DepartId;
 
             string msg = Bll.BllArtTaskList.Insert(artTaskList) > 0 ? "成功" : "失败";
             return LayerMsgSuccessAndRefresh("添加" + msg);
@@ -84,19 +85,35 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
         public ActionResult Edit(int id = 0, string datetime = "", int designerId = 0)
         {
             ArtTaskList model = null;
-            string classHtml = string.Empty;
-
+            //加载需求
             var adminlist = AdminData.GetList() ?? new List<Mng_User>();
             ViewBag.designerList = adminlist.FindAll(o => o.DepartId == 10) ?? new List<Mng_User>();
             if (id > 0)
                 model = Bll.BllArtTaskList.First(o => o.Id == id);
-
-            if (!string.IsNullOrEmpty(datetime) && model != null && model.Display == 1)
+            if (model != null)
             {
-                model.DesignerId = designerId;
-                model.EstimatedStartDate = datetime.ToDateTime();
+                //设置开始时间
+                if (!string.IsNullOrEmpty(datetime) && model.Display == 1)
+                {
+                    model.DesignerId = designerId;
+                    model.EstimatedStartDate = datetime.ToDateTime();
+                }
+                
+                //显示部门名称
+                if (model.DepartmentId != null && model.DepartmentId > 0)
+                    model.DepartmentName = Bll.BllMng_DepartmentClass.First(o => o.Id == model.DepartmentId)?.ClassName;
+                //提交人
+                if (model.SubmitterId != null && model.SubmitterId > 0)
+                    model.SubmitterName = Bll.BllMng_User.First(o => o.Id == model.SubmitterId)?.RealName;
+
                 ViewBag.StartDate = model.EstimatedStartDate;
             }
+
+
+
+
+            ViewBag.DemandTypeList = Bll.BllDemandType.GetList() ?? new List<DemandType>();
+            ViewBag.DetailTypeList = Bll.BllDetailType.GetList() ?? new List<DetailType>();
 
             return View(model);
         }

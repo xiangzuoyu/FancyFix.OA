@@ -156,11 +156,14 @@
                                 var ele = "";
                                 if ("@ViewBag.ArtTaskIds" == "True")
                                 {
-                                    ele += "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnEdit btn btn-md btn-primary\">";
-                                    ele  += (r.Display == 1 ? "分配" : "修改") + "</a> ";
+                                    if (r.Display == 1)
+                                        ele += "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnEdit btn btn-md btn-primary\">分配</a> ";
                                     //只有已分配的任务才会显示完成按钮
                                     if (r.Display == 2)
+                                    {
+                                        ele += "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnEdit btn btn-md btn-primary\">修改</a> ";
                                         ele += "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnComplete btn btn-md btn-primary\">完成</a> ";
+                                    }
                                     if (r.Display == 1)
                                         ele += "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnDel btn btn-md btn-danger\">取消</a>";
                                 }

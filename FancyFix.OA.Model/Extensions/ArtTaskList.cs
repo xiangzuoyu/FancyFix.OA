@@ -10,5 +10,6 @@ namespace FancyFix.OA.Model
     {
         public string SubmitterName { get; set; }
         public string DesignerName { get; set; }
+        public string DepartmentName { get; set; }
     }
 }

@@ -3,6 +3,9 @@
 @{
     ViewBag.Title = "Insert";
     Layout = "~/Views/Shared/_Layout_In.cshtml";
+
+    List<DemandType> demandtypelist = ViewBag.DemandTypeList;
+    List<DetailType> detailtypelist = ViewBag.DetailTypeList;
 }
 
 @section Css{
@@ -43,10 +46,69 @@
                         </td>
                     </tr>
                     <tr>
-                        <td align="right"><label for="content" class="control-label">详细：</label></td>
+                        <td align="right"><label for="budget" class="control-label">项目预算：</label></td>
                         <td>
                             <div class="form-group">
-                                <textarea class="form-control" id="content" name="content" type="text/plain" placeholder="详细" style="height:80px;"
+                                <input type="number" class="form-control" id="budget" name="budget" placeholder="项目预算" value="@(Model?.Budget ?? 0)"
+                                       required="required" style="width:250px;">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="demandtypeid" class="control-label">需求类型：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <select id="demandtypeid" name="demandtypeid" class="layui-select" style="max-width:250px;">
+                                    @if (demandtypelist != null && demandtypelist.Count > 0)
+                                    {
+                                        <option value="0">请选择</option>
+                                        foreach (var item in demandtypelist)
+                                        {
+                                            <option value="@item.ClassId">@item.Name</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="model" class="control-label">型号：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="model" placeholder="型号" name="model" value="@(Model?.Model ?? "")"
+                                       required="required" style="width:250px;">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="styletype" class="control-label">风格要求：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="styletype" placeholder="风格要求" name="styletype" value="@(Model?.StyleType ?? "")"
+                                       required="required" style="width:250px;">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">细节类型：</label></td>
+                        <td>
+                            <select id="detailtypeid" name="detailtypeid" class="layui-select" style="max-width:250px;">
+                                @if (detailtypelist != null && detailtypelist.Count > 0)
+                                {
+                                    <option value="0">请选择</option>
+                                    foreach (var item in detailtypelist)
+                                    {
+                                        <option value="@item.ClassId">@item.Name</option>
+                                    }
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="content" class="control-label">具体描述：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <textarea class="form-control" id="content" name="content" type="text/plain" style="height:80px;"
                                           required="required">@(Model?.Content ?? "")</textarea>
                             </div>
                         </td>
@@ -64,7 +126,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="text" class="form-control" id="phone" name="phone" placeholder="手机号" value="@(Model?.Phone ?? "")"
-                                    style="width:250px;">
+                                       style="width:250px;">
                             </div>
                         </td>
                     </tr>

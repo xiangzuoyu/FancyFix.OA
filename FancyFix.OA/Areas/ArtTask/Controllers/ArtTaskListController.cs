@@ -75,7 +75,7 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
         public ActionResult Insert(ArtTaskList artTaskList)
         {
             var nowdate = DateTime.Now;
-            artTaskList.Number =$"{MyInfo.Id}{MyInfo.UserName}{nowdate.ToString("yyyyMMddHHmmss")}";
+            artTaskList.Number =$"{nowdate.ToString("yyyyMMdd")}{MyInfo.Id}{MyInfo.UserName}{nowdate.ToString("HHmmdd")}";
             artTaskList.SubmitterId = MyInfo.Id;
             artTaskList.SubmittedDate = nowdate;
             artTaskList.Display = 1;

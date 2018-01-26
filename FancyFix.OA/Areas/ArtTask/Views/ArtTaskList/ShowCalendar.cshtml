@@ -107,6 +107,7 @@
                 }
             }
         }
+        
         <span class="nowTask">当前选中需求：<b>@(Model != null ? (Model?.Title) : "无")</b></span>
     </div>
 
@@ -154,6 +155,7 @@
             </div>
             <ul class="month"></ul>
         </div>
+        
         <div id="control">
             <input type="button" value="上一月" class="btn btn-prev" style="width:70px;">
             <input type="button" value="回到本月" class="today" style="width:80px;">
@@ -165,6 +167,11 @@
             <i class="arrow arrow-right"></i>
             <p class="date">2017年8月28日</p>
             <p class="lunar">丁酉鸡年</p>
+        </div>
+        <div style="text-align:right;">
+            <span style="margin-left:50px;color:#1E9FFF;">进行中</span>
+            <span style="margin-left:10px;color:#5FB878;">已完成</span>
+            <span style="margin-left:10px;color:#FF5722;">已超时</span>
         </div>
     </div>
 </div>
@@ -254,7 +261,7 @@
             loadDateTime: function () {
                 getTasklist.parameter.starttime = $("#renderMonth .day li").first().attr("data-time");
                 getTasklist.parameter.endtime = $("#renderMonth .day li").last().attr("data-time");
-                console.log(getTasklist.parameter.starttime, getTasklist.parameter.endtime);
+                //console.log(getTasklist.parameter.starttime, getTasklist.parameter.endtime);
             },
             ajax: function () {
                 $.get('/arttask/arttasklist/tasklist', getTasklist.parameter, function (data) {
@@ -316,12 +323,11 @@
             //根据状态返回字体颜色
             getTaskStateColor: function (states, endtime) {
                 endtime = new Date(Number(endtime.replace('/Date(', '').replace(')/', '')));
-
                 var color = "";
                 switch (states) {
                     case 2:
                         color = "#1E9FFF";
-                        console.log(endtime > new Date());
+                        //console.log(endtime > new Date());
                         if (endtime < new Date())
                             color = "#FF5722"
 

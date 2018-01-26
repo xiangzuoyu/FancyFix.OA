@@ -81,7 +81,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="text" class="form-control" id="model" name="model" value="@(Model?.Model ?? "")"
-                                        readonly="readonly" style="width:250px;">
+                                       readonly="readonly" style="width:250px;">
                             </div>
                         </td>
                     </tr>
@@ -90,7 +90,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="text" class="form-control" id="styletype" name="styletype" value="@(Model?.StyleType ?? "")"
-                                        readonly="readonly" style="width:250px;">
+                                       readonly="readonly" style="width:250px;">
                             </div>
                         </td>
                     </tr>
@@ -114,7 +114,7 @@
                         <td>
                             <div class="form-group">
                                 <textarea class="form-control" id="content" name="content" type="text/plain" style="height:80px;"
-                                    readonly="readonly">@(Model?.Content ?? "")</textarea>
+                                          readonly="readonly">@(Model?.Content ?? "")</textarea>
                             </div>
                         </td>
                     </tr>
@@ -131,7 +131,7 @@
                         <td align="right"><label for="departmentname" class="control-label">所属部门：</label></td>
                         <td>
                             <div class="form-group">
-                                <input type="text" class="form-control" id="departmentname" name="departmentname"  style="width:250px;"
+                                <input type="text" class="form-control" id="departmentname" name="departmentname" style="width:250px;"
                                        value="@(Model != null ? Model.DepartmentName: "")" readonly="readonly">
                             </div>
                         </td>
@@ -154,7 +154,17 @@
                             </div>
                         </td>
                     </tr>
-
+                    @if (Model.Uri1 != null && Model.Uri1 != "")
+                    {
+                        <tr>
+                            <td align="right"><label for="phone" class="control-label">需求附件：</label></td>
+                            <td>
+                                <div class="form-group">
+                                    <a href="@(Model?.Uri1)" class="btn btn-primary">下载需求附件</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
                     <tr>
                         <td align="right"><label for="estimatedstartdate" class="control-label">预计开始日期：</label></td>
                         <td>
@@ -173,6 +183,13 @@
                             </div>
                         </td>
                     </tr>
+                    <tr>
+                        <td align="right"><label class="control-label">上传资料：</label></td>
+                        <td>
+                            @Html.Partial("UploadFile", new FancyFix.OA.Config.FileUploadConfig { Files = Model?.Uri2 ?? "", FileExt = "xlsx,xls", UploadNum = 1, Domain = "local" })
+                        </td>
+                    </tr>
+
                     <tr>
                         <td align="right"><label for="estimatedstartdate" class="control-label">完成时间段：</label></td>
                         <td>

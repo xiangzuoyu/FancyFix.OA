@@ -27,7 +27,7 @@
                     <col class="col-lg-10">
                 </colgroup>
                 <tbody>
-                    <tr>
+                    @*<tr>
                         <td align="right"><label for="number" class="control-label">编号：</label></td>
                         <td>
                             <div class="form-group">
@@ -35,7 +35,7 @@
                                        required="required" style="width:250px;">
                             </div>
                         </td>
-                    </tr>
+                    </tr>*@
                     <tr>
                         <td align="right"><label for="title" class="control-label">标题：</label></td>
                         <td>
@@ -128,6 +128,12 @@
                                 <input type="text" class="form-control" id="phone" name="phone" placeholder="手机号" value="@(Model?.Phone ?? "")"
                                        style="width:250px;">
                             </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label class="control-label">上传附件：</label></td>
+                        <td>
+                            @Html.Partial("UploadFile", new FancyFix.OA.Config.FileUploadConfig { Files = Model?.Uri1 ?? "",  FileExt = "xlsx,xls", UploadNum = 1,  Domain = "local" })
                         </td>
                     </tr>
                     <tr>

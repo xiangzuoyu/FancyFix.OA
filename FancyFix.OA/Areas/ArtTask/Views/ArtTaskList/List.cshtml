@@ -47,8 +47,8 @@
                         <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> 查看需求排期
                     </button>
                     @*<button  onclick=preview(2) type="button" class="btn btn-default">
-                        <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> 打印
-                    </button>*@
+                            <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> 打印
+                        </button>*@
                 </div>
                 <table id="table" class="table table-bordered table-hover"></table>
             </div>
@@ -59,7 +59,7 @@
 @section Js{
     <script src="/Content/js/plugins/datatables/bootstrap-table.min.js"></script>
     <script src="/Content/js/plugins/datatables/bootstrap-table-zh-CN.js"></script>
-    <script src="/Content/js/common/tools.js"></script> 
+    <script src="/Content/js/common/tools.js"></script>
     <script>
         layui.use(['layer', 'form'], function () {
             var layer = layui.layer;
@@ -182,7 +182,14 @@
                                     ele += "<a data-id=\"" + r.Id + "\" class=\"btnDaCall btn btn-md btn-primary\">打分</a> ";
 
                                 if (r.Display == 3 || r.Display == 5)
-                                    ele += "<span data-id=\"" + r.Id + "\" class=\"  btn btn-md layui-btn-disabled\">已完成</span> ";
+                                {
+                                    if (r.Uri2 != null && r.Uri2 != "" && ("@ViewBag.IsDesigner" == "True" ||r.SubmitterId == @ViewBag.CurrentId))
+                                        ele += "<a href=\"" + r.Uri2 + "\" target=\"_blank\" class=\"btnDaCall btn btn-md btn-primary\">下载</a> ";
+
+                                    ele += "<span data-id=\"" + r.Id + "\" class=\"btn btn-md layui-btn-disabled\">已完成</span> ";
+                                }
+
+
 
                                 return ele;
                             }
@@ -237,7 +244,7 @@
             function ShowDetailedFormatter(v, r, i) {
                 return "<div class='detail' title=\"" + v + "\"><span>详细</span></div>"
             }
-             
+
             //详细提示
             var tip;
             $("#table").on('mouseover','div.detail', function () {

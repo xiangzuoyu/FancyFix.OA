@@ -74,10 +74,13 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
         [HttpPost]
         public ActionResult Insert(ArtTaskList artTaskList)
         {
+            var nowdate = DateTime.Now;
+            artTaskList.Number =$"{MyInfo.Id}{MyInfo.UserName}{nowdate.ToString("yyyyMMddHHmmss")}";
             artTaskList.SubmitterId = MyInfo.Id;
-            artTaskList.SubmittedDate = DateTime.Now;
+            artTaskList.SubmittedDate = nowdate;
             artTaskList.Display = 1;
             artTaskList.DepartmentId = MyInfo.DepartId;
+            artTaskList.Uri1= GetPic();
 
             string msg = Bll.BllArtTaskList.Insert(artTaskList) > 0 ? "成功" : "失败";
             return LayerMsgSuccessAndRefresh("添加" + msg);
@@ -139,13 +142,14 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
             if (model == null)
                 return LayerAlertSuccessAndRefresh("分配需求失败，未找到该需求");
             //未领取过的任务，保存时需要判断是否已被领取
-            bool IsExist = artTaskList.Display == 1;
+            bool IsExist = artTaskList.Display == 1; 
 
             model.DesignerId = artTaskList.DesignerId;
             model.AMPM = artTaskList.AMPM;
             model.EstimatedStartDate = artTaskList.EstimatedStartDate;
             model.EstimatedEndDate = artTaskList.EstimatedEndDate;
             model.Display = 2;
+            model.Uri2= GetPic();
 
             //判断需求是否已被领取
             if (IsExist)

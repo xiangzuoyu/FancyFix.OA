@@ -10,7 +10,11 @@ namespace FancyFix.OA.Areas.Questionnaire.Controllers
     {
         public ActionResult Index()
         {
+            return View();
+        }
 
+        public ActionResult PageList()
+        {
             return View();
         }
     }

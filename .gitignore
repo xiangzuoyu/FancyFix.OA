@@ -43,6 +43,4 @@ FancyFix.OA/Web.config
 *.pdb
 *.dll
 *.pdb
-.vs/FancyFix.OA/v15/.suo
-FancyFix.OA/Areas/ArtTask/Views/ArtTaskList/ShowCalendar.cshtml
-*.pdb
+FancyFix.OA/Web.config

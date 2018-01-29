@@ -39,6 +39,15 @@ namespace FancyFix.OA.Model
         private DateTime? _EstimatedEndDate;
         private DateTime? _CompletionDate;
         private int? _AMPM;
+        private int? _DepartmentId;
+        private decimal? _Budget;
+        private int? _DemandTypeId;
+        private string _Model;
+        private string _StyleType;
+        private int? _DetailTypeId;
+        private string _Uri1;
+        private string _Uri2;
+        private int? _Score;
         private int? _Display;
         /// <summary>
         /// 
@@ -197,9 +206,117 @@ namespace FancyFix.OA.Model
             }
         }
         /// <summary>
-		/// 需求状态；1：未分配，2：已分配，3：完成，4：已删除
-		/// </summary>
-		public int? Display
+        /// 需求部门
+        /// </summary>
+        public int? DepartmentId
+        {
+            get { return _DepartmentId; }
+            set
+            {
+                this.OnPropertyValueChange(_.DepartmentId, _DepartmentId, value);
+                this._DepartmentId = value;
+            }
+        }
+        /// <summary>
+        /// 项目预算
+        /// </summary>
+        public decimal? Budget
+        {
+            get { return _Budget; }
+            set
+            {
+                this.OnPropertyValueChange(_.Budget, _Budget, value);
+                this._Budget = value;
+            }
+        }
+        /// <summary>
+        /// 需求类型
+        /// </summary>
+        public int? DemandTypeId
+        {
+            get { return _DemandTypeId; }
+            set
+            {
+                this.OnPropertyValueChange(_.DemandTypeId, _DemandTypeId, value);
+                this._DemandTypeId = value;
+            }
+        }
+        /// <summary>
+        /// 需求
+        /// </summary>
+        public string Model
+        {
+            get { return _Model; }
+            set
+            {
+                this.OnPropertyValueChange(_.Model, _Model, value);
+                this._Model = value;
+            }
+        }
+        /// <summary>
+        /// 风格类型
+        /// </summary>
+        public string StyleType
+        {
+            get { return _StyleType; }
+            set
+            {
+                this.OnPropertyValueChange(_.StyleType, _StyleType, value);
+                this._StyleType = value;
+            }
+        }
+        /// <summary>
+        /// 细节类型
+        /// </summary>
+        public int? DetailTypeId
+        {
+            get { return _DetailTypeId; }
+            set
+            {
+                this.OnPropertyValueChange(_.DetailTypeId, _DetailTypeId, value);
+                this._DetailTypeId = value;
+            }
+        }
+        /// <summary>
+        /// 参考地址
+        /// </summary>
+        public string Uri1
+        {
+            get { return _Uri1; }
+            set
+            {
+                this.OnPropertyValueChange(_.Uri1, _Uri1, value);
+                this._Uri1 = value;
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string Uri2
+        {
+            get { return _Uri2; }
+            set
+            {
+                this.OnPropertyValueChange(_.Uri2, _Uri2, value);
+                this._Uri2 = value;
+            }
+        }
+        /// <summary>
+        /// 评分
+        /// </summary>
+        public int? Score
+        {
+            get { return _Score; }
+            set
+            {
+                this.OnPropertyValueChange(_.Score, _Score, value);
+                this._Score = value;
+            }
+        }
+        /// <summary>
+        /// 需求状态；1：未分配，2：已分配，3：已完成，4：已取消，5：已打分
+        /// </summary>
+        public int? Display
         {
             get { return _Display; }
             set
@@ -245,6 +362,15 @@ namespace FancyFix.OA.Model
                 _.EstimatedEndDate,
                 _.CompletionDate,
                 _.AMPM,
+                _.DepartmentId,
+                _.Budget,
+                _.DemandTypeId,
+                _.Model,
+                _.StyleType,
+                _.DetailTypeId,
+                _.Uri1,
+                _.Uri2,
+                _.Score,
                 _.Display};
         }
         /// <summary>
@@ -266,6 +392,15 @@ namespace FancyFix.OA.Model
                 this._EstimatedEndDate,
                 this._CompletionDate,
                 this._AMPM,
+                this._DepartmentId,
+                this._Budget,
+                this._DemandTypeId,
+                this._Model,
+                this._StyleType,
+                this._DetailTypeId,
+                this._Uri1,
+                this._Uri2,
+                this._Score,
                 this._Display};
         }
         #endregion
@@ -333,9 +468,45 @@ namespace FancyFix.OA.Model
             /// </summary>
             public readonly static Field AMPM = new Field("AMPM", "ArtTaskList", "上下午");
             /// <summary>
-            /// 需求状态；1：未分配，2：已分配，3：完成，4：已删除
+            /// 需求部门
             /// </summary>
-            public readonly static Field Display = new Field("Display", "ArtTaskList", "需求状态；1：未分配，2：已分配，3：完成，4：已删除");
+            public readonly static Field DepartmentId = new Field("DepartmentId", "ArtTaskList", "需求部门");
+            /// <summary>
+            /// 项目预算
+            /// </summary>
+            public readonly static Field Budget = new Field("Budget", "ArtTaskList", "项目预算");
+            /// <summary>
+            /// 需求类型
+            /// </summary>
+            public readonly static Field DemandTypeId = new Field("DemandTypeId", "ArtTaskList", "需求类型");
+            /// <summary>
+            /// 需求
+            /// </summary>
+            public readonly static Field Model = new Field("Model", "ArtTaskList", "需求");
+            /// <summary>
+            /// 风格类型
+            /// </summary>
+            public readonly static Field StyleType = new Field("StyleType", "ArtTaskList", "风格类型");
+            /// <summary>
+            /// 细节类型
+            /// </summary>
+            public readonly static Field DetailTypeId = new Field("DetailTypeId", "ArtTaskList", "细节类型");
+            /// <summary>
+            /// 参考地址
+            /// </summary>
+            public readonly static Field Uri1 = new Field("Uri1", "ArtTaskList", "参考地址");
+            /// <summary>
+            /// 
+            /// </summary>
+            public readonly static Field Uri2 = new Field("Uri2", "ArtTaskList", "Uri2");
+            /// <summary>
+            /// 评分
+            /// </summary>
+            public readonly static Field Score = new Field("Score", "ArtTaskList", "评分");
+            /// <summary>
+            /// 需求状态
+            /// </summary>
+            public readonly static Field Display = new Field("Display", "ArtTaskList", "需求状态");
         }
         #endregion
 

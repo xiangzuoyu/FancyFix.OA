@@ -164,7 +164,18 @@
                 layer.confirm('确认删除吗？', {
                     btn: ['删除', '取消']
                 }, function () {
-                    window.location.href = '/kpi/kpi/kpidelete/' + id;
+                    $.post('/kpi/kpi/kpidelete/' + id, function (data) {
+                        if (data) {
+                            if (data.result > 0) {
+                                layer.msg(data.msg, { icon: 1 });
+                                setTimeout(function () {
+                                    window.location.reload();
+                                }, 2000)
+                            } else {
+                                layer.msg(data.msg, { icon: 2 });
+                            }
+                        }
+                    })
                 });
             })
         })

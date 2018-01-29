@@ -46,3 +46,11 @@ FancyFix.OA/Web.config
 FancyFix.OA/Web.config
 *.dll
 *.pdb
+*.dll
+.vs/FancyFix.OA/v15/.suo
+*.pdb
+*.cache
+*.txt
+*.xlsx
+*.config
+*.csproj

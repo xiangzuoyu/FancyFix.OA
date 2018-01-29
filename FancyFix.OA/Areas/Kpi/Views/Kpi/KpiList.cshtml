@@ -58,19 +58,19 @@
                                         <td align="center">@item.Name</td>
                                         <td class="hidden-xs">@CutString(item.Content, 100)</td>
                                         @*<td class="hidden-xs" align="center">
-                                            @if (!string.IsNullOrWhiteSpace(item.Target_Highest))
-                                            {
-                                                <p>挑战目标：@item.Target_Highest</p>
-                                            } 
-                                            @if (!string.IsNullOrWhiteSpace(item.Target_Normal))
-                                            {
-                                                <p>标准目标：@item.Target_Normal</p>
-                                            }
-                                            @if (!string.IsNullOrWhiteSpace(item.Target_Lowest))
-                                            {
-                                                <p>最低目标：@item.Target_Lowest</p>
-                                            }
-                                        </td>*@
+                                                @if (!string.IsNullOrWhiteSpace(item.Target_Highest))
+                                                {
+                                                    <p>挑战目标：@item.Target_Highest</p>
+                                                }
+                                                @if (!string.IsNullOrWhiteSpace(item.Target_Normal))
+                                                {
+                                                    <p>标准目标：@item.Target_Normal</p>
+                                                }
+                                                @if (!string.IsNullOrWhiteSpace(item.Target_Lowest))
+                                                {
+                                                    <p>最低目标：@item.Target_Lowest</p>
+                                                }
+                                            </td>*@
                                         <td align="center"><span class="badge bg-green">@item.Score %</span></td>
                                         <td align="center">@item.ParUserName</td>
                                         <td align="center">
@@ -164,7 +164,18 @@
                 layer.confirm('确认删除吗？', {
                     btn: ['删除', '取消']
                 }, function () {
-                    window.location.href = '/kpi/kpi/kpidelete/' + id;
+                    $.post('/kpi/kpi/kpidelete/' + id, function (data) {
+                        if (data) {
+                            if (data.result > 0) {
+                                layer.msg(data.msg, { icon: 1 });
+                                setTimeout(function () {
+                                    window.location.reload();
+                                }, 2000)
+                            } else {
+                                layer.msg(data.msg, { icon: 2 });
+                            }
+                        }
+                    })
                 });
             })
         })

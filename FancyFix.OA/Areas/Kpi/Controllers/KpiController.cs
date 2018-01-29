@@ -82,10 +82,11 @@ namespace FancyFix.OA.Areas.Kpi.Controllers
             }
 
             id = Bll.BllKpi_Records.Delete(o => o.Id == id);
+
             if (id > 0)
-                return MessageBoxAndJump("删除成功！", $"/kpi/kpi/kpilist?year={record.Year}&month={record.Month}");
+                return Json(new { result = 1, msg = "删除成功！" });
             else
-                return MessageBoxAndReturn("删除失败，请联系管理员！");
+                return Json(new { result = 0, msg = "删除失败，请联系管理员！" });
         }
 
         //指标增加修改

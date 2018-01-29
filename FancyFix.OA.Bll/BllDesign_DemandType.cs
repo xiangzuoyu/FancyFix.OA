@@ -7,16 +7,16 @@ using FancyFix.OA.Model;
 
 namespace FancyFix.OA.Bll
 {
-    public class BllDemandType
+    public class BllDesign_DemandType
     {
-        public static BllArtTaskList Instance()
+        public static BllDesign_ArtTaskList Instance()
         {
-            return new BllArtTaskList();
+            return new BllDesign_ArtTaskList();
         }
          
-        public static IEnumerable<DemandType> GetList()
+        public static IEnumerable<Design_DemandType> GetList()
         {
-            var list = Db.Context.From<DemandType>()
+            var list = Db.Context.From<Design_DemandType>()
                 .Where(o => o.Display !=2)
                 .ToList();
 

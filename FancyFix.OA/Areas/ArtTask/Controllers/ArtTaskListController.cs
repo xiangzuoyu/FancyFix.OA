@@ -25,7 +25,7 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
         public JsonResult PageList(int page = 0, int pagesize = 0, int displayid = 0)
         {
             long records = 0;
-            var list = Bll.BllArtTaskList.PageList(page, pagesize, out records, displayid);
+            var list = Bll.BllDesign_ArtTaskList.PageList(page, pagesize, out records, displayid);
             var adminlist = AdminData.GetList();
             foreach (var item in list)
             {
@@ -49,21 +49,21 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
         //取消需求
         public JsonResult Delete(int id)
         {
-            return Json(new { result = Bll.BllArtTaskList.CancelTask(id) });
+            return Json(new { result = Bll.BllDesign_ArtTaskList.CancelTask(id) });
         }
 
         //完成需求
         public JsonResult Complete(int id)
         {
-            return Json(new { result = Bll.BllArtTaskList.CompleteTask(id) });
+            return Json(new { result = Bll.BllDesign_ArtTaskList.CompleteTask(id) });
         }
 
         #region 添加需求
         //新增需求
         public ActionResult Insert()
         {
-            ViewBag.DemandTypeList = Bll.BllDemandType.GetList() ?? new List<DemandType>();
-            ViewBag.DetailTypeList = Bll.BllDetailType.GetList() ?? new List<DetailType>();
+            ViewBag.DemandTypeList = Bll.BllDesign_DemandType.GetList() ?? new List<Design_DemandType>();
+            ViewBag.DetailTypeList = Bll.BllDesign_DetailType.GetList() ?? new List<Design_DetailType>();
             return View();
         }
         /// <summary>
@@ -72,7 +72,7 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
         /// <param name="artTaskList"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult Insert(ArtTaskList artTaskList)
+        public ActionResult Insert(Design_ArtTaskList artTaskList)
         {
             var nowdate = DateTime.Now;
             artTaskList.Number =$"{nowdate.ToString("yyyyMMdd")}{MyInfo.Id}{MyInfo.UserName}{nowdate.ToString("HHmmdd")}";
@@ -82,7 +82,7 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
             artTaskList.DepartmentId = MyInfo.DepartId;
             artTaskList.Uri1= GetPic();
 
-            string msg = Bll.BllArtTaskList.Insert(artTaskList) > 0 ? "成功" : "失败";
+            string msg = Bll.BllDesign_ArtTaskList.Insert(artTaskList) > 0 ? "成功" : "失败";
             return LayerMsgSuccessAndRefresh("添加" + msg);
         }
         #endregion
@@ -104,9 +104,9 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
             }
             ViewBag.designerList = userList ?? new List<Mng_User>();
 
-            ArtTaskList model = null;
+            Design_ArtTaskList model = null;
             if (id > 0)
-                model = Bll.BllArtTaskList.First(o => o.Id == id);
+                model = Bll.BllDesign_ArtTaskList.First(o => o.Id == id);
             if (model == null)
                 return LayerAlertSuccessAndRefresh("加载需求失败，未找到该需求");
 
@@ -129,16 +129,16 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
                 model.SubmitterName = Bll.BllMng_User.First(o => o.Id == model.SubmitterId)?.RealName;
 
             ViewBag.StartDate = model.EstimatedStartDate;
-            ViewBag.DemandTypeList = Bll.BllDemandType.GetList() ?? new List<DemandType>();
-            ViewBag.DetailTypeList = Bll.BllDetailType.GetList() ?? new List<DetailType>();
+            ViewBag.DemandTypeList = Bll.BllDesign_DemandType.GetList() ?? new List<Design_DemandType>();
+            ViewBag.DetailTypeList = Bll.BllDesign_DetailType.GetList() ?? new List<Design_DetailType>();
 
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult Edit(ArtTaskList artTaskList)
+        public ActionResult Edit(Design_ArtTaskList artTaskList)
         {
-            ArtTaskList model = Bll.BllArtTaskList.First(o => o.Id == artTaskList.Id);
+            Design_ArtTaskList model = Bll.BllDesign_ArtTaskList.First(o => o.Id == artTaskList.Id);
             if (model == null)
                 return LayerAlertSuccessAndRefresh("分配需求失败，未找到该需求");
             //未领取过的任务，保存时需要判断是否已被领取
@@ -154,12 +154,12 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
             //判断需求是否已被领取
             if (IsExist)
             {
-                ArtTaskList newModel = Bll.BllArtTaskList.First(o => o.Id == artTaskList.Id);
+                Design_ArtTaskList newModel = Bll.BllDesign_ArtTaskList.First(o => o.Id == artTaskList.Id);
                 if (newModel != null && newModel.Display == 2)
                     return LayerAlertAndCallback("改需求已被其他人领取，请重新选择", "getTasklist.addDataFail()");
             }
 
-            string msg = Bll.BllArtTaskList.Update(model) > 0 ? "成功" : "失败";
+            string msg = Bll.BllDesign_ArtTaskList.Update(model) > 0 ? "成功" : "失败";
             return LayerAlertAndCallback("编辑" + msg, "getTasklist.addDataSuccess()");
         }
 
@@ -168,10 +168,10 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
         #region 日历显示
         public ActionResult ShowCalendar(int id = 0)
         {
-            ArtTaskList model = null;
+            Design_ArtTaskList model = null;
             //选中当前需求
             if (id > 0)
-                model = Bll.BllArtTaskList.First(o => o.Id == id);
+                model = Bll.BllDesign_ArtTaskList.First(o => o.Id == id);
             ViewBag.TaskId = id;
 
             ViewBag.CurrentDesigner = 0;
@@ -195,7 +195,7 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
             //设置日历显示的日期范围
             DateTime starttime = RequestString("starttime").Trim().ToDateTime().AddMonths(-1);
             DateTime endtime = RequestString("endtime").Trim().ToDateTime().AddMonths(1);
-            var list = Bll.BllArtTaskList.GetList(starttime, endtime, designerId);
+            var list = Bll.BllDesign_ArtTaskList.GetList(starttime, endtime, designerId);
             return Json(new { result = list }, JsonRequestBehavior.AllowGet);
         }
         #endregion
@@ -217,14 +217,14 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
             if (id < 1)
                 return LayerMsgErrorAndClose("加载需求ID失败，请联系管理员！");
 
-            ArtTaskList model = null;
-            model = Bll.BllArtTaskList.First(o => o.Id == id);
+            Design_ArtTaskList model = null;
+            model = Bll.BllDesign_ArtTaskList.First(o => o.Id == id);
             if (model == null)
                 return LayerMsgErrorAndClose("未找到该需求，请联系管理员！");
 
             model.Score = rating;
             model.Display = 5;
-            string msg = Bll.BllArtTaskList.Update(model) > 0 ? "成功" : "失败";
+            string msg = Bll.BllDesign_ArtTaskList.Update(model) > 0 ? "成功" : "失败";
             return LayerMsgSuccessAndRefresh("打分" + msg);
         }
         #endregion

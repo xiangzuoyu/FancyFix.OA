@@ -18,9 +18,9 @@ Date: 2018-01-29 14:01:33
 -- ----------------------------
 -- Table structure for ArtTaskList
 -- ----------------------------
-DROP TABLE [dbo].[ArtTaskList]
+DROP TABLE [dbo].[Design_ArtTaskList]
 GO
-CREATE TABLE [dbo].[ArtTaskList] (
+CREATE TABLE [dbo].[Design_ArtTaskList] (
 [Id] int NOT NULL IDENTITY(1,1) ,
 [Number] varchar(100) NULL ,
 [Title] nvarchar(256) NULL ,
@@ -48,7 +48,7 @@ CREATE TABLE [dbo].[ArtTaskList] (
 
 
 GO
-DBCC CHECKIDENT(N'[dbo].[ArtTaskList]', RESEED, 12)
+DBCC CHECKIDENT(N'[dbo].[Design_ArtTaskList]', RESEED, 12)
 GO
 IF ((SELECT COUNT(*) from fn_listextendedproperty('MS_Description', 
 'SCHEMA', N'dbo', 
@@ -352,5 +352,5 @@ GO
 -- ----------------------------
 -- Primary Key structure for table ArtTaskList
 -- ----------------------------
-ALTER TABLE [dbo].[ArtTaskList] ADD PRIMARY KEY ([Id])
+ALTER TABLE [dbo].[Design_ArtTaskList] ADD PRIMARY KEY ([Id])
 GO

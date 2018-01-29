@@ -21,9 +21,9 @@ namespace FancyFix.OA.Model
 	/// <summary>
 	/// 实体类DemandType 。(属性说明自动提取数据库字段的描述信息)
 	/// </summary>
-	[Table("DemandType")]
+	[Table("Design_DemandType")]
 	[Serializable]
-	public partial class DemandType : Entity 
+	public partial class Design_DemandType : Entity 
 	{
 		#region Model
 		private int _Id;

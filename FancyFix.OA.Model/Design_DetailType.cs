@@ -21,9 +21,9 @@ namespace FancyFix.OA.Model
 	/// <summary>
 	/// 实体类DetailType 。(属性说明自动提取数据库字段的描述信息)
 	/// </summary>
-	[Table("DetailType")]
+	[Table("Design_DetailType")]
 	[Serializable]
-	public partial class DetailType : Entity 
+	public partial class Design_DetailType : Entity 
 	{
 		#region Model
 		private int _Id;

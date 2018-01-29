@@ -7,12 +7,12 @@ using System.Text;
 
 namespace FancyFix.OA.Bll
 {
-    public class BllDetailType
+    public class BllDesign_DetailType
     {
         
-        public static IEnumerable<DetailType> GetList()
+        public static IEnumerable<Design_DetailType> GetList()
         {
-            var list = Db.Context.From<DetailType>()
+            var list = Db.Context.From<Design_DetailType>()
                 .Where(o => o.Display != 2)
                 .ToList();
 

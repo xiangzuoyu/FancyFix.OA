@@ -21,9 +21,9 @@ namespace FancyFix.OA.Model
     /// <summary>
     /// 实体类ArtTaskList 。(属性说明自动提取数据库字段的描述信息)
     /// </summary>
-    [Table("ArtTaskList")]
+    [Table("Design_ArtTaskList")]
     [Serializable]
-    public partial class ArtTaskList : Entity
+    public partial class Design_ArtTaskList : Entity
     {
         #region Model
         private int _Id;

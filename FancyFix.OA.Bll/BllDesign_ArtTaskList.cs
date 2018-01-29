@@ -8,22 +8,22 @@ using System.Text;
 
 namespace FancyFix.OA.Bll
 {
-    public class BllArtTaskList : ServiceBase<ArtTaskList>
+    public class BllDesign_ArtTaskList : ServiceBase<Design_ArtTaskList>
     {
-        public static BllArtTaskList Instance()
+        public static BllDesign_ArtTaskList Instance()
         {
-            return new BllArtTaskList();
+            return new BllDesign_ArtTaskList();
         }
 
-        public static IEnumerable<ArtTaskList> PageList(int page, int pageSize, out long records, int display)
+        public static IEnumerable<Design_ArtTaskList> PageList(int page, int pageSize, out long records, int display)
         {
-            var where = new Where<ArtTaskList>();
+            var where = new Where<Design_ArtTaskList>();
             where.And(o => o.Display != 4);
 
             if (display > 0)
                 where.And(o => o.Display == display);
 
-            var p = Db.Context.From<ArtTaskList>()
+            var p = Db.Context.From<Design_ArtTaskList>()
                 //.Select((a)=>new { })
                 .Where(where);
             records = p.Count();
@@ -63,9 +63,9 @@ namespace FancyFix.OA.Bll
         /// 获取显示在日历上的需求
         /// </summary>
         /// <returns></returns>
-        public static IEnumerable<ArtTaskList> GetList(DateTime start, DateTime end, int designerId = 0)
+        public static IEnumerable<Design_ArtTaskList> GetList(DateTime start, DateTime end, int designerId = 0)
         {
-            var list = Db.Context.From<ArtTaskList>()
+            var list = Db.Context.From<Design_ArtTaskList>()
                 .Where(o => o.Display != 1 && o.Display != 4 &&
                 ((o.EstimatedStartDate >= start && o.EstimatedStartDate <= end) || (o.EstimatedEndDate >= start && o.EstimatedEndDate <= end)))
                 .ToList();

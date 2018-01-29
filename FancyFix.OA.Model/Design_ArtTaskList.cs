@@ -18,499 +18,499 @@ using Dos.ORM.Common;
 namespace FancyFix.OA.Model
 {
 
-    /// <summary>
-    /// 实体类ArtTaskList 。(属性说明自动提取数据库字段的描述信息)
-    /// </summary>
-    [Table("Design_ArtTaskList")]
-    [Serializable]
-    public partial class Design_ArtTaskList : Entity
-    {
-        #region Model
-        private int _Id;
-        private string _Number;
-        private string _Title;
-        private string _Content;
-        private string _Phone;
-        private DateTime? _DueDate;
-        private int? _SubmitterId;
-        private DateTime? _SubmittedDate;
-        private int? _DesignerId;
-        private DateTime? _EstimatedStartDate;
-        private DateTime? _EstimatedEndDate;
-        private DateTime? _CompletionDate;
-        private int? _AMPM;
-        private int? _DepartmentId;
-        private decimal? _Budget;
-        private int? _DemandTypeId;
-        private string _Model;
-        private string _StyleType;
-        private int? _DetailTypeId;
-        private string _Uri1;
-        private string _Uri2;
-        private int? _Score;
-        private int? _Display;
-        /// <summary>
-        /// 
-        /// </summary>
-        public int Id
-        {
-            get { return _Id; }
-            set
-            {
-                this.OnPropertyValueChange(_.Id, _Id, value);
-                this._Id = value;
-            }
-        }
-        /// <summary>
-        /// 编号
-        /// </summary>
-        public string Number
-        {
-            get { return _Number; }
-            set
-            {
-                this.OnPropertyValueChange(_.Number, _Number, value);
-                this._Number = value;
-            }
-        }
-        /// <summary>
-        /// 任务标题
-        /// </summary>
-        public string Title
-        {
-            get { return _Title; }
-            set
-            {
-                this.OnPropertyValueChange(_.Title, _Title, value);
-                this._Title = value;
-            }
-        }
-        /// <summary>
-        /// 任务详细
-        /// </summary>
-        public string Content
-        {
-            get { return _Content; }
-            set
-            {
-                this.OnPropertyValueChange(_.Content, _Content, value);
-                this._Content = value;
-            }
-        }
-        /// <summary>
-        /// 事业部联系号码，用于沟通联系
-        /// </summary>
-        public string Phone
-        {
-            get { return _Phone; }
-            set
-            {
-                this.OnPropertyValueChange(_.Phone, _Phone, value);
-                this._Phone = value;
-            }
-        }
-        /// <summary>
-        /// 截止日期
-        /// </summary>
-        public DateTime? DueDate
-        {
-            get { return _DueDate; }
-            set
-            {
-                this.OnPropertyValueChange(_.DueDate, _DueDate, value);
-                this._DueDate = value;
-            }
-        }
-        /// <summary>
-        /// 任务提交人
-        /// </summary>
-        public int? SubmitterId
-        {
-            get { return _SubmitterId; }
-            set
-            {
-                this.OnPropertyValueChange(_.SubmitterId, _SubmitterId, value);
-                this._SubmitterId = value;
-            }
-        }
-        /// <summary>
-        /// 提交任务日期
-        /// </summary>
-        public DateTime? SubmittedDate
-        {
-            get { return _SubmittedDate; }
-            set
-            {
-                this.OnPropertyValueChange(_.SubmittedDate, _SubmittedDate, value);
-                this._SubmittedDate = value;
-            }
-        }
-        /// <summary>
-        /// 设计师
-        /// </summary>
-        public int? DesignerId
-        {
-            get { return _DesignerId; }
-            set
-            {
-                this.OnPropertyValueChange(_.DesignerId, _DesignerId, value);
-                this._DesignerId = value;
-            }
-        }
-        /// <summary>
-        /// 预计开始日期
-        /// </summary>
-        public DateTime? EstimatedStartDate
-        {
-            get { return _EstimatedStartDate; }
-            set
-            {
-                this.OnPropertyValueChange(_.EstimatedStartDate, _EstimatedStartDate, value);
-                this._EstimatedStartDate = value;
-            }
-        }
-        /// <summary>
-        /// 预计结束日期
-        /// </summary>
-        public DateTime? EstimatedEndDate
-        {
-            get { return _EstimatedEndDate; }
-            set
-            {
-                this.OnPropertyValueChange(_.EstimatedEndDate, _EstimatedEndDate, value);
-                this._EstimatedEndDate = value;
-            }
-        }
-        /// <summary>
-        /// 实际完成日期
-        /// </summary>
-        public DateTime? CompletionDate
-        {
-            get { return _CompletionDate; }
-            set
-            {
-                this.OnPropertyValueChange(_.CompletionDate, _CompletionDate, value);
-                this._CompletionDate = value;
-            }
-        }
-        /// <summary>
-        /// 上下午
-        /// </summary>
-        public int? AMPM
-        {
-            get { return _AMPM; }
-            set
-            {
-                this.OnPropertyValueChange(_.AMPM, _AMPM, value);
-                this._AMPM = value;
-            }
-        }
-        /// <summary>
-        /// 需求部门
-        /// </summary>
-        public int? DepartmentId
-        {
-            get { return _DepartmentId; }
-            set
-            {
-                this.OnPropertyValueChange(_.DepartmentId, _DepartmentId, value);
-                this._DepartmentId = value;
-            }
-        }
-        /// <summary>
-        /// 项目预算
-        /// </summary>
-        public decimal? Budget
-        {
-            get { return _Budget; }
-            set
-            {
-                this.OnPropertyValueChange(_.Budget, _Budget, value);
-                this._Budget = value;
-            }
-        }
-        /// <summary>
-        /// 需求类型
-        /// </summary>
-        public int? DemandTypeId
-        {
-            get { return _DemandTypeId; }
-            set
-            {
-                this.OnPropertyValueChange(_.DemandTypeId, _DemandTypeId, value);
-                this._DemandTypeId = value;
-            }
-        }
-        /// <summary>
-        /// 需求
-        /// </summary>
-        public string Model
-        {
-            get { return _Model; }
-            set
-            {
-                this.OnPropertyValueChange(_.Model, _Model, value);
-                this._Model = value;
-            }
-        }
-        /// <summary>
-        /// 风格类型
-        /// </summary>
-        public string StyleType
-        {
-            get { return _StyleType; }
-            set
-            {
-                this.OnPropertyValueChange(_.StyleType, _StyleType, value);
-                this._StyleType = value;
-            }
-        }
-        /// <summary>
-        /// 细节类型
-        /// </summary>
-        public int? DetailTypeId
-        {
-            get { return _DetailTypeId; }
-            set
-            {
-                this.OnPropertyValueChange(_.DetailTypeId, _DetailTypeId, value);
-                this._DetailTypeId = value;
-            }
-        }
-        /// <summary>
-        /// 参考地址
-        /// </summary>
-        public string Uri1
-        {
-            get { return _Uri1; }
-            set
-            {
-                this.OnPropertyValueChange(_.Uri1, _Uri1, value);
-                this._Uri1 = value;
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public string Uri2
-        {
-            get { return _Uri2; }
-            set
-            {
-                this.OnPropertyValueChange(_.Uri2, _Uri2, value);
-                this._Uri2 = value;
-            }
-        }
-        /// <summary>
-        /// 评分
-        /// </summary>
-        public int? Score
-        {
-            get { return _Score; }
-            set
-            {
-                this.OnPropertyValueChange(_.Score, _Score, value);
-                this._Score = value;
-            }
-        }
-        /// <summary>
-        /// 需求状态；1：未分配，2：已分配，3：已完成，4：已取消，5：已打分
-        /// </summary>
-        public int? Display
-        {
-            get { return _Display; }
-            set
-            {
-                this.OnPropertyValueChange(_.Display, _Display, value);
-                this._Display = value;
-            }
-        }
-        #endregion
+	/// <summary>
+	/// 实体类Design_ArtTaskList 。(属性说明自动提取数据库字段的描述信息)
+	/// </summary>
+	[Table("Design_ArtTaskList")]
+	[Serializable]
+	public partial class Design_ArtTaskList : Entity 
+	{
+		#region Model
+		private int _Id;
+		private string _Number;
+		private string _Title;
+		private string _Content;
+		private string _Phone;
+		private DateTime? _DueDate;
+		private int? _SubmitterId;
+		private DateTime? _SubmittedDate;
+		private int? _DesignerId;
+		private DateTime? _EstimatedStartDate;
+		private DateTime? _EstimatedEndDate;
+		private DateTime? _CompletionDate;
+		private int? _AMPM;
+		private int? _DepartmentId;
+		private decimal? _Budget;
+		private int? _DemandTypeId;
+		private string _Model;
+		private string _StyleType;
+		private int? _DetailTypeId;
+		private string _Uri1;
+		private string _Uri2;
+		private int? _Score;
+		private int? _Display;
+		/// <summary>
+		/// 
+		/// </summary>
+		public int Id
+		{
+			get{ return _Id; }
+			set
+			{
+				this.OnPropertyValueChange(_.Id,_Id,value);
+				this._Id=value;
+			}
+		}
+		/// <summary>
+		/// 编号
+		/// </summary>
+		public string Number
+		{
+			get{ return _Number; }
+			set
+			{
+				this.OnPropertyValueChange(_.Number,_Number,value);
+				this._Number=value;
+			}
+		}
+		/// <summary>
+		/// 任务标题
+		/// </summary>
+		public string Title
+		{
+			get{ return _Title; }
+			set
+			{
+				this.OnPropertyValueChange(_.Title,_Title,value);
+				this._Title=value;
+			}
+		}
+		/// <summary>
+		/// 任务详细
+		/// </summary>
+		public string Content
+		{
+			get{ return _Content; }
+			set
+			{
+				this.OnPropertyValueChange(_.Content,_Content,value);
+				this._Content=value;
+			}
+		}
+		/// <summary>
+		/// 事业部联系号码，用于沟通联系
+		/// </summary>
+		public string Phone
+		{
+			get{ return _Phone; }
+			set
+			{
+				this.OnPropertyValueChange(_.Phone,_Phone,value);
+				this._Phone=value;
+			}
+		}
+		/// <summary>
+		/// 截止日期
+		/// </summary>
+		public DateTime? DueDate
+		{
+			get{ return _DueDate; }
+			set
+			{
+				this.OnPropertyValueChange(_.DueDate,_DueDate,value);
+				this._DueDate=value;
+			}
+		}
+		/// <summary>
+		/// 任务提交人
+		/// </summary>
+		public int? SubmitterId
+		{
+			get{ return _SubmitterId; }
+			set
+			{
+				this.OnPropertyValueChange(_.SubmitterId,_SubmitterId,value);
+				this._SubmitterId=value;
+			}
+		}
+		/// <summary>
+		/// 提交任务日期
+		/// </summary>
+		public DateTime? SubmittedDate
+		{
+			get{ return _SubmittedDate; }
+			set
+			{
+				this.OnPropertyValueChange(_.SubmittedDate,_SubmittedDate,value);
+				this._SubmittedDate=value;
+			}
+		}
+		/// <summary>
+		/// 设计师
+		/// </summary>
+		public int? DesignerId
+		{
+			get{ return _DesignerId; }
+			set
+			{
+				this.OnPropertyValueChange(_.DesignerId,_DesignerId,value);
+				this._DesignerId=value;
+			}
+		}
+		/// <summary>
+		/// 预计开始日期
+		/// </summary>
+		public DateTime? EstimatedStartDate
+		{
+			get{ return _EstimatedStartDate; }
+			set
+			{
+				this.OnPropertyValueChange(_.EstimatedStartDate,_EstimatedStartDate,value);
+				this._EstimatedStartDate=value;
+			}
+		}
+		/// <summary>
+		/// 预计结束日期
+		/// </summary>
+		public DateTime? EstimatedEndDate
+		{
+			get{ return _EstimatedEndDate; }
+			set
+			{
+				this.OnPropertyValueChange(_.EstimatedEndDate,_EstimatedEndDate,value);
+				this._EstimatedEndDate=value;
+			}
+		}
+		/// <summary>
+		/// 实际完成日期
+		/// </summary>
+		public DateTime? CompletionDate
+		{
+			get{ return _CompletionDate; }
+			set
+			{
+				this.OnPropertyValueChange(_.CompletionDate,_CompletionDate,value);
+				this._CompletionDate=value;
+			}
+		}
+		/// <summary>
+		/// 上下午
+		/// </summary>
+		public int? AMPM
+		{
+			get{ return _AMPM; }
+			set
+			{
+				this.OnPropertyValueChange(_.AMPM,_AMPM,value);
+				this._AMPM=value;
+			}
+		}
+		/// <summary>
+		/// 需求部门
+		/// </summary>
+		public int? DepartmentId
+		{
+			get{ return _DepartmentId; }
+			set
+			{
+				this.OnPropertyValueChange(_.DepartmentId,_DepartmentId,value);
+				this._DepartmentId=value;
+			}
+		}
+		/// <summary>
+		/// 项目预算
+		/// </summary>
+		public decimal? Budget
+		{
+			get{ return _Budget; }
+			set
+			{
+				this.OnPropertyValueChange(_.Budget,_Budget,value);
+				this._Budget=value;
+			}
+		}
+		/// <summary>
+		/// 需求类型
+		/// </summary>
+		public int? DemandTypeId
+		{
+			get{ return _DemandTypeId; }
+			set
+			{
+				this.OnPropertyValueChange(_.DemandTypeId,_DemandTypeId,value);
+				this._DemandTypeId=value;
+			}
+		}
+		/// <summary>
+		/// 型号
+		/// </summary>
+		public string Model
+		{
+			get{ return _Model; }
+			set
+			{
+				this.OnPropertyValueChange(_.Model,_Model,value);
+				this._Model=value;
+			}
+		}
+		/// <summary>
+		/// 风格类型
+		/// </summary>
+		public string StyleType
+		{
+			get{ return _StyleType; }
+			set
+			{
+				this.OnPropertyValueChange(_.StyleType,_StyleType,value);
+				this._StyleType=value;
+			}
+		}
+		/// <summary>
+		/// 细节类型
+		/// </summary>
+		public int? DetailTypeId
+		{
+			get{ return _DetailTypeId; }
+			set
+			{
+				this.OnPropertyValueChange(_.DetailTypeId,_DetailTypeId,value);
+				this._DetailTypeId=value;
+			}
+		}
+		/// <summary>
+		/// 参考地址
+		/// </summary>
+		public string Uri1
+		{
+			get{ return _Uri1; }
+			set
+			{
+				this.OnPropertyValueChange(_.Uri1,_Uri1,value);
+				this._Uri1=value;
+			}
+		}
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Uri2
+		{
+			get{ return _Uri2; }
+			set
+			{
+				this.OnPropertyValueChange(_.Uri2,_Uri2,value);
+				this._Uri2=value;
+			}
+		}
+		/// <summary>
+		/// 评分
+		/// </summary>
+		public int? Score
+		{
+			get{ return _Score; }
+			set
+			{
+				this.OnPropertyValueChange(_.Score,_Score,value);
+				this._Score=value;
+			}
+		}
+		/// <summary>
+		/// 需求状态
+		/// </summary>
+		public int? Display
+		{
+			get{ return _Display; }
+			set
+			{
+				this.OnPropertyValueChange(_.Display,_Display,value);
+				this._Display=value;
+			}
+		}
+		#endregion
 
-        #region Method
-        /// <summary>
-        /// 获取实体中的标识列
-        /// </summary>
-        public override Field GetIdentityField()
-        {
-            return _.Id;
-        }
-        /// <summary>
-        /// 获取实体中的主键列
-        /// </summary>
-        public override Field[] GetPrimaryKeyFields()
-        {
-            return new Field[] {
-                _.Id};
-        }
-        /// <summary>
-        /// 获取列信息
-        /// </summary>
-        public override Field[] GetFields()
-        {
-            return new Field[] {
-                _.Id,
-                _.Number,
-                _.Title,
-                _.Content,
-                _.Phone,
-                _.DueDate,
-                _.SubmitterId,
-                _.SubmittedDate,
-                _.DesignerId,
-                _.EstimatedStartDate,
-                _.EstimatedEndDate,
-                _.CompletionDate,
-                _.AMPM,
-                _.DepartmentId,
-                _.Budget,
-                _.DemandTypeId,
-                _.Model,
-                _.StyleType,
-                _.DetailTypeId,
-                _.Uri1,
-                _.Uri2,
-                _.Score,
-                _.Display};
-        }
-        /// <summary>
-        /// 获取值信息
-        /// </summary>
-        public override object[] GetValues()
-        {
-            return new object[] {
-                this._Id,
-                this._Number,
-                this._Title,
-                this._Content,
-                this._Phone,
-                this._DueDate,
-                this._SubmitterId,
-                this._SubmittedDate,
-                this._DesignerId,
-                this._EstimatedStartDate,
-                this._EstimatedEndDate,
-                this._CompletionDate,
-                this._AMPM,
-                this._DepartmentId,
-                this._Budget,
-                this._DemandTypeId,
-                this._Model,
-                this._StyleType,
-                this._DetailTypeId,
-                this._Uri1,
-                this._Uri2,
-                this._Score,
-                this._Display};
-        }
-        #endregion
+		#region Method
+		/// <summary>
+		/// 获取实体中的标识列
+		/// </summary>
+		public override Field GetIdentityField()
+		{
+			return _.Id;
+		}
+		/// <summary>
+		/// 获取实体中的主键列
+		/// </summary>
+		public override Field[] GetPrimaryKeyFields()
+		{
+			return new Field[] {
+				_.Id};
+		}
+		/// <summary>
+		/// 获取列信息
+		/// </summary>
+		public override Field[] GetFields()
+		{
+			return new Field[] {
+				_.Id,
+				_.Number,
+				_.Title,
+				_.Content,
+				_.Phone,
+				_.DueDate,
+				_.SubmitterId,
+				_.SubmittedDate,
+				_.DesignerId,
+				_.EstimatedStartDate,
+				_.EstimatedEndDate,
+				_.CompletionDate,
+				_.AMPM,
+				_.DepartmentId,
+				_.Budget,
+				_.DemandTypeId,
+				_.Model,
+				_.StyleType,
+				_.DetailTypeId,
+				_.Uri1,
+				_.Uri2,
+				_.Score,
+				_.Display};
+		}
+		/// <summary>
+		/// 获取值信息
+		/// </summary>
+		public override object[] GetValues()
+		{
+			return new object[] {
+				this._Id,
+				this._Number,
+				this._Title,
+				this._Content,
+				this._Phone,
+				this._DueDate,
+				this._SubmitterId,
+				this._SubmittedDate,
+				this._DesignerId,
+				this._EstimatedStartDate,
+				this._EstimatedEndDate,
+				this._CompletionDate,
+				this._AMPM,
+				this._DepartmentId,
+				this._Budget,
+				this._DemandTypeId,
+				this._Model,
+				this._StyleType,
+				this._DetailTypeId,
+				this._Uri1,
+				this._Uri2,
+				this._Score,
+				this._Display};
+		}
+		#endregion
 
-        #region _Field
-        /// <summary>
-        /// 字段信息
-        /// </summary>
-        public class _
-        {
-            /// <summary>
-            /// * 
-            /// </summary>
-            public readonly static Field All = new Field("*", "ArtTaskList");
-            /// <summary>
-            /// 
-            /// </summary>
-            public readonly static Field Id = new Field("Id", "ArtTaskList", "Id");
-            /// <summary>
-            /// 编号
-            /// </summary>
-            public readonly static Field Number = new Field("Number", "ArtTaskList", "编号");
-            /// <summary>
-            /// 任务标题
-            /// </summary>
-            public readonly static Field Title = new Field("Title", "ArtTaskList", "任务标题");
-            /// <summary>
-            /// 任务详细
-            /// </summary>
-            public readonly static Field Content = new Field("Content", "ArtTaskList", "任务详细");
-            /// <summary>
-            /// 事业部联系号码，用于沟通联系
-            /// </summary>
-            public readonly static Field Phone = new Field("Phone", "ArtTaskList", "事业部联系号码，用于沟通联系");
-            /// <summary>
-            /// 截止日期
-            /// </summary>
-            public readonly static Field DueDate = new Field("DueDate", "ArtTaskList", "截止日期");
-            /// <summary>
-            /// 任务提交人
-            /// </summary>
-            public readonly static Field SubmitterId = new Field("SubmitterId", "ArtTaskList", "任务提交人");
-            /// <summary>
-            /// 提交任务日期
-            /// </summary>
-            public readonly static Field SubmittedDate = new Field("SubmittedDate", "ArtTaskList", "提交任务日期");
-            /// <summary>
-            /// 设计师
-            /// </summary>
-            public readonly static Field DesignerId = new Field("DesignerId", "ArtTaskList", "设计师");
-            /// <summary>
-            /// 预计开始日期
-            /// </summary>
-            public readonly static Field EstimatedStartDate = new Field("EstimatedStartDate", "ArtTaskList", "预计开始日期");
-            /// <summary>
-            /// 预计结束日期
-            /// </summary>
-            public readonly static Field EstimatedEndDate = new Field("EstimatedEndDate", "ArtTaskList", "预计结束日期");
-            /// <summary>
-            /// 实际完成日期
-            /// </summary>
-            public readonly static Field CompletionDate = new Field("CompletionDate", "ArtTaskList", "实际完成日期");
-            /// <summary>
-            /// 上下午
-            /// </summary>
-            public readonly static Field AMPM = new Field("AMPM", "ArtTaskList", "上下午");
-            /// <summary>
-            /// 需求部门
-            /// </summary>
-            public readonly static Field DepartmentId = new Field("DepartmentId", "ArtTaskList", "需求部门");
-            /// <summary>
-            /// 项目预算
-            /// </summary>
-            public readonly static Field Budget = new Field("Budget", "ArtTaskList", "项目预算");
-            /// <summary>
-            /// 需求类型
-            /// </summary>
-            public readonly static Field DemandTypeId = new Field("DemandTypeId", "ArtTaskList", "需求类型");
-            /// <summary>
-            /// 需求
-            /// </summary>
-            public readonly static Field Model = new Field("Model", "ArtTaskList", "需求");
-            /// <summary>
-            /// 风格类型
-            /// </summary>
-            public readonly static Field StyleType = new Field("StyleType", "ArtTaskList", "风格类型");
-            /// <summary>
-            /// 细节类型
-            /// </summary>
-            public readonly static Field DetailTypeId = new Field("DetailTypeId", "ArtTaskList", "细节类型");
-            /// <summary>
-            /// 参考地址
-            /// </summary>
-            public readonly static Field Uri1 = new Field("Uri1", "ArtTaskList", "参考地址");
-            /// <summary>
-            /// 
-            /// </summary>
-            public readonly static Field Uri2 = new Field("Uri2", "ArtTaskList", "Uri2");
-            /// <summary>
-            /// 评分
-            /// </summary>
-            public readonly static Field Score = new Field("Score", "ArtTaskList", "评分");
-            /// <summary>
-            /// 需求状态
-            /// </summary>
-            public readonly static Field Display = new Field("Display", "ArtTaskList", "需求状态");
-        }
-        #endregion
+		#region _Field
+		/// <summary>
+		/// 字段信息
+		/// </summary>
+		public class _
+		{
+			/// <summary>
+			/// * 
+			/// </summary>
+			public readonly static Field All = new Field("*","Design_ArtTaskList");
+			/// <summary>
+			/// 
+			/// </summary>
+			public readonly static Field Id = new Field("Id","Design_ArtTaskList","Id");
+			/// <summary>
+			/// 编号
+			/// </summary>
+			public readonly static Field Number = new Field("Number","Design_ArtTaskList","编号");
+			/// <summary>
+			/// 任务标题
+			/// </summary>
+			public readonly static Field Title = new Field("Title","Design_ArtTaskList","任务标题");
+			/// <summary>
+			/// 任务详细
+			/// </summary>
+			public readonly static Field Content = new Field("Content","Design_ArtTaskList","任务详细");
+			/// <summary>
+			/// 事业部联系号码，用于沟通联系
+			/// </summary>
+			public readonly static Field Phone = new Field("Phone","Design_ArtTaskList","事业部联系号码，用于沟通联系");
+			/// <summary>
+			/// 截止日期
+			/// </summary>
+			public readonly static Field DueDate = new Field("DueDate","Design_ArtTaskList","截止日期");
+			/// <summary>
+			/// 任务提交人
+			/// </summary>
+			public readonly static Field SubmitterId = new Field("SubmitterId","Design_ArtTaskList","任务提交人");
+			/// <summary>
+			/// 提交任务日期
+			/// </summary>
+			public readonly static Field SubmittedDate = new Field("SubmittedDate","Design_ArtTaskList","提交任务日期");
+			/// <summary>
+			/// 设计师
+			/// </summary>
+			public readonly static Field DesignerId = new Field("DesignerId","Design_ArtTaskList","设计师");
+			/// <summary>
+			/// 预计开始日期
+			/// </summary>
+			public readonly static Field EstimatedStartDate = new Field("EstimatedStartDate","Design_ArtTaskList","预计开始日期");
+			/// <summary>
+			/// 预计结束日期
+			/// </summary>
+			public readonly static Field EstimatedEndDate = new Field("EstimatedEndDate","Design_ArtTaskList","预计结束日期");
+			/// <summary>
+			/// 实际完成日期
+			/// </summary>
+			public readonly static Field CompletionDate = new Field("CompletionDate","Design_ArtTaskList","实际完成日期");
+			/// <summary>
+			/// 上下午
+			/// </summary>
+			public readonly static Field AMPM = new Field("AMPM","Design_ArtTaskList","上下午");
+			/// <summary>
+			/// 需求部门
+			/// </summary>
+			public readonly static Field DepartmentId = new Field("DepartmentId","Design_ArtTaskList","需求部门");
+			/// <summary>
+			/// 项目预算
+			/// </summary>
+			public readonly static Field Budget = new Field("Budget","Design_ArtTaskList","项目预算");
+			/// <summary>
+			/// 需求类型
+			/// </summary>
+			public readonly static Field DemandTypeId = new Field("DemandTypeId","Design_ArtTaskList","需求类型");
+			/// <summary>
+			/// 型号
+			/// </summary>
+			public readonly static Field Model = new Field("Model","Design_ArtTaskList","型号");
+			/// <summary>
+			/// 风格类型
+			/// </summary>
+			public readonly static Field StyleType = new Field("StyleType","Design_ArtTaskList","风格类型");
+			/// <summary>
+			/// 细节类型
+			/// </summary>
+			public readonly static Field DetailTypeId = new Field("DetailTypeId","Design_ArtTaskList","细节类型");
+			/// <summary>
+			/// 参考地址
+			/// </summary>
+			public readonly static Field Uri1 = new Field("Uri1","Design_ArtTaskList","参考地址");
+			/// <summary>
+			/// 
+			/// </summary>
+			public readonly static Field Uri2 = new Field("Uri2","Design_ArtTaskList","Uri2");
+			/// <summary>
+			/// 评分
+			/// </summary>
+			public readonly static Field Score = new Field("Score","Design_ArtTaskList","评分");
+			/// <summary>
+			/// 需求状态
+			/// </summary>
+			public readonly static Field Display = new Field("Display","Design_ArtTaskList","需求状态");
+		}
+		#endregion
 
 
-    }
+	}
 }
 

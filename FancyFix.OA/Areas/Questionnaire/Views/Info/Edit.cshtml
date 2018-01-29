@@ -1,0 +1,147 @@
+﻿@using FancyFix.OA.Model;
+@model Questionnaire_Info
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout_In.cshtml";
+    string[] zm = new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N" };
+    List<string> options = null;
+    byte type = (byte)(Model?.Type ?? 0);
+    if (Model != null && type != (byte)FancyFix.Tools.Enums.Site.InputType.Text)
+    {
+        options = Model.Options.Split(',').ToList();
+    }
+}
+@section Css{
+    <link href="/Content/js/plugins/iCheck/flat/_all.css" rel="stylesheet" />
+    <style>
+        .form-group {
+            margin-bottom: 0;
+        }
+    </style>
+}
+<div class="row">
+    <div class="col-md-12">
+        <form id="mainform" action="/questionnaire/subject/save" method="post">
+            <table class="layui-table">
+                <!--列宽度-->
+                <colgroup>
+                    <col class="col-lg-2">
+                    <col class="col-lg-10">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">标题：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="title" name="title" placeholder="标题" value="@(Model?.Title ?? "")" required="required" style="width:100%;">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">类型：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <select id="type" name="type" class="form-control" style="width:120px;">
+                                    @Html.Raw(ViewBag.typeHtml)
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">设置选项：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <table id="tb_sku" cellpadding="0" cellspacing="1" class="layui-table">
+                                    <tbody>
+                                        @if (options != null && options.Count > 0)
+                                        {
+                                            for (int i = 0; i < options.Count; i++)
+                                            {
+                                                <tr>
+                                                    <th align="right" width="150px">
+                                                        @if (type == (byte)FancyFix.Tools.Enums.Site.InputType.CheckBox)
+                                                        {
+                                                            <input type="checkbox" name="option" class="form-control" value="@i">
+                                                        }
+                                                        else if (type == (byte)FancyFix.Tools.Enums.Site.InputType.Radio)
+                                                        {
+                                                            <input type="radio" name="option" class="form-control" value="@i">
+                                                        }
+                                                        答案
+                                                    </th>
+                                                    <td>
+                                                        <div class="form-inline">
+                                                            <input type="text" style="width:150px" name="option" value="@options[i]" class="form-control" required="required">
+                                                            <input type="button" value="↑" class="btn btn-default" onclick="sku_s.Up(this)">
+                                                            <input type="button" value="↓" class="btn btn-default" onclick="sku_s.Down(this)"> <a href="javascript:void(0)" onclick="sku_s.DelSku(this)" class="btn btn-danger btn-sm">删 除</a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                        <tr id="addoptions">
+                                            <th width="150px"></th>
+                                            <td>
+                                                <a href="javascript:void(0)" class="btn btn-default"><i class="fa fa-plus"></i> 添加</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">分值：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="score" name="score" placeholder="分值" value="@(Model?.Score ?? 1)" required="required" style="width:60px;" number="true">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">备注：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <textarea class="form-control" id="remark" name="remark" type="text/plain" placeholder="备注" style="height:80px;">@(Model?.Remark ?? "")</textarea>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"></td>
+                        <td>
+                            <input type="hidden" id="id" name="id" value="@(Model?.Id ?? 0)">
+                            <button type="submit" id="btnPass" class="btn btn-primary">保存</button>
+                            <button type="button" id="cancel" class="btn btn-default" onclick="CloseWin()">取消</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+@section Js{
+    <script src="/Content/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/jquery.validator.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/messages_cn.js"></script>
+    <script src="/Content/js/common/tools.js"></script>
+    <script>
+        layui.use(['layer'], function () {
+            var layer = layui.layer;
+
+            //iCheck初始化
+            $('input[type="checkbox"],input[type="radio"]').iCheck({
+                checkboxClass: 'icheckbox_flat-blue',
+                radioClass: 'iradio_flat-blue'
+            });
+
+            //表单验证
+            var $form = $("#mainform");
+            $form.validate();
+
+            //通过
+            $("#btnPass").click(function () {
+                $form.valid();
+            });
+        })
+    </script>
+}

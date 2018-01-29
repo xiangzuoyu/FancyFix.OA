@@ -117,7 +117,7 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Tools, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Utils\Tools\bin\Debug\Tools.dll</HintPath>
+      <HintPath>..\Utils\Tools\bin\Debug\Tools.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
@@ -181,7 +181,8 @@
     <Compile Include="Areas\Point\Controllers\PointController.cs" />
     <Compile Include="Areas\Point\Controllers\PointListController.cs" />
     <Compile Include="Areas\Point\PointAreaRegistration.cs" />
-    <Compile Include="Areas\Questionnaire\Controllers\QuestionnaireController.cs" />
+    <Compile Include="Areas\Questionnaire\Controllers\InfoController.cs" />
+    <Compile Include="Areas\Questionnaire\Controllers\SubjectController.cs" />
     <Compile Include="Areas\Questionnaire\QuestionnaireAreaRegistration.cs" />
     <Compile Include="Areas\Rank\Controllers\KpiController.cs" />
     <Compile Include="Areas\Rank\Controllers\PointController.cs" />
@@ -1498,7 +1499,6 @@
     <Folder Include="Areas\Point\Models\" />
     <Folder Include="Areas\Point\Views\Shared\" />
     <Folder Include="Areas\Questionnaire\Models\" />
-    <Folder Include="Areas\Questionnaire\Views\Questionnaire\" />
     <Folder Include="Areas\Questionnaire\Views\Shared\" />
     <Folder Include="Areas\Rank\Models\" />
     <Folder Include="Areas\Rank\Views\Shared\" />
@@ -1677,10 +1677,6 @@
       <Project>{1ef98ca7-d454-432a-854c-f09e5520b3bb}</Project>
       <Name>FancyFix.OA.ViewModel</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Utils\Tools\FancyFix.Tools.csproj">
-      <Project>{d967950c-ccf5-47a4-a202-6930f2c8e20d}</Project>
-      <Name>FancyFix.Tools</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Admin\Views\AdminInfo\Edit.cshtml" />
@@ -1818,6 +1814,10 @@
     <Content Include="Areas\ArtTask\Views\ArtTaskList\Edit.cshtml" />
     <Content Include="Areas\ArtTask\Views\ArtTaskList\ShowCalendar.cshtml" />
     <Content Include="Areas\Questionnaire\Views\web.config" />
+    <Content Include="Areas\Questionnaire\Views\Subject\Edit.cshtml" />
+    <Content Include="Areas\Questionnaire\Views\Subject\List.cshtml" />
+    <Content Include="Areas\Questionnaire\Views\Info\Edit.cshtml" />
+    <Content Include="Areas\Questionnaire\Views\Info\List.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Common\GetAdminTree.cshtml" />
   </ItemGroup>

@@ -19,7 +19,7 @@ namespace FancyFix.OA.Model
 {
 
 	/// <summary>
-	/// 实体类DemandType 。(属性说明自动提取数据库字段的描述信息)
+	/// 实体类Design_DemandType 。(属性说明自动提取数据库字段的描述信息)
 	/// </summary>
 	[Table("Design_DemandType")]
 	[Serializable]
@@ -129,23 +129,23 @@ namespace FancyFix.OA.Model
 			/// <summary>
 			/// * 
 			/// </summary>
-			public readonly static Field All = new Field("*","DemandType");
+			public readonly static Field All = new Field("*","Design_DemandType");
 			/// <summary>
 			/// 
 			/// </summary>
-			public readonly static Field Id = new Field("Id","DemandType","Id");
+			public readonly static Field Id = new Field("Id","Design_DemandType","Id");
 			/// <summary>
 			/// 是否显示
 			/// </summary>
-			public readonly static Field Display = new Field("Display","DemandType","是否显示");
+			public readonly static Field Display = new Field("Display","Design_DemandType","是否显示");
 			/// <summary>
 			/// 
 			/// </summary>
-			public readonly static Field ClassId = new Field("ClassId","DemandType","ClassId");
+			public readonly static Field ClassId = new Field("ClassId","Design_DemandType","ClassId");
 			/// <summary>
 			/// 需求类型
 			/// </summary>
-			public readonly static Field Name = new Field("Name","DemandType","需求类型");
+			public readonly static Field Name = new Field("Name","Design_DemandType","需求类型");
 		}
 		#endregion
 

@@ -30,7 +30,7 @@ namespace FancyFix.OA.Model
 		private string _Title;
 		private int? _Score;
 		private int? _Timelimit;
-		private int? _Remark;
+		private string _Remark;
 		private int? _Sequence;
 		/// <summary>
 		/// 
@@ -83,7 +83,7 @@ namespace FancyFix.OA.Model
 		/// <summary>
 		/// 
 		/// </summary>
-		public int? Remark
+		public string Remark
 		{
 			get{ return _Remark; }
 			set

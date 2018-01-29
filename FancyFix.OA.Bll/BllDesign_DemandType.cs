@@ -7,11 +7,11 @@ using FancyFix.OA.Model;
 
 namespace FancyFix.OA.Bll
 {
-    public class BllDesign_DemandType
+    public class BllDesign_DemandType : ServiceBase<Design_DemandType>
     {
-        public static BllDesign_ArtTaskList Instance()
+        public static BllDesign_DemandType Instance()
         {
-            return new BllDesign_ArtTaskList();
+            return new BllDesign_DemandType();
         }
          
         public static IEnumerable<Design_DemandType> GetList()

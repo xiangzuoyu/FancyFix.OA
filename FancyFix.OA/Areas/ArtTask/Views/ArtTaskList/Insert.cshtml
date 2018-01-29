@@ -1,11 +1,11 @@
 ﻿@using FancyFix.OA.Model;
-@model ArtTaskList
+@model Design_ArtTaskList
 @{
     ViewBag.Title = "Insert";
     Layout = "~/Views/Shared/_Layout_In.cshtml";
 
-    List<DemandType> demandtypelist = ViewBag.DemandTypeList;
-    List<DetailType> detailtypelist = ViewBag.DetailTypeList;
+    List<Design_DemandType> demandtypelist = ViewBag.DemandTypeList;
+    List<Design_DetailType> detailtypelist = ViewBag.DetailTypeList;
 }
 
 @section Css{
@@ -114,10 +114,10 @@
                         </td>
                     </tr>
                     <tr>
-                        <td align="right"><label for="duedate" class="control-label">截止日期：</label></td>
+                        <td align="right"><label for="duedate" class="control-label">需求日期：</label></td>
                         <td>
                             <div class="form-group">
-                                <input type="text" class="form-control" id="duedate" name="duedate" placeholder="截止日期" required="required" style="width:250px;" readonly="readonly" value="@(Model != null ? Model.DueDate.Value.ToString("yyyy-MM-dd") : "")">
+                                <input type="text" class="form-control" id="duedate" name="duedate" placeholder="需求日期" required="required" style="width:250px;" readonly="readonly" value="@(Model != null ? Model.DueDate.Value.ToString("yyyy-MM-dd") : "")">
                             </div>
                         </td>
                     </tr>

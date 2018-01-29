@@ -1,5 +1,5 @@
 ﻿@using FancyFix.OA.Model;
-@model ArtTaskList
+@model Design_ArtTaskList
 @{
     ViewBag.Title = "ShowCalendar";
     Layout = "~/Views/Shared/_Layout_In.cshtml";
@@ -107,7 +107,11 @@
                 }
             }
         }
-        
+        <div style="text-align:center;">
+            <span style="margin-left:50px;color:#1E9FFF;">进行中</span>
+            <span style="margin-left:10px;color:#5FB878;">已完成</span>
+            <span style="margin-left:10px;color:#FF5722;">已超时</span>
+        </div>
         <span class="nowTask">当前选中需求：<b>@(Model != null ? (Model?.Title) : "无")</b></span>
     </div>
 
@@ -167,12 +171,7 @@
             <i class="arrow arrow-right"></i>
             <p class="date">2017年8月28日</p>
             <p class="lunar">丁酉鸡年</p>
-        </div>
-        <div style="text-align:right;">
-            <span style="margin-left:50px;color:#1E9FFF;">进行中</span>
-            <span style="margin-left:10px;color:#5FB878;">已完成</span>
-            <span style="margin-left:10px;color:#FF5722;">已超时</span>
-        </div>
+        </div> 
     </div>
 </div>
 

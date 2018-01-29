@@ -49,7 +49,6 @@ E:\workspace\Fancy-fix\源代码\Utils\Tools\obj\Debug\FancyFix.Tools.csprojReso
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\Utils\Tools\bin\Debug\Tools.dll.config
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\Utils\Tools\bin\Debug\Tools.dll
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\Utils\Tools\bin\Debug\Tools.pdb
-E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\Utils\Tools\bin\Debug\Dos.Common.dll
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\Utils\Tools\bin\Debug\HttpWebAdapters.dll
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\Utils\Tools\bin\Debug\NPOI.dll
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\Utils\Tools\bin\Debug\NPOI.OOXML.dll
@@ -57,11 +56,9 @@ E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\Utils\Tools\bin\Debug\NPOI.OpenX
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\Utils\Tools\bin\Debug\NPOI.OpenXmlFormats.dll
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\Utils\Tools\bin\Debug\StackExchange.Redis.dll
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\Utils\Tools\bin\Debug\ICSharpCode.SharpZipLib.dll
-E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\Utils\Tools\bin\Debug\Dos.Common.pdb
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\Utils\Tools\bin\Debug\NPOI.xml
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\Utils\Tools\bin\Debug\NPOI.OOXML.xml
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\Utils\Tools\bin\Debug\NPOI.OpenXml4Net.xml
-E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\Utils\Tools\obj\Debug\FancyFix.Tools.csprojResolveAssemblyReference.cache
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\Utils\Tools\obj\Debug\Tools.dll
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\Utils\Tools\obj\Debug\Tools.pdb
 F:\yuzuoxiang\GitHub\FancyFix.OA\Utils\Tools\bin\Debug\Tools.dll.config
@@ -106,4 +103,3 @@ F:\Git\FancyFix.OA\Utils\Tools\obj\Debug\Tools.pdb
 F:\Git\FancyFix.OA\Utils\Tools\bin\Debug\Dos.Common.pdb
 F:\Git\FancyFix.OA\Utils\Tools\bin\Debug\Dos.Common.xml
 F:\Git\FancyFix.OA\Utils\Tools\obj\Debug\FancyFix.Tools.csproj.CoreCompileInputs.cache
-E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\Utils\Tools\bin\Debug\Dos.Common.xml

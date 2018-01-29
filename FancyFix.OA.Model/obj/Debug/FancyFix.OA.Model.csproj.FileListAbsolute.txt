@@ -5,8 +5,6 @@ E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\bin\Debug\Dos.
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\bin\Debug\Dos.ORM.xml
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\obj\Debug\FancyFix.OA.Model.dll
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\obj\Debug\FancyFix.OA.Model.pdb
-E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\bin\Debug\Dos.DataAccess.dll
-E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\bin\Debug\Dos.DataAccess.pdb
 F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\bin\Debug\FancyFix.OA.Model.dll
 F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\bin\Debug\FancyFix.OA.Model.pdb
 F:\yuzuoxiang\GitHub\FancyFix.OA\FancyFix.OA.Model\bin\Debug\Dos.DataAccess.dll
@@ -88,8 +86,6 @@ E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\bin\Debug\Dos.
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\bin\Debug\Microsoft.QualityTools.Testing.Fakes.dll
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\bin\Debug\zh-Hans\Microsoft.QualityTools.Testing.Fakes.resources.dll
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\obj\Debug\FancyFix.OA.Model.csprojFakesResolveAssemblyReference.cache
-E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\obj\Debug\Fakes\dorm\b\Dos.DataAccess.dll
-E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\obj\Debug\Fakes\dorm\b\Dos.DataAccess.pdb
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\obj\Debug\Fakes\dorm\b\Dos.ORM.dll
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\obj\Debug\Fakes\dorm\b\Dos.ORM.Fakes.dll
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\obj\Debug\Fakes\dorm\b\Dos.ORM.Fakes.fakesconfig
@@ -111,3 +107,4 @@ E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\obj\Debug\Fake
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\obj\Debug\Fakes\dorm\o\f.csproj.FileListAbsolute.txt
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\obj\Debug\Fakes\dorm\o\f.csprojResolveAssemblyReference.cache
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\obj\Debug\Fakes\fakes.args
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\obj\Debug\FancyFix.OA.Model.csprojResolveAssemblyReference.cache

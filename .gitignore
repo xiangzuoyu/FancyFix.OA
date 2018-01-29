@@ -44,3 +44,5 @@ FancyFix.OA/Web.config
 *.dll
 *.pdb
 FancyFix.OA/Web.config
+*.dll
+*.pdb

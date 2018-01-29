@@ -52,6 +52,8 @@
     <Compile Include="Business\Rank_Point.cs" />
     <Compile Include="Business\Rank_Valuable.cs" />
     <Compile Include="Config_Process.cs" />
+    <Compile Include="DemandType.cs" />
+    <Compile Include="DetailType.cs" />
     <Compile Include="Extensions\ArtTaskList.cs" />
     <Compile Include="Extensions\Point_Records.cs" />
     <Compile Include="Extensions\Point_Class.cs" />

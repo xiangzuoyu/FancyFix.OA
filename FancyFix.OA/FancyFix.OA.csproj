@@ -181,6 +181,8 @@
     <Compile Include="Areas\Point\Controllers\PointController.cs" />
     <Compile Include="Areas\Point\Controllers\PointListController.cs" />
     <Compile Include="Areas\Point\PointAreaRegistration.cs" />
+    <Compile Include="Areas\Questionnaire\Controllers\QuestionnaireController.cs" />
+    <Compile Include="Areas\Questionnaire\QuestionnaireAreaRegistration.cs" />
     <Compile Include="Areas\Rank\Controllers\KpiController.cs" />
     <Compile Include="Areas\Rank\Controllers\PointController.cs" />
     <Compile Include="Areas\Rank\Controllers\ValuableController.cs" />
@@ -1495,6 +1497,9 @@
     <Folder Include="Areas\Kpi\Views\Shared\" />
     <Folder Include="Areas\Point\Models\" />
     <Folder Include="Areas\Point\Views\Shared\" />
+    <Folder Include="Areas\Questionnaire\Models\" />
+    <Folder Include="Areas\Questionnaire\Views\Questionnaire\" />
+    <Folder Include="Areas\Questionnaire\Views\Shared\" />
     <Folder Include="Areas\Rank\Models\" />
     <Folder Include="Areas\Rank\Views\Shared\" />
     <Folder Include="Areas\System\Models\" />
@@ -1812,6 +1817,7 @@
     <Content Include="Areas\ArtTask\Views\ArtTaskList\Insert.cshtml" />
     <Content Include="Areas\ArtTask\Views\ArtTaskList\Edit.cshtml" />
     <Content Include="Areas\ArtTask\Views\ArtTaskList\ShowCalendar.cshtml" />
+    <Content Include="Areas\Questionnaire\Views\web.config" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Common\GetAdminTree.cshtml" />
   </ItemGroup>

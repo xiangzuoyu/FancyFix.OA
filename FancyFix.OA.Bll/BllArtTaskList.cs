@@ -63,10 +63,11 @@ namespace FancyFix.OA.Bll
         /// 获取显示在日历上的需求
         /// </summary>
         /// <returns></returns>
-        public static IEnumerable<ArtTaskList> GetList(int designerId = 0)
+        public static IEnumerable<ArtTaskList> GetList(DateTime start, DateTime end, int designerId = 0)
         {
             var list = Db.Context.From<ArtTaskList>()
-                .Where(o => o.Display == 2)
+                .Where(o => o.Display != 1 && o.Display != 4 &&
+                ((o.EstimatedStartDate >= start && o.EstimatedStartDate <= end) || (o.EstimatedEndDate >= start && o.EstimatedEndDate <= end)))
                 .ToList();
 
             return list;

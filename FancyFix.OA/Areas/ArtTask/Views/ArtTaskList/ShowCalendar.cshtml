@@ -202,24 +202,25 @@
         //初始化快捷方式选择设计师
         document.onkeydown = function (event) {
             var e = event || window.event || arguments.callee.caller.arguments[0];
-            console.log(e.keyCode)
             var No = e.keyCode - 49;
             //console.log($('#calendar .btns .layui-btn'))
             var arr = $('#calendar .btns .layui-btn');
             if (No < arr.length)
                 $(arr[No]).trigger("click");
-        }; 
+        };
 
         var getTasklist = {
             designerData: null,
             parameter: {
-                designerId: 0
-                //starttime: '',
-                //endtime: ''
+                designerId: 0,
+                starttime: '',
+                endtime: ''
             },
             init: function () {
                 //默认加载第一位设计师需求
                 getTasklist.parameter.designerId = @ViewBag.CurrentDesigner > 0 ? @ViewBag.CurrentDesigner : $(".layui-btn.layui-btn-small").first().attr("data-id");
+
+                getTasklist.loadDateTime();
 
                 //绑定选择设计师按钮
                 $(".layui-btn.layui-btn-small").on('click', function () {
@@ -243,13 +244,18 @@
                 //绑定日期翻页事件
                 //修改预先绑定的日历翻页时触发的事件
                 CalenderExpandEvent.clickAfterEvent = function () {
+                    getTasklist.loadDateTime();
                     getTasklist.eachTask();
                 }
 
                 getTasklist.ajax();
             },
             //设置当前日历页面需要加载的日期
-             
+            loadDateTime: function () {
+                getTasklist.parameter.starttime = $("#renderMonth .day li").first().attr("data-time");
+                getTasklist.parameter.endtime = $("#renderMonth .day li").last().attr("data-time");
+                console.log(getTasklist.parameter.starttime, getTasklist.parameter.endtime);
+            },
             ajax: function () {
                 $.get('/arttask/arttasklist/tasklist', getTasklist.parameter, function (data) {
                     getTasklist.designerData = data;
@@ -264,10 +270,11 @@
                     var model = getTasklist.designerData.result[i];
                     if (getTasklist.parameter.designerId == model.DesignerId.toString()) {
                         var arr = getTasklist.getEachDate(model.EstimatedStartDate, model.EstimatedEndDate);
-                        
-                        var randomColor = getTasklist.getRandomColor();
+                        //var randomColor = getTasklist.getRandomColor();
+                        var StatesColor = getTasklist.getTaskStateColor(model.Display, model.EstimatedEndDate);
+
                         for (var j = 0; j < arr.length; j++) {
-                            var html = '<span class=\"taskTitle\" style=\'color:' + randomColor + '\' title=\"' + model.Title + '\">';
+                            var html = '<span class=\"taskTitle\" style=\'color:' + StatesColor + '\' title=\"' + model.Title + '\">';
                             //最后一天要加上下午
                             if (j == (arr.length - 1))
                                 html += model.AMPM == 1 ? " <em class=\"AM\">上</em> " : " <em class=\"PM\">下</em> ";
@@ -300,10 +307,38 @@
                 getTasklist.ajax();
                 parent.$table.bootstrapTable('refresh');
             },
-            //随机生成一种颜色
-            getRandomColor: function () {
-                return '#' + Math.floor(Math.random() * 256).toString(10);
+            //子页面添加失败后调用的方法
+            addDataFail: function () {
+                parent.$table.bootstrapTable('refresh');
+                var w = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(w);
+            },
+            //根据状态返回字体颜色
+            getTaskStateColor: function (states, endtime) {
+                endtime = new Date(Number(endtime.replace('/Date(', '').replace(')/', '')));
+
+                var color = "";
+                switch (states) {
+                    case 2:
+                        color = "#1E9FFF";
+                        console.log(endtime > new Date());
+                        if (endtime < new Date())
+                            color = "#FF5722"
+
+                        break;
+                    case 3:
+                        color = "#5FB878";
+                        break;
+                    default:
+                        color = "";
+                        break;
+                }
+                return color;
             }
+            //随机生成一种颜色
+            //getRandomColor: function () {
+            //    return '#' + Math.floor(Math.random() * 256).toString(10);
+            //}
         }
     </script>
 }

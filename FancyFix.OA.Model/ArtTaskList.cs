@@ -314,7 +314,7 @@ namespace FancyFix.OA.Model
             }
         }
         /// <summary>
-        /// 需求状态
+        /// 需求状态；1：未分配，2：已分配，3：已完成，4：已取消，5：已打分
         /// </summary>
         public int? Display
         {

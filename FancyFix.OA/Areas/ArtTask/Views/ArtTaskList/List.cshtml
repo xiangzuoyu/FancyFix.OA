@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "List";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
 
 @section Css{
@@ -45,6 +46,9 @@
                     <button id="btn_calendar" type="button" class="btn btn-default">
                         <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> 查看需求排期
                     </button>
+                    @*<button  onclick=preview(2) type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> 打印
+                    </button>*@
                 </div>
                 <table id="table" class="table table-bordered table-hover"></table>
             </div>
@@ -55,7 +59,7 @@
 @section Js{
     <script src="/Content/js/plugins/datatables/bootstrap-table.min.js"></script>
     <script src="/Content/js/plugins/datatables/bootstrap-table-zh-CN.js"></script>
-    <script src="/Content/js/common/tools.js"></script>
+    <script src="/Content/js/common/tools.js"></script> 
     <script>
         layui.use(['layer', 'form'], function () {
             var layer = layui.layer;
@@ -94,7 +98,7 @@
                         //showColumns: true,                  //是否显示所有的列
                         //showRefresh: true,                  //是否显示刷新按钮
                         //showToggle: true,                   //是否显示详细视图和列表视图的切换按钮
-                        columns: [  {
+                        columns: [{
                             field: 'Number',
                             title: '编号',
                             align: 'center'
@@ -138,11 +142,11 @@
                             title: '结束设计日期',
                             align: 'center'
                         },
-                        //{
-                        //    field: 'CompletionDate',
-                        //    title: '实际完成日期',
-                        //    align: 'center'
-                        //},
+                        {
+                            field: 'Score',
+                            title: '分数',
+                            align: 'center'
+                        },
                         {
                             field: 'Display',
                             title: '需求状态',
@@ -154,27 +158,37 @@
                             align: 'center',
                             formatter: function (v, r, i) {
                                 var ele = "";
-                                if ("@ViewBag.ArtTaskIds" == "True")
+                                if ("@ViewBag.IsDesigner" == "True")
                                 {
                                     if (r.Display == 1)
-                                        ele += "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnEdit btn btn-md btn-primary\">分配</a> ";
+                                    {
+                                        if ("@ViewBag.IsDesignerAdmin" == "True")
+                                            ele += "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnEdit btn btn-md btn-primary\">分配</a> ";
+                                        else
+                                            ele += "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnEdit btn btn-md btn-primary\">领取</a> ";
+                                        ele += "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnDel btn btn-md btn-danger\">取消</a>";
+                                    }
+
                                     //只有已分配的任务才会显示完成按钮
-                                    if (r.Display == 2)
+                                    if (r.Display == 2&&("@ViewBag.IsDesignerAdmin" == "True" || @ViewBag.CurrentId==r.DesignerId))
                                     {
                                         ele += "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnEdit btn btn-md btn-primary\">修改</a> ";
                                         ele += "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnComplete btn btn-md btn-primary\">完成</a> ";
                                     }
-                                    if (r.Display == 1)
-                                        ele += "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnDel btn btn-md btn-danger\">取消</a>";
                                 }
-                                if (r.Display == 3)
-                                    ele += "<a href=\"javascript:;\"   data-id=\"" + r.Id + "\" class=\"layui-btn layui-btn-disabled\">已完成</a> ";
+
+                                //只有提交需求的人，才可以在需求完成时打分
+                                if (r.Display == 3&& r.SubmitterId == @ViewBag.CurrentId)
+                                    ele += "<a data-id=\"" + r.Id + "\" class=\"btnDaCall btn btn-md btn-primary\">打分</a> ";
+
+                                if (r.Display == 3 || r.Display == 5)
+                                    ele += "<span data-id=\"" + r.Id + "\" class=\"  btn btn-md layui-btn-disabled\">已完成</span> ";
+
                                 return ele;
                             }
                         }]
                     });
                 };
-
                 //得到查询的参数
                 objTable.queryParams = function (params) {
                     var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
@@ -199,7 +213,6 @@
                 var id = $(this).attr("data-id");
                 OpenWin("分配需求", "/arttask/arttasklist/showcalendar/" + id, '80%', '90%');
             });
-
             //新增
             $("#btn_add").on('click', function () {
                 OpenWin("添加需求", "/arttask/arttasklist/insert", '800px', '560px');
@@ -207,6 +220,11 @@
             //显示日历
             $("#btn_calendar").on('click', function () {
                 OpenWin("需求排期", "/arttask/arttasklist/showcalendar", '80%', '90%');
+            });
+            //需求打分
+            $("#table").on('click', '.btnDaCall', function () {
+                var id = $(this).attr("data-id");
+                OpenWin("需求打分", "/arttask/arttasklist/dacall/"+id, '500px', '200px');
             });
 
             //监听提交
@@ -217,9 +235,9 @@
 
             //需求详细
             function ShowDetailedFormatter(v, r, i) {
-                return "<div class='detail' title=\"" + v + "\"><a href='javascript:void(0)'>详细</a></div>"
+                return "<div class='detail' title=\"" + v + "\"><span>详细</span></div>"
             }
-
+             
             //详细提示
             var tip;
             $("#table").on('mouseover','div.detail', function () {
@@ -232,6 +250,20 @@
                     layer.close(tip);
                 }
             });
+            //打印需求详细
+            $("#table").on('dblclick', 'div.detail', function () {
+                var content = $(this).attr("title");
+                var new_iframe = document.createElement('IFRAME');
+                var doc = null;
+                new_iframe.setAttribute('style', 'width:0px;height:0px;position:absolute;left:-2000px;top:-2000px;');
+                new_iframe.setAttribute('align', 'center');
+                document.body.appendChild(new_iframe);
+                doc = new_iframe.contentWindow.document;
+                doc.write('<div style="width:100%;height:auto;min-width:1100px;margin:0px auto;"align="left">' + content + '</div>');
+                doc.close();
+                new_iframe.contentWindow.focus();
+                new_iframe.contentWindow.print();
+            })
 
             //需求状态
             function ShowStatesFormatter(v, r, i) {
@@ -243,6 +275,8 @@
                     return "<span style=\"color:#d2d2d2\">已完成</span>";
                 else if (v == 4)
                     return "<span style=\"color:#ddd\">已取消</span>";
+                else if (v == 5)
+                    return "<span style=\"color:#ddd\">已打分</span>";
             }
 
             //取消需求

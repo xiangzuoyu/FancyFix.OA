@@ -179,8 +179,6 @@
                                     //只有已分配的任务才会显示完成按钮
                                     if ((r.Display == 3 || r.Display == 5) && ("@ViewBag.IsDesignerAdmin" == "True" || @ViewBag.CurrentId==r.DesignerId))
                                     {
-                                        ele += "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnEdit btn btn-md btn-primary\">修改</a> ";
-                                        ele += "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnComplete btn btn-md btn-primary\">完成</a> ";
                                         ele += "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnUpLoad btn btn-md btn-primary\">上传</a> ";
                                     }
                                 }
@@ -197,9 +195,6 @@
 
                                     ele += "<span data-id=\"" + r.Id + "\" class=\"btn btn-md layui-btn-disabled\">已完成</span> ";
                                 }
-
-
-
                                 return ele;
                             }
                         }]

@@ -245,7 +245,7 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
         }
 
         [HttpPost]
-        public ActionResult DaCall(int id = 0, int rating = 1)
+        public ActionResult DaCall(int id = 0, int rating = 1, string comment = "")
         {
             if (id < 1)
                 return LayerMsgErrorAndClose("加载需求失败，请联系管理员！");
@@ -256,10 +256,24 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
                 return LayerMsgErrorAndClose("未找到该需求，请联系管理员！");
 
             model.Score = rating;
+            model.Comment = comment;
             model.Display = 5;
             string msg = Bll.BllDesign_ArtTaskList.Update(model) > 0 ? "成功" : "失败";
             return LayerMsgSuccessAndRefresh("打分" + msg);
         }
         #endregion
+
+        [HttpGet]
+        public ActionResult SeeDetails(int id = 0)
+        {
+            Design_ArtTaskList model = null;
+            //选中当前需求
+            if (id > 0)
+                model = Bll.BllDesign_ArtTaskList.First(o => o.Id == id);
+            if (model == null)
+                return LayerMsgErrorAndClose("加载需求失败");
+
+            return View(model);
+        }
     }
 }

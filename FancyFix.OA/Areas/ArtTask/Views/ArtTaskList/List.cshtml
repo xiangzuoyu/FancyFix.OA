@@ -235,10 +235,8 @@
             //需求打分
             $("#table").on('click', '.btnDaCall', function () {
                 var id = $(this).attr("data-id");
-                OpenWin("需求打分", "/arttask/arttasklist/dacall/"+id, '500px', '200px');
+                OpenWin("需求打分", "/arttask/arttasklist/dacall/"+id, '500px', '320px');
             });
-
-
 
 
             //监听提交
@@ -249,7 +247,7 @@
 
             //需求详细
             function ShowDetailedFormatter(v, r, i) {
-                return "<div class='detail' title=\"" + v + "\"><span>详细</span></div>"
+                return "<div class='detail' data-id=\"" + r.Id + "\" title=\"" + v + "\"><span>详细</span></div>"
             }
 
             //详细提示
@@ -333,7 +331,6 @@
                 });
             });
 
-
             //设计师上传文件
             var DesignUpLoad = {
                 init: function () {
@@ -353,10 +350,27 @@
                     });
                 },
                 openwin: function (id) {
-                    OpenWin("需求打分", "/arttask/arttasklist/designupload/" + id, '500px', '400px');
+                    OpenWin("上传文件", "/arttask/arttasklist/designupload/" + id, '500px', '400px');
                 }
             }
             DesignUpLoad.init();
+
+            //查看详细
+            var SeeDetails = {
+                init: function () {
+                    $("#table").on('click', 'tbody>tr', function () {
+                        var id = $(this).data("uniqueid");
+                        //console.log(id)
+                        SeeDetails.Detail(id);
+                    });
+                },
+                Detail: function (id) {
+                    //需求打分
+                    //console.log(id)
+                    OpenWin("需求打分", "/arttask/arttasklist/seedetails/" + id, '80%', '80%');
+                }
+            };
+            SeeDetails.init();
         })
 
         function callBack(data) {

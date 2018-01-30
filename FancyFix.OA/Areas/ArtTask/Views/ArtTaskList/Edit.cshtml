@@ -184,13 +184,6 @@
                         </td>
                     </tr>
                     <tr>
-                        <td align="right"><label class="control-label">上传资料：</label></td>
-                        <td>
-                            @Html.Partial("UploadFile", new FancyFix.OA.Config.FileUploadConfig { Files = Model?.Uri2 ?? "", FileExt = "xlsx,xls", UploadNum = 1, Domain = "local" })
-                        </td>
-                    </tr>
-
-                    <tr>
                         <td align="right"><label for="estimatedstartdate" class="control-label">完成时间段：</label></td>
                         <td>
                             <div class="form-group">

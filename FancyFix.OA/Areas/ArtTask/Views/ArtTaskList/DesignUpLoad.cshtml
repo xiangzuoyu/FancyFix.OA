@@ -1,0 +1,51 @@
+﻿@using FancyFix.OA.Model;
+@model Design_ArtTaskList
+@{
+    ViewBag.Title = "DesignUpLoad";
+    Layout = "~/Views/Shared/_Layout_In.cshtml";
+}
+
+@section Css{
+    <link href="/Content/js/plugins/iCheck/flat/_all.css" rel="stylesheet" />
+    <style>
+        .form-group {
+            margin-bottom: 0;
+        }
+
+        .input_radio {
+            margin-left: 3px;
+            margin-right: 10px;
+        }
+    </style>
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <form id="mainform" action="/arttask/arttasklist/designuploadpost" method="post" style="margin-bottom:50px;">
+            <table class="layui-table">
+                <!--列宽度-->
+                <colgroup>
+                    <col class="col-lg-1">
+                    <col class="col-lg-11">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td align="right"><label class="control-label">上传资料：</label></td>
+                        <td>
+                            @Html.Partial("UploadFile", new FancyFix.OA.Config.FileUploadConfig { Files = Model?.Uri2 ?? "", FileExt = "xlsx,xls", UploadNum = 1, Domain = "local" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"></td>
+                        <td>
+                            <input type="hidden" id="id" name="id" value="@(Model?.Id ?? 0)">
+                            <button type="submit" id="btnPass" class="btn btn-primary">保存</button>
+                            <button type="button" id="cancel" class="btn btn-default" onclick="CloseWin()">取消</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+

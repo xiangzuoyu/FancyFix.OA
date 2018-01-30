@@ -170,7 +170,7 @@
                                     }
 
                                     //只有已分配的任务才会显示完成按钮
-                                    if (r.Display == 2&&("@ViewBag.IsDesignerAdmin" == "True" || @ViewBag.CurrentId==r.DesignerId))
+                                    if (r.Display == 2 && ("@ViewBag.IsDesignerAdmin" == "True" || @ViewBag.CurrentId==r.DesignerId))
                                     {
                                         ele += "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnEdit btn btn-md btn-primary\">修改</a> ";
                                         ele += "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnComplete btn btn-md btn-primary\">完成</a> ";
@@ -178,7 +178,7 @@
                                 }
 
                                 //只有提交需求的人，才可以在需求完成时打分
-                                if (r.Display == 3&& r.SubmitterId == @ViewBag.CurrentId)
+                                if (r.Display == 3 && r.SubmitterId == @ViewBag.CurrentId)
                                     ele += "<a data-id=\"" + r.Id + "\" class=\"btnDaCall btn btn-md btn-primary\">打分</a> ";
 
                                 if (r.Display == 3 || r.Display == 5)
@@ -233,6 +233,9 @@
                 var id = $(this).attr("data-id");
                 OpenWin("需求打分", "/arttask/arttasklist/dacall/"+id, '500px', '200px');
             });
+            
+
+
 
             //监听提交
             form.on('submit(formSearch)', function (data) {
@@ -313,8 +316,10 @@
                 }, function (index, layero) {
                     var id = $this.data("id");
                     $.post('/arttask/arttasklist/complete/' + id, function (data) {
-                        if (data)
+                        if (data) {
                             Reload();
+                            DesignUpLoad(id)
+                        }
                         else
                             ShowError('修改失败！');
                     });
@@ -323,6 +328,18 @@
                     layer.close(index);
                 });
             });
+
+            //设计师上传文件
+            function DesignUpLoad(id) {
+                layer.confirm('需要上传文件吗？', {
+                    btn: ['确定', '取消']
+                }, function (index, layero) {
+                    OpenWin("需求打分", "/arttask/arttasklist/designupload/" + id, '500px', '400px');
+                    layer.close(index);
+                }, function (index) {
+                    layer.close(index);
+                });
+            }
         })
 
         function callBack(data) {

@@ -113,9 +113,9 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
 
             //判断需求是否已被领取
             if (model.Display == 2 && model.DesignerId != MyInfo.Id && !ConfigurationManager.AppSettings["ArtTaskAdminIds"].ToString().Contains($",{MyInfo.Id},"))
-                return LayerAlertAndCallback("改需求已被其他人领取，请重新选择", "getTasklist.addDataFail()");
+                return LayerAlertAndCallback("该需求已被其他人领取，请重新选择", "getTasklist.addDataFail()");
 
-            //设置开始时间
+            //设置表单初始值
             if (!string.IsNullOrEmpty(datetime) && model.Display == 1)
             {
                 model.DesignerId = designerId;
@@ -177,7 +177,7 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
 
             ViewBag.CurrentDesigner = 0;
             if (model != null && model.Display == 2)
-                ViewBag.CurrentDesigner = model?.DesignerId;
+                ViewBag.CurrentDesigner = model.DesignerId ?? 0;
             //如果当前登录是设计师且没有分配的权限，优先显示他的任务
             if (ConfigurationManager.AppSettings["ArtTaskIds"].ToString().Contains($",{MyInfo.Id},")
                 && !ConfigurationManager.AppSettings["SuperAdminIds"].ToString().Contains($"{MyInfo.Id}"))
@@ -202,11 +202,42 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
         }
         #endregion
 
+        [HttpGet]
+        public ActionResult DesignUpLoad(int id = 0)
+        {
+            Design_ArtTaskList model = null;
+            //选中当前需求
+            if (id > 0)
+                model = Bll.BllDesign_ArtTaskList.First(o => o.Id == id);
+            if (model == null)
+                return LayerMsgErrorAndClose("加载需求失败");
+
+            //ViewBag.TaskId = id;
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult DesignUpLoadPost(int id = 0)
+        {
+            Design_ArtTaskList model = null;
+            //选中当前需求
+            if (id > 0)
+                model = Bll.BllDesign_ArtTaskList.First(o => o.Id == id);
+            if (model == null)
+                return LayerMsgErrorAndClose("加载需求失败");
+
+            model.Uri2 = GetPic();
+
+            string msg = Bll.BllDesign_ArtTaskList.Update(model) > 0 ? "成功" : "失败";
+            return LayerMsgSuccessAndRefresh("上传" + msg);
+        }
+
         #region 给设计师打call
         public ActionResult DaCall(int id = 0)
         {
             if (id < 1)
-                return LayerMsgErrorAndClose("加载需求ID失败");
+                return LayerMsgErrorAndClose("加载需求失败");
 
             //ViewBag.TaskId = id;
 
@@ -217,7 +248,7 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
         public ActionResult DaCall(int id = 0, int rating = 1)
         {
             if (id < 1)
-                return LayerMsgErrorAndClose("加载需求ID失败，请联系管理员！");
+                return LayerMsgErrorAndClose("加载需求失败，请联系管理员！");
 
             Design_ArtTaskList model = null;
             model = Bll.BllDesign_ArtTaskList.First(o => o.Id == id);

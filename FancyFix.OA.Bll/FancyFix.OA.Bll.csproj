@@ -41,9 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BllArtTaskList.cs" />
-    <Compile Include="BllDemandType.cs" />
-    <Compile Include="BllDetailType.cs" />
+    <Compile Include="BllDesign_ArtTaskList.cs" />
+    <Compile Include="BllDesign_DemandType.cs" />
+    <Compile Include="BllDesign_DetailType.cs" />
     <Compile Include="BllKpi_Process.cs" />
     <Compile Include="BllMng_User.cs" />
     <Compile Include="BllMng_DepartmentClass.cs" />
@@ -53,6 +53,8 @@
     <Compile Include="BllPoint_Records.cs" />
     <Compile Include="BllPoint_List.cs" />
     <Compile Include="BllConfig_Process.cs" />
+    <Compile Include="BllQuestionnaire_Info.cs" />
+    <Compile Include="BllQuestionnaire_Subject.cs" />
     <Compile Include="BllSys_Class.cs" />
     <Compile Include="BllPoint_Class.cs" />
     <Compile Include="BllRank_Class.cs" />

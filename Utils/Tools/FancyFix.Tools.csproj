@@ -112,8 +112,6 @@
     <Compile Include="Auth\LinkinConfig.cs" />
     <Compile Include="Auth\LinkinHelper.cs" />
     <Compile Include="Auth\WebApiHelper.cs" />
-    <Compile Include="Enums\Log.cs" />
-    <Compile Include="Enums\Notify.cs" />
     <Compile Include="Enums\Site.cs" />
     <Compile Include="Mapper\MappingHelper.cs" />
     <Compile Include="Common\Common.cs" />
@@ -133,7 +131,6 @@
     <Compile Include="Entity\RegMember.cs" />
     <Compile Include="Entity\ConfigUpload.cs" />
     <Compile Include="Enums\Tools.cs" />
-    <Compile Include="Enums\ESite.cs" />
     <Compile Include="Enums\Spider.cs" />
     <Compile Include="Http\HttpHelper.cs" />
     <Compile Include="Json\Json.cs" />

@@ -115,10 +115,6 @@
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="Tools, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Utils\Tools\bin\Debug\Tools.dll</HintPath>
-    </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
@@ -1676,6 +1672,10 @@
     <ProjectReference Include="..\FancyFix.OA.ViewModel\FancyFix.OA.ViewModel.csproj">
       <Project>{1ef98ca7-d454-432a-854c-f09e5520b3bb}</Project>
       <Name>FancyFix.OA.ViewModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utils\Tools\FancyFix.Tools.csproj">
+      <Project>{d967950c-ccf5-47a4-a202-6930f2c8e20d}</Project>
+      <Name>FancyFix.Tools</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

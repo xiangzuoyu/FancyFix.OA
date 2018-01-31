@@ -92,6 +92,35 @@ namespace FancyFix.Tools.Tool
             HttpContext.Current.Response.End();
         }
 
+
+        /// <summary>
+        /// (mvc)流形式直接导出Excel(不推荐)
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="fileName"></param>
+        public static void ExportResult(string list, string fileName)
+        {
+            StringWriter sw = new StringWriter();
+            sw.Write(list);
+            HtmlTextWriter htmlWrite = new HtmlTextWriter(sw);
+
+            DataGrid dg = new DataGrid();
+            //dg.DataSource = list;
+            //dg.DataBind();
+            dg.RenderControl(htmlWrite);
+
+            HttpContext.Current.Response.Clear();
+            HttpContext.Current.Response.Charset = "UTF-8";
+            HttpContext.Current.Response.ContentEncoding = System.Text.Encoding.UTF8;
+            HttpContext.Current.Response.AppendHeader("Content-Disposition", "attachment;filename=" + HttpUtility.UrlEncode(fileName, Encoding.UTF8).ToString());
+            HttpContext.Current.Response.ContentType = "application/ms-excel";
+            HttpContext.Current.Response.Output.Write(sw.ToString().Replace("<br/>", "<br style='mso-data-placement:same-cell;'/> "));
+            HttpContext.Current.Response.Flush();
+            HttpContext.Current.Response.End();
+        }
+
+
+
         /// <summary>
         /// 导出到Excel文件到指定路径(.xls)
         /// </summary>

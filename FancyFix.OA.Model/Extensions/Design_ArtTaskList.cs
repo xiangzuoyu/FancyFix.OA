@@ -11,5 +11,7 @@ namespace FancyFix.OA.Model
         public string SubmitterName { get; set; }
         public string DesignerName { get; set; }
         public string DepartmentName { get; set; }
+        public string DemandTypeName { get; set; }
+        public string DetailTypeName { get; set; }
     }
 }

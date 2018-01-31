@@ -38,6 +38,8 @@ namespace FancyFix.OA.Model
 		private DateTime? _StartTime;
 		private int? _Score;
 		private int? _CorrectNum;
+		private string _DISC;
+		private bool? _IsDISC;
 		/// <summary>
 		/// 
 		/// </summary>
@@ -182,6 +184,30 @@ namespace FancyFix.OA.Model
 				this._CorrectNum=value;
 			}
 		}
+		/// <summary>
+		/// 
+		/// </summary>
+		public string DISC
+		{
+			get{ return _DISC; }
+			set
+			{
+				this.OnPropertyValueChange(_.DISC,_DISC,value);
+				this._DISC=value;
+			}
+		}
+		/// <summary>
+		/// 
+		/// </summary>
+		public bool? IsDISC
+		{
+			get{ return _IsDISC; }
+			set
+			{
+				this.OnPropertyValueChange(_.IsDISC,_IsDISC,value);
+				this._IsDISC=value;
+			}
+		}
 		#endregion
 
 		#region Method
@@ -210,7 +236,9 @@ namespace FancyFix.OA.Model
 				_.AddTime,
 				_.StartTime,
 				_.Score,
-				_.CorrectNum};
+				_.CorrectNum,
+				_.DISC,
+				_.IsDISC};
 		}
 		/// <summary>
 		/// 获取值信息
@@ -229,7 +257,9 @@ namespace FancyFix.OA.Model
 				this._AddTime,
 				this._StartTime,
 				this._Score,
-				this._CorrectNum};
+				this._CorrectNum,
+				this._DISC,
+				this._IsDISC};
 		}
 		#endregion
 
@@ -291,6 +321,14 @@ namespace FancyFix.OA.Model
 			/// 
 			/// </summary>
 			public readonly static Field CorrectNum = new Field("CorrectNum","Questionnaire_Answerer","CorrectNum");
+			/// <summary>
+			/// 
+			/// </summary>
+			public readonly static Field DISC = new Field("DISC","Questionnaire_Answerer","DISC");
+			/// <summary>
+			/// 
+			/// </summary>
+			public readonly static Field IsDISC = new Field("IsDISC","Questionnaire_Answerer","IsDISC");
 		}
 		#endregion
 

@@ -18,17 +18,19 @@ namespace FancyFix.OA.Areas.Questionnaire.Controllers
             var model = Bll.BllQuestionnaire_Subject.First(o => o.Id == id);
             if (model == null) return MessageBoxAndReturn("问卷不存在！");
 
+            ViewBag.SubjectId = model.Id;
             ViewBag.SujectName = model.Title;
             return View();
         }
 
-        public JsonResult PageList(int page = 0, int pagesize = 0, int displayid = 0)
+        public JsonResult PageList(int page = 0, int pagesize = 0, int subjectid = 0)
         {
             long records = 0;
-            var list = Bll.BllQuestionnaire_Info.PageList(page, pagesize, out records);
+            var list = Bll.BllQuestionnaire_Info.PageList(subjectid, page, pagesize, out records);
             int i = 0;
             foreach (var item in list)
             {
+                item.typeStr = Tools.Enums.Tools.GetEnumDescription(typeof(Tools.Enums.Site.InputType), item.Type);
                 GetActStr(item, list.Count, i);
                 i++;
             }
@@ -46,7 +48,7 @@ namespace FancyFix.OA.Areas.Questionnaire.Controllers
                 {
                     actStr.Append("<option value=\"" + j + "\">" + j + "</option>");
                 }
-                actStr.Append($"</select><input type=\"button\" name=\"Submit2\" value=\"↑\" class=\"btn btn-default\" onclick=\"SetMove('{model.Id}','up')\"> ");
+                actStr.Append($"</select><input type=\"button\" name=\"Submit2\" value=\"↑\" class=\"btn btn-default\" onclick=\"SetMove('{model.Id}','{model.SubjectId}','up')\"> ");
             }
             actStr.Append("</td></form><form name=\"downform\"><td  width=\"70\">");
             if (i < listCount - 1)
@@ -56,7 +58,7 @@ namespace FancyFix.OA.Areas.Questionnaire.Controllers
                 {
                     actStr.Append("<option value=\"" + j + "\">" + j + "</option>");
                 }
-                actStr.Append($"</select><input type=\"button\" name=\"Submit2\" value=\"↓\" class=\"btn btn-default\" onclick=\"SetMove('{model.Id}','down')\"> ");
+                actStr.Append($"</select><input type=\"button\" name=\"Submit2\" value=\"↓\" class=\"btn btn-default\" onclick=\"SetMove('{model.Id}','{model.SubjectId}','down')\"> ");
             }
             actStr.Append("</td></form></tr></table>");
             model.actStr = actStr.ToString();
@@ -70,11 +72,12 @@ namespace FancyFix.OA.Areas.Questionnaire.Controllers
         {
             int moveId = RequestInt("id");
             int step = RequestInt("step");
+            int subjectId = RequestInt("subjectid");
             if (step == 0)
                 return Json(new { result = false, msg = "请选择上移数" });
             if (moveId == 0)
                 return Json(new { result = false, msg = "请选择移动分类" });
-            if (Bll.BllQuestionnaire_Info.SequenceDownSeqByColumn(moveId, "Sequence", step))
+            if (Bll.BllQuestionnaire_Info.SequenceDown(moveId, subjectId, "SubjectId", step))
                 return Json(new { result = true, msg = "" });
             else
                 return Json(new { result = false, msg = "提交出错" });
@@ -88,11 +91,12 @@ namespace FancyFix.OA.Areas.Questionnaire.Controllers
         {
             int moveId = RequestInt("id");
             int step = RequestInt("step");
+            int subjectId = RequestInt("subjectid");
             if (step == 0)
                 return Json(new { result = false, msg = "请选择上移数" });
             if (moveId == 0)
                 return Json(new { result = false, msg = "请选择移动分类" });
-            if (Bll.BllQuestionnaire_Info.SequenceUpSeqByColumn(moveId, "Sequence", step))
+            if (Bll.BllQuestionnaire_Info.SequenceUp(moveId, subjectId, "SubjectId", step))
                 return Json(new { result = true, msg = "" });
             else
                 return Json(new { result = false, msg = "提交出错" });
@@ -104,6 +108,7 @@ namespace FancyFix.OA.Areas.Questionnaire.Controllers
             if (id > 0)
                 model = Bll.BllQuestionnaire_Info.First(o => o.Id == id);
 
+            ViewBag.subjectId = RequestInt("subjectId");
             ViewBag.typeHtml = Tools.Enums.Tools.GetOptionHtml(typeof(Tools.Enums.Site.InputType), (byte)(model?.Type ?? 0));
             return View(model);
         }
@@ -123,12 +128,33 @@ namespace FancyFix.OA.Areas.Questionnaire.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Save()
+        public ActionResult Save(List<string> option = null, List<string> optionCheck = null)
         {
             int id = RequestInt("id");
             string title = RequestString("title");
             string remark = RequestString("remark");
             int score = RequestInt("score");
+            byte type = RequestByte("type");
+            int subjectId = RequestInt("subjectId");
+
+            if (option == null || option.Count == 0)
+                return MessageBoxAndReturn("请填写至少一个选项！");
+            if (type != (byte)Tools.Enums.Site.InputType.Text && (optionCheck == null || optionCheck.Count == 0))
+                return MessageBoxAndReturn("请勾选一个正确答案！");
+
+            //判断答案是否存在于选项中，并获取
+            string answer = string.Empty;
+            var hasAnswer = false;
+            foreach (var item in optionCheck)
+            {
+                if (option.Contains(item))
+                {
+                    hasAnswer = true;
+                    answer += item + ",";
+                }
+            }
+            if (!hasAnswer)
+                return MessageBoxAndReturn("请勾选一个正确答案！");
 
             Questionnaire_Info model = null;
             string classHtml = string.Empty;
@@ -136,9 +162,14 @@ namespace FancyFix.OA.Areas.Questionnaire.Controllers
             if (id > 0)
             {
                 model = Bll.BllQuestionnaire_Info.First(o => o.Id == id);
+                if (model == null) return MessageBoxAndReturn("题目不存在！");
+                model.SubjectId = subjectId;
+                model.Type = type;
                 model.Title = title;
                 model.Remark = remark;
                 model.Score = score;
+                model.Options = string.Join(",", option);
+                model.Answer = answer.TrimEnd(',');
 
                 if (Bll.BllQuestionnaire_Info.Update(model, o => o.Id == id) > 0)
                 {
@@ -152,10 +183,14 @@ namespace FancyFix.OA.Areas.Questionnaire.Controllers
             else
             {
                 model = new Questionnaire_Info();
+                model.SubjectId = subjectId;
+                model.Type = type;
                 model.Title = title;
                 model.Remark = remark;
                 model.Score = score;
-                model.Sequence = Bll.BllSys_Class<Questionnaire_Info>.Instance().GetNextSequence("");
+                model.Options = string.Join(",", option);
+                model.Answer = answer.TrimEnd(',');
+                model.Sequence = Bll.BllSys_Class<Questionnaire_Info>.Instance().GetNextSequence("SubjectId=" + subjectId);
                 if (Bll.BllQuestionnaire_Info.Insert(model) > 0)
                 {
                     return LayerAlertSuccessAndRefresh("添加成功");

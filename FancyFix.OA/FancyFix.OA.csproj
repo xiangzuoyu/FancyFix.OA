@@ -177,7 +177,9 @@
     <Compile Include="Areas\Point\Controllers\PointController.cs" />
     <Compile Include="Areas\Point\Controllers\PointListController.cs" />
     <Compile Include="Areas\Point\PointAreaRegistration.cs" />
+    <Compile Include="Areas\Questionnaire\Controllers\AnswererController.cs" />
     <Compile Include="Areas\Questionnaire\Controllers\InfoController.cs" />
+    <Compile Include="Areas\Questionnaire\Controllers\DISCController.cs" />
     <Compile Include="Areas\Questionnaire\Controllers\SubjectController.cs" />
     <Compile Include="Areas\Questionnaire\QuestionnaireAreaRegistration.cs" />
     <Compile Include="Areas\Rank\Controllers\KpiController.cs" />
@@ -1818,6 +1820,11 @@
     <Content Include="Areas\Questionnaire\Views\Subject\List.cshtml" />
     <Content Include="Areas\Questionnaire\Views\Info\Edit.cshtml" />
     <Content Include="Areas\Questionnaire\Views\Info\List.cshtml" />
+    <Content Include="Areas\ArtTask\Views\ArtTaskList\DaCall.cshtml" />
+    <Content Include="Areas\ArtTask\Views\ArtTaskList\DesignUpLoad.cshtml" />
+    <Content Include="Areas\Questionnaire\Views\DISC\Edit.cshtml" />
+    <Content Include="Areas\Questionnaire\Views\DISC\List.cshtml" />
+    <Content Include="Areas\Questionnaire\Views\Answerer\DISCAnswererList.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Common\GetAdminTree.cshtml" />
   </ItemGroup>

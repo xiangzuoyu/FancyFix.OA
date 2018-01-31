@@ -57,6 +57,7 @@
     <Compile Include="Extensions\ArtTaskList.cs" />
     <Compile Include="Extensions\Point_Records.cs" />
     <Compile Include="Extensions\Point_Class.cs" />
+    <Compile Include="Extensions\Questionnaire_DISC.cs" />
     <Compile Include="Extensions\Questionnaire_Info.cs" />
     <Compile Include="Extensions\Questionnaire_Subject.cs" />
     <Compile Include="Extensions\Rank_Class.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="Point_Records.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Questionnaire_Answerer.cs" />
+    <Compile Include="Questionnaire_DISC.cs" />
     <Compile Include="Questionnaire_Info.cs" />
     <Compile Include="Questionnaire_Result.cs" />
     <Compile Include="Questionnaire_Subject.cs" />

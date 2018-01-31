@@ -67,18 +67,18 @@ namespace FancyFix.OA.Areas.Kpi.Controllers
         //指标删除
         public ActionResult KpiDelete(int id)
         {
-            if (id == 0) return MessageBoxAndReturn("参数有误！");
+            if (id == 0) return Json(new { result = 0, msg = "参数有误！" });
 
             //指标判断
             var record = Bll.BllKpi_Records.First(o => o.Id == id);
             if (record == null) MessageBoxAndReturn("指标不存在！");
-            if (record.IsApprove.Value) return MessageBoxAndReturn("该指标已被评分，不能删除！");
+            if (record.IsApprove.Value) return Json(new { result = 0, msg = "该指标已被评分，不能删除！" });
 
             //进程判断
             if (record.Pid > 0)
             {
                 var process = Bll.BllKpi_Process.First(o => o.Id == record.Pid);
-                if (process?.IsCreated ?? false) return MessageBoxAndReturn("该指标所在进程已生成，不能删除！");
+                if (process?.IsCreated ?? false) return Json(new { result = 0, msg = "该指标所在进程已生成，不能删除！" });
             }
 
             id = Bll.BllKpi_Records.Delete(o => o.Id == id);

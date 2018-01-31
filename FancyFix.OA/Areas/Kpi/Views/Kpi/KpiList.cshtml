@@ -167,12 +167,12 @@
                     $.post('/kpi/kpi/kpidelete/' + id, function (data) {
                         if (data) {
                             if (data.result > 0) {
-                                layer.msg(data.msg, { icon: 1 });
+                                ShowSuccess(data.msg);
                                 setTimeout(function () {
                                     window.location.reload();
                                 }, 2000)
                             } else {
-                                layer.msg(data.msg, { icon: 2 });
+                                ShowError(data.msg);
                             }
                         }
                     })

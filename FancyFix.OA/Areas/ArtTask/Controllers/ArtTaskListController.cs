@@ -41,7 +41,7 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
         {
             string name = "";
             if (id != null && id > 0 && list != null)
-                name = list.Find(o => o.Id == id)?.RealName ?? "";
+                name = list.Find(o => o.Id == id)?.RealName;
 
             return name;
         }
@@ -273,7 +273,35 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
             if (model == null)
                 return LayerMsgErrorAndClose("加载需求失败");
 
+            //显示部门名称
+            //if (model.DepartmentId != null && model.DepartmentId > 0)
+            //    model.DepartmentName = Bll.BllMng_DepartmentClass.First(o => o.Id == model.DepartmentId)?.ClassName;
+
+            string weburl = ConfigurationManager.AppSettings["weburl"];
+            var adminlist = AdminData.GetList() ?? new List<Mng_User>();
+            if (model.SubmitterId != null && model.SubmitterId > 0)
+                model.SubmitterName = adminlist.Find(o => o.Id == model.SubmitterId)?.RealName;
+            if (model.DesignerId != null && model.DesignerId > 0)
+                model.DesignerName = adminlist.Find(o => o.Id == model.DesignerId)?.RealName ;
+            if (model.DepartmentId != null && model.DepartmentId > 0)
+                model.DepartmentName = Bll.BllMng_DepartmentClass.First(o => o.Id == model.DepartmentId)?.ClassName;
+            if (model.DemandTypeId != null && model.DemandTypeId > 0)
+                model.DemandTypeName = Bll.BllDesign_DemandType.First(o => o.ClassId == model.DemandTypeId)?.Name;
+            if (model.DetailTypeId != null && model.DetailTypeId > 0)
+                model.DetailTypeName = Bll.BllDesign_DetailType.First(o => o.ClassId == model.DetailTypeId)?.Name;
+
+            model.Uri1 = !string.IsNullOrEmpty(model.Uri1) ? weburl + model.Uri1 : "-";
+            model.Uri2 = !string.IsNullOrEmpty(model.Uri2) ? weburl + model.Uri2 : "-";
             return View(model);
+        }
+
+        [HttpPost]
+        [ValidateInput(false)]
+        public void SeeDetails(string content)
+        {
+            var table = RequestString("content").Trim();
+
+            Tools.Tool.ExcelHelper.ExportResult(content, DateTime.Now.ToString("yyyyMMddHHmmss")+".xls");
         }
     }
 }

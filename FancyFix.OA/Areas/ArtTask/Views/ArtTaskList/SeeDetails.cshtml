@@ -9,8 +9,6 @@
         table {
             width: 100%;
             /*border-bottom:solid 1px #000;*/
-
-            
         }
 
             table caption {
@@ -36,37 +34,115 @@
         }
     </style>
 }
-
+<div id="seeDetailsTab">
     <table>
         <caption>设计需求采集表</caption>
         <tr class="oddEven">
             <td>采集时间</td>
-            <td>-</td>
-            <td>提交人</td>
-            <td>-</td>
+            <td>@(Model != null ? Model.SubmittedDate.GetValueOrDefault().ToString("yyyy-MM-dd") : "-")</td>
             <td>要求完成时间</td>
-            <td>-</td>
+            <td>@(Model != null ? Model.DueDate.Value.ToString("yyyy-MM-dd") : "-")</td>
+            <td>提交人</td>
+            <td>@(Model?.SubmitterName ?? "-")</td>
         </tr>
-        <tr class="oddEven">
-            <td>编号</td>
-            <td>-</td>
-            <td>项目名称</td>
-            <td>-</td>
-            <td>项目预算</td>
-            <td>-元</td>
-        </tr>
+
         <tr class="oddEven">
             <td>需求部门</td>
-            <td>-</td>
+            <td>@(Model?.DepartmentName ?? "-")</td>
             <td>需求类型</td>
-            <td>-</td>
-            <td>型号</td>
-            <td>-</td>
+            <td>@(Model?.DemandTypeName ?? "-")</td>
+            <td>参考资源</td>
+            <td>@(Model?.Uri1 ?? "-")</td>
+        </tr>
+
+        <tr class="oddEven">
+            <td>项目编号</td>
+            <td>@(Model?.Number ?? "-")</td>
+            <td>项目预算</td>
+            <td>@(Model?.Budget.GetValueOrDefault().ToString("f2") ?? "-")元</td>
+            <td>项目名称</td>
+            <td>@(Model?.Title ?? "-")</td>
+        </tr>
+        <tr>
+            <td colspan="6">&nbsp;</td>
         </tr>
         <tr class="oddEven">
+            <td>型号</td>
+            <td>@(Model?.Model ?? "-")</td>
+            <td>细节类型</td>
+            <td>@(Model?.DetailTypeName ?? "-")</td>
             <td>风格要求</td>
-            <td>-</td>
-            <td>细节要求</td>
-            <td colspan="3">-</td>
+            <td>@(Model?.StyleType ?? "-")</td>
+
+        </tr>
+
+        <tr class="oddEven">
+            <td>具体描述</td>
+            <td colspan="5">@(Model?.Content ?? "-")</td>
+        </tr>
+        <tr>
+            <td colspan="6">&nbsp;</td>
+        </tr>
+        <tr class="oddEven">
+            <td>设计师</td>
+            <td>@(Model?.DesignerName ?? "-")</td>
+            <td>开始设计时间</td>
+            <td>@(Model.EstimatedStartDate != null ? Model.EstimatedStartDate.GetValueOrDefault().ToString("yyyy-MM-dd"):"-")</td>
+            <td>结束设计时间</td>
+            <td>@(Model.EstimatedEndDate != null ? Model.EstimatedEndDate.GetValueOrDefault().ToString("yyyy-MM-dd"):"-")</td>
+        </tr>
+        <tr class="oddEven">
+            <td>需求状态</td>
+            <td id="designername"></td>
+            <td>打分</td>
+            <td>@(Model?.Score.GetValueOrDefault().ToString() ?? "-")</td>
+            <td>完成的资源</td>
+            <td>@(Model?.Uri2 ?? "-")</td>
         </tr>
     </table>
+    <form id="seeDetailsform" method="post" action="/arttask/arttasklist/seedetails">
+        <input type="hidden" name="content" id="content" />
+    </form>
+</div>
+<span class="btn btn-primary submits" style="float:right;margin-top:20px;">下载</span>
+@section Js{
+    <script>
+        function ShowStatesFormatter() {
+            var v =@(Model?.Display.GetValueOrDefault() ?? 0);
+            var str = "";
+            if (v == 1)
+                str = "未分配";
+            else if (v == 2)
+                str = "已分配";
+            else if (v == 3)
+                str = "已完成";
+            else if (v == 4)
+                str = "已取消";
+            else if (v == 5)
+                str = "已打分";
+            else
+                str = "-";
+
+            $("#designername").html(str);
+        }
+        ShowStatesFormatter();
+
+        var ExportExcel = {
+            init: function () {
+                $(".submits").on("click", function () {
+                    var content = $("#seeDetailsTab").html();
+                    $("#content").val(content);
+                    //ExportExcel.param = content;
+                    ExportExcel.post();
+                })
+            },
+            post: function () {
+                console.log($("#content").val())
+                $("#seeDetailsform").submit();
+            }
+
+        }
+        ExportExcel.init();
+
+    </script>
+}

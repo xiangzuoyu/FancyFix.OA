@@ -184,14 +184,22 @@
                                 }
 
                                 //只有提交需求的人，才可以在需求完成时打分
-                                if (r.Display == 3 && r.SubmitterId == @ViewBag.CurrentId)
-                                    ele += "<a data-id=\"" + r.Id + "\" class=\"btnDaCall btn btn-md btn-primary\">打分</a> ";
+                                if (r.SubmitterId == @ViewBag.CurrentId)
+                                {
+                                    if ((r.Display == 3 || r.Display == 5))
+                                    {
+                                        if (r.Display == 3)
+                                            ele += "<a data-id=\"" + r.Id + "\" class=\"btnDaCall btn btn-md btn-primary\">打分</a> ";
+
+                                        ele += "<a href=\"" + r.Uri2 + "\" target=\"_blank\" class=\"btn btn-md btn-primary\">下载</a> ";
+                                    }
+                                }
 
                                 if (r.Display == 3 || r.Display == 5)
                                 {
                                     if (r.Uri2 != null && r.Uri2 != "" &&
                                         ("@ViewBag.IsDesigner" == "True" || "@ViewBag.IsDesignerAdmin" == "True" || r.SubmitterId == @ViewBag.CurrentId))
-                                        ele += "<a href=\"" + r.Uri2 + "\" target=\"_blank\" class=\"btn btn-md btn-primary\">下载</a> ";
+
 
                                     ele += "<span data-id=\"" + r.Id + "\" class=\"btn btn-md layui-btn-disabled\">已完成</span> ";
                                 }

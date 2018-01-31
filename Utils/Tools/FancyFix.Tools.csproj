@@ -112,6 +112,7 @@
     <Compile Include="Auth\LinkinConfig.cs" />
     <Compile Include="Auth\LinkinHelper.cs" />
     <Compile Include="Auth\WebApiHelper.cs" />
+    <Compile Include="Json\DISC.cs" />
     <Compile Include="Enums\Site.cs" />
     <Compile Include="Mapper\MappingHelper.cs" />
     <Compile Include="Common\Common.cs" />

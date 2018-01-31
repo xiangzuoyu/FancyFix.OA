@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace FancyFix.OA.Model
 {
-    public partial class Questionnaire_Info
+    public partial class Questionnaire_DISC
     {
         public string actStr { get; set; }
-
-        public string typeStr { get; set; }
     }
 }

@@ -12,10 +12,10 @@ namespace FancyFix.OA.Bll
             return new BllQuestionnaire_Info();
         }
 
-        public static List<Questionnaire_Info> PageList(int page, int pageSize, out long records)
+        public static List<Questionnaire_Info> PageList(int subjectId, int page, int pageSize, out long records)
         {
             var where = new Where<Questionnaire_Info>();
-
+            if (subjectId > 0) where.And(o => o.SubjectId == subjectId);
             var p = Db.Context.From<Questionnaire_Info>()
                  .Select((a) => new { a.Id, a.Title, a.SubjectId, a.Options, a.Type, a.Answer, a.Remark, a.Score, a.Sequence })
                  .Where(where);

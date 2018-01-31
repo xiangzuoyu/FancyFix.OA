@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "InfoList";
+    ViewBag.Title = "DISCList";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Css{
@@ -8,16 +8,12 @@
 <div class="row">
     <div class="col-xs-12">
         <div class="box-header">
-            <h3 class="box-title">【@ViewBag.SujectName】问卷题目列表</h3>
-            <input type="hidden" id="subjectId" value="@ViewBag.subjectId">
+            <h3 class="box-title">DISC题目列表</h3>
         </div>
         <div class="box">
             <div class="box-body">
                 <section class="panel">
                     <div class="layui-form layui-form-pane">
-                        <div class="layui-inline pull-right" style="margin-left:10px;">
-                            <a class="btn btn-default" href="/questionnaire/subject/list">返回</a>
-                        </div>
                         <div class="layui-inline pull-right">
                             <button id="btnSearch" class="btn bg-orange" lay-submit lay-filter="formSearch">查询</button>
                         </div>
@@ -43,11 +39,6 @@
     <script src="/Content/js/common/tools.js"></script>
     <script>
         layui.use(['layer', 'form'], function () {
-            //字母数组
-            var zm = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N'];
-            //问卷Id
-            var subjectId = $("#subjectId").val();
-
             var layer = layui.layer;
             var form = layui.form();
 
@@ -56,7 +47,7 @@
                 //初始化Table
                 objTable.Init = function () {
                     $table.bootstrapTable({
-                        url: '/questionnaire/info/PageList',
+                        url: '/questionnaire/disc/PageList',
                         method: 'get',
                         toolbar: '#toolbar',                //工具按钮用哪个容器
                         idField: "Id",                      //指定主键列
@@ -87,42 +78,15 @@
                         columns: [{
                             checkbox: true
                         }, {
-                            field: 'Title',
-                            title: '问卷标题',
-                            align: 'center'
+                            field: 'DISC',
+                            title: 'DISC',
+                            align: 'left',
+                            width: '500px'
                         }, {
-                            field: 'typeStr',
-                            title: '类型',
-                            align: 'center'
-                        }, {
-                            field: 'Options',
-                            title: '选项',
+                            field: 'IsShow',
+                            title: '显示',
                             align: 'center',
-                            formatter: function (v, r, i) {
-                                var array = v.split(',');
-                                var html = "";
-                                for (var i in array) {
-                                    html += "<p>" + zm[i] + ":" + array[i] + "</p>";
-                                }
-                                return html;
-                            }
-                        }, {
-                            field: 'Answer',
-                            title: '答案',
-                            align: 'center',
-                            formatter: function (v, r, i) {
-                                var array = r.Options.split(',');
-                                var html = "";
-                                for (var i in array) {
-                                    if ((',' + v + ',').indexOf(',' + array[i] + ',') >= 0)
-                                        html += "<p>" + zm[i] + ":" + array[i] + "</p>";
-                                }
-                                return html;
-                            }
-                        }, {
-                            field: 'Score',
-                            title: '分值',
-                            align: 'center'
+                            formatter: setShowFormatter
                         }, {
                             field: 'actStr',
                             title: '排序',
@@ -131,7 +95,7 @@
                             title: '操作',
                             align: 'center',
                             formatter: function (v, r, i) {
-                                return "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnEdit btn btn-md btn-primary\">编辑</a> <a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnDel btn btn-md btn-danger\">删除</a>";
+                                return " <a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnEdit btn btn-md btn-primary\">编辑</a> <a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnDel btn btn-md btn-danger\">删除</a>";
                             }
                         }]
                     });
@@ -147,8 +111,7 @@
                         ordername: params.sort,
 
                         //自定义参数
-                        title: $("#title").val(),
-                        subjectid: subjectId
+                        title: $("#title").val()
                     };
                     return temp;
                 };
@@ -160,12 +123,30 @@
             //查看
             $("#table").on('click', '.btnEdit', function () {
                 var id = $(this).attr("data-id");
-                OpenWin("编辑", "/questionnaire/info/edit/" + id + "?subjectId=" + subjectId, '60%', '85%');
+                OpenWin("编辑", "/questionnaire/disc/edit/" + id, '800px', '500px');
             });
 
             //新增
             $("#btn_add").on('click', function () {
-                OpenWin("添加", "/questionnaire/info/edit?subjectId=" + subjectId, '60%', '85%');
+                OpenWin("添加", "/questionnaire/disc/edit", '800px', '500px');
+            });
+
+            function setShowFormatter(v, r, i) {
+                if (v > 0)
+                    return "<a href=\"javascript:;\" data-id=\"" + r.Id + "\"  class=\"btnSetShow btn btn-success btn-circle btn-lg btn-xs\" type=\"button\"> <i class=\"fa fa-check\"></i></a>";
+                else
+                    return "<a href=\"javascript:;\" data-id=\"" + r.Id + "\"  class=\"btnSetShow btn btn-danger btn-circle btn-lg btn-xs\" type=\"button\"> <i class=\"fa fa-times\"></i></a>";
+            }
+
+            //设置显隐
+            $("#table").on('click', '.btnSetShow', function () {
+                var id = $(this).data("id");
+                $.post('/questionnaire/disc/setshow/' + id, function (data) {
+                    if (data)
+                        Reload();
+                    else
+                        ShowError('修改失败！');
+                })
             });
 
             //批量删除
@@ -175,7 +156,7 @@
                         btn: ['确定', '取消']
                     }, function (index, layero) {
                         var list = GetSelections();
-                        $.post('/questionnaire/info/deletebatch', { list }, function (data) {
+                        $.post('/questionnaire/disc/deletebatch', { list }, function (data) {
                             if (data)
                                 Reload();
                             else
@@ -201,7 +182,7 @@
                     btn: ['确定', '取消']
                 }, function (index, layero) {
                     var id = $this.data("id");
-                    $.post('/questionnaire/info/delete/' + id, function (data) {
+                    $.post('/questionnaire/disc/delete/' + id, function (data) {
                         if (data)
                             Reload();
                         else
@@ -215,18 +196,17 @@
         })
 
         //排序
-        function SetMove(id, subjectid, act) {
+        function SetMove(id, act) {
             var step = 1;
             var obj = new Object;
             obj["id"] = id;
-            obj["subjectid"] = subjectid;
             if (act == "up") {
                 obj["step"] = $("#stepUp" + id).val();
-                $.post("/questionnaire/info/up", obj, callBack)
+                $.post("/questionnaire/disc/up", obj, callBack)
             }
             else {
                 obj["step"] = $("#stepDown" + id).val();
-                $.post("/questionnaire/info/down", obj, callBack)
+                $.post("/questionnaire/disc/down", obj, callBack)
             }
             return;
         }

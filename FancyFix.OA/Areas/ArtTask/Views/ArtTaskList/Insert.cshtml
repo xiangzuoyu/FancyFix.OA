@@ -72,7 +72,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td align="right"><label for="model" class="control-label">型号：</label></td>
+                        <td align="right"><label for="model" class="control-label">产品型号：</label></td>
                         <td>
                             <div class="form-group">
                                 <input type="text" class="form-control" id="model" placeholder="型号" name="model" value="@(Model?.Model ?? "")"
@@ -80,7 +80,7 @@
                             </div>
                         </td>
                     </tr>
-                    <tr>
+                    @*<tr>
                         <td align="right"><label for="styletype" class="control-label">风格要求：</label></td>
                         <td>
                             <div class="form-group">
@@ -102,6 +102,14 @@
                                     }
                                 }
                             </select>
+                        </td>
+                    </tr>*@
+                    <tr>
+                        <td align="right"><label for="content" class="control-label">参考资源：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <span class="layui-word-aux">范本、网站、文案、目录、LOGO、图片，网页链接等。如果资料过多，可在下方上传附件</span>
+                            </div>
                         </td>
                     </tr>
                     <tr>
@@ -133,7 +141,7 @@
                     <tr>
                         <td align="right"><label class="control-label">上传附件：</label></td>
                         <td>
-                            @Html.Partial("UploadFile", new FancyFix.OA.Config.FileUploadConfig { Files = Model?.Uri1 ?? "",  FileExt = "xlsx,xls", UploadNum = 1,  Domain = "local" })
+                            @Html.Partial("UploadFile", new FancyFix.OA.Config.FileUploadConfig { Files = Model?.Uri1 ?? "",  FileExt = "xlsx,xls", UploadNum = 1, MaxSize = 10 * 1024 * 1024,  Domain = "local" })
                         </td>
                     </tr>
                     <tr>

@@ -32,7 +32,7 @@
                     <tr>
                         <td align="right"><label class="control-label">上传资料：</label></td>
                         <td>
-                            @Html.Partial("UploadFile", new FancyFix.OA.Config.FileUploadConfig { Files = Model?.Uri2 ?? "", FileExt = "xlsx,xls", UploadNum = 1, Domain = "local" })
+                            @Html.Partial("UploadFile", new FancyFix.OA.Config.FileUploadConfig { Files = Model?.Uri2 ?? "", FileExt = "xlsx,xls", UploadNum = 1, MaxSize = 10 * 1024 * 1024, Domain = "local" })
                         </td>
                     </tr>
                     <tr>

@@ -77,22 +77,39 @@
         <tr>
             <td colspan="6">&nbsp;</td>
         </tr>
-        <tr class="oddEven">
-            <td>设计师</td>
-            <td>@(Model?.DesignerName ?? "-")</td>
-            <td>开始设计时间</td>
-            <td>@(Model.EstimatedStartDate != null ? Model.EstimatedStartDate.GetValueOrDefault().ToString("yyyy-MM-dd"):"-")</td>
-            <td>结束设计时间</td>
-            <td>@(Model.EstimatedEndDate != null ? Model.EstimatedEndDate.GetValueOrDefault().ToString("yyyy-MM-dd"):"-")</td>
-        </tr>
-        <tr class="oddEven">
-            <td>需求状态</td>
-            <td id="designername"></td>
-            <td>打分</td>
-            <td>@(Model?.Score.GetValueOrDefault().ToString() ?? "-")</td>
-            <td>完成的资源</td>
-            <td>@(Model?.Uri2 ?? "-")</td>
-        </tr>
+        @if (Model?.DesignerId > 0)
+        {
+            <tr class="oddEven">
+                <td>设计师</td>
+                <td>@(Model?.DesignerName ?? "-")</td>
+                <td>开始设计时间</td>
+                <td>@(Model.EstimatedStartDate != null ? Model.EstimatedStartDate.GetValueOrDefault().ToString("yyyy-MM-dd") : "-")</td>
+                <td>预计结束时间</td>
+                <td>@(Model.EstimatedEndDate != null ? Model.EstimatedEndDate.GetValueOrDefault().ToString("yyyy-MM-dd") : "-")</td>
+            </tr>
+            <tr class="oddEven">
+                <td>实际结束时间</td>
+                <td>@(Model.CompletionDate != null ? Model.CompletionDate.GetValueOrDefault().ToString("yyyy-MM-dd") : "-")</td>
+                <td>需求状态</td>
+                <td id="designername"></td>
+                <td>打分</td>
+                <td>@(Model?.Score.GetValueOrDefault().ToString() ?? "-")</td>
+            </tr>
+            if (!string.IsNullOrEmpty(Model.Comment))
+            {
+                <tr class="oddEven">
+                    <td>评价</td>
+                    <td colspan="5">@(Model.Comment)</td>
+                </tr>
+            }
+            if (!string.IsNullOrEmpty(Model.Uri2))
+            {
+                <tr class="oddEven">
+                    <td>完成的资源</td>
+                    <td colspan="5">@(Model.Uri2)</td>
+                </tr>
+            }
+        }
     </table>
     <form id="seeDetailsform" method="post" action="/arttask/arttasklist/seedetails">
         <input type="hidden" name="content" id="content" />

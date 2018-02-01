@@ -185,8 +185,8 @@
                                     {
                                         if (r.Display == 3)
                                             ele += "<a data-id=\"" + r.Id + "\" class=\"btnDaCall btn btn-md btn-primary\">打分</a> ";
-
-                                        ele += "<a href=\"" + r.Uri2 + "\" target=\"_blank\" class=\"btn btn-md btn-primary\">下载</a> ";
+                                        if (r.Uri2 && r.Uri2 != '')
+                                            ele += "<a href=\"" + r.Uri2 + "\" target=\"_blank\" class=\"btn btn-md btn-primary\">下载</a> ";
                                     }
                                 }
 
@@ -229,7 +229,7 @@
             });
             //新增
             $("#btn_add").on('click', function () {
-                OpenWin("添加需求", "/arttask/arttasklist/insert", '800px', '560px');
+                OpenWin("添加需求", "/arttask/arttasklist/insert", '55%', '90%');
             });
             //显示日历
             $("#btn_calendar").on('click', function () {

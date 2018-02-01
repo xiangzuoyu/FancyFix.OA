@@ -41,7 +41,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="text" class="form-control" id="title" name="title" placeholder="标题" value="@(Model?.Title ?? "")"
-                                       required="required" style="width:250px;">
+                                       required="required" style="width:250px;" maxlength="255">
                             </div>
                         </td>
                     </tr>
@@ -75,8 +75,7 @@
                         <td align="right"><label for="model" class="control-label">产品型号：</label></td>
                         <td>
                             <div class="form-group">
-                                <input type="text" class="form-control" id="model" placeholder="型号" name="model" value="@(Model?.Model ?? "")"
-                                       required="required" style="width:250px;">
+                                <input type="text" class="form-control" id="model" placeholder="型号" name="model" value="@(Model?.Model ?? "")" style="width:250px;" maxlength="120">
                             </div>
                         </td>
                     </tr>
@@ -117,7 +116,7 @@
                         <td>
                             <div class="form-group">
                                 <textarea class="form-control" id="content" name="content" type="text/plain" style="height:80px;"
-                                          required="required">@(Model?.Content ?? "")</textarea>
+                                          required="required" maxlength="5000">@(Model?.Content ?? "")</textarea>
                             </div>
                         </td>
                     </tr>
@@ -133,15 +132,14 @@
                         <td align="right"><label for="phone" class="control-label">联系方式：</label></td>
                         <td>
                             <div class="form-group">
-                                <input type="text" class="form-control" id="phone" name="phone" placeholder="手机号" value="@(Model?.Phone ?? "")"
-                                       style="width:250px;">
+                                <input type="text" class="form-control" id="phone" name="phone" placeholder="手机号" value="@(Model?.Phone ?? "")" style="width:250px;" maxlength="15">
                             </div>
                         </td>
                     </tr>
                     <tr>
                         <td align="right"><label class="control-label">上传附件：</label></td>
                         <td>
-                            @Html.Partial("UploadFile", new FancyFix.OA.Config.FileUploadConfig { Files = Model?.Uri1 ?? "",  FileExt = "xlsx,xls", UploadNum = 1, MaxSize = 10 * 1024 * 1024,  Domain = "local" })
+                            @Html.Partial("UploadFile", new FancyFix.OA.Config.FileUploadConfig { Files = Model?.Uri1 ?? "",  FileExt = "xlsx,xls,doc,docx,pdf,zip,rar", UploadNum = 1, MaxSize = 10 * 1024 * 1024,  Domain = "local" })
                         </td>
                     </tr>
                     <tr>

@@ -9,12 +9,13 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
 {
     public class ArtTaskListController : BaseAdminController
     {
+        //获取设计部分配任务权限ID
+        string arrIds = ConfigurationManager.AppSettings["ArtTaskIds"];
+        string adminIds = ConfigurationManager.AppSettings["ArtTaskAdminIds"];
+
         // GET: ArtTask/ArtTaskList
         public ActionResult List()
         {
-            //获取设计部分配任务权限ID
-            string arrIds = ConfigurationManager.AppSettings["ArtTaskIds"];
-            string adminIds = ConfigurationManager.AppSettings["ArtTaskAdminIds"];
             ViewBag.CurrentId = MyInfo.Id;
             ViewBag.IsDesigner = (arrIds.Contains($",{MyInfo.Id},") || adminIds.Contains($",{MyInfo.Id},"));
             ViewBag.IsDesignerAdmin = adminIds.Contains($",{MyInfo.Id},");
@@ -24,8 +25,12 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
 
         public JsonResult PageList(int page = 0, int pagesize = 0, int displayid = 0)
         {
+            //非设计部门，只能查看自己的需求
+            int submitterId = 0;
+            if (!arrIds.Contains($",{MyInfo.Id},") && !adminIds.Contains($",{MyInfo.Id},"))
+                submitterId = MyInfo.Id;
             long records = 0;
-            var list = Bll.BllDesign_ArtTaskList.PageList(page, pagesize, out records, displayid);
+            var list = Bll.BllDesign_ArtTaskList.PageList(submitterId, page, pagesize, out records, displayid);
             var adminlist = AdminData.GetList();
             foreach (var item in list)
             {
@@ -75,7 +80,7 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
         public ActionResult Insert(Design_ArtTaskList artTaskList)
         {
             var nowdate = DateTime.Now;
-            artTaskList.Number = $"{nowdate.ToString("yyyyMMdd")}{MyInfo.Id}{MyInfo.UserName}{nowdate.ToString("HHmmdd")}";
+            artTaskList.Number = $"{nowdate.ToString("yyyyMMddHHmmss")}{MyInfo.Id}";
             artTaskList.SubmitterId = MyInfo.Id;
             artTaskList.SubmittedDate = nowdate;
             artTaskList.Display = 1;
@@ -199,6 +204,9 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
             DateTime starttime = RequestString("starttime").Trim().ToDateTime().AddMonths(-1);
             DateTime endtime = RequestString("endtime").Trim().ToDateTime().AddMonths(1);
             var list = Bll.BllDesign_ArtTaskList.GetList(starttime, endtime, designerId);
+            var adminlist = AdminData.GetList();
+            foreach (var item in list)
+                item.DesignerName = GetUserNameById(item.DesignerId, adminlist);
             return Json(new { result = list }, JsonRequestBehavior.AllowGet);
         }
         #endregion
@@ -246,7 +254,7 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
         }
 
         [HttpPost]
-        public ActionResult DaCall(int id = 0, int rating = 1, string comment = "")
+        public ActionResult DaCall(int id = 0, int rating = 10, string comment = "")
         {
             if (id < 1)
                 return LayerMsgErrorAndClose("加载需求失败，请联系管理员！");

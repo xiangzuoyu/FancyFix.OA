@@ -60,8 +60,8 @@
             /*overflow: hidden;
             text-overflow: ellipsis;*/
             white-space: nowrap;
-            overflow-y: auto;
-            overflow-x: auto;
+            overflow-y: overlay;
+            overflow-x: hidden;
         }
 
         .taskTitle {
@@ -105,10 +105,8 @@
 
 <div id="calendar">
     <div class="btns">
-
         @if (designerList != null && designerList.Any())
         {
-
             for (int i = 0; i < designerList.Count; i++)
             {
                 var item = designerList[i];
@@ -219,6 +217,24 @@
             });
 
             getTasklist.init();
+
+            //详细提示
+            var tip;
+            $("#calendar").on('mouseover', 'span.taskTitle', function () {
+                var title = $(this).attr("title");
+                var color = $(this).css("color");
+                var name = $(this).find("[class^=Name]").text();
+                if (name && name != '')
+                    title = name + ": " + title;
+                tip = layer.tips(title, $(this), {
+                    tips: [1, color],
+                    time: 4000
+                });
+            }).on('mouseout', 'span.taskTitle', function () {
+                if (tip) {
+                    layer.close(tip);
+                }
+            });
         })
 
         //初始化快捷方式选择设计师
@@ -308,7 +324,7 @@
 
                     //全部显示时加上名字
                     if (getTasklist.parameter.designerId == 0)
-                        html += "<em class=\"Name" + model.DesignerId+"\">" + getTasklist.getNameById(model.DesignerId) + "</em>"
+                        html += "<em class=\"Name" + model.DesignerId + "\">" + getTasklist.getNameFormat(model.DesignerName) + "</em>"
 
                     //最后一天要加上下午
                     if (j == (arr.length - 1))
@@ -368,26 +384,12 @@
                 return color;
             },
             //根据设计师ID获取设计师名称
-            getNameById: function (id) {
-                var name = '';
-                switch (id)
-                {
-                    case 72:
-                        name = "琦";
-                        break;
-                    case 73:
-                        name = "涵";
-                        break;
-                    case 84:
-                        name = "鹏";
-                        break;
-                    default:
-                        name = "迷";
-                        break;
-                }
-                return name;
+            getNameFormat: function (name) {
+                var len = name.length;
+                if (len < 1)
+                    return "密";
+                return name[len - 1];
             }
-
         }
     </script>
 }

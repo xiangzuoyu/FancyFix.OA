@@ -1825,6 +1825,7 @@
     <Content Include="Areas\Questionnaire\Views\DISC\Edit.cshtml" />
     <Content Include="Areas\Questionnaire\Views\DISC\List.cshtml" />
     <Content Include="Areas\Questionnaire\Views\Answerer\DISCAnswererList.cshtml" />
+    <Content Include="Areas\ArtTask\Views\ArtTaskList\SeeDetails.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Common\GetAdminTree.cshtml" />
   </ItemGroup>

@@ -38,6 +38,14 @@
     <table>
         <caption>设计需求采集表</caption>
         <tr class="oddEven">
+            <td>项目编号</td>
+            <td>@(Model?.Number ?? "-")</td>
+            <td>项目名称</td>
+            <td>@(Model?.Title ?? "-")</td>
+            <td>项目预算</td>
+            <td>@(Model?.Budget.GetValueOrDefault().ToString("f2") ?? "-")元</td>
+        </tr>
+        <tr class="oddEven">
             <td>采集时间</td>
             <td>@(Model != null ? Model.SubmittedDate.GetValueOrDefault().ToString("yyyy-MM-dd") : "-")</td>
             <td>要求完成时间</td>
@@ -45,7 +53,6 @@
             <td>提交人</td>
             <td>@(Model?.SubmitterName ?? "-")</td>
         </tr>
-
         <tr class="oddEven">
             <td>需求部门</td>
             <td>@(Model?.DepartmentName ?? "-")</td>
@@ -54,29 +61,16 @@
             <td>参考资源</td>
             <td>@(Model?.Uri1 ?? "-")</td>
         </tr>
-
-        <tr class="oddEven">
-            <td>项目编号</td>
-            <td>@(Model?.Number ?? "-")</td>
-            <td>项目预算</td>
-            <td>@(Model?.Budget.GetValueOrDefault().ToString("f2") ?? "-")元</td>
-            <td>项目名称</td>
-            <td>@(Model?.Title ?? "-")</td>
-        </tr>
         <tr>
             <td colspan="6">&nbsp;</td>
         </tr>
         <tr class="oddEven">
             <td>型号</td>
             <td>@(Model?.Model ?? "-")</td>
-            <td>细节类型</td>
+            @*<td>细节类型</td>
             <td>@(Model?.DetailTypeName ?? "-")</td>
             <td>风格要求</td>
-            <td>@(Model?.StyleType ?? "-")</td>
-
-        </tr>
-
-        <tr class="oddEven">
+            <td>@(Model?.StyleType ?? "-")</td>*@
             <td>具体描述</td>
             <td colspan="5">@(Model?.Content ?? "-")</td>
         </tr>

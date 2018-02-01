@@ -118,7 +118,8 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
             //设置表单初始值
             if (!string.IsNullOrEmpty(datetime) && model.Display == 1)
             {
-                model.DesignerId = designerId;
+                if (designerId > 0)
+                    model.DesignerId = designerId;
                 model.EstimatedStartDate = datetime.ToDateTime();
             }
 
@@ -282,7 +283,7 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
             if (model.SubmitterId != null && model.SubmitterId > 0)
                 model.SubmitterName = adminlist.Find(o => o.Id == model.SubmitterId)?.RealName;
             if (model.DesignerId != null && model.DesignerId > 0)
-                model.DesignerName = adminlist.Find(o => o.Id == model.DesignerId)?.RealName ;
+                model.DesignerName = adminlist.Find(o => o.Id == model.DesignerId)?.RealName;
             if (model.DepartmentId != null && model.DepartmentId > 0)
                 model.DepartmentName = Bll.BllMng_DepartmentClass.First(o => o.Id == model.DepartmentId)?.ClassName;
             if (model.DemandTypeId != null && model.DemandTypeId > 0)
@@ -301,7 +302,7 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
         {
             var table = RequestString("content").Trim();
 
-            Tools.Tool.ExcelHelper.ExportResult(content, DateTime.Now.ToString("yyyyMMddHHmmss")+".xls");
+            Tools.Tool.ExcelHelper.ExportResult(content, DateTime.Now.ToString("yyyyMMddHHmmss") + ".xls");
         }
     }
 }

@@ -105,8 +105,6 @@ namespace FancyFix.Tools.Tool
             HtmlTextWriter htmlWrite = new HtmlTextWriter(sw);
 
             DataGrid dg = new DataGrid();
-            //dg.DataSource = list;
-            //dg.DataBind();
             dg.RenderControl(htmlWrite);
 
             HttpContext.Current.Response.Clear();

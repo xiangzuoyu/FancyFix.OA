@@ -57,9 +57,11 @@
             }
 
         #renderMonth .day li {
-            overflow: hidden;
+            /*overflow: hidden;
+            text-overflow: ellipsis;*/
             white-space: nowrap;
-            text-overflow: ellipsis;
+            overflow-y: auto;
+            overflow-x: auto;
         }
 
         .taskTitle {
@@ -86,11 +88,24 @@
                 .taskTitle em.PM {
                     background-color: #7b838f;
                 }
+
+                .taskTitle em.Name72 {
+                    background-color: #009688;
+                }
+
+                .taskTitle em.Name73 {
+                    background-color: #d91717;
+                }
+
+                .taskTitle em.Name84 {
+                    background-color: #098d03;
+                }
     </style>
 }
 
 <div id="calendar">
     <div class="btns">
+
         @if (designerList != null && designerList.Any())
         {
 
@@ -107,6 +122,7 @@
                 }
             }
         }
+        <span class="layui-btn layui-btn-small layui-btn-primary" data-id="0">全部</span>
         <div style="text-align:center;">
             <span style="margin-left:50px;color:#1E9FFF;">进行中</span>
             <span style="margin-left:10px;color:#5FB878;">已完成</span>
@@ -159,7 +175,7 @@
             </div>
             <ul class="month"></ul>
         </div>
-        
+
         <div id="control">
             <input type="button" value="上一月" class="btn btn-prev" style="width:70px;">
             <input type="button" value="回到本月" class="today" style="width:80px;">
@@ -171,7 +187,7 @@
             <i class="arrow arrow-right"></i>
             <p class="date">2017年8月28日</p>
             <p class="lunar">丁酉鸡年</p>
-        </div> 
+        </div>
     </div>
 </div>
 
@@ -274,20 +290,31 @@
                 $("#renderMonth .day li>span").remove();
                 for (var i = 0; i < getTasklist.designerData.result.length; i++) {
                     var model = getTasklist.designerData.result[i];
-                    if (getTasklist.parameter.designerId == model.DesignerId.toString()) {
-                        var arr = getTasklist.getEachDate(model.EstimatedStartDate, model.EstimatedEndDate);
-                        //var randomColor = getTasklist.getRandomColor();
-                        var StatesColor = getTasklist.getTaskStateColor(model.Display, model.EstimatedEndDate);
 
-                        for (var j = 0; j < arr.length; j++) {
-                            var html = '<span class=\"taskTitle\" style=\'color:' + StatesColor + '\' title=\"' + model.Title + '\">';
-                            //最后一天要加上下午
-                            if (j == (arr.length - 1))
-                                html += model.AMPM == 1 ? " <em class=\"AM\">上</em> " : " <em class=\"PM\">下</em> ";
-                            html += model.Title + '<br/></span>';
-                            $("[data-time=" + arr[j] + "]").append(html);
-                        }
-                    }
+                    if (getTasklist.parameter.designerId == 0)
+                        getTasklist.SetTaskHtml(model);
+                    else if (getTasklist.parameter.designerId == model.DesignerId.toString())
+                        getTasklist.SetTaskHtml(model);
+                }
+            },
+            SetTaskHtml: function (model) {
+                var arr = getTasklist.getEachDate(model.EstimatedStartDate, model.EstimatedEndDate);
+                //var randomColor = getTasklist.getRandomColor();
+                var StatesColor = getTasklist.getTaskStateColor(model.Display, model.EstimatedEndDate);
+                for (var j = 0; j < arr.length; j++) {
+                    var html = '';
+                    html += '<span class=\"taskTitle\" style=\'color:' + StatesColor + '\' title=\"' + model.Title + '\">';
+                    //前面加设计师名字
+
+                    //全部显示时加上名字
+                    if (getTasklist.parameter.designerId == 0)
+                        html += "<em class=\"Name" + model.DesignerId+"\">" + getTasklist.getNameById(model.DesignerId) + "</em>"
+
+                    //最后一天要加上下午
+                    if (j == (arr.length - 1))
+                        html += model.AMPM == 1 ? " <em class=\"AM\">上</em> " : " <em class=\"PM\">下</em> ";
+                    html += model.Title + '<br/></span>';
+                    $("[data-time=" + arr[j] + "]").append(html);
                 }
             },
             //遍历两个日期之间的所有日期返回数组
@@ -339,11 +366,28 @@
                         break;
                 }
                 return color;
+            },
+            //根据设计师ID获取设计师名称
+            getNameById: function (id) {
+                var name = '';
+                switch (id)
+                {
+                    case 72:
+                        name = "琦";
+                        break;
+                    case 73:
+                        name = "涵";
+                        break;
+                    case 84:
+                        name = "鹏";
+                        break;
+                    default:
+                        name = "迷";
+                        break;
+                }
+                return name;
             }
-            //随机生成一种颜色
-            //getRandomColor: function () {
-            //    return '#' + Math.floor(Math.random() * 256).toString(10);
-            //}
+
         }
     </script>
 }

@@ -20,6 +20,7 @@
 
         #renderMonth .day li {
             width: 14.27%;
+            cursor:pointer;
         }
 
         #control input {
@@ -234,7 +235,10 @@
                 if (tip) {
                     layer.close(tip);
                 }
-            });
+            }).on('click', 'span.taskTitle', function () {
+                var id = $(this).data("id");
+                OpenWin("需求详细", "/arttask/arttasklist/seedetails/" + id, '90%', '80%');
+            })
         })
 
         //初始化快捷方式选择设计师
@@ -319,7 +323,7 @@
                 var StatesColor = getTasklist.getTaskStateColor(model.Display, model.EstimatedEndDate);
                 for (var j = 0; j < arr.length; j++) {
                     var html = '';
-                    html += '<span class=\"taskTitle\" style=\'color:' + StatesColor + '\' title=\"' + model.Title + '\">';
+                    html += '<span data-id=\'' + model.Id +'\' class=\"taskTitle\" style=\'color:' + StatesColor + '\' title=\"' + model.Title + '\">';
                     //前面加设计师名字
 
                     //全部显示时加上名字

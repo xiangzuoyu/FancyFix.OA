@@ -15,11 +15,12 @@ namespace FancyFix.OA.Bll
             return new BllDesign_ArtTaskList();
         }
 
-        public static IEnumerable<Design_ArtTaskList> PageList(int page, int pageSize, out long records, int display)
+        public static IEnumerable<Design_ArtTaskList> PageList(int submitterId, int page, int pageSize, out long records, int display)
         {
             var where = new Where<Design_ArtTaskList>();
             where.And(o => o.Display != 4);
-
+            if (submitterId > 0)
+                where.And(o => o.SubmitterId == submitterId);
             if (display > 0)
                 where.And(o => o.Display == display);
 

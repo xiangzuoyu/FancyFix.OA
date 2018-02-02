@@ -27,3 +27,34 @@ FancyFix.OA.Model/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
 *.user
 .vs/FancyFix.OA/v15/.suo
 FancyFix.OA/Areas/ArtTask/Views/web.config
+<<<<<<< HEAD
+=======
+/.vs/FancyFix.OA/v15/Server/sqlite3
+.vs/FancyFix.OA/v15/.suo
+.vs/FancyFix.OA/v15/.suo
+*.dll
+*.dll
+*.pdb
+.vs/FancyFix.OA/v15/.suo
+FancyFix.OA/Web.config
+*.dll
+*.pdb
+.vs/FancyFix.OA/v15/.suo
+.vs/FancyFix.OA/v15/.suo
+*.dll
+*.pdb
+*.dll
+*.pdb
+FancyFix.OA/Web.config
+*.dll
+*.pdb
+*.dll
+.vs/FancyFix.OA/v15/.suo
+*.pdb
+*.cache
+*.txt
+*.xlsx
+*.config
+*.csproj
+>>>>>>> 设计部任务分配模块
+.vs/FancyFix.OA/v15/.suo

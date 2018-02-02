@@ -22,7 +22,12 @@ namespace FancyFix.OA.Bll
             if (submitterId > 0)
                 where.And(o => o.SubmitterId == submitterId);
             if (display > 0)
-                where.And(o => o.Display == display);
+            {
+                if (display == 3)
+                    where.And(o => o.Display == display || o.Display == 5);
+                else
+                    where.And(o => o.Display == display);
+            }
 
             var p = Db.Context.From<Design_ArtTaskList>()
                 //.Select((a)=>new { })

@@ -187,7 +187,9 @@ namespace FancyFix.OA.Areas.Valuable.Controllers
             if (record != null)
                 samplelist = Bll.BllValuable_Sample.GetList(record.Id);
 
-            ViewBag.isLock = GetWorkerMonth(year, month) != GetWorkerMonth(DateTime.Now.Year, DateTime.Now.Month) || year != DateTime.Now.Year;
+            int nextWorkmonth = GetNextWorkerMonth(year, month);
+
+            ViewBag.isLock = (GetWorkerMonth(year, month) != GetWorkerMonth(DateTime.Now.Year, DateTime.Now.Month) || year != DateTime.Now.Year) && !(DateTime.Now.Day <= WorkerEndDay && year == DateTime.Now.Year && DateTime.Now.Month == nextWorkmonth);
             ViewBag.samplelist = samplelist;
             ViewBag.record = record;
             ViewBag.rankclass = Bll.BllRank_Class.Instance().GetListByParentId(0, false);

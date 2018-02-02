@@ -668,6 +668,25 @@ namespace FancyFix.OA.Base
             return 1;
         }
 
+        /// <summary>
+        /// 获取下一个进程月
+        /// </summary>
+        /// <param name="year"></param>
+        /// <param name="month"></param>
+        /// <returns></returns>
+        protected int GetNextWorkerMonth(int year, int month)
+        {
+            var workMonths = GetWorkerMonthList(year);
+            for (int i = 0; i < workMonths.Count; i++)
+            {
+                if (month >= workMonths[workMonths.Count - 1])
+                    return workMonths[workMonths.Count - 1];
+                if (i > 0 && month >= workMonths[i - 1] && month < workMonths[i])
+                    return workMonths[i];
+            }
+            return 1;
+        }
+
         #endregion
 
         /// <summary>

@@ -84,10 +84,13 @@ namespace FancyFix.OA.Areas.Point.Controllers
                 if (record.IsApprove.Value) return MessageBoxAndReturn("该记录已审批过，禁止修改！");
 
                 //自定义申请，目标员工
+                DateTime time = eventtime.ToDateTime();
                 record.UserId = userId > 0 ? userId : MyInfo.Id;
                 record.UserName = userId > 0 ? Bll.BllMng_User.GetNameById(userId) : MyInfo.RealName;
                 record.Score = pointscore;
-                record.EventTime = eventtime.ToDateTime();
+                record.EventTime = time;
+                record.Month = time.Month;
+                record.Year = time.Year;
                 record.Content = content;
                 record.PointId = pointId;
                 record.IsPass = false;

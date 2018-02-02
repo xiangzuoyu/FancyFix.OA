@@ -25,12 +25,12 @@
                         <div class="layui-inline">
                             <label class="layui-form-label">需求状态</label>
                             <div class="layui-input-inline">
-                                <select id="displayid" name="displayid">
+                                <select id="displayid" name="displayid" lay-filter="displayid">
                                     <option value="0">全部</option>
                                     <option value="1">未分配</option>
                                     <option value="2">已分配</option>
                                     <option value="3">已完成</option>
-                                    @*<option value="4">已取消</option>*@
+                                    <option value="4">已取消</option>
                                 </select>
                             </div>
                         </div>
@@ -241,12 +241,17 @@
                 OpenWin("需求打分", "/arttask/arttasklist/dacall/"+id, '500px', '320px');
             });
 
-
             //监听提交
             form.on('submit(formSearch)', function (data) {
                 Reload();
                 return false;
             });
+
+            //下拉框监听
+            form.on('select(displayid)', function (data) {
+                Reload();
+                return false;
+            });   
 
             //需求详细
             function ShowDetailedFormatter(v, r, i) {

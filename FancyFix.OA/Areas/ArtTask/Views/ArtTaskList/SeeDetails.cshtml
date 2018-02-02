@@ -59,7 +59,12 @@
             <td>需求类型</td>
             <td>@(Model?.DemandTypeName ?? "-")</td>
             <td>参考资源</td>
-            <td>@(Model?.Uri1 ?? "-")</td>
+            <td>
+                @if (Model != null && !string.IsNullOrEmpty(Model.Uri1))
+                {
+                    <a href="@Model.Uri1" target="_blank">@Model.Uri1</a>
+                }
+            </td>
         </tr>
         <tr>
             <td colspan="6">&nbsp;</td>
@@ -68,9 +73,9 @@
             <td>型号</td>
             <td>@(Model?.Model ?? "-")</td>
             @*<td>细节类型</td>
-            <td>@(Model?.DetailTypeName ?? "-")</td>
-            <td>风格要求</td>
-            <td>@(Model?.StyleType ?? "-")</td>*@
+                <td>@(Model?.DetailTypeName ?? "-")</td>
+                <td>风格要求</td>
+                <td>@(Model?.StyleType ?? "-")</td>*@
             <td>具体描述</td>
             <td colspan="5">@(Model?.Content ?? "-")</td>
         </tr>
@@ -106,7 +111,9 @@
             {
                 <tr class="oddEven">
                     <td>完成的资源</td>
-                    <td colspan="5">@(Model.Uri2)</td>
+                    <td colspan="5">
+                        <a href="@Model.Uri2" target="_blank">@Model.Uri2</a>
+                    </td>
                 </tr>
             }
         }
@@ -148,7 +155,6 @@
                 })
             },
             post: function () {
-                console.log($("#content").val())
                 $("#seeDetailsform").submit();
             }
 

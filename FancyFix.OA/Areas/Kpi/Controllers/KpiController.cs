@@ -261,7 +261,6 @@ namespace FancyFix.OA.Areas.Kpi.Controllers
         }
 
         //导入模版
-        [HttpPost]
         public ActionResult KpiModelCreate(List<int> rid, int year = 0, int month = 0)
         {
             if (rid == null || rid.Count == 0) return MessageBoxAndReturn("请选择指标！");

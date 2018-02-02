@@ -11,6 +11,7 @@
     <AssemblyName>FancyFix.OA.Bll</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,14 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Dos.DataAccess, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Utils\Doc.ORM\DataAccess\bin\Debug\Dos.DataAccess.dll</HintPath>
-    </Reference>
-    <Reference Include="Dos.ORM, Version=1.10.6.2, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Utils\Doc.ORM\DataAccess\bin\Debug\Dos.ORM.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -48,6 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BllDesign_ArtTaskList.cs" />
+    <Compile Include="BllDesign_DemandType.cs" />
+    <Compile Include="BllDesign_DetailType.cs" />
     <Compile Include="BllKpi_Process.cs" />
     <Compile Include="BllMng_User.cs" />
     <Compile Include="BllMng_DepartmentClass.cs" />
@@ -57,6 +53,10 @@
     <Compile Include="BllPoint_Records.cs" />
     <Compile Include="BllPoint_List.cs" />
     <Compile Include="BllConfig_Process.cs" />
+    <Compile Include="BllQuestionnaire_Answerer.cs" />
+    <Compile Include="BllQuestionnaire_DISC.cs" />
+    <Compile Include="BllQuestionnaire_Info.cs" />
+    <Compile Include="BllQuestionnaire_Subject.cs" />
     <Compile Include="BllSys_Class.cs" />
     <Compile Include="BllPoint_Class.cs" />
     <Compile Include="BllRank_Class.cs" />
@@ -74,6 +74,14 @@
     <ProjectReference Include="..\FancyFix.OA.Model\FancyFix.OA.Model.csproj">
       <Project>{308cf2c3-bc41-4ab0-8bd9-fa3defcaa3c4}</Project>
       <Name>FancyFix.OA.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utils\Doc.ORM\DataAccess\Dos.DataAccess.csproj">
+      <Project>{7d86cd94-20f0-46cb-aea3-04a674620862}</Project>
+      <Name>Dos.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utils\Doc.ORM\Dos.ORM\Dos.ORM.csproj">
+      <Project>{4bef1983-f275-4807-96ea-25b973bd6e94}</Project>
+      <Name>Dos.ORM</Name>
     </ProjectReference>
     <ProjectReference Include="..\Utils\Tools\FancyFix.Tools.csproj">
       <Project>{d967950c-ccf5-47a4-a202-6930f2c8e20d}</Project>

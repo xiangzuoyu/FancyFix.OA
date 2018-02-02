@@ -11,6 +11,7 @@
     <AssemblyName>FancyFix.OA.Model</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,9 +34,8 @@
     <Reference Include="Dos.DataAccess">
       <HintPath>..\Utils\Doc.ORM\DataAccess\bin\Debug\Dos.DataAccess.dll</HintPath>
     </Reference>
-    <Reference Include="Dos.ORM, Version=1.10.6.2, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Utils\Doc.ORM\DataAccess\bin\Debug\Dos.ORM.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -51,8 +51,15 @@
     <Compile Include="Business\Rank_Point.cs" />
     <Compile Include="Business\Rank_Valuable.cs" />
     <Compile Include="Config_Process.cs" />
+    <Compile Include="Design_ArtTaskList.cs" />
+    <Compile Include="Design_DemandType.cs" />
+    <Compile Include="Design_DetailType.cs" />
+    <Compile Include="Extensions\Design_ArtTaskList.cs" />
     <Compile Include="Extensions\Point_Records.cs" />
     <Compile Include="Extensions\Point_Class.cs" />
+    <Compile Include="Extensions\Questionnaire_DISC.cs" />
+    <Compile Include="Extensions\Questionnaire_Info.cs" />
+    <Compile Include="Extensions\Questionnaire_Subject.cs" />
     <Compile Include="Extensions\Rank_Class.cs" />
     <Compile Include="Extensions\Point_List.cs" />
     <Compile Include="Extensions\Kpi_Process.cs" />
@@ -75,6 +82,11 @@
     <Compile Include="Point_List.cs" />
     <Compile Include="Point_Records.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Questionnaire_Answerer.cs" />
+    <Compile Include="Questionnaire_DISC.cs" />
+    <Compile Include="Questionnaire_Info.cs" />
+    <Compile Include="Questionnaire_Result.cs" />
+    <Compile Include="Questionnaire_Subject.cs" />
     <Compile Include="Rank_Class.cs" />
     <Compile Include="Sys_Class.cs" />
     <Compile Include="Valuable_Class.cs" />
@@ -82,6 +94,15 @@
     <Compile Include="Valuable_Records.cs" />
     <Compile Include="Valuable_Sample.cs" />
     <Compile Include="Web_Error.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Fakes Include="Fakes\Dos.ORM.fakes" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Utils\Doc.ORM\Dos.ORM\Dos.ORM.csproj">
+      <Project>{4bef1983-f275-4807-96ea-25b973bd6e94}</Project>
+      <Name>Dos.ORM</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

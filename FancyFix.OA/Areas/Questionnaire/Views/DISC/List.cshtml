@@ -1,0 +1,225 @@
+﻿@{
+    ViewBag.Title = "DISCList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Css{
+    <link href="/Content/js/plugins/datatables/bootstrap-table.min.css" rel="stylesheet" />
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box-header">
+            <h3 class="box-title">DISC题目列表</h3>
+        </div>
+        <div class="box">
+            <div class="box-body">
+                <section class="panel">
+                    <div class="layui-form layui-form-pane">
+                        <div class="layui-inline pull-right">
+                            <button id="btnSearch" class="btn bg-orange" lay-submit lay-filter="formSearch">查询</button>
+                        </div>
+                    </div>
+                </section>
+                <div id="toolbar" class="btn-group">
+                    <button id="btn_add" type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
+                    </button>
+                    <button id="btn_delete" type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
+                    </button>
+                </div>
+                <table id="table" class="table table-bordered table-hover"></table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Js{
+    <script src="/Content/js/plugins/datatables/bootstrap-table.min.js"></script>
+    <script src="/Content/js/plugins/datatables/bootstrap-table-zh-CN.js"></script>
+    <script src="/Content/js/common/tools.js"></script>
+    <script>
+        layui.use(['layer', 'form'], function () {
+            var layer = layui.layer;
+            var form = layui.form();
+
+            var TableInit = function () {
+                var objTable = new Object();
+                //初始化Table
+                objTable.Init = function () {
+                    $table.bootstrapTable({
+                        url: '/questionnaire/disc/PageList',
+                        method: 'get',
+                        toolbar: '#toolbar',                //工具按钮用哪个容器
+                        idField: "Id",                      //指定主键列
+                        uniqueId: "Id",                     //每一行的唯一标识，一般为主键列
+                        height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+                        //striped: true,                      //是否显示行间隔色
+                        minimumCountColumns: 2,             //最少允许的列数
+                        clickToSelect: true,                //是否启用点击选中行
+                        cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                        sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+                        pagination: true,                   //是否显示分页（*）
+                        paginationLoop: false,              //启用分页条无限循环的功能
+                        paginationPreText: "上一页",
+                        paginationNextText: "下一页",
+                        pageNumber: 1,                      //初始化加载第一页，默认第一页
+                        pageSize: 10,                       //每页的记录行数（*）
+                        pageList: [10, 50, 100],            //可供选择的每页的行数（*）
+                        sortable: true,                     //是否启用排序
+                        sortOrder: "asc",                   //排序方式
+                        sortStable: true,
+                        queryParams: objTable.queryParams,  //传递参数（*）
+                        //search: true,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+                        //searchText: "搜索",                 //初始搜索文字
+                        //strictSearch: false,                 //全匹配搜索，否则为模糊搜索
+                        //showColumns: true,                  //是否显示所有的列
+                        //showRefresh: true,                  //是否显示刷新按钮
+                        //showToggle: true,                   //是否显示详细视图和列表视图的切换按钮
+                        columns: [{
+                            checkbox: true
+                        }, {
+                            field: 'DISC',
+                            title: 'DISC',
+                            align: 'left',
+                            width: '500px'
+                        }, {
+                            field: 'IsShow',
+                            title: '显示',
+                            align: 'center',
+                            formatter: setShowFormatter
+                        }, {
+                            field: 'actStr',
+                            title: '排序',
+                            align: 'center'
+                        }, {
+                            title: '操作',
+                            align: 'center',
+                            formatter: function (v, r, i) {
+                                return " <a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnEdit btn btn-md btn-primary\">编辑</a> <a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnDel btn btn-md btn-danger\">删除</a>";
+                            }
+                        }]
+                    });
+                };
+
+                //得到查询的参数
+                objTable.queryParams = function (params) {
+                    var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+                        pagesize: params.limit,   //页面大小
+                        page: params.offset / params.limit + 1,  //页码
+                        search: params.search,
+                        order: params.order,
+                        ordername: params.sort,
+
+                        //自定义参数
+                        title: $("#title").val()
+                    };
+                    return temp;
+                };
+                return objTable;
+            };
+            //初始化Table
+            new TableInit().Init();
+
+            //查看
+            $("#table").on('click', '.btnEdit', function () {
+                var id = $(this).attr("data-id");
+                OpenWin("编辑", "/questionnaire/disc/edit/" + id, '800px', '500px');
+            });
+
+            //新增
+            $("#btn_add").on('click', function () {
+                OpenWin("添加", "/questionnaire/disc/edit", '800px', '500px');
+            });
+
+            function setShowFormatter(v, r, i) {
+                if (v > 0)
+                    return "<a href=\"javascript:;\" data-id=\"" + r.Id + "\"  class=\"btnSetShow btn btn-success btn-circle btn-lg btn-xs\" type=\"button\"> <i class=\"fa fa-check\"></i></a>";
+                else
+                    return "<a href=\"javascript:;\" data-id=\"" + r.Id + "\"  class=\"btnSetShow btn btn-danger btn-circle btn-lg btn-xs\" type=\"button\"> <i class=\"fa fa-times\"></i></a>";
+            }
+
+            //设置显隐
+            $("#table").on('click', '.btnSetShow', function () {
+                var id = $(this).data("id");
+                $.post('/questionnaire/disc/setshow/' + id, function (data) {
+                    if (data)
+                        Reload();
+                    else
+                        ShowError('修改失败！');
+                })
+            });
+
+            //批量删除
+            $("#btn_delete").on('click', function () {
+                if (CheckSelections()) {
+                    layer.confirm('确定删除所选项吗？', {
+                        btn: ['确定', '取消']
+                    }, function (index, layero) {
+                        var list = GetSelections();
+                        $.post('/questionnaire/disc/deletebatch', { list }, function (data) {
+                            if (data)
+                                Reload();
+                            else
+                                ShowError('删除失败！');
+                        })
+                        layer.close(index);
+                    }, function (index) {
+                        layer.close(index);
+                    });
+                }
+            });
+
+            //监听提交
+            form.on('submit(formSearch)', function (data) {
+                Reload();
+                return false;
+            });
+
+            //删除单个产品
+            $("#table").on('click', '.btnDel', function () {
+                var $this = $(this);
+                layer.confirm('确定删除该产品吗？', {
+                    btn: ['确定', '取消']
+                }, function (index, layero) {
+                    var id = $this.data("id");
+                    $.post('/questionnaire/disc/delete/' + id, function (data) {
+                        if (data)
+                            Reload();
+                        else
+                            ShowError('删除失败！');
+                    });
+                    layer.close(index);
+                }, function (index) {
+                    layer.close(index);
+                });
+            });
+        })
+
+        //排序
+        function SetMove(id, act) {
+            var step = 1;
+            var obj = new Object;
+            obj["id"] = id;
+            if (act == "up") {
+                obj["step"] = $("#stepUp" + id).val();
+                $.post("/questionnaire/disc/up", obj, callBack)
+            }
+            else {
+                obj["step"] = $("#stepDown" + id).val();
+                $.post("/questionnaire/disc/down", obj, callBack)
+            }
+            return;
+        }
+
+        function callBack(data) {
+            if (data) {
+                if (data.result)
+                    Reload();
+                else
+                    ShowError(data.msg);
+            } else {
+                ShowError('操作失败！');
+            }
+        }
+    </script>
+}

@@ -26,6 +26,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <TargetFrameworkProfile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -114,10 +115,6 @@
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="Tools, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Utils\Tools\bin\Debug\Tools.dll</HintPath>
-    </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
@@ -171,6 +168,8 @@
     <Compile Include="Areas\Admin\Controllers\AdminInfoController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminManageController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminPermissionController.cs" />
+    <Compile Include="Areas\ArtTask\ArtTaskAreaRegistration.cs" />
+    <Compile Include="Areas\ArtTask\Controllers\ArtTaskListController.cs" />
     <Compile Include="Areas\BaseClassController.cs" />
     <Compile Include="Areas\Kpi\Controllers\KpiController.cs" />
     <Compile Include="Areas\Kpi\KpiAreaRegistration.cs" />
@@ -178,6 +177,11 @@
     <Compile Include="Areas\Point\Controllers\PointController.cs" />
     <Compile Include="Areas\Point\Controllers\PointListController.cs" />
     <Compile Include="Areas\Point\PointAreaRegistration.cs" />
+    <Compile Include="Areas\Questionnaire\Controllers\AnswererController.cs" />
+    <Compile Include="Areas\Questionnaire\Controllers\InfoController.cs" />
+    <Compile Include="Areas\Questionnaire\Controllers\DISCController.cs" />
+    <Compile Include="Areas\Questionnaire\Controllers\SubjectController.cs" />
+    <Compile Include="Areas\Questionnaire\QuestionnaireAreaRegistration.cs" />
     <Compile Include="Areas\Rank\Controllers\KpiController.cs" />
     <Compile Include="Areas\Rank\Controllers\PointController.cs" />
     <Compile Include="Areas\Rank\Controllers\ValuableController.cs" />
@@ -265,6 +269,7 @@
     <Content Include="Content\css\bootstrap\bootstrap-theme.min.css" />
     <Content Include="Content\css\bootstrap\bootstrap.css" />
     <Content Include="Content\css\bootstrap\bootstrap.min.css" />
+    <Content Include="Content\css\calendar\style.css" />
     <Content Include="Content\css\fonts\font-awesome.min.css" />
     <Content Include="Content\css\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\css\fonts\ionicons.min.css" />
@@ -304,6 +309,9 @@
     <Content Include="Content\js\bootstrap\bootstrap.js" />
     <Content Include="Content\js\bootstrap\bootstrap.min.js" />
     <Content Include="Content\js\bootstrap\npm.js" />
+    <Content Include="Content\js\calendar\calender.js" />
+    <Content Include="Content\js\calendar\ChineseCalendar.js" />
+    <Content Include="Content\js\calendar\tools.js" />
     <Content Include="Content\js\common\frame.js" />
     <Content Include="Content\js\common\skuatter.js" />
     <Content Include="Content\js\common\tools.js" />
@@ -1482,10 +1490,14 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\Shared\" />
+    <Folder Include="Areas\ArtTask\Models\" />
+    <Folder Include="Areas\ArtTask\Views\Shared\" />
     <Folder Include="Areas\Kpi\Models\" />
     <Folder Include="Areas\Kpi\Views\Shared\" />
     <Folder Include="Areas\Point\Models\" />
     <Folder Include="Areas\Point\Views\Shared\" />
+    <Folder Include="Areas\Questionnaire\Models\" />
+    <Folder Include="Areas\Questionnaire\Views\Shared\" />
     <Folder Include="Areas\Rank\Models\" />
     <Folder Include="Areas\Rank\Views\Shared\" />
     <Folder Include="Areas\System\Models\" />
@@ -1798,6 +1810,22 @@
     <Content Include="Areas\Rank\Views\Kpi\KpiList.cshtml" />
     <Content Include="Areas\Rank\Views\Kpi\KpiInfo.cshtml" />
     <Content Include="Areas\Valuable\Views\Process\Index.cshtml" />
+    <Content Include="Areas\ArtTask\Views\web.config" />
+    <Content Include="Areas\ArtTask\Views\ArtTaskList\List.cshtml" />
+    <Content Include="Areas\ArtTask\Views\ArtTaskList\Insert.cshtml" />
+    <Content Include="Areas\ArtTask\Views\ArtTaskList\Edit.cshtml" />
+    <Content Include="Areas\ArtTask\Views\ArtTaskList\ShowCalendar.cshtml" />
+    <Content Include="Areas\Questionnaire\Views\web.config" />
+    <Content Include="Areas\Questionnaire\Views\Subject\Edit.cshtml" />
+    <Content Include="Areas\Questionnaire\Views\Subject\List.cshtml" />
+    <Content Include="Areas\Questionnaire\Views\Info\Edit.cshtml" />
+    <Content Include="Areas\Questionnaire\Views\Info\List.cshtml" />
+    <Content Include="Areas\ArtTask\Views\ArtTaskList\DaCall.cshtml" />
+    <Content Include="Areas\ArtTask\Views\ArtTaskList\DesignUpLoad.cshtml" />
+    <Content Include="Areas\Questionnaire\Views\DISC\Edit.cshtml" />
+    <Content Include="Areas\Questionnaire\Views\DISC\List.cshtml" />
+    <Content Include="Areas\Questionnaire\Views\Answerer\DISCAnswererList.cshtml" />
+    <Content Include="Areas\ArtTask\Views\ArtTaskList\SeeDetails.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Common\GetAdminTree.cshtml" />
   </ItemGroup>

@@ -166,13 +166,15 @@ namespace FancyFix.OA.Areas.Point.Controllers
         public ActionResult PointDelete(int id)
         {
             var record = Bll.BllPoint_Records.First(o => o.Id == id);
-            if (record == null) return MessageBoxAndReturn("发生错误，记录不存在！");
-            if (record.IsApprove.Value && !IsSuperAdmin && !IsDepartAdmin) return MessageBoxAndReturn("该记录已审批过，禁止删除！");
+            if (record == null)
+                return Json(new { result = 0, msg = "发生错误，记录不存在！" });
+            if (record.IsApprove.Value && !IsSuperAdmin && !IsDepartAdmin)
+                return Json(new { result = 0, msg = "该记录已审批过，禁止删除！" });
 
             if (Bll.BllPoint_Records.Delete(record) > 0)
-                return MessageBoxAndJump("删除成功！", "/point/point/pointlist");
+                return Json(new { result = 1, msg = "删除成功！" });
             else
-                return MessageBoxAndReturn("删除失败，请联系管理员！");
+                return Json(new { result = 0, msg = "删除失败，请联系管理员！" });
         }
 
         public ActionResult PointChoose(int id = 0)
@@ -206,7 +208,7 @@ namespace FancyFix.OA.Areas.Point.Controllers
             {
                 item.IsApproved = Bll.BllPoint_Records.IsApproved(item.Id);
             }
-            ViewBag.childlist = childlist;
+            ViewBag.childlist = childlist.OrderBy(o => o.IsApproved).ToList();
             ViewBag.departclasslist = Bll.BllMng_DepartmentClass.Instance().ShowClass(0, departId, false);
             return View();
         }

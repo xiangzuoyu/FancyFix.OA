@@ -631,6 +631,8 @@ namespace FancyFix.OA.Base
             return Content(script);
         }
 
+
+
         public ContentResult LayerAlertAndCallback(string message, string callback)
         {
             string script = "<script type=\"text/javascript\">var w = parent.layer.getFrameIndex(window.name);parent.layer.close(w);parent.layer.alert('" + message.Replace("'", @"\'") + "',parent." + callback + ");</script>";

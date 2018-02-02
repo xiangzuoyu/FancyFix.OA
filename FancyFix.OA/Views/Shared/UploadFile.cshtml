@@ -186,7 +186,7 @@
             var $div = $(
                     '<div id=' + file.id + ' class="form-group imgdiv">' +
                         '<p class="progress"></p>' +
-                        '<span class="filename"></span>' +
+                        '<a href="javascript:void(0)" class="filename"></a>' +
                         '<input type="hidden" name="pic">' +
                         '<input type="hidden" name="picname">' +
                         '<div class="btnImgDelete"><a href="javascript:void(0)" class="btn btn-xs btn-danger">删除</a></div>' +
@@ -230,7 +230,7 @@
                 if (response.code > 0) {
                     //$div.find("img").attr("src", window.imgurl + response.url);
                     //$div.find("img").parent("a").attr("href", window.imgurl + response.url);
-                    $div.find("span.filename").text(response.name);
+                    $div.find("a.filename").text(response.name).attr("href", response.url);
                     $div.find("input[name='pic']").val(response.url);
                     $div.find("input[name='picname']").val(response.name);
                     $div.find('.progress').remove();

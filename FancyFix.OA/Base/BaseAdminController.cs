@@ -640,6 +640,7 @@ namespace FancyFix.OA.Base
         //static string WorkerMonth = System.Configuration.ConfigurationManager.AppSettings["WorkerMonth"].ToString2().TrimEnd(',');
 
         protected static int StartYear = System.Configuration.ConfigurationManager.AppSettings["StartYear"].ToString2().ToInt32();
+        protected static int WorkerEndDay = System.Configuration.ConfigurationManager.AppSettings["WorkerEndDay"].ToString2().ToInt32();
 
         public List<int> GetWorkerMonthList(int year)
         {

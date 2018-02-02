@@ -85,10 +85,16 @@
                 }, function (index, layero) {
                     var id = $this.data("id");
                     $.post('/point/point/pointdelete/' + id, function (data) {
-                        if (data)
-                            window.location.reload();
-                        else
-                            ShowError('删除失败！');
+                        if (data) {
+                            if (data.result > 0) {
+                                ShowSuccess(data.msg);
+                                setTimeout(function () {
+                                    window.location.reload();
+                                }, 2000)
+                            } else {
+                                ShowError(data.msg);
+                            }
+                        }
                     });
                     layer.close(index);
                 }, function (index) {

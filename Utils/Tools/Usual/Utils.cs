@@ -1731,13 +1731,5 @@ namespace FancyFix.Tools.Usual
                 return false;
             }
         }
-
-        //获取语言代码
-        public static string GetLangCode(byte lang)
-        {
-            if (lang == 0)
-                return "";
-            return Tools.Enums.Tools.GetEnumDescription(typeof(Tools.Enums.ESite.Language), lang).Split('-')[0].ToLower();
-        }
     }
 }

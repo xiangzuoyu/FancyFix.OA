@@ -441,6 +441,8 @@ namespace FancyFix.OA.Base
 
         protected static int StartYear = System.Configuration.ConfigurationManager.AppSettings["StartYear"].ToString2().ToInt32();
 
+        protected static int WorkerEndDay = System.Configuration.ConfigurationManager.AppSettings["WorkerEndDay"].ToString2().ToInt32();
+
         public List<int> GetWorkerMonthList(int year)
         {
             return Bll.BllConfig_Process.GetValuableProcess(year);
@@ -454,6 +456,12 @@ namespace FancyFix.OA.Base
             }
         }
 
+        /// <summary>
+        /// 获取当月所在进程月
+        /// </summary>
+        /// <param name="year"></param>
+        /// <param name="month"></param>
+        /// <returns></returns>
         protected int GetWorkerMonth(int year, int month)
         {
             var workMonths = GetWorkerMonthList(year);
@@ -463,6 +471,25 @@ namespace FancyFix.OA.Base
                     return workMonths[workMonths.Count - 1];
                 if (i > 0 && month >= workMonths[i - 1] && month < workMonths[i])
                     return workMonths[i - 1];
+            }
+            return 1;
+        }
+
+        /// <summary>
+        /// 获取下一个进程月
+        /// </summary>
+        /// <param name="year"></param>
+        /// <param name="month"></param>
+        /// <returns></returns>
+        protected int GetNextWorkerMonth(int year, int month)
+        {
+            var workMonths = GetWorkerMonthList(year);
+            for (int i = 0; i < workMonths.Count; i++)
+            {
+                if (month >= workMonths[workMonths.Count - 1])
+                    return workMonths[workMonths.Count - 1];
+                if (i > 0 && month >= workMonths[i - 1] && month < workMonths[i])
+                    return workMonths[i];
             }
             return 1;
         }

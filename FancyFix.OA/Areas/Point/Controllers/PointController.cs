@@ -208,7 +208,7 @@ namespace FancyFix.OA.Areas.Point.Controllers
             {
                 item.IsApproved = Bll.BllPoint_Records.IsApproved(item.Id);
             }
-            ViewBag.childlist = childlist;
+            ViewBag.childlist = childlist.OrderBy(o => o.IsApproved).ToList();
             ViewBag.departclasslist = Bll.BllMng_DepartmentClass.Instance().ShowClass(0, departId, false);
             return View();
         }

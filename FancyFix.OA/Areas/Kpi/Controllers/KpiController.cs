@@ -12,7 +12,10 @@ namespace FancyFix.OA.Areas.Kpi.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.childCount = Bll.BllMng_User.GetChildCount(MyInfo.Id);
+            //检测是否有下级，或判断是否有需要评分的项
+            int childCount = Bll.BllMng_User.GetChildCount(MyInfo.Id);
+            if (childCount == 0) childCount = Bll.BllKpi_Records.GetUserListCount(MyInfo.Id);
+            ViewBag.childCount = childCount;
             return View();
         }
 
@@ -237,7 +240,7 @@ namespace FancyFix.OA.Areas.Kpi.Controllers
 
         //获取模版指标列表
         [HttpPost]
-        public ActionResult GetProcessKpi(int id)
+        public JsonResult GetProcessKpi(int id)
         {
             var process = Bll.BllKpi_Process.First(o => o.Id == id);
             if (process == null)
@@ -249,7 +252,7 @@ namespace FancyFix.OA.Areas.Kpi.Controllers
 
         //进程是否已创建
         [HttpPost]
-        public ActionResult IsProcessCreate(int year = 0, int month = 0)
+        public JsonResult IsProcessCreate(int year = 0, int month = 0)
         {
             CheckDate(ref year, ref month);
 
@@ -345,6 +348,7 @@ namespace FancyFix.OA.Areas.Kpi.Controllers
 
             var recordlist = Bll.BllKpi_Records.GetListByUserId(id, year, month);
 
+            ViewBag.process = process;
             ViewBag.recordlist = recordlist;
             ViewBag.year = year;
             ViewBag.month = month;

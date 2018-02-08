@@ -92,6 +92,12 @@ namespace FancyFix.OA.Areas.Questionnaire.Controllers
                 return Json(new { result = false, msg = "提交出错" });
         }
 
+        [HttpPost]
+        public JsonResult SetShow(int id)
+        {
+            return Json(new { result = Bll.BllQuestionnaire_Subject.SetShow(id) });
+        }
+
         public ActionResult Edit(int id = 0)
         {
             Questionnaire_Subject model = null;
@@ -122,6 +128,7 @@ namespace FancyFix.OA.Areas.Questionnaire.Controllers
             string remark = RequestString("remark");
             int timelimit = RequestInt("timelimit");
             int score = RequestInt("score");
+            bool isshow = RequestBool("isshow");
 
             Questionnaire_Subject model = null;
             string classHtml = string.Empty;
@@ -134,6 +141,7 @@ namespace FancyFix.OA.Areas.Questionnaire.Controllers
                 model.Remark = remark;
                 model.Timelimit = timelimit;
                 model.Score = score;
+                model.IsShow = isshow;
 
                 if (Bll.BllQuestionnaire_Subject.Update(model, o => o.Id == id) > 0)
                 {
@@ -151,6 +159,7 @@ namespace FancyFix.OA.Areas.Questionnaire.Controllers
                 model.Remark = remark;
                 model.Timelimit = timelimit;
                 model.Score = score;
+                model.IsShow = isshow;
                 model.Sequence = Bll.BllSys_Class<Questionnaire_Subject>.Instance().GetNextSequence("");
                 if (Bll.BllQuestionnaire_Subject.Insert(model) > 0)
                 {

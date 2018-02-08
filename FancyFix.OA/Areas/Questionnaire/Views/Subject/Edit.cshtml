@@ -55,6 +55,12 @@
                         </td>
                     </tr>
                     <tr>
+                        <td align="right"><label class="control-label">是否显示：</label></td>
+                        <td>
+                            <input type="checkbox" class="form-control" name="isshow" @(Model?.IsShow ?? false ? "checked=\"checked\"" : "") value="true">
+                        </td>
+                    </tr>
+                    <tr>
                         <td align="right"></td>
                         <td>
                             <input type="hidden" id="id" name="id" value="@(Model?.Id ?? 0)">

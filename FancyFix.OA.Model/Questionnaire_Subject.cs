@@ -32,6 +32,7 @@ namespace FancyFix.OA.Model
 		private int? _Timelimit;
 		private string _Remark;
 		private int? _Sequence;
+		private bool? _IsShow;
 		/// <summary>
 		/// 
 		/// </summary>
@@ -104,6 +105,18 @@ namespace FancyFix.OA.Model
 				this._Sequence=value;
 			}
 		}
+		/// <summary>
+		/// 
+		/// </summary>
+		public bool? IsShow
+		{
+			get{ return _IsShow; }
+			set
+			{
+				this.OnPropertyValueChange(_.IsShow,_IsShow,value);
+				this._IsShow=value;
+			}
+		}
 		#endregion
 
 		#region Method
@@ -133,7 +146,8 @@ namespace FancyFix.OA.Model
 				_.Score,
 				_.Timelimit,
 				_.Remark,
-				_.Sequence};
+				_.Sequence,
+				_.IsShow};
 		}
 		/// <summary>
 		/// 获取值信息
@@ -146,7 +160,8 @@ namespace FancyFix.OA.Model
 				this._Score,
 				this._Timelimit,
 				this._Remark,
-				this._Sequence};
+				this._Sequence,
+				this._IsShow};
 		}
 		#endregion
 
@@ -184,6 +199,10 @@ namespace FancyFix.OA.Model
 			/// 
 			/// </summary>
 			public readonly static Field Sequence = new Field("Sequence","Questionnaire_Subject","Sequence");
+			/// <summary>
+			/// 
+			/// </summary>
+			public readonly static Field IsShow = new Field("IsShow","Questionnaire_Subject","IsShow");
 		}
 		#endregion
 

@@ -124,6 +124,11 @@
                             title: '分值',
                             align: 'center'
                         }, {
+                            field: 'IsShow',
+                            title: '显示',
+                            align: 'center',
+                            formatter: setShowFormatter
+                        },{
                             field: 'actStr',
                             title: '排序',
                             align: 'center'
@@ -166,6 +171,24 @@
             //新增
             $("#btn_add").on('click', function () {
                 OpenWin("添加", "/questionnaire/info/edit?subjectId=" + subjectId, '60%', '85%');
+            });
+
+            function setShowFormatter(v, r, i) {
+                if (v > 0)
+                    return "<a href=\"javascript:;\" data-id=\"" + r.Id + "\"  class=\"btnSetShow btn btn-success btn-circle btn-lg btn-xs\" type=\"button\"> <i class=\"fa fa-check\"></i></a>";
+                else
+                    return "<a href=\"javascript:;\" data-id=\"" + r.Id + "\"  class=\"btnSetShow btn btn-danger btn-circle btn-lg btn-xs\" type=\"button\"> <i class=\"fa fa-times\"></i></a>";
+            }
+
+            //设置显隐
+            $("#table").on('click', '.btnSetShow', function () {
+                var id = $(this).data("id");
+                $.post('/questionnaire/info/setshow/' + id, function (data) {
+                    if (data)
+                        Reload();
+                    else
+                        ShowError('修改失败！');
+                })
             });
 
             //批量删除

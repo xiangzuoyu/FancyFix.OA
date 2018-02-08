@@ -76,6 +76,7 @@
                                             <input type="radio" class="form-control" name="rank" @(item.Score == rankScore ? "checked=checked" : "") data-sample="@item.SampleNum" value="@item.Id" />@(item.ClassName + "(" + item.Score + "分)")
                                         </div>
                                     }
+                                    <p class="layui-word-aux text-red">(注意：如果切换评分，可能会清空已填内容，请先复制到其他地方保存)</p>
                                 }
                             </td>
                         </tr>
@@ -84,7 +85,7 @@
                         <td align="right"><label for="title" class="control-label">案例：</label></td>
                         <td>
                             <div class="form-group" id="samples">
-                                @if (samplelist != null && samplelist.Any())
+                                @if (samplelist != null && samplelist.Count > 0)
                                 {
                                     int i = 1;
                                     foreach (var item in samplelist)
@@ -111,18 +112,6 @@
                                     if (record != null && record.IsApprove.Value)
                                     {
                                         <span>无</span>
-                                    }
-                                    else
-                                    {
-                                        int sampleNum = rankclass.First()?.SampleNum.Value ?? 0;
-                                        for (int i = 1; i <= sampleNum; i++)
-                                        {
-                                            <div>
-                                                <label>案例@(i)</label>
-                                                <textarea class="form-control" name="sample@(i)" rows="4" style="width:100%" required="required"></textarea>
-                                                <input type="hidden" name="sampleId" value="@i">
-                                            </div>
-                                        }
                                     }
                                 }
                             </div>
@@ -154,6 +143,7 @@
                             <input type="hidden" id="rid" name="rid" value="@(record?.Id ?? 0)">
                             <input type="hidden" id="year" name="year" value="@ViewBag.currentYear">
                             <input type="hidden" id="month" name="month" value="@ViewBag.currentMonth">
+                            <input type="hidden" id="temp" value="">
                             @if (record != null && record.IsApprove.Value)
                             {
                                 <button type="button" class="btn btn-default bg-green">已评审</button>
@@ -197,18 +187,65 @@
             //选中事件
             $("#rank input:radio").on('ifChecked', function (event) {
                 if ($(this).is(":checked")) {
-                    var sampleNum = $(this).data("sample");
-                    if (sampleNum && sampleNum > 0) {
-                        var html = "";
-                        for (var i = 0; i < sampleNum; i++) {
-                            html += "<div><label>案例" + (i + 1) + "</label>";
-                            html += "<textarea class=\"form-control\" name=\"sample" + (i + 1) + "\" rows=\"4\" style=\"width: 100%\" required=\"required\"></textarea>";
-                            html += " <input type=\"hidden\" name=\"sampleId\" value=" + (i + 1) + "></div>";
-                        }
-                        $("#samples").html(html);
-                    }
+                    Check($(this));
                 }
             });
+
+            //事件监听
+            $("#samples").on("keyup", "textarea", function () {
+                SaveSample();
+            }).on("focusout", "textarea", function () {
+                SaveSample();
+            })
+
+            ///缓存案例
+            function SaveSample() {
+                var samples = $("#samples input[name=sampleId]");
+                if (samples.size() > 0) {
+                    var obj = new Array();
+                    $.each(samples, function (i, v) {
+                        var $input = $(this);
+                        var value = $input.prev().val();
+                        if (value && value != '')
+                            obj.push(value);
+                    })
+                    if (obj && obj.length > 0) {
+                        $("#temp").val(JSON.stringify(obj));
+                    }
+                }
+            }
+
+            //第一次进来，设置默认案例个数，有记录则保存
+            var rid = $("#rid").val();
+            if (rid == 0)
+                Check();
+            else
+                SaveSample();
+
+            function Check($this) {
+                var $checked = $this || $("#rank input[type='radio']:checked");
+                var sampleNum = $checked.data("sample");
+                if (sampleNum && sampleNum > 0) {
+                    //拿到缓存案例内容
+                    var temp = $("#temp").val();
+                    var tempData;
+                    if (temp != "") tempData = JSON.parse(temp);
+                    var html = "";
+                    for (var i = 0; i < sampleNum; i++) {
+                        //有出现案例框，则填入缓存内容
+                        var val = "";
+                        if (tempData && tempData.length > i) {
+                            val = tempData[i];
+                        }
+                        html += "<div><label>案例" + (i + 1) + "</label>";
+                        html += "<textarea class=\"form-control\" name=\"sample" + (i + 1) + "\" rows=\"4\" style=\"width: 100%\" required=\"required\">" + val + "</textarea>";
+                        html += " <input type=\"hidden\" name=\"sampleId\" value=" + (i + 1) + "></div>";
+                    }
+                    $("#samples").html(html);
+                } else {
+                    $("#samples").html("");
+                }
+            }
         })
     </script>
 }

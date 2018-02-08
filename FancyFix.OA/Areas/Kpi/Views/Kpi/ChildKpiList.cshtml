@@ -7,11 +7,12 @@
     int startyear = ViewBag.StartYear;
     int year = ViewBag.year;
     int month = ViewBag.month;
+    Kpi_Process process = ViewBag.process;
 }
 <div class="row">
     <div class="col-xs-12">
         <div class="box-header">
-            <h3 class="box-title">【@Model.RealName】 @year 年 @month 月 指标 </h3>
+            <h3 class="box-title">【@Model.RealName】 @year 年 @month 月 指标 @(!process.IsCreated.Value ? "(进程未生成)":"") </h3>
             <a href="/kpi/kpi/childuserlist?year=@year&month=@month" class="btn btn-default pull-right">返回</a>
         </div>
         <div class="box">
@@ -46,7 +47,11 @@
                                         }
                                     </td>
                                     <td align="center">
-                                        @if (item.ParUserId == MyInfo.Id)
+                                        @if (!item.IsCreated.Value)
+                                        {
+                                            <span>指标未生成，暂时不能评分</span>
+                                        }
+                                        else if (item.ParUserId == MyInfo.Id)
                                         {
                                             <a href="/kpi/kpi/childkpiapprove/@item.Id" class="btn btn-warning">评分</a>
                                             <input type="hidden" name="rid" value="@item.Id">

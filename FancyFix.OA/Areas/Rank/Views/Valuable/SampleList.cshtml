@@ -32,7 +32,7 @@
                         </div>
                     </td>
                 </tr>
-                @if (samplelist != null && samplelist.Any())
+                @if (samplelist != null && samplelist.Count > 0)
                 {
                     int i = 1;
                     foreach (var item in samplelist)
@@ -49,11 +49,11 @@
                     }
                 }
                 @*<tr>
-                    <td align="right"></td>
-                    <td>
-                        <button type="button" id="cancel" class="btn btn-default" onclick="javascript: window.history.go(-1)">返回</button>
-                    </td>
-                </tr>*@
+                        <td align="right"></td>
+                        <td>
+                            <button type="button" id="cancel" class="btn btn-default" onclick="javascript: window.history.go(-1)">返回</button>
+                        </td>
+                    </tr>*@
             </tbody>
         </table>
     </div>

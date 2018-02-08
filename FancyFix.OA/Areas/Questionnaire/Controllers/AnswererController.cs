@@ -31,5 +31,31 @@ namespace FancyFix.OA.Areas.Questionnaire.Controllers
             else
                 return Json(new { result = 0, msg = "删除失败，请联系管理员！" });
         }
+
+        public ActionResult AnswererList(int id = 0)
+        {
+            int page = GetThisPage();
+            int pageSize = 15;
+            long records = 0;
+
+            var subject = Bll.BllQuestionnaire_Subject.First(o => o.Id == id);
+            if (subject == null) return MessageBoxAndReturn("问卷不存在！");
+
+            var answererlist = Bll.BllQuestionnaire_Answerer.PageList(id, false, page, pageSize, out records);
+            ViewBag.answererlist = answererlist;
+            ViewBag.pageStr = ShowPage((int)records, pageSize, page, 5, "", false);
+            return View(subject);
+        }
+
+        public ActionResult Info(int id)
+        {
+            var answerer = Bll.BllQuestionnaire_Answerer.First(o => o.Id == id);
+            if (answerer == null) return MessageBoxAndReturn("提卷不存在！");
+
+            var list = Bll.BllQuestionnaire_Result.GetList(answerer.Id);
+
+            ViewBag.list = list;
+            return View(answerer);
+        }
     }
 }

@@ -30,7 +30,7 @@
         <div class="box-header">
             <div class="pull-left form-group">
                 <select id="year" name="year" class="layui-select" style="max-width:100px;">
-                    @foreach(var y in yearlist)
+                    @foreach (var y in yearlist)
                     {
                         <option value="@y" @(y == year ? "selected" : "")>@y 年</option>
                     }
@@ -58,7 +58,7 @@
         </div>
         <div class="box-header">
             <div class="form-group form-inline">
-             
+
                 @if (IsSuperAdmin || IsDepartAdmin)
                 {
                     <a href="/rank/valuable/toexcelrank?year=@year&fromMonth=@fromMonth&toMonth=@toMonth&top=@top" class="btn btn-default pull-left">导出到Excel</a>
@@ -77,7 +77,7 @@
                             <th style="text-align:center;">总分</th>
                             <th style="text-align:center;">操作</th>
                         </tr>
-                        @if (ranklist != null && ranklist.Any())
+                        @if (ranklist != null && ranklist.Count > 0)
                         {
                             foreach (var item in ranklist)
                             {

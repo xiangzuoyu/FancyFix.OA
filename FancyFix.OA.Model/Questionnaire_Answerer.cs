@@ -40,6 +40,8 @@ namespace FancyFix.OA.Model
 		private int? _CorrectNum;
 		private string _DISC;
 		private bool? _IsDISC;
+		private string _Job;
+		private string _Department;
 		/// <summary>
 		/// 
 		/// </summary>
@@ -208,9 +210,40 @@ namespace FancyFix.OA.Model
 				this._IsDISC=value;
 			}
 		}
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Job
+		{
+			get{ return _Job; }
+			set
+			{
+				this.OnPropertyValueChange(_.Job,_Job,value);
+				this._Job=value;
+			}
+		}
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Department
+		{
+			get{ return _Department; }
+			set
+			{
+				this.OnPropertyValueChange(_.Department,_Department,value);
+				this._Department=value;
+			}
+		}
 		#endregion
 
 		#region Method
+		/// <summary>
+		/// 获取实体中的标识列
+		/// </summary>
+		public override Field GetIdentityField()
+		{
+			return _.Id;
+		}
 		/// <summary>
 		/// 获取实体中的主键列
 		/// </summary>
@@ -238,7 +271,9 @@ namespace FancyFix.OA.Model
 				_.Score,
 				_.CorrectNum,
 				_.DISC,
-				_.IsDISC};
+				_.IsDISC,
+				_.Job,
+				_.Department};
 		}
 		/// <summary>
 		/// 获取值信息
@@ -259,7 +294,9 @@ namespace FancyFix.OA.Model
 				this._Score,
 				this._CorrectNum,
 				this._DISC,
-				this._IsDISC};
+				this._IsDISC,
+				this._Job,
+				this._Department};
 		}
 		#endregion
 
@@ -329,6 +366,14 @@ namespace FancyFix.OA.Model
 			/// 
 			/// </summary>
 			public readonly static Field IsDISC = new Field("IsDISC","Questionnaire_Answerer","IsDISC");
+			/// <summary>
+			/// 
+			/// </summary>
+			public readonly static Field Job = new Field("Job","Questionnaire_Answerer","Job");
+			/// <summary>
+			/// 
+			/// </summary>
+			public readonly static Field Department = new Field("Department","Questionnaire_Answerer","Department");
 		}
 		#endregion
 

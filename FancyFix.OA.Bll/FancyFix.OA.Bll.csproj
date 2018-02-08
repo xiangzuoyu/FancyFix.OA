@@ -53,6 +53,7 @@
     <Compile Include="BllPoint_Records.cs" />
     <Compile Include="BllPoint_List.cs" />
     <Compile Include="BllConfig_Process.cs" />
+    <Compile Include="BllQuestionnaire_Result.cs" />
     <Compile Include="BllQuestionnaire_Answerer.cs" />
     <Compile Include="BllQuestionnaire_DISC.cs" />
     <Compile Include="BllQuestionnaire_Info.cs" />

@@ -26,17 +26,18 @@ namespace FancyFix.OA.Model
 	public partial class Questionnaire_Result : Entity 
 	{
 		#region Model
-		private int? _Id;
+		private int _Id;
 		private int? _SubjectId;
 		private string _Question;
 		private string _Answer;
 		private int? _Score;
 		private string _Result;
 		private bool? _IsRight;
+		private int? _AnswererId;
 		/// <summary>
 		/// 
 		/// </summary>
-		public int? Id
+		public int Id
 		{
 			get{ return _Id; }
 			set
@@ -117,9 +118,36 @@ namespace FancyFix.OA.Model
 				this._IsRight=value;
 			}
 		}
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? AnswererId
+		{
+			get{ return _AnswererId; }
+			set
+			{
+				this.OnPropertyValueChange(_.AnswererId,_AnswererId,value);
+				this._AnswererId=value;
+			}
+		}
 		#endregion
 
 		#region Method
+		/// <summary>
+		/// 获取实体中的标识列
+		/// </summary>
+		public override Field GetIdentityField()
+		{
+			return _.Id;
+		}
+		/// <summary>
+		/// 获取实体中的主键列
+		/// </summary>
+		public override Field[] GetPrimaryKeyFields()
+		{
+			return new Field[] {
+				_.Id};
+		}
 		/// <summary>
 		/// 获取列信息
 		/// </summary>
@@ -132,7 +160,8 @@ namespace FancyFix.OA.Model
 				_.Answer,
 				_.Score,
 				_.Result,
-				_.IsRight};
+				_.IsRight,
+				_.AnswererId};
 		}
 		/// <summary>
 		/// 获取值信息
@@ -146,7 +175,8 @@ namespace FancyFix.OA.Model
 				this._Answer,
 				this._Score,
 				this._Result,
-				this._IsRight};
+				this._IsRight,
+				this._AnswererId};
 		}
 		#endregion
 
@@ -188,6 +218,10 @@ namespace FancyFix.OA.Model
 			/// 
 			/// </summary>
 			public readonly static Field IsRight = new Field("IsRight","Questionnaire_Result","IsRight");
+			/// <summary>
+			/// 
+			/// </summary>
+			public readonly static Field AnswererId = new Field("AnswererId","Questionnaire_Result","AnswererId");
 		}
 		#endregion
 

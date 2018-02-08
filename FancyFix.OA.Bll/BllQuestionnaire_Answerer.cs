@@ -18,11 +18,42 @@ namespace FancyFix.OA.Bll
             where.And(o => o.IsDISC == isDISC);
             if (subjectId > 0) where.And(o => o.SubjectId == subjectId);
             var p = Db.Context.From<Questionnaire_Answerer>()
-                 .Select((a) => new { a.Id, a.Name, a.SubjectId, a.Tel, a.Email, a.Company, a.WxId, a.WxName, a.Score, a.AddTime, a.StartTime, a.CorrectNum, a.DISC, a.IsDISC })
+                 .Select((a) => new { a.Id, a.Name, a.SubjectId, a.Tel, a.Email, a.Company, a.WxId, a.WxName, a.Score, a.AddTime, a.StartTime, a.CorrectNum, a.DISC, a.IsDISC, a.Job, a.Department })
                  .Where(where);
 
             records = p.Count();
             return p.Page(pageSize, page).OrderByDescending(o => o.Id).ToList();
+        }
+
+        /// <summary>
+        /// 添加问卷回答记录
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        public static bool Add(Questionnaire_Answerer model, List<Questionnaire_Result> result)
+        {
+            using (var trans = Db.Context.BeginTransaction())
+            {
+                int id = 0;
+                id = trans.Insert(model);
+                if (id == 0)
+                {
+                    trans.Rollback();
+                    return false;
+                }
+                //结果记录绑定id
+                foreach (var item in result)
+                    item.AnswererId = id;
+                id = trans.Insert(result);
+                if (id == 0)
+                {
+                    trans.Rollback();
+                    return false;
+                }
+                trans.Commit();
+                return true;
+            }
         }
 
     }

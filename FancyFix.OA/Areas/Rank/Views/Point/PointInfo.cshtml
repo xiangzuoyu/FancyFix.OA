@@ -54,7 +54,7 @@
                     <td align="right"><label for="classid" class="control-label">活动时间：</label></td>
                     <td>
                         <div class="form-group form-inline">
-                            @record.EventTime.Value.ToString("yyyy/MM/dd")
+                            @(record.EventTime?.ToString("yyyy-MM-dd") ?? "")
                         </div>
                     </td>
                 </tr>
@@ -67,10 +67,26 @@
                     </td>
                 </tr>
                 <tr>
-                    <td align="right"><label for="classid" class="control-label">审核备注：</label></td>
+                    <td align="right"><label for="classid" class="control-label">审批人：</label></td>
+                    <td>
+                        <div class="form-group form-inline">
+                            @record.ParUserName
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><label for="classid" class="control-label">审批备注：</label></td>
                     <td>
                         <div class="form-group form-inline">
                             @record.Remark
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><label for="classid" class="control-label">审批时间：</label></td>
+                    <td>
+                        <div class="form-group form-inline">
+                            @(record.ApproveTime?.ToString("yyyy-MM-dd HH:mm:ss") ?? "")
                         </div>
                     </td>
                 </tr>

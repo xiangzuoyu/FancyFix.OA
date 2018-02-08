@@ -114,6 +114,12 @@ namespace FancyFix.OA.Areas.Questionnaire.Controllers
         }
 
         [HttpPost]
+        public JsonResult SetShow(int id)
+        {
+            return Json(new { result = Bll.BllQuestionnaire_Info.SetShow(id) });
+        }
+
+        [HttpPost]
         public JsonResult Delete(int id)
         {
             return Json(new { result = Bll.BllQuestionnaire_Info.Delete(o => o.Id == id) > 0 });
@@ -136,6 +142,7 @@ namespace FancyFix.OA.Areas.Questionnaire.Controllers
             int score = RequestInt("score");
             byte type = RequestByte("type");
             int subjectId = RequestInt("subjectId");
+            bool isshow = RequestBool("isshow");
 
             if (option == null || option.Count == 0)
                 return MessageBoxAndReturn("请填写至少一个选项！");
@@ -170,6 +177,7 @@ namespace FancyFix.OA.Areas.Questionnaire.Controllers
                 model.Score = score;
                 model.Options = string.Join(",", option);
                 model.Answer = answer.TrimEnd(',');
+                model.IsShow = isshow;
 
                 if (Bll.BllQuestionnaire_Info.Update(model, o => o.Id == id) > 0)
                 {
@@ -190,6 +198,7 @@ namespace FancyFix.OA.Areas.Questionnaire.Controllers
                 model.Score = score;
                 model.Options = string.Join(",", option);
                 model.Answer = answer.TrimEnd(',');
+                model.IsShow = isshow;
                 model.Sequence = Bll.BllSys_Class<Questionnaire_Info>.Instance().GetNextSequence("SubjectId=" + subjectId);
                 if (Bll.BllQuestionnaire_Info.Insert(model) > 0)
                 {

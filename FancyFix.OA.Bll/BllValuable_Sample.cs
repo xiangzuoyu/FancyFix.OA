@@ -25,16 +25,16 @@ namespace FancyFix.OA.Bll
         public static int Add(int rid, List<Valuable_Sample> samplelist)
         {
             int count = 0;
-            if (samplelist != null && samplelist.Count > 0)
+            using (var trans = Db.Context.BeginTransaction())
             {
-                using (var trans = Db.Context.BeginTransaction())
+                trans.Delete<Valuable_Sample>(o => o.Rid == rid);
+                if (samplelist != null && samplelist.Count > 0)
                 {
                     samplelist.ForEach(o => { o.Rid = rid; });
-                    trans.Delete<Valuable_Sample>(o => o.Rid == rid);
                     count = trans.Insert(samplelist);
-                    trans.Commit();
-                    trans.Close();
                 }
+                trans.Commit();
+                trans.Close();
             }
             return count;
         }

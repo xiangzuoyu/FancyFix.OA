@@ -57,15 +57,29 @@ namespace FancyFix.OA.Bll
                 $"left join Mng_User b on a.UserId = b.Id " +
                 $"left join Mng_DepartmentClass c on b.DepartId = c.Id " +
                 $"left join Mng_PermissionGroup d on b.GroupId = d.Id " +
-                $"where a.ParUserId = {parUserId} and a.year = {year} and a.month = {month} and IsCreated=1 " +
+                $"where a.ParUserId = {parUserId} and a.year = {year} and a.month = {month}" +
                 $"group by UserId,b.RealName,c.ClassName,d.GroupName";
             return Db.Context.FromSql(sql).ToList<Mng_User>();
+        }
+
+        /// <summary>
+        /// 获取可审批KPI的数量
+        /// </summary>
+        /// <param name="parUserId"></param>
+        /// <param name="year"></param>
+        /// <param name="month"></param>
+        /// <returns></returns>
+        public static int GetUserListCount(int parUserId)
+        {
+            string sql = $"select Count(1) from Kpi_Records " +
+                $"where ParUserId = {parUserId}";
+            return (int)Db.Context.FromSql(sql).ToScalar();
         }
 
         public static List<Kpi_Records> GetListByUserId(int userId, int year, int month)
         {
             var where = new Where<Kpi_Records>();
-            where.And(o => o.UserId == userId && o.Year == year && o.Month == month && o.IsCreated == true);
+            where.And(o => o.UserId == userId && o.Year == year && o.Month == month);
 
             var p = Db.Context.From<Kpi_Records>()
                  .Where(where);

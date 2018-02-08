@@ -95,6 +95,11 @@
                             title: '时间限制(秒)',
                             align: 'center'
                         }, {
+                            field: 'IsShow',
+                            title: '显示',
+                            align: 'center',
+                            formatter: setShowFormatter
+                        },{
                             field: 'actStr',
                             title: '排序',
                             align: 'center'
@@ -102,7 +107,7 @@
                             title: '操作',
                             align: 'center',
                             formatter: function (v, r, i) {
-                                return "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnShowlist btn btn-md btn-warning\">查看题目</a>" + " <a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnEdit btn btn-md btn-primary\">编辑</a> <a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnDel btn btn-md btn-danger\">删除</a>";
+                                return "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnShowlist btn btn-md btn-warning\">查看题目</a>" + " <a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnAnswerlist btn btn-md btn-warning\">答题列表</a>" + " <a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnEdit btn btn-md btn-primary\">编辑</a> <a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnDel btn btn-md btn-danger\">删除</a>";
                             }
                         }]
                     });
@@ -140,8 +145,32 @@
 
             //查看题目
             $("#table").on('click', '.btnShowlist', function () {
-                var id = $(this).attr("data-id");
+                var id = $(this).data("id");
                 window.location.href = "/questionnaire/info/list/" + id;
+            });
+
+            //查看答题列表
+            $("#table").on('click', '.btnAnswerlist', function () {
+                var id = $(this).data("id");
+                window.location.href = "/questionnaire/answerer/answererlist/" + id;
+            });
+
+            function setShowFormatter(v, r, i) {
+                if (v > 0)
+                    return "<a href=\"javascript:;\" data-id=\"" + r.Id + "\"  class=\"btnSetShow btn btn-success btn-circle btn-lg btn-xs\" type=\"button\"> <i class=\"fa fa-check\"></i></a>";
+                else
+                    return "<a href=\"javascript:;\" data-id=\"" + r.Id + "\"  class=\"btnSetShow btn btn-danger btn-circle btn-lg btn-xs\" type=\"button\"> <i class=\"fa fa-times\"></i></a>";
+            }
+
+            //设置显隐
+            $("#table").on('click', '.btnSetShow', function () {
+                var id = $(this).data("id");
+                $.post('/questionnaire/subject/setshow/' + id, function (data) {
+                    if (data)
+                        Reload();
+                    else
+                        ShowError('修改失败！');
+                })
             });
 
             //批量删除

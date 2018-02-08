@@ -31,7 +31,7 @@
                             <th style="text-align:center;">审核状态</th>
                             <th style="text-align:center;">操作</th>
                         </tr>
-                        @if (recordlist != null && recordlist.Any())
+                        @if (recordlist != null && recordlist.Count > 0)
                         {
                             foreach (var item in recordlist)
                             {
@@ -42,7 +42,7 @@
                                     <td align="center">@item.Score</td>
                                     <td align="center">@Html.Raw(item.IsApprove.Value ? (item.IsPass.Value ? "<span class=\"label label-success\">已通过</span>" : "<span class=\"label label-danger\">未通过</span>") : "<span class=\"label label-warning\">待审批</span>")</td>
                                     <td align="center">
-                                        <a href="/point/point/childpointedit/@item.Id" class="btn btn-warning">@(item.IsApprove.Value? "查看" : "审批")</a>
+                                        <a href="/point/point/childpointedit/@item.Id" class="btn btn-warning">@(item.IsApprove.Value ? "查看" : "审批")</a>
                                     </td>
                                 </tr>
                             }

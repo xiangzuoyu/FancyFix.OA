@@ -35,7 +35,7 @@
                             <th style="text-align:center;">上级评分</th>
                             <th style="text-align:center;">操作</th>
                         </tr>
-                        @if (recordlist != null && recordlist.Any())
+                        @if (recordlist != null && recordlist.Count > 0)
                         {
                             foreach (var item in recordlist)
                             {
@@ -67,7 +67,7 @@
         layui.use(['layer'], function () {
             var layer = layui.layer;
             $(".btn-warning").click(function () {
-                OpenWin("案例详情", "/rank/valuable/samplelist?id=" + $(this).data("id"), '650px', '50%');
+                OpenWin("案例详情", "/rank/valuable/samplelist?id=" + $(this).data("id"), '650px', '70%');
             })
         })
     </script>

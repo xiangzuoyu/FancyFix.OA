@@ -1,6 +1,7 @@
 ﻿@using FancyFix.OA.Model
+@model Questionnaire_Subject
 @{
-    ViewBag.Title = "DISCAnswererList";
+    ViewBag.Title = "AnswererList";
     Layout = "~/Views/Shared/_Layout.cshtml";
     List<Questionnaire_Answerer> answererlist = ViewBag.answererlist;
 }
@@ -10,7 +11,8 @@
 <div class="row">
     <div class="col-xs-12">
         <div class="box-header">
-            <h3 class="box-title">DISC提交列表：</h3>
+            <h3 class="box-title">问卷【@Model.Title】用户提交列表：</h3>
+            <a href="/questionnaire/subject/list" class="btn btn-default pull-right">返回</a>
         </div>
         <div class="box">
             <div class="box-body">
@@ -22,7 +24,7 @@
                             <th style="text-align:center;">邮箱</th>
                             <th style="text-align:center;">部门</th>
                             <th style="text-align:center;">应聘岗位</th>
-                            <th style="text-align:center;">DISC分值</th>
+                            <th style="text-align:center;">得分</th>
                             <th style="text-align:center;">提交时间</th>
                             <th style="text-align:center;">操作</th>
                         </tr>
@@ -30,22 +32,16 @@
                         {
                             foreach (var item in answererlist)
                             {
-                                var disclist = FancyFix.Tools.Tool.JsonHelper.Deserialize<FancyFix.Tools.Json.DISC>(item.DISC);
-                                item.DISC = "";
-                                foreach (var disc in disclist)
-                                {
-                                    item.DISC += "【" + disc.n + "：" + disc.v + "】";
-                                }
                                 <tr>
                                     <td align="center">@item.Name</td>
                                     <td align="center">@item.Tel</td>
                                     <td align="center">@item.Email</td>
                                     <td align="center">@item.Department</td>
                                     <td align="center">@item.Job</td>
-                                    <td align="center">@Html.Raw(item.DISC)</td>
+                                    <td align="center">@item.Score</td>
                                     <td align="center">@item.AddTime.Value.ToString("yyyy/MM/dd HH:mm:ss")</td>
                                     <td align="center">
-                                        @*<a href="/questionnaire/answerer/info/@item.Id" class="btn btn-warning">查看</a>*@
+                                        <a href="/questionnaire/answerer/info/@item.Id" class="btn btn-warning">查看详细</a>
                                         @if (IsSuperAdmin)
                                         {
                                             <a href="javascript:void(0)" data-id="@item.Id" class="btn btn-danger btnDel">删除</a>

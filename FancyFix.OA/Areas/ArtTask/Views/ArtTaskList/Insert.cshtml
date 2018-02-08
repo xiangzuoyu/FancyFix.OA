@@ -41,7 +41,7 @@
                         <td>
                             <div class="form-group">
                                 <input type="text" class="form-control" id="title" name="title" placeholder="标题" value="@(Model?.Title ?? "")"
-                                       required="required" style="width:250px;" maxlength="255">
+                                       required="required" style="width:250px;" maxlength="150">
                             </div>
                         </td>
                     </tr>
@@ -132,7 +132,7 @@
                         <td align="right"><label for="phone" class="control-label">联系方式：</label></td>
                         <td>
                             <div class="form-group">
-                                <input type="text" class="form-control" id="phone" name="phone" placeholder="手机号" value="@(Model?.Phone ?? "")" style="width:250px;" maxlength="15">
+                                <input type="text" class="form-control" id="phone" name="phone" placeholder="手机号" value="@(Model?.Phone ?? ViewBag.Tel)" style="width:250px;" maxlength="15">
                             </div>
                         </td>
                     </tr>

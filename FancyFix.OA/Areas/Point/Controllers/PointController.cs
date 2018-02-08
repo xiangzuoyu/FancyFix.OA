@@ -144,6 +144,7 @@ namespace FancyFix.OA.Areas.Point.Controllers
                             record.UserId = userId;
                             record.UserName = Bll.BllMng_User.GetNameById(userId);
                             record.IsApprove = true;
+                            record.ApproveTime = dateTimeNow;
                             record.IsPass = true;
                             record.Month = time.Month;
                             record.Year = time.Year;

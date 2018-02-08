@@ -169,8 +169,8 @@
                         <td align="right"><label for="estimatedstartdate" class="control-label">预计开始日期：</label></td>
                         <td>
                             <div class="form-group">
-                                <input type="text" class="form-control" id="estimatedstartdate" name="estimatedstartdate" placeholder="预计开始日期" required="required" value="@(Model != null ? Model.EstimatedStartDate?.ToString("yyyy-MM-dd") : "")"
-                                       readonly="readonly" style="width:150px;background-color:#fff;">
+                                <input type="text" class="form-control" id="estimatedstartdate" name="estimatedstartdate" placeholder="预计开始日期" required="required" value="@(Model != null ? Model.EstimatedStartDate?.ToString("yyyy-MM-dd HH:mm:ss") : "")"
+                                       readonly="readonly" style="width:200px;background-color:#fff;">
                             </div>
                         </td>
                     </tr>
@@ -178,8 +178,8 @@
                         <td align="right"><label for="estimatedstartdate" class="control-label">预计完成日期：</label></td>
                         <td>
                             <div class="form-group">
-                                <input type="text" class="form-control" id="estimatedenddate" name="estimatedenddate" placeholder="预计结束日期" required="required" value="@(Model != null ? Model.EstimatedEndDate?.ToString("yyyy-MM-dd") : "")"
-                                       readonly="readonly" style="width:150px;background-color:#fff;">
+                                <input type="text" class="form-control" id="estimatedenddate" name="estimatedenddate" placeholder="预计结束日期" required="required" value="@(Model != null ? Model.EstimatedEndDate?.ToString("yyyy-MM-dd HH:mm:ss") : "")"
+                                       readonly="readonly" style="width:200px;background-color:#fff;">
                             </div>
                         </td>
                     </tr>
@@ -246,7 +246,7 @@
                     elem: this,
                     type: 'date',
                     min: laydate.now(),
-                    format: 'YYYY-MM-DD',
+                    format: 'YYYY-MM-DD hh:mm:ss',
                     choose: function (dates) {
                         end.min = dates; //开始日选好后，重置结束日的最小日期
                         end.start = dates //将结束日的初始值设定为开始日

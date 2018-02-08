@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewBag.Title = "UnAuthorized";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Css{
+    <style>
+        body {
+            background-color: #f3f3f4;
+        }
+
+        h1, h2, h3 {
+            font-family: inherit;
+            font-weight: 500;
+            line-height: 1.1;
+            color: inherit;
+        }
+
+        .middle-box {
+            max-width: 400px;
+            z-index: 100;
+            margin: 0 auto;
+        }
+
+            .middle-box h1 {
+                font-size: 170px;
+            }
+
+        .wrapper .middle-box {
+            margin-top: 140px;
+        }
+    </style>
+}
+<div class="middle-box text-center animated fadeInDown">
+    <h2 class="font-bold"><i class="fa fa-ban"></i>您没有该操作的权限！</h2>
+    <div class="error-desc">
+        <hr />
+        <a href="javascript:void(0)" onclick="CloseCurrent()" class="btn btn-primary">返回上一页</a>
+        <hr />
+    </div>
+</div>
+@section Js{
+    <script type="text/javascript">
+        function CloseCurrent() {
+            //是否是弹窗
+            var w = parent.layer.getFrameIndex(window.name);
+            var tab = parent.document.getElementsByClassName("layui-this")[0].getAttribute("lay-id");
+            var reffer = document.referrer;
+            if (w) {
+                parent.layer.close(w);
+            } else if (tab.toLowerCase().indexOf(reffer.toLowerCase()) >= 0) {
+                parent.closeTab(tab.toLowerCase());
+            } else {
+                window.history.go(-1);
+            }
+            parent.layer.msg('您没有该操作权限！', { icon: 5 });
+        }
+    </script>
+}
+
+

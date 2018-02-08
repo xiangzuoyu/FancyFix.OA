@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<preserve resultType="2" virtualPath="/Views/Shared/UploadImg.cshtml" hash="ffffffffff66e5ae" filehash="ffffc239cedecf6d" flags="110000" assembly="App_Web_cylwe142" type="ASP._Page_Views_Shared_UploadImg_cshtml">
+<preserve resultType="2" virtualPath="/Views/Shared/UploadImg.cshtml" hash="ffffffffff66e5ae" filehash="ffffc239cedecf6d" flags="110000" assembly="App_Web_s20eq0xc" type="ASP._Page_Views_Shared_UploadImg_cshtml">
     <filedeps>
         <filedep name="/Views/Shared/UploadImg.cshtml" />
     </filedeps>

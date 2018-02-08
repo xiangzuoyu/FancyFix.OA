@@ -12,7 +12,7 @@ namespace FancyFix.ThirdPartyPlatform.Base
 {
     public class BaseApiController : ApiController
     {
-        private static string sitePreName = "FancyFix";   //Session或Cookie前缀,区别其他站点
+        private static string sitePreName = "Sameway";   //Session或Cookie前缀,区别其他站点
         public static string cssVersion = DateTime.Now.ToString("yyMMddhhss"); //样式版本
         public static string domain = Tools.Special.Common.GetDomain();
         public static string webUrl = Tools.Special.Common.GetWebUrl();

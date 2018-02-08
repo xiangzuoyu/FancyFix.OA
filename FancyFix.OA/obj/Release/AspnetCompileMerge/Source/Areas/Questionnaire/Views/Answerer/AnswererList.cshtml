@@ -1,0 +1,102 @@
+﻿@using FancyFix.OA.Model
+@model Questionnaire_Subject
+@{
+    ViewBag.Title = "AnswererList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Questionnaire_Answerer> answererlist = ViewBag.answererlist;
+}
+@section Css{
+    <link href="/Content/js/plugins/datatables/bootstrap-table.min.css" rel="stylesheet" />
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box-header">
+            <h3 class="box-title">问卷【@Model.Title】用户提交列表：</h3>
+            <a href="/questionnaire/subject/list" class="btn btn-default pull-right">返回</a>
+        </div>
+        <div class="box">
+            <div class="box-body">
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <th style="text-align:center;">姓名</th>
+                            <th style="text-align:center;">电话</th>
+                            <th style="text-align:center;">邮箱</th>
+                            <th style="text-align:center;">部门</th>
+                            <th style="text-align:center;">应聘岗位</th>
+                            <th style="text-align:center;">得分</th>
+                            <th style="text-align:center;">提交时间</th>
+                            <th style="text-align:center;">操作</th>
+                        </tr>
+                        @if (answererlist != null && answererlist.Count > 0)
+                        {
+                            foreach (var item in answererlist)
+                            {
+                                <tr>
+                                    <td align="center">@item.Name</td>
+                                    <td align="center">@item.Tel</td>
+                                    <td align="center">@item.Email</td>
+                                    <td align="center">@item.Department</td>
+                                    <td align="center">@item.Job</td>
+                                    <td align="center">@item.Score</td>
+                                    <td align="center">@item.AddTime.Value.ToString("yyyy/MM/dd HH:mm:ss")</td>
+                                    <td align="center">
+                                        <a href="/questionnaire/answerer/info/@item.Id" class="btn btn-warning">查看详细</a>
+                                        @if (IsSuperAdmin)
+                                        {
+                                            <a href="javascript:void(0)" data-id="@item.Id" class="btn btn-danger btnDel">删除</a>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td align="center" colspan="8">暂无数据</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="box-footer clearfix">
+                <div class="no-margin pull-right">
+                    @Html.Raw(ViewBag.pageStr)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Js{
+    <script src="/Content/js/common/tools.js"></script>
+    <script type="text/javascript">
+        layui.use(['layer'], function () {
+            var layer = layui.layer;
+
+            $(".table").on('click', 'a.btnDel', function () {
+                var $this = $(this);
+                layer.confirm('确定删除该记录吗？', {
+                    btn: ['确定', '取消']
+                }, function (index, layero) {
+                    var id = $this.data("id");
+                    $.post('/questionnaire/answerer/delete/' + id, function (data) {
+                        if (data) {
+                            if (data.result > 0) {
+                                ShowSuccess(data.msg);
+                                setTimeout(function () {
+                                    window.location.reload();
+                                }, 2000)
+                            } else {
+                                ShowError(data.msg);
+                            }
+                        }
+                    });
+                    layer.close(index);
+                }, function (index) {
+                    layer.close(index);
+                });
+            });
+        })
+    </script>
+}

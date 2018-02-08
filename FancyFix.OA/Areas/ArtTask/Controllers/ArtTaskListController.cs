@@ -67,6 +67,7 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
         //新增需求
         public ActionResult Insert()
         {
+            ViewBag.Tel = Bll.BllMng_User.FirstSelect(o => o.Id == MyInfo.Id, o => o.Tel)?.Tel ?? "";
             ViewBag.DemandTypeList = Bll.BllDesign_DemandType.GetList() ?? new List<Design_DemandType>();
             ViewBag.DetailTypeList = Bll.BllDesign_DetailType.GetList() ?? new List<Design_DetailType>();
             return View();

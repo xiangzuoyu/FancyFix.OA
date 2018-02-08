@@ -1,0 +1,217 @@
+﻿@using FancyFix.OA.Model;
+@using FancyFix.Tools.Json;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Questionnaire_DISC> list = ViewBag.list;
+}
+@section Css{
+    <link href="/Content/js/plugins/iCheck/flat/_all.css" rel="stylesheet" />
+    <style>
+        .box {
+            box-shadow: none;
+        }
+
+        .tit {
+            margin-top: 5px;
+            padding: 12px 10px 5px 10px;
+            border-radius: 5px;
+        }
+    </style>
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box-header" style="text-align:center;">
+            <h3 class="box-title">米纳DISC问卷调查</h3>
+        </div>
+        <div class="box">
+            <div class="box-body">
+                <form id="mainform" method="post">
+                    <table id="table" class="layui-table">
+                        <!--列宽度-->
+                        <colgroup>
+                            <col class="col-lg-2">
+                            <col class="col-lg-10">
+                        </colgroup>
+                        <tbody>
+                            <tr>
+                                <td align="right"><label for="name" class="control-label">姓名：</label></td>
+                                <td>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="name" name="name" placeholder="姓名" style="width:100%;" required="required">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right"><label for="email" class="control-label">Email：</label></td>
+                                <td>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="email" name="email" placeholder="Email" style="width:100%;" required="required" email="true">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right"><label for="tel" class="control-label">手机：</label></td>
+                                <td>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="tel" name="tel" placeholder="手机" style="width:100%;" required="required" isPhone="true">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right"><label for="job" class="control-label">部门：</label></td>
+                                <td>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="department" name="department" placeholder="部门" style="width:100%;" required="required">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right"><label for="job" class="control-label">应聘岗位：</label></td>
+                                <td>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="job" name="job" placeholder="应聘岗位" style="width:100%;" required="required">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <button type="button" id="btnNext" class="btn btn-primary" style="width:100%;">下一步</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div id="main" class="form-group hidden">
+                        @if (list != null && list.Count > 0)
+                        {
+                            int i = 1;
+                            foreach (var item in list)
+                            {
+                                List<DISC> disclist = FancyFix.Tools.Tool.JsonHelper.Deserialize<DISC>(item.DISC);
+                                <div class="form-group">
+                                    <input type="hidden" name="id" value="@item.Id">
+                                    <label>(@(i)).请选择一项</label>
+                                    <div class="form-group table-bordered tit">
+                                        @if (disclist != null && disclist.Count > 0)
+                                        {
+                                            foreach (var disc in disclist)
+                                            {
+                                                <div class="form-group">
+                                                    <input type="radio" class="form-control ignore" name="@item.Id" value="@disc.n" required="required" />
+                                                    <span>@disc.v</span>
+                                                </div>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                                i++;
+                            }
+                        }
+                        <div class="form-group">
+                            <hr>
+                            <input type="hidden" name="starttime" value="@DateTime.Now">
+                            <button type="submit" id="btnPass" class="btn btn-primary" style="width:100%;">提交</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Js{
+    <script src="/Content/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/jquery.validator.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/messages_cn.js"></script>
+    <script src="/Content/js/common/tools.js"></script>
+    <script>
+        layui.use(['layer'], function () {
+            var layer = layui.layer;
+
+            //iCheck初始化
+            $('input[type="checkbox"],input[type="radio"]').iCheck({
+                checkboxClass: 'icheckbox_flat-blue',
+                radioClass: 'iradio_flat-blue'
+            });
+
+            $.validator.addMethod("isPhone", function (value, element) {
+                var tel = /^[1][3-8][0-9]{9}$/;
+                return this.optional(element) || (tel.test(value));
+            }, "请输入正确的手机号码");
+
+            //更换提示
+            $.extend($.validator.messages, {
+                required: "该项是必填项！",
+            });
+
+            //表单验证
+            var $form = $("#mainform");
+            function SetValidate() {
+                $form.validate({
+                    ignore: ".ignore",
+                    errorPlacement: function (error, element) {
+                        if ($(element).parents("#table").size() > 0)
+                            element.parent().append(error);
+                        else
+                            $(element).parents(".table-bordered").before(error);
+                    },
+                    submitHandler: function (form) {
+                        $("#btnPass").attr("disabled", "disabled");
+                        layer.msg('提交中...', { icon: 16, shade: 0.2, time: 5000 });
+                        $.post("/disc/save", $(form).serialize(), function (data) {
+                            if (data) {
+                                if (data.result > 0) {
+                                    layer.msg('提交成功！正在统计中...', { icon: 16, shade: 0.2, time: 5000 });
+                                    var result = data.data;
+                                    var html = "你的测试结果为：";
+                                    for (var i in result) {
+                                        html += "<p>" + result[i].n + "：" + result[i].v + "</p>";
+                                    }
+                                    layer.alert(html, {
+                                        title: "测试结果",
+                                        time: 0,
+                                        closeBtn: 0,
+                                        btn: ['退出'],
+                                        yes: function (index) {
+                                            window.location.href = '/disc';
+                                        }
+                                    });
+                                } else {
+                                    layer.alert(data.data, { icon: 5 });
+                                }
+                            } else {
+                                layer.alert("发生错误，请联系公司相关负责人！", { icon: 5 });
+                            }
+                            $("#btnPass").removeAttr("disabled");
+                        })
+                    }
+                });
+            }
+
+            //加载验证
+            SetValidate();
+
+            //通过
+            $("#btnPass").click(function () {
+                $form.valid();
+            });
+
+            //下一步
+            $("#btnNext").click(function () {
+                if ($form.valid()) {
+                    $("#table").addClass("hidden").find("input[type=text]").addClass("ignore");
+                    $("#main").removeClass("hidden").find("input[type=radio]").removeClass("ignore");
+                    //更换提示
+                    $.extend($.validator.messages, {
+                        required: "该项必选",
+                    });
+                    SetValidate();
+                }
+            })
+
+            //绑定文本点击选中
+            $(".table-bordered span").click(function () {
+                $(this).prev().iCheck('check');
+            })
+        })
+    </script>
+}

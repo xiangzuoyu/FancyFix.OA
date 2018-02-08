@@ -112,6 +112,15 @@
                                 @Model.Score
                             </td>
                         </tr>
+                        if (Model?.CreateUserId != Model.UserId)
+                        {
+                            <tr>
+                                <td align="right"><label for="pointscore" class="control-label">申请人：</label></td>
+                                <td>
+                                    @FancyFix.OA.Bll.BllMng_User.GetNameById(Model.CreateUserId.Value)
+                                </td>
+                            </tr>
+                        }
                         <tr>
                             <td align="right"><label for="ispass" class="control-label">审批结果：</label></td>
                             <td>
@@ -119,7 +128,13 @@
                             </td>
                         </tr>
                         <tr>
-                            <td align="right"><label for="pointscore" class="control-label">上级备注：</label></td>
+                            <td align="right"><label for="pointscore" class="control-label">审批人：</label></td>
+                            <td>
+                                @Model.ParUserName
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"><label for="pointscore" class="control-label">审批备注：</label></td>
                             <td>
                                 @Model.Remark
                             </td>

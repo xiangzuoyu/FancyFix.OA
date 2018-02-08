@@ -96,8 +96,6 @@ E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA\bin\Microsoft.AI.Ser
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA\bin\Microsoft.AI.WindowsServer.xml
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA\bin\Microsoft.AI.Web.xml
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA\bin\NPOI.xml
-E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA\bin\Facebook.xml
-E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA\bin\PayPal.xml
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA\bin\AutoMapper.xml
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA\bin\zh-Hans\System.Web.Helpers.resources.dll
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA\bin\zh-Hans\System.Web.Mvc.resources.dll

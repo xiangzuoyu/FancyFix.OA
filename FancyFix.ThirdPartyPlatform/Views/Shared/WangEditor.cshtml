@@ -1,0 +1,72 @@
+﻿@model  FancyFix.OA.Config.ImgUploadConfig
+@{
+    List<string> elementIds = Model.ElementId?.TrimEnd(',').Split(',').ToList() ?? null;
+}
+<link href="/Content/js/plugins/wangEditor/dist/css/wangEditor.min.css" rel="stylesheet" />
+<script src="/Content/js/plugins/wangEditor/dist/js/wangEditor.min.js"></script>
+
+@if (elementIds != null && elementIds.Any())
+{
+    int id = 1;
+    foreach (var elementId in elementIds)
+    {
+        <script type="text/javascript">
+            wangEditor.config.printLog = false;
+            ///*====加载编辑器====*/
+            var editor@(id) = new wangEditor('@elementId');
+            editor@(id).config.menus = [
+                'source',
+                '|',
+                'bold',
+                'underline',
+                'italic',
+                'strikethrough',
+                'eraser',
+                'forecolor',
+                'bgcolor',
+                '|',
+                'quote',
+                'fontfamily',
+                'fontsize',
+                'head',
+                'unorderlist',
+                'orderlist',
+                'alignleft',
+                'aligncenter',
+                'alignright',
+                '|',
+                'link',
+                'unlink',
+                'table',
+                'emotion',
+                'img',
+                '|',
+                'undo',
+                'fullscreen'
+            ];
+            editor@(id).config.uploadImgTimeout = 20000;//设置超时时间
+            editor@(id).config.uploadImgUrl = '/api/upload/uploadfile'; //设置图片上传路径
+            editor@(id).config.uploadParams = { uptype: '@Model.Uptype', CheckCode: '@(Model.CheckCode)', Key: '@(Model.Key)', Domain: '@Model.Domain' , Title: '@(Model.Title)'}; //表单数据
+            editor@(id).config.uploadImgFns.ontimeout = function (xhr) { ShowError('上传超时！'); };
+            editor@(id).config.uploadImgFns.onerror = function (xhr) { ShowError('上传错误！'); };
+            editor@(id).config.uploadImgFns.onload = function (resultText, xhr) { //自定义load事件
+                var obj = JSON.parse(resultText);
+                if (obj.code > 0) {
+                    editor@(id).command(null, 'insertHtml', '<img src="' + window.imgurl + obj.url + '"/>');
+                } else if (obj.code == 0) {
+                    ShowError("上传失败！错误信息：" + obj.msg);
+                } else {
+                    ShowError("上传失败！");
+                }
+            };
+            editor@(id).create();
+
+            //转义方法
+            function EscapeToHtml(str) {
+                var arrEntities = { 'lt': '<', 'gt': '>', 'nbsp': ' ', 'amp': '&', 'quot': '"' };
+                return str.replace(/&(lt|gt|nbsp|amp|quot);/ig, function (all, t) { return arrEntities[t]; }).replace("<p><br></p>","");
+            }
+        </script>
+        id++;
+    }
+}

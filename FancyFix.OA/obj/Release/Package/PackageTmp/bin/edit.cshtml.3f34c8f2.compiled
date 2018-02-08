@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<preserve resultType="2" virtualPath="/Areas/Point/Views/PointList/Edit.cshtml" hash="ffffffffbd170dc0" filehash="ffffc10fcea19a22" flags="110000" assembly="App_Web_1om330ma" type="ASP._Page_Areas_Point_Views_PointList_Edit_cshtml">
+<preserve resultType="2" virtualPath="/Areas/Point/Views/PointList/Edit.cshtml" hash="ffffffffbd170dc0" filehash="ffffc10fcea19a22" flags="110000" assembly="App_Web_pvmoerjm" type="ASP._Page_Areas_Point_Views_PointList_Edit_cshtml">
     <filedeps>
         <filedep name="/Areas/Point/Views/PointList/Edit.cshtml" />
     </filedeps>

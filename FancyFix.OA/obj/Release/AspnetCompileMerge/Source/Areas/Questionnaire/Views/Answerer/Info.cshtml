@@ -1,0 +1,69 @@
+﻿@using FancyFix.OA.Model;
+@model Questionnaire_Answerer
+@{
+    ViewBag.Title = "Info";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Questionnaire_Result> list = ViewBag.list;
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="box-header">
+            <h3 class="box-title">【@Model.Name】答题详细：</h3>
+            <a href="/questionnaire/answerer/answererlist/@Model.SubjectId" class="btn btn-default pull-right">返回</a>
+        </div>
+        <div class="box">
+            <div class="box-body">
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <th style="text-align:center;">编号</th>
+                            <th style="text-align:center;">状态</th>
+                            <th style="text-align:center;">问题</th>
+                            <th style="text-align:center;">回答</th>
+                            <th style="text-align:center;">得分</th>
+                        </tr>
+                        @if (list != null && list.Count > 0)
+                        {
+                            int i = 1;
+                            foreach (var item in list)
+                            {
+                                <tr>
+                                    <td align="center">@i</td>
+                                    <td align="center">
+                                        @if (item.IsRight.Value)
+                                        {
+                                            <span class="badge bg-green">正确</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-red">错误</span>
+                                        }
+                                    </td>
+                                    <td align="center">@item.Question 【答案：@item.Answer.Replace(","," 或 ")】</td>
+                                    <td align="center">@item.Result</td>
+                                    <td align="center">@item.Score</td>
+                                </tr>
+                                i++;
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td align="center" colspan="5">暂无数据</td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td align="center" colspan="4">合计</td>
+                            <td align="center">@Model.Score</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Js{
+    <script src="/Content/js/common/tools.js"></script>
+}

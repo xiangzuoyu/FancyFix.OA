@@ -23,6 +23,7 @@
                     }
                 </select>
                 <a id="goto" class="btn btn-default" href="javascript:void(0)">切换</a>
+                <span class="layui-word-aux">每进程在下一进程@(WorkerEndDay)日之前截止</span>
             </h3>
         </div>
         <div class="box">
@@ -35,18 +36,23 @@
                             <th style="text-align:center;">得分</th>
                             <th style="text-align:center;">操作</th>
                         </tr>
-                        @if (workerlist != null && workerlist.Any())
+                        @if (workerlist != null && workerlist.Count > 0)
                         {
                             int score = 0;
-                            int workermonth = GetWorkerMonth(DateTime.Now.Year, DateTime.Now.Month);
+                            int workermonth = GetWorkerMonth(year, DateTime.Now.Month);
                             foreach (var item in workerlist)
                             {
+                                int nextWorkmonth = GetNextWorkerMonth(year, item);
                                 <tr>
                                     <td align="center">@item 月</td>
                                     <td align="center">
                                         @if (year == DateTime.Now.Year && item == workermonth)
                                         {
                                             <span class="badge bg-green">进行中</span>
+                                        }
+                                        else if (DateTime.Now.Day <= WorkerEndDay && year == DateTime.Now.Year && DateTime.Now.Month == nextWorkmonth)
+                                        {
+                                            <span class="badge bg-green">即将结束</span>
                                         }
                                         else if (year > DateTime.Now.Year || (year == DateTime.Now.Year && item > workermonth))
                                         {

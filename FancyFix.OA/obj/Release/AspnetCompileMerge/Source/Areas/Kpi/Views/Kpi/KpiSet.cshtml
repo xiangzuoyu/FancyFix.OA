@@ -117,7 +117,7 @@
                                     html += "<tr>";
                                     html += "<td align=\"center\"><input type=\"checkbox\" name=\"rid\" checked=\"checked\" value=" + v.Id + "></td>";
                                     html += "<td align=\"center\">" + v.Name + "</td>";
-                                    html += "<td class=\"hidden-xs title\" align=\"center\" data-content=\"" + v.Content + "\">" + v.Content.substring(100) + "</td>";
+                                    html += "<td class=\"hidden-xs title\" align=\"center\" data-content=\"" + v.Content + "\">" + v.Content.toString().substring(0, 100) + (v.Content.length > 100 ? "..." : "") + "</td>";
                                     //html += "<td class=\"hidden-xs\" align=\"center\"><p>挑战目标：" + v.Target_Highest + "</p><p>标准目标：" + v.Target_Normal + "</p><p>最低目标：" + v.Target_Lowest + "</p></td>";
                                     html += "<td align=\"center\">" + v.Score + " %</td>";
                                     html += "<td align=\"center\">" + v.ParUserName + "</td>";

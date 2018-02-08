@@ -1,0 +1,289 @@
+﻿@using FancyFix.OA.Model;
+@model Design_ArtTaskList
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout_In.cshtml";
+    List<Mng_User> designerList = ViewBag.designerList;
+    List<Design_DemandType> demandtypelist = ViewBag.DemandTypeList;
+    List<Design_DetailType> detailtypelist = ViewBag.DetailTypeList;
+}
+
+@section Css{
+    <link href="/Content/js/plugins/iCheck/flat/_all.css" rel="stylesheet" />
+    <style>
+        .form-group {
+            margin-bottom: 0;
+        }
+
+        .input_radio {
+            margin-left: 3px;
+            margin-right: 10px;
+        }
+    </style>
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <form id="mainform" action="/arttask/arttasklist/edit" method="post" style="margin-bottom:50px;">
+            <table class="layui-table">
+                <!--列宽度-->
+                <colgroup>
+                    <col class="col-lg-2">
+                    <col class="col-lg-10">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td align="right"><label for="number" class="control-label">编号：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="number" name="number" value="@(Model?.Number ?? "")"
+                                       required="required" style="width:250px;" readonly="readonly">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">标题：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="title" name="title" value="@(Model?.Title ?? "")"
+                                       required="required" style="width:250px;" readonly="readonly">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="budget" class="control-label">项目预算：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="number" class="form-control" id="budget" name="budget" value="@(Model?.Budget ?? 0)"
+                                       required="required" readonly="readonly" style="width:250px;">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="demandtypeid" class="control-label">需求类型：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <select id="demandtypeid" name="demandtypeid" class="layui-select" style="max-width:250px;" disabled="true">
+                                    @if (demandtypelist != null && demandtypelist.Count > 0)
+                                    {
+                                        <option value="0">请选择</option>
+                                        foreach (var item in demandtypelist)
+                                        {
+                                            <option value="@item.ClassId" @(Model.DemandTypeId == item.ClassId ? "selected=\"selected\"" : "")>@item.Name</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="model" class="control-label">产品型号：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="model" name="model" value="@(Model?.Model ?? "")"
+                                       readonly="readonly" style="width:250px;">
+                            </div>
+                        </td>
+                    </tr>
+                    @*<tr>
+                        <td align="right"><label for="styletype" class="control-label">风格要求：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="styletype" name="styletype" value="@(Model?.StyleType ?? "")"
+                                       readonly="readonly" style="width:250px;">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">细节类型：</label></td>
+                        <td>
+                            <select id="detailtypeid" name="detailtypeid" class="layui-select" style="max-width:250px;" disabled="true">
+                                @if (detailtypelist != null && detailtypelist.Count > 0)
+                                {
+                                    <option value="0">请选择</option>
+                                    foreach (var item in detailtypelist)
+                                    {
+                                        <option value="@item.ClassId" @(Model.DetailTypeId == item.ClassId ? "selected=\"selected\"" : "")>@item.Name</option>
+                                    }
+                                }
+                            </select>
+                        </td>
+                    </tr>*@
+                    <tr>
+                        <td align="right"><label for="content" class="control-label">具体描述：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <textarea class="form-control" id="content" name="content" type="text/plain" style="height:80px;"
+                                          readonly="readonly">@(Model?.Content ?? "")</textarea>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="submittername" class="control-label">提交人：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="submittername" name="submittername" required="required" style="width:250px;"
+                                       value="@(Model != null ? Model.SubmitterName : "")" readonly="readonly">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="departmentname" class="control-label">所属部门：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="departmentname" name="departmentname" style="width:250px;"
+                                       value="@(Model != null ? Model.DepartmentName: "")" readonly="readonly">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="duedate" class="control-label">需求日期：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="duedate" name="duedate" required="required" style="width:250px;"
+                                       value="@(Model != null ? Model.DueDate.Value.ToString("yyyy-MM-dd") : "")" readonly="readonly">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="phone" class="control-label">联系方式：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="phone" name="phone" placeholder="手机号" value="@(Model?.Phone)"
+                                       style="width:250px;" readonly="readonly">
+                            </div>
+                        </td>
+                    </tr>
+                    @if (Model.Uri1 != null && Model.Uri1 != "")
+                    {
+                        <tr>
+                            <td align="right"><label for="phone" class="control-label">需求附件：</label></td>
+                            <td>
+                                <div class="form-group">
+                                    <a href="@(Model?.Uri1)" class="btn btn-primary">下载需求附件</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td align="right"><label for="estimatedstartdate" class="control-label">预计开始日期：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="estimatedstartdate" name="estimatedstartdate" placeholder="预计开始日期" required="required" value="@(Model != null ? Model.EstimatedStartDate?.ToString("yyyy-MM-dd HH:mm:ss") : "")"
+                                       readonly="readonly" style="width:200px;background-color:#fff;">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="estimatedstartdate" class="control-label">预计完成日期：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="estimatedenddate" name="estimatedenddate" placeholder="预计结束日期" required="required" value="@(Model != null ? Model.EstimatedEndDate?.ToString("yyyy-MM-dd HH:mm:ss") : "")"
+                                       readonly="readonly" style="width:200px;background-color:#fff;">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="estimatedstartdate" class="control-label">完成时间段：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="radio" id="1" name="ampm" value="1" @(Model.AMPM == 1 ? "checked" : "") @(Model.AMPM == null ? "checked" : "")>
+                                <label for="1" class="input_radio">上午</label>
+                                <input type="radio" id="2" name="ampm" value="2" @(Model.AMPM == 2 ? "checked" : "")>
+                                <label for="2" class="input_radio">下午</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="phone" class="control-label">设计师：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @if (designerList != null && designerList.Any())
+                                {
+                                    for (int i = 0; i < designerList.Count; i++)
+                                    {
+                                        var item = designerList[i];
+                                        <input type="radio" id="@(item.Id)" name="designerid" value="@(item.Id)" @((item.Id == Model.DesignerId) ? "checked" : "")
+                                               @((Model.DesignerId == null && i == 0) ? "checked" : "")>
+                                        <label for="@(item.Id)" class="input_radio">@(item.RealName)</label>
+                                    }
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"></td>
+                        <td>
+                            <input type="hidden" id="id" name="id" value="@(Model?.Id ?? 0)">
+                            <input type="hidden" id="display" name="display" value="@(Model?.Display ?? 1)">
+                            <button type="submit" id="btnPass" class="btn btn-primary">保存</button>
+                            <button type="button" id="cancel" class="btn btn-default" onclick="CloseWin()">取消</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+@section Js{
+    <script src="/Content/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/jquery.validator.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/messages_cn.js"></script>
+    <script src="/Content/js/common/tools.js"></script>
+    <script>
+        layui.use(['layer', 'laydate'], function () {
+            var layer = layui.layer;
+            var laydate = layui.laydate;
+            //iCheck初始化
+            $('input[type="checkbox"],input[type="radio"]').iCheck({
+                checkboxClass: 'icheckbox_flat-blue',
+                radioClass: 'iradio_flat-blue'
+            });
+
+            //日期控件
+            $("#estimatedstartdate").click(function () {
+                laydate({
+                    elem: this,
+                    type: 'date',
+                    min: laydate.now(),
+                    format: 'YYYY-MM-DD hh:mm:ss',
+                    choose: function (dates) {
+                        end.min = dates; //开始日选好后，重置结束日的最小日期
+                        end.start = dates //将结束日的初始值设定为开始日
+                    }
+                });
+            });
+
+            var end = {
+                type: 'date',
+                format: 'YYYY-MM-DD'
+            };
+            //双击进入时设计结束日的初始值
+            if ('@ViewBag.StartDate' != '')
+            {
+                end.min = '@ViewBag.StartDate';
+                end.start = '@ViewBag.StartDate'
+            }
+
+            $("#estimatedenddate").click(function () {
+                end.elem = this;
+                laydate(end);
+            });
+
+            //表单验证
+            var $form = $("#mainform");
+            $form.validate();
+
+            //通过
+            $("#btnPass").click(function () {
+                $("#demandtypeid").attr("disabled", false);
+                $("#detailtypeid").attr("disabled", false);
+                $form.valid();
+            });
+        })
+    </script>
+}
+
+
+
+

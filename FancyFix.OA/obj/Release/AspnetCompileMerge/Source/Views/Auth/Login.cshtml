@@ -34,43 +34,41 @@
     </style>
 </head>
 <body class="login-page" style="background-color:#3c8dbc">
-
-            <div class="login-box">
-                <div class="login-logo">
-                    <a href="/"><i style="color:#fff;display:block; font-style:normal;">MNA OA </i></a>
+    <div class="login-box">
+        <div class="login-logo">
+            <a href="/"><i style="color:#fff;display:block; font-style:normal;">MNA OA </i></a>
+        </div>
+        <div class="login-box-body">
+            <div class="canvas"></div>
+            <p class="login-box-msg">Sign in to start your session</p>
+            <form action="/auth/signin" method="post" onsubmit="return Sign()">
+                <div class="form-group has-feedback">
+                    <input type="text" class="form-control" name="username" placeholder="用户名" value="@ViewBag.username" required="required">
+                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                 </div>
-                <div class="login-box-body">
-                    <div class="canvas"></div>
-                    <p class="login-box-msg">Sign in to start your session</p>
-                    <form action="/auth/signin" method="post" onsubmit="return Sign()">
-                        <div class="form-group has-feedback">
-                            <input type="text" class="form-control" name="username" placeholder="用户名" value="@ViewBag.username" required="required">
-                            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-                        </div>
-                        <div class="form-group has-feedback">
-                            <input type="password" class="form-control" name="password" placeholder="密码" required="required">
-                            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-                        </div>
-                        @if (showCode)
-                        {
-                            <div class="row form-group">
-                                <div class="col-xs-8">
-                                    <input type="text" class="form-control" name="checkcode" placeholder="验证码" required="required">
-                                </div>
-                                <div class="col-xs-4">
-                                    <img id="imgcode" alt="点击刷新验证码" src="../common/verifyimage.aspx" onclick="this.src=this.src+'?'+ Math.random();" style="cursor:pointer;" />
-                                </div>
-                            </div>
-                        }
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <button type="submit" id="btnLogin" class="btn btn-primary btn-block btn-flat">Sign In</button>
-                            </div>
-                        </div>
-                    </form>
+                <div class="form-group has-feedback">
+                    <input type="password" class="form-control" name="password" placeholder="密码" required="required">
+                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                 </div>
-            </div>
- 
+                @if (showCode)
+                {
+                    <div class="row form-group">
+                        <div class="col-xs-8">
+                            <input type="text" class="form-control" name="checkcode" placeholder="验证码" required="required">
+                        </div>
+                        <div class="col-xs-4">
+                            <img id="imgcode" alt="点击刷新验证码" src="../common/verifyimage.aspx" onclick="this.src=this.src+'?'+ Math.random();" style="cursor:pointer;" />
+                        </div>
+                    </div>
+                }
+                <div class="row">
+                    <div class="col-xs-12">
+                        <button type="submit" id="btnLogin" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
     <script src="/Content/js/plugins/jQuery/jquery-2.2.3.min.js"></script>
     <script src="/Content/js/bootstrap/bootstrap.min.js"></script>
     <script src="/Content/js/plugins/particle/js/jparticles.min.js"></script>

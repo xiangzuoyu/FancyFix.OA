@@ -1,0 +1,92 @@
+﻿@model int
+@{
+    ViewBag.Title = "DaCall";
+    Layout = "~/Views/Shared/_Layout_In.cshtml";
+}
+
+@section Css{
+    <link href="~/Content/css/starability/starability-all.min.css" rel="stylesheet" />
+    <style>
+        body {
+            background: #494A5F;
+            color: #D5D6E2;
+            font-weight: 500;
+            font-size: 1.05em;
+            font-family: "Microsoft YaHei","宋体","Segoe UI", "Lucida Grande", Helvetica, Arial,sans-serif, FreeSans, Arimo;
+        }
+
+        a {
+            color: #2fa0ec;
+            outline: none;
+            text-decoration: none;
+        }
+
+            a:hover, a:focus {
+                color: #74777b;
+                text-decoration: none;
+            }
+
+        .content {
+            width: 100%;
+            min-height: 0;
+        }
+
+        .starability-container {
+            width: 350px;
+            margin: 0 auto;
+            padding: 2em 0;
+            border-bottom: 1px solid #D5D6E2;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .starability-checkmark {
+            width: 320px;
+        }
+    </style>
+
+}
+<form id="mainform" action="/arttask/arttasklist/dacall" method="post">
+    <fieldset class="starability-checkmark">
+        <legend style="font-weight:100;">请为设计师打分:</legend>
+        <input type="radio" id="rate10" name="rating" value="100">
+        <label for="rate10" title="100分"></label>
+
+        <input type="radio" id="rate9" name="rating" value="90">
+        <label for="rate9" title="90分"></label>
+
+        <input type="radio" id="rate8" name="rating" value="80">
+        <label for="rate8" title="80分"></label>
+
+        <input type="radio" id="rate7" name="rating" value="70">
+        <label for="rate7" title="70分"></label>
+
+        <input type="radio" id="rate6" name="rating" value="60">
+        <label for="rate6" title="60分"></label>
+
+        <input type="radio" id="rate5" name="rating" value="50">
+        <label for="rate5" title="50分"></label>
+
+        <input type="radio" id="rate4" name="rating" value="40">
+        <label for="rate4" title="40分"></label>
+
+        <input type="radio" id="rate3" name="rating" value="30">
+        <label for="rate3" title="30分"></label>
+
+        <input type="radio" id="rate2" name="rating" value="20">
+        <label for="rate2" title="20分"></label>
+
+        <input type="radio" id="rate1" name="rating" value="10">
+        <label for="rate1" title="10分"></label>
+    </fieldset>
+    <label style="color: #333;font-size: 20px; margin-top:10px;font-weight:100;">评语：</label>
+    <textarea class="form-control" id="content" name="comment" type="text/plain" style="height:80px;"></textarea>
+
+    <input type="hidden" id="id" name="id" value="@(Model)">
+    <button type="submit" id="btnPass" class="btn btn-primary" style="float: right;margin-top: 10px;">保存</button>
+</form>
+@section Js{
+    <script src="/Content/js/common/tools.js"></script>
+}

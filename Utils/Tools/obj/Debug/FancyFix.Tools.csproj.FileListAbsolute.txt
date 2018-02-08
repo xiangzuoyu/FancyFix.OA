@@ -103,3 +103,7 @@ F:\Git\FancyFix.OA\Utils\Tools\obj\Debug\Tools.pdb
 F:\Git\FancyFix.OA\Utils\Tools\bin\Debug\Dos.Common.pdb
 F:\Git\FancyFix.OA\Utils\Tools\bin\Debug\Dos.Common.xml
 F:\Git\FancyFix.OA\Utils\Tools\obj\Debug\FancyFix.Tools.csproj.CoreCompileInputs.cache
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\Utils\Tools\bin\Debug\Dos.Common.dll
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\Utils\Tools\bin\Debug\Dos.Common.pdb
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\Utils\Tools\bin\Debug\Dos.Common.xml
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\Utils\Tools\obj\Debug\FancyFix.Tools.csprojResolveAssemblyReference.cache

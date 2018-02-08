@@ -8,7 +8,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
-    <ProjectGuid>aee14a3a-fafb-4109-ac25-fff68c3fa7ff</ProjectGuid>
+    <ProjectGuid>bd086a53-a609-4edf-a465-2327a583ff1d</ProjectGuid>
     <!-- update GUID here -->
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -83,6 +83,10 @@
     <Reference Include="System.Web">
       <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.2\System.Web.dll</HintPath>
       <Aliases>global</Aliases>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Dos.DataAccess">
+      <HintPath>E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\Utils\Doc.ORM\DataAccess\bin\Debug\Dos.DataAccess.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="Microsoft.CSharp">

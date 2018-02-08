@@ -108,3 +108,5 @@ E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\obj\Debug\Fake
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\obj\Debug\Fakes\dorm\o\f.csprojResolveAssemblyReference.cache
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\obj\Debug\Fakes\fakes.args
 E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\obj\Debug\FancyFix.OA.Model.csprojResolveAssemblyReference.cache
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\bin\Debug\Dos.DataAccess.dll
+E:\workspace\Fancy-fix\源代码\OA\FancyFix.OA\FancyFix.OA.Model\bin\Debug\Dos.DataAccess.pdb

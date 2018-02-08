@@ -1,0 +1,399 @@
+﻿@using FancyFix.OA.Model;
+@model Design_ArtTaskList
+@{
+    ViewBag.Title = "ShowCalendar";
+    Layout = "~/Views/Shared/_Layout_In.cshtml";
+    List<Mng_User> designerList = ViewBag.designerList;
+}
+
+@section Css{
+    <link href="~/Content/css/calendar/style.css?3" rel="stylesheet" />
+    <style type="text/css">
+        .tb960x90, .tb300x250 {
+            display: none !important;
+            display: none
+        }
+
+        #calendar .container {
+            width: 100%;
+        }
+
+        #renderMonth .day li {
+            width: 14.27%;
+            cursor:pointer;
+        }
+
+        #control input {
+            height: 25px;
+        }
+
+        .btn {
+            line-height: 0.428571;
+        }
+
+        #renderMonth .week li {
+            right: 0;
+        }
+
+        .sidebar {
+            padding-bottom: 0;
+        }
+
+        #calendar .btns input.funBtn {
+            width: 52px;
+            height: 25px;
+        }
+
+            #calendar .btns input.funBtn.checked {
+                background-color: #5FB878;
+                color: #fff;
+            }
+
+        .nowTask {
+            float: right;
+        }
+
+            .nowTask b {
+                color: #FF5722;
+            }
+
+        #renderMonth .day li {
+            /*overflow: hidden;
+            text-overflow: ellipsis;*/
+            white-space: nowrap;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .taskTitle {
+            color: #5FB878;
+            font-size: 12px;
+        }
+
+            .taskTitle em {
+                display: inline-block;
+                width: 20px;
+                height: 20px;
+                line-height: 20px;
+                margin-right: 2px;
+                text-align: center;
+                color: #fff;
+                background-color: #FF5722;
+                border-radius: 50%;
+            }
+
+                .taskTitle em.AM {
+                    background-color: #46b0ff;
+                }
+
+                .taskTitle em.PM {
+                    background-color: #7b838f;
+                }
+
+                .taskTitle em.Name72 {
+                    background-color: #009688;
+                }
+
+                .taskTitle em.Name73 {
+                    background-color: #d91717;
+                }
+
+                .taskTitle em.Name84 {
+                    background-color: #098d03;
+                }
+    </style>
+}
+
+<div id="calendar">
+    <div class="btns">
+        @if (designerList != null && designerList.Any())
+        {
+            for (int i = 0; i < designerList.Count; i++)
+            {
+                var item = designerList[i];
+                if (ViewBag.CurrentDesigner > 0)
+                {
+                    <span class="layui-btn layui-btn-small @(ViewBag.CurrentDesigner == item.Id ? "":"layui-btn-primary")" data-id="@(item.Id)">@(item.RealName)</span>
+                }
+                else
+                {
+                    <span class="layui-btn layui-btn-small @(i==0?"":"layui-btn-primary")" data-id="@(item.Id)">@(item.RealName)</span>
+                }
+            }
+        }
+        <span class="layui-btn layui-btn-small layui-btn-primary" data-id="0">全部</span>
+        <div style="text-align:center;">
+            <span style="margin-left:50px;color:#1E9FFF;">进行中</span>
+            <span style="margin-left:10px;color:#5FB878;">已完成</span>
+            <span style="margin-left:10px;color:#FF5722;">已超时</span>
+        </div>
+        <span class="nowTask">当前选中需求：<b>@(Model != null ? (Model?.Title) : "无")</b></span>
+    </div>
+
+    <aside class="sidebar" style="display:none;">
+        <div class="wrapper">
+            <div class="title">
+                <span class="btn btn-prev"><</span>
+                <span class="date">2017年9月</span>
+                <span class="btn btn-next">></span>
+            </div>
+            <ul class="week">
+                <li>日</li>
+                <li>一</li>
+                <li>二</li>
+                <li>三</li>
+                <li>四</li>
+                <li>五</li>
+                <li>六</li>
+            </ul>
+            <ul class="day"></ul>
+        </div>
+    </aside>
+
+    <div class="container">
+        <div id="renderMonth" class="render render-show">
+            <h2 class="title">2017年9月</h2>
+            <ul class="week">
+                <li>周日</li>
+                <li>周一</li>
+                <li>周二</li>
+                <li>周三</li>
+                <li>周四</li>
+                <li>周五</li>
+                <li>周六</li>
+            </ul>
+            <ul class="day" style="border-left: 1px solid #e6e5e6;border-top: 1px solid #e6e5e6;"></ul>
+        </div>
+        <div id="renderFullYear" class="render">
+            <div class="title">
+                <h2>2017年</h2>
+                <p>
+                    <span class="lunar-year"><i></i>丁酉鸡年</span>
+                    <span class="info"><i></i>农历初一</span>
+                </p>
+            </div>
+            <ul class="month"></ul>
+        </div>
+
+        <div id="control">
+            <input type="button" value="上一月" class="btn btn-prev" style="width:70px;">
+            <input type="button" value="回到本月" class="today" style="width:80px;">
+            <input type="button" value="下一月" class="btn btn-next" style="width:70px;">
+        </div>
+        <div id="popup">
+            <h3 class="title">七夕节</h3>
+            <i class="arrow arrow-left"></i>
+            <i class="arrow arrow-right"></i>
+            <p class="date">2017年8月28日</p>
+            <p class="lunar">丁酉鸡年</p>
+        </div>
+    </div>
+</div>
+
+@section Js{
+    <script>
+        //用于日历翻页时触发的空方法
+        CalenderExpandEvent = {
+            clickAfterEvent: function () { }
+        }
+    </script>
+    <script src="~/Content/js/calendar/tools.js"></script>
+    @*<script src="~/Content/js/calendar/ChineseCalendar.js"></script>*@
+    <script src="~/Content/js/calendar/calender.js?1"></script>
+    <script src="/Content/js/common/tools.js"></script>
+    <script>
+        layui.use(['layer', 'laydate'], function () {
+            //var layer = layui.layer;
+            //双击弹出窗体分配需求
+            //事业部双击日历进入新增页面，设计部双击日历进入分配页面
+            $("#renderMonth .day").on('dblclick', 'li', function () {
+                var datetime = $(this).attr("data-time");
+                //console.log(datetime)
+                var url = "/arttask/arttasklist/"
+                    + (('@ViewBag.TaskId' > 0)
+                        ? "edit/" + ('@ViewBag.TaskId' + "?datetime=" + datetime + "&designerId=" + getTasklist.parameter.designerId)
+                    : "insert");
+
+                OpenWin("分配需求", url , '70%', '90%');
+            });
+
+            getTasklist.init();
+
+            //详细提示
+            var tip;
+            $("#calendar").on('mouseover', 'span.taskTitle', function () {
+                var title = $(this).attr("title");
+                var color = $(this).css("color");
+                var name = $(this).find("[class^=Name]").text();
+                if (name && name != '')
+                    title = name + ": " + title;
+                tip = layer.tips(title, $(this), {
+                    tips: [1, color],
+                    time: 4000
+                });
+            }).on('mouseout', 'span.taskTitle', function () {
+                if (tip) {
+                    layer.close(tip);
+                }
+            }).on('click', 'span.taskTitle', function () {
+                var id = $(this).data("id");
+                OpenWin("需求详细", "/arttask/arttasklist/seedetails/" + id, '90%', '85%');
+            })
+        })
+
+        //初始化快捷方式选择设计师
+        document.onkeydown = function (event) {
+            var e = event || window.event || arguments.callee.caller.arguments[0];
+            var No = e.keyCode - 49;
+            //console.log($('#calendar .btns .layui-btn'))
+            var arr = $('#calendar .btns .layui-btn');
+            if (No < arr.length)
+                $(arr[No]).trigger("click");
+        };
+
+        var getTasklist = {
+            designerData: null,
+            parameter: {
+                designerId: 0,
+                starttime: '',
+                endtime: ''
+            },
+            init: function () {
+                //默认加载第一位设计师需求
+                getTasklist.parameter.designerId = @ViewBag.CurrentDesigner > 0 ? @ViewBag.CurrentDesigner : $(".layui-btn.layui-btn-small").first().attr("data-id");
+
+                getTasklist.loadDateTime();
+
+                //绑定选择设计师按钮
+                $(".layui-btn.layui-btn-small").on('click', function () {
+                    var id = $(this).attr("data-id");
+                    if (getTasklist.parameter.designerId == id)
+                        return;
+
+                    //设置样式
+                    $(".layui-btn.layui-btn-small").addClass("layui-btn-primary")
+                    $(this).removeClass("layui-btn-primary");
+                    //修改选中的设计师ID
+                    getTasklist.parameter.designerId = id;
+                    getTasklist.eachTask();
+                    //console.log(getTasklist.parameter.designerId)
+                })
+
+                $("#control>input").on('click', function () {
+                    getTasklist.eachTask();
+                });
+
+                //绑定日期翻页事件
+                //修改预先绑定的日历翻页时触发的事件
+                CalenderExpandEvent.clickAfterEvent = function () {
+                    getTasklist.loadDateTime();
+                    getTasklist.eachTask();
+                }
+
+                getTasklist.ajax();
+            },
+            //设置当前日历页面需要加载的日期
+            loadDateTime: function () {
+                getTasklist.parameter.starttime = $("#renderMonth .day li").first().attr("data-time");
+                getTasklist.parameter.endtime = $("#renderMonth .day li").last().attr("data-time");
+                //console.log(getTasklist.parameter.starttime, getTasklist.parameter.endtime);
+            },
+            ajax: function () {
+                $.get('/arttask/arttasklist/tasklist', getTasklist.parameter, function (data) {
+                    getTasklist.designerData = data;
+                    getTasklist.eachTask();
+                })
+            },
+            //
+            eachTask: function () {
+                //清空原来的记录
+                $("#renderMonth .day li>span").remove();
+                for (var i = 0; i < getTasklist.designerData.result.length; i++) {
+                    var model = getTasklist.designerData.result[i];
+
+                    if (getTasklist.parameter.designerId == 0)
+                        getTasklist.SetTaskHtml(model);
+                    else if (getTasklist.parameter.designerId == model.DesignerId.toString())
+                        getTasklist.SetTaskHtml(model);
+                }
+            },
+            SetTaskHtml: function (model) {
+                var arr = getTasklist.getEachDate(model.EstimatedStartDate, model.EstimatedEndDate);
+                //var randomColor = getTasklist.getRandomColor();
+                var StatesColor = getTasklist.getTaskStateColor(model.Display, model.EstimatedEndDate);
+                for (var j = 0; j < arr.length; j++) {
+                    var html = '';
+                    html += '<span data-id=\'' + model.Id +'\' class=\"taskTitle\" style=\'color:' + StatesColor + '\' title=\"' + model.Title + '\">';
+                    //前面加设计师名字
+
+                    //全部显示时加上名字
+                    if (getTasklist.parameter.designerId == 0)
+                        html += "<em class=\"Name" + model.DesignerId + "\">" + getTasklist.getNameFormat(model.DesignerName) + "</em>"
+
+                    //最后一天要加上下午
+                    if (j == (arr.length - 1))
+                        html += model.AMPM == 1 ? " <em class=\"AM\">上</em> " : " <em class=\"PM\">下</em> ";
+                    html += model.Title + '<br/></span>';
+                    $("[data-time=" + arr[j] + "]").append(html);
+                }
+            },
+            //遍历两个日期之间的所有日期返回数组
+            getEachDate: function (start, end) {
+                var startTime = new Date(Number(start.replace('/Date(', '').replace(')/', '')));
+                var endTime = new Date(Number(end.replace('/Date(', '').replace(')/', '')));
+                var i = 0;
+                var arr = new Array();
+                while ((endTime.getTime() - startTime.getTime()) >= 0) {
+                    var year = startTime.getFullYear();
+                    var month = startTime.getMonth() + 1;
+                    month = month < 10 ? "0" + month : month;
+                    var day = startTime.getDate().toString().length == 1 ? "0" + startTime.getDate() : startTime.getDate();
+                    var vardate = year + '-' + month + "-" + day;
+                    arr[i] = vardate;
+                    startTime.setDate(startTime.getDate() + 1);
+                    i++;
+                }
+                return arr;
+            },
+            //子页面添加成功后调用的方法
+            addDataSuccess: function () {
+                getTasklist.ajax();
+                parent.$table.bootstrapTable('refresh');
+            },
+            //子页面添加失败后调用的方法
+            addDataFail: function () {
+                parent.$table.bootstrapTable('refresh');
+                var w = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(w);
+            },
+            //根据状态返回字体颜色
+            getTaskStateColor: function (states, endtime) {
+                endtime = new Date(Number(endtime.replace('/Date(', '').replace(')/', '')));
+                var color = "";
+                switch (states) {
+                    case 2:
+                        color = "#1E9FFF";
+                        //console.log(endtime > new Date());
+                        if (endtime < new Date())
+                            color = "#FF5722"
+
+                        break;
+                    case 3:
+                        color = "#5FB878";
+                        break;
+                    default:
+                        color = "";
+                        break;
+                }
+                return color;
+            },
+            //根据设计师ID获取设计师名称
+            getNameFormat: function (name) {
+                var len = name.length;
+                if (len < 1)
+                    return "密";
+                return name[len - 1];
+            }
+        }
+    </script>
+}

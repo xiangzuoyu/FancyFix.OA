@@ -1,0 +1,138 @@
+﻿@using FancyFix.OA.Model;
+@model Questionnaire_DISC
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout_In.cshtml";
+    var disclist = FancyFix.Tools.Tool.JsonHelper.Deserialize<FancyFix.Tools.Json.DISC>(Model?.DISC ?? "");
+}
+@section Css{
+    <link href="/Content/js/plugins/iCheck/flat/_all.css" rel="stylesheet" />
+    <style>
+        .form-group {
+            margin-bottom: 0;
+        }
+    </style>
+}
+<div class="row">
+    <div class="col-md-12">
+        <form id="mainform" action="/questionnaire/disc/save" method="post">
+            <table class="layui-table">
+                <!--列宽度-->
+                <colgroup>
+                    <col class="col-lg-2">
+                    <col class="col-lg-10">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">设置选项：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <table id="tb_sku" cellpadding="0" cellspacing="1" class="layui-table">
+                                    <tbody>
+                                        @if (disclist != null && disclist.Count > 0)
+                                        {
+                                            foreach (var item in disclist)
+                                            {
+                                                <tr>
+                                                    <th align="right">
+                                                        @item.n
+                                                        <input type="hidden" name="name" class="form-control" value="@item.n">
+                                                    </th>
+                                                    <td>
+                                                        <div class="form-inline">
+                                                            <input type="text" style="width:400px" name="@(item.n)_value" value="@item.v" class="form-control" required="required">
+                                                            <input type="button" value="↑" class="btn btn-default" onclick="Up(this)">
+                                                            <input type="button" value="↓" class="btn btn-default" onclick="Down(this)">
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            var disc = new string[] { "D", "I", "S", "C" };
+                                            for (int i = 0; i < 4; i++)
+                                            {
+                                                <tr>
+                                                    <th align="right">
+                                                        @disc[i]
+                                                        <input type="hidden" name="name" class="form-control" value="@disc[i]">
+                                                    </th>
+                                                    <td>
+                                                        <div class="form-inline">
+                                                            <input type="text" style="width:400px" name="@(disc[i])_value" value="" class="form-control" required="required">
+                                                            <input type="button" value="↑" class="btn btn-default" onclick="Up(this)">
+                                                            <input type="button" value="↓" class="btn btn-default" onclick="Down(this)">
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label class="control-label">是否显示：</label></td>
+                        <td>
+                            <input type="checkbox" class="form-control" name="isshow" @(Model?.IsShow ?? false ? "checked=\"checked\"" : "") value="true">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"></td>
+                        <td>
+                            <input type="hidden" id="id" name="id" value="@(Model?.Id ?? 0)">
+                            <button type="submit" id="btnPass" class="btn btn-primary">保存</button>
+                            <button type="button" id="cancel" class="btn btn-default" onclick="CloseWin()">取消</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+@section Js{
+    <script src="/Content/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/jquery.validator.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/messages_cn.js"></script>
+    <script src="/Content/js/common/tools.js"></script>
+    <script>
+        layui.use(['layer'], function () {
+            var layer = layui.layer;
+
+            //iCheck初始化
+            $('input[type="checkbox"],input[type="radio"]').iCheck({
+                checkboxClass: 'icheckbox_flat-blue',
+                radioClass: 'iradio_flat-blue'
+            });
+
+            //表单验证
+            var $form = $("#mainform");
+            $form.validate();
+
+            //通过
+            $("#btnPass").click(function () {
+                $form.valid();
+            });
+        })
+
+        //上移
+        function Up(obj) {
+            var objParentTR = $(obj).parents("tr").eq(0);
+            var prevTR = objParentTR.prev();
+            if (prevTR.length > 0) {
+                prevTR.insertAfter(objParentTR);
+            }
+        }
+
+        //下移
+        function Down(obj) {
+            var objParentTR = $(obj).parents("tr").eq(0);
+            var nextTR = objParentTR.next();
+            if (nextTR.length > 0) {
+                nextTR.insertBefore(objParentTR);
+            }
+        }
+    </script>
+}

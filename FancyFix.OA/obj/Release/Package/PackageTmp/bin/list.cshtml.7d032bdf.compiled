@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<preserve resultType="2" virtualPath="/Areas/Questionnaire/Views/Subject/List.cshtml" hash="ffffffffbd170dc0" filehash="ffffe556455dfbbf" flags="110000" assembly="App_Web_01id0mnu" type="ASP._Page_Areas_Questionnaire_Views_Subject_List_cshtml">
+    <filedeps>
+        <filedep name="/Areas/Questionnaire/Views/Subject/List.cshtml" />
+    </filedeps>
+</preserve>

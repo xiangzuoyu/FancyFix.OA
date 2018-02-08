@@ -1,0 +1,101 @@
+﻿@using FancyFix.OA.Model;
+@model Questionnaire_Subject
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout_In.cshtml";
+}
+@section Css{
+    <link href="/Content/js/plugins/iCheck/flat/_all.css" rel="stylesheet" />
+    <style>
+        .form-group {
+            margin-bottom: 0;
+        }
+    </style>
+}
+<div class="row">
+    <div class="col-md-12">
+        <form id="mainform" action="/questionnaire/subject/save" method="post">
+            <table class="layui-table">
+                <!--列宽度-->
+                <colgroup>
+                    <col class="col-lg-2">
+                    <col class="col-lg-10">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">标题：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="title" name="title" placeholder="标题" value="@(Model?.Title ?? "")" required="required" style="width:100%;">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">简介：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <textarea class="form-control" id="remark" name="remark" type="text/plain" placeholder="简介" style="height:80px;">@(Model?.Remark ?? "")</textarea>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">时间限制(秒)：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="timelimit" name="timelimit" placeholder="时间限制" value="@(Model?.Timelimit ?? 0)"  style="width:60px;" number="true">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">总分：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="score" name="score" placeholder="总分" value="@(Model?.Score ?? 0)" required="required" style="width:60px;" number="true">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label class="control-label">是否显示：</label></td>
+                        <td>
+                            <input type="checkbox" class="form-control" name="isshow" @(Model?.IsShow ?? false ? "checked=\"checked\"" : "") value="true">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"></td>
+                        <td>
+                            <input type="hidden" id="id" name="id" value="@(Model?.Id ?? 0)">
+                            <button type="submit" id="btnPass" class="btn btn-primary">保存</button>
+                            <button type="button" id="cancel" class="btn btn-default" onclick="CloseWin()">取消</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+@section Js{
+    <script src="/Content/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/jquery.validator.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/messages_cn.js"></script>
+    <script src="/Content/js/common/tools.js"></script>
+    <script>
+        layui.use(['layer'], function () {
+            var layer = layui.layer;
+
+            //iCheck初始化
+            $('input[type="checkbox"],input[type="radio"]').iCheck({
+                checkboxClass: 'icheckbox_flat-blue',
+                radioClass: 'iradio_flat-blue'
+            });
+
+            //表单验证
+            var $form = $("#mainform");
+            $form.validate();
+
+            //通过
+            $("#btnPass").click(function () {
+                $form.valid();
+            });
+        })
+    </script>
+}

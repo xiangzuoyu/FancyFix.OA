@@ -1,0 +1,233 @@
+﻿@using FancyFix.OA.Model;
+@model Questionnaire_Info
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout_In.cshtml";
+    List<string> options = null;
+    List<string> optionCheck = new List<string>();
+    byte type = (byte)(Model?.Type ?? 0);
+    if (Model != null)
+    {
+        optionCheck = Model.Answer.Split(',').ToList();
+        options = Model.Options.Split(',').ToList();
+    }
+}
+@section Css{
+    <link href="/Content/js/plugins/iCheck/flat/_all.css" rel="stylesheet" />
+    <style>
+        .form-group {
+            margin-bottom: 0;
+        }
+    </style>
+}
+<div class="row">
+    <div class="col-md-12">
+        <form id="mainform" action="/questionnaire/info/save" method="post">
+            <table class="layui-table">
+                <!--列宽度-->
+                <colgroup>
+                    <col class="col-lg-2">
+                    <col class="col-lg-10">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">标题：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="title" name="title" placeholder="标题" value="@(Model?.Title ?? "")" required="required" style="width:100%;">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">类型：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <select id="type" name="type" class="form-control" style="width:120px;">
+                                    @Html.Raw(ViewBag.typeHtml)
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">设置选项：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <table id="tb_sku" cellpadding="0" cellspacing="1" class="layui-table">
+                                    <tbody>
+                                        @if (options != null && options.Count > 0)
+                                        {
+                                            for (int i = 0; i < options.Count; i++)
+                                            {
+                                                bool isChecked = optionCheck.Contains(options[i]);
+                                                <tr>
+                                                    <th align="right">
+                                                        <input type="checkbox" @(isChecked ? "checked" : "") name="optionCheck" class="form-control" value="@(isChecked?options[i]:"")">
+                                                    </th>
+                                                    <td>
+                                                        <div class="form-inline">
+                                                            <input type="text" style="width:150px" name="option" value="@options[i]" class="form-control" required="required">
+                                                            <input type="button" value="↑" class="btn btn-default" onclick="Up(this)">
+                                                            <input type="button" value="↓" class="btn btn-default" onclick="Down(this)">
+                                                            <a href="javascript:void(0)" onclick="Del(this)" class="btn btn-danger btn-sm">删 除</a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <tr>
+                                                <th align="right">
+                                                    <input type="checkbox" name="optionCheck" class="form-control" value="">
+                                                </th>
+                                                <td>
+                                                    <div class="form-inline">
+                                                        <input type="text" style="width:150px" name="option" value="" class="form-control" required="required">
+                                                        <input type="button" value="↑" class="btn btn-default" onclick="Up(this)">
+                                                        <input type="button" value="↓" class="btn btn-default" onclick="Down(this)">
+                                                        <a href="javascript:void(0)" onclick="Del(this)" class="btn btn-danger btn-sm">删 除</a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                        <tr id="addoptions">
+                                            <th></th>
+                                            <td>
+                                                <a href="javascript:void(0)" class="btn btn-default" onclick="Add(this)"><i class="fa fa-plus"></i> 添加</a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="2">
+                                                <span class="layui-word-aux">提示：正确答案请勾选，文本类型可以不勾</span>
+                                                <span class="layui-word-aux">(从上往下，为ABCDE...排列)</span>
+                                            </th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">分值：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="score" name="score" placeholder="分值" value="@(Model?.Score ?? 1)" required="required" style="width:60px;" number="true">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">解答过程：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <textarea class="form-control" id="remark" name="remark" type="text/plain" placeholder="解答过程" style="height:100px;">@(Model?.Remark ?? "")</textarea>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label class="control-label">是否显示：</label></td>
+                        <td>
+                            <input type="checkbox" class="form-control" name="isshow" @(Model?.IsShow ?? false ? "checked=\"checked\"" : "") value="true">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"></td>
+                        <td>
+                            <input type="hidden" id="id" name="id" value="@(Model?.Id ?? 0)">
+                            <input type="hidden" id="subjectId" name="subjectId" value="@ViewBag.subjectId">
+                            <button type="submit" id="btnPass" class="btn btn-primary">保存</button>
+                            <button type="button" id="cancel" class="btn btn-default" onclick="CloseWin()">取消</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+@section Js{
+    <script src="/Content/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/jquery.validator.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/messages_cn.js"></script>
+    <script src="/Content/js/common/tools.js"></script>
+    <script>
+        layui.use(['layer'], function () {
+            var layer = layui.layer;
+
+            //iCheck初始化
+            $('input[type="checkbox"],input[type="radio"]').iCheck({
+                checkboxClass: 'icheckbox_flat-blue',
+                radioClass: 'iradio_flat-blue'
+            });
+
+            //表单验证
+            var $form = $("#mainform");
+            $form.validate();
+
+            //通过
+            $("#btnPass").click(function () {
+                $form.valid();
+            });
+
+            $("#tb_sku").on('ifChecked ifUnchecked', "input[name=optionCheck]", function (event) {
+                var $this = $(event.target);
+                if (event.type == 'ifChecked') {
+                    var value = $this.parents("tr").eq(0).find("input[name=option]").val();
+                    $this.val(value);
+                } else {
+                    $this.val('');
+                }
+            });
+
+            $("#tb_sku").on('keyup', "input[name=option]", function (event) {
+                var value = $(this).val();
+                var $checkbox = $(this).parents("tr").eq(0).find("input[name=optionCheck]");
+                if ($checkbox.prop("checked")) {
+                    $checkbox.val(value);
+                }
+            });
+        })
+
+        //添加
+        function Add(obj) {
+            var html = "<tr>";
+            html += "<th align='right'>";
+            html += "     <input type=\"checkbox\" name=\"optionCheck\" class=\"form-control\" value=\"\">";
+            html += "</th>";
+            html += "<td><div class='form-inline'>";
+            html += "    <input type='text' style='width:150px' name='option' value='' class='form-control' required='required'>";
+            html += "    <input type=\"button\" value=\"↑\" class=\"btn btn-default\" onclick='Up(this)'>";
+            html += "    <input type=\"button\" value=\"↓\" class=\"btn btn-default\" onclick='Down(this)'>";
+            html += "    <a href='javascript:void(0)' onclick='Del(this)' class='btn btn-danger btn-sm'>删 除</a>";
+            html += "</div></td>";
+            html += "</tr>";
+            $(obj).parents("tr").eq(0).before(html);
+            //iCheck初始化
+            $('input[type="checkbox"],input[type="radio"]').iCheck({
+                checkboxClass: 'icheckbox_flat-blue',
+                radioClass: 'iradio_flat-blue'
+            });
+        }
+
+        //上移
+        function Up(obj) {
+            var objParentTR = $(obj).parents("tr").eq(0);
+            var prevTR = objParentTR.prev();
+            if (prevTR.length > 0) {
+                prevTR.insertAfter(objParentTR);
+            }
+        }
+
+        //下移
+        function Down(obj) {
+            var objParentTR = $(obj).parents("tr").eq(0);
+            var nextTR = objParentTR.next();
+            if (nextTR.length > 0) {
+                nextTR.insertBefore(objParentTR);
+            }
+        }
+
+        //删除
+        function Del(obj) {
+            $(obj).parents("tr").eq(0).remove();
+        }
+    </script>
+}

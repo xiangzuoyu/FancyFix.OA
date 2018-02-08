@@ -26,6 +26,7 @@
                             <th style="text-align:center;">应聘岗位</th>
                             <th style="text-align:center;">得分</th>
                             <th style="text-align:center;">提交时间</th>
+                            <th style="text-align:center;">IP</th>
                             <th style="text-align:center;">操作</th>
                         </tr>
                         @if (answererlist != null && answererlist.Count > 0)
@@ -40,6 +41,7 @@
                                     <td align="center">@item.Job</td>
                                     <td align="center">@item.Score</td>
                                     <td align="center">@item.AddTime.Value.ToString("yyyy/MM/dd HH:mm:ss")</td>
+                                    <td align="center">@item.IP</td>
                                     <td align="center">
                                         <a href="/questionnaire/answerer/info/@item.Id" class="btn btn-warning">查看详细</a>
                                         @if (IsSuperAdmin)
@@ -53,7 +55,7 @@
                         else
                         {
                             <tr>
-                                <td align="center" colspan="8">暂无数据</td>
+                                <td align="center" colspan="9">暂无数据</td>
                             </tr>
                         }
                     </tbody>

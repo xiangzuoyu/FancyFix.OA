@@ -42,6 +42,11 @@ namespace FancyFix.OA.Model
 		private bool? _IsDISC;
 		private string _Job;
 		private string _Department;
+		private bool? _IsMobile;
+		private string _UserAgent;
+		private string _IP;
+		private string _Country;
+		private string _Area;
 		/// <summary>
 		/// 
 		/// </summary>
@@ -234,6 +239,66 @@ namespace FancyFix.OA.Model
 				this._Department=value;
 			}
 		}
+		/// <summary>
+		/// 
+		/// </summary>
+		public bool? IsMobile
+		{
+			get{ return _IsMobile; }
+			set
+			{
+				this.OnPropertyValueChange(_.IsMobile,_IsMobile,value);
+				this._IsMobile=value;
+			}
+		}
+		/// <summary>
+		/// 
+		/// </summary>
+		public string UserAgent
+		{
+			get{ return _UserAgent; }
+			set
+			{
+				this.OnPropertyValueChange(_.UserAgent,_UserAgent,value);
+				this._UserAgent=value;
+			}
+		}
+		/// <summary>
+		/// 
+		/// </summary>
+		public string IP
+		{
+			get{ return _IP; }
+			set
+			{
+				this.OnPropertyValueChange(_.IP,_IP,value);
+				this._IP=value;
+			}
+		}
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Country
+		{
+			get{ return _Country; }
+			set
+			{
+				this.OnPropertyValueChange(_.Country,_Country,value);
+				this._Country=value;
+			}
+		}
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Area
+		{
+			get{ return _Area; }
+			set
+			{
+				this.OnPropertyValueChange(_.Area,_Area,value);
+				this._Area=value;
+			}
+		}
 		#endregion
 
 		#region Method
@@ -273,7 +338,12 @@ namespace FancyFix.OA.Model
 				_.DISC,
 				_.IsDISC,
 				_.Job,
-				_.Department};
+				_.Department,
+				_.IsMobile,
+				_.UserAgent,
+				_.IP,
+				_.Country,
+				_.Area};
 		}
 		/// <summary>
 		/// 获取值信息
@@ -296,7 +366,12 @@ namespace FancyFix.OA.Model
 				this._DISC,
 				this._IsDISC,
 				this._Job,
-				this._Department};
+				this._Department,
+				this._IsMobile,
+				this._UserAgent,
+				this._IP,
+				this._Country,
+				this._Area};
 		}
 		#endregion
 
@@ -374,6 +449,26 @@ namespace FancyFix.OA.Model
 			/// 
 			/// </summary>
 			public readonly static Field Department = new Field("Department","Questionnaire_Answerer","Department");
+			/// <summary>
+			/// 
+			/// </summary>
+			public readonly static Field IsMobile = new Field("IsMobile","Questionnaire_Answerer","IsMobile");
+			/// <summary>
+			/// 
+			/// </summary>
+			public readonly static Field UserAgent = new Field("UserAgent","Questionnaire_Answerer","UserAgent");
+			/// <summary>
+			/// 
+			/// </summary>
+			public readonly static Field IP = new Field("IP","Questionnaire_Answerer","IP");
+			/// <summary>
+			/// 
+			/// </summary>
+			public readonly static Field Country = new Field("Country","Questionnaire_Answerer","Country");
+			/// <summary>
+			/// 
+			/// </summary>
+			public readonly static Field Area = new Field("Area","Questionnaire_Answerer","Area");
 		}
 		#endregion
 

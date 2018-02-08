@@ -92,6 +92,7 @@
                         {
                             <div class="form-group">
                                 注：@Model.Remark
+                                <span>倒计时：【<b id="sec" class="text-red">@Model.Timelimit</b> 秒】</span>
                             </div>
                         }
                         @if (list != null && list.Count > 0)
@@ -197,7 +198,7 @@
                                     layer.msg('提交成功！正在统计中...', { icon: 16, shade: 0.2, time: 5000 });
                                     var result = data.data;
                                     var html = "<p>你的得分为：" + result.score + "</p>"
-                                             + "<p>答对题个数：" + result.correctnum + "</p>";
+                                        + "<p>答对题个数：" + result.correctnum + "</p>";
                                     layer.alert(html, {
                                         title: "测试结果",
                                         time: 0,
@@ -219,6 +220,24 @@
                 });
             }
 
+            //倒计时启动
+            var sec = parseInt($("#sec").text());
+            function StartTime() {
+                var temp = sec;
+                var interval = setInterval(function () {
+                    temp--;
+                    if (temp >= 0) {
+                        $("#sec").text(temp);
+                        if (temp == 60) {
+                            layer.msg('注意：离答题结束还剩1分钟');
+                        }
+                    } else {
+                        clearInterval(interval);
+                        $("#btnPass").prop("disabled", "disabled").text('已超时');
+                    }
+                }, 1000);
+            }
+
             //加载验证
             SetValidate();
 
@@ -237,6 +256,7 @@
                         required: "该项必选（必填）",
                     });
                     SetValidate();
+                    StartTime();
                 }
             })
 

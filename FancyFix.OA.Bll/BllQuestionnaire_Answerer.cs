@@ -18,7 +18,7 @@ namespace FancyFix.OA.Bll
             where.And(o => o.IsDISC == isDISC);
             if (subjectId > 0) where.And(o => o.SubjectId == subjectId);
             var p = Db.Context.From<Questionnaire_Answerer>()
-                 .Select((a) => new { a.Id, a.Name, a.SubjectId, a.Tel, a.Email, a.Company, a.WxId, a.WxName, a.Score, a.AddTime, a.StartTime, a.CorrectNum, a.DISC, a.IsDISC, a.Job, a.Department })
+                 .Select((a) => new { a.Id, a.Name, a.SubjectId, a.Tel, a.Email, a.Company, a.Score, a.AddTime, a.StartTime, a.CorrectNum, a.DISC, a.IsDISC, a.Job, a.Department, a.IP })
                  .Where(where);
 
             records = p.Count();

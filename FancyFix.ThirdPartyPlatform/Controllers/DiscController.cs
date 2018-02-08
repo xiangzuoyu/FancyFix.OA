@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Tools.Utility;
 
 namespace FancyFix.ThirdPartyPlatform.Controllers
 {
@@ -42,6 +43,16 @@ namespace FancyFix.ThirdPartyPlatform.Controllers
 
             try
             {
+                string ip = Tools.Utility.CheckClient.GetIP();
+                string country = string.Empty;
+                string area = string.Empty;
+                if (ip != "" && IPDataPath != "")
+                {
+                    var ipSearch = new IPSearcher(IPDataPath).GetIPLocation(ip);
+                    country = ipSearch.country;
+                    area = ipSearch.area;
+                }
+
                 int count = OA.Bll.BllQuestionnaire_Answerer.Insert(new OA.Model.Questionnaire_Answerer()
                 {
                     Name = RequestString("name"),
@@ -56,7 +67,12 @@ namespace FancyFix.ThirdPartyPlatform.Controllers
                     CorrectNum = 0,
                     Score = 0,
                     SubjectId = 0,
-                    AddTime = DateTime.Now
+                    AddTime = DateTime.Now,
+                    IP = ip,
+                    UserAgent = Tools.Utility.CheckClient.GetUserAgent(),
+                    IsMobile = Tools.Utility.CheckClient.IsMobileDevice(),
+                    Country = country,
+                    Area = area
                 });
                 if (count > 0)
                     return Json(new { result = 1, data = entity });

@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using System.Data;
 using System.Web;
+using System.Configuration;
 
 namespace FancyFix.ThirdPartyPlatform.Base
 {
@@ -13,6 +14,7 @@ namespace FancyFix.ThirdPartyPlatform.Base
         public static string cssVersion = DateTime.Now.ToString("yyMMddhhss"); //样式版本
         public static string domain = Tools.Special.Common.GetDomain();
         public static string webUrl = Tools.Special.Common.GetWebUrl();
+        protected static string IPDataPath = ConfigurationManager.AppSettings["IPData"]?.ToString() ?? ""; //IP库文件路径
 
         public bool IsAjax
         {

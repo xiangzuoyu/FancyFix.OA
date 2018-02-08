@@ -81,7 +81,7 @@ namespace FancyFix.OA.Areas.Valuable.Controllers
             if (model == null) return MessageBoxAndReturn("价值观配置不存在！");
 
             //所选分值对应所需的案例个数
-            int sampleNum = Bll.BllRank_Class.FirstSelect(o => id == rank, o => o.SampleNum)?.SampleNum ?? 0;
+            int sampleNum = Bll.BllRank_Class.Instance().First(rank, "SampleNum")?.SampleNum ?? 0;
 
             List<Valuable_Sample> samplelist = null;
             if (sampleIds != null && sampleIds.Length > 0)

@@ -172,6 +172,7 @@
     <Compile Include="Areas\ArtTask\Controllers\ArtTaskListController.cs" />
     <Compile Include="Areas\BaseClassController.cs" />
     <Compile Include="Areas\Kpi\Controllers\KpiController.cs" />
+    <Compile Include="Areas\Kpi\Controllers\KpiListController.cs" />
     <Compile Include="Areas\Kpi\KpiAreaRegistration.cs" />
     <Compile Include="Areas\Point\Controllers\PointClassController.cs" />
     <Compile Include="Areas\Point\Controllers\PointController.cs" />
@@ -1826,6 +1827,8 @@
     <Content Include="Areas\ArtTask\Views\ArtTaskList\SeeDetails.cshtml" />
     <Content Include="Areas\Questionnaire\Views\Answerer\AnswererList.cshtml" />
     <Content Include="Areas\Questionnaire\Views\Answerer\Info.cshtml" />
+    <Content Include="Areas\Kpi\Views\KpiList\UnApproveList.cshtml" />
+    <Content Include="Areas\Kpi\Views\KpiList\UnCreateList.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Common\GetAdminTree.cshtml" />
   </ItemGroup>

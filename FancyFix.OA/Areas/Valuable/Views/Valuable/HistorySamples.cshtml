@@ -1,0 +1,104 @@
+﻿@using FancyFix.OA.Model
+@{
+    ViewBag.Title = "WorkerList";
+    Layout = "~/Views/Shared/_Layout_In.cshtml";
+    int year = ViewBag.year;
+    int month = ViewBag.month;
+    List<int?> yearlist = ViewBag.yearlist;
+    List<int> workerlist = ViewBag.workerlist;
+    Valuable_List valuable = ViewBag.valuable;
+    Valuable_Records record = ViewBag.record;
+    List<Valuable_Sample> samplelist = ViewBag.samplelist;
+}
+@section Css{
+    <link href="/Content/js/plugins/datatables/bootstrap-table.min.css" rel="stylesheet" />
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box-header">
+            <h3 class="box-title">
+                <select id="workeryear" class="layui-select">
+                    @foreach (var y in yearlist)
+                    {
+                        <option @(y == year ? "selected" : "") value="@y">@y</option>
+                    }
+                </select>
+                <select id="workermonth" class="layui-select" style="max-width:80px;">
+                    @foreach (int m in workerlist)
+                    {
+                        <option value="@m" @(m == month ? "selected" : "")>@m 月</option>
+                    }
+                </select>
+            </h3>
+        </div>
+        <div class="box">
+            <div class="box-body">
+                <table class="layui-table">
+                    <!--列宽度-->
+                    <colgroup>
+                        <col class="col-lg-2 col-xs-4">
+                        <col class="col-lg-10 col-xs-8">
+                    </colgroup>
+                    <tbody>
+                        @if (record != null)
+                        {
+                            <tr>
+                                <td align="right"><label for="classid" class="control-label">自评分：</label></td>
+                                <td>
+                                    <div class="form-group form-inline">
+                                        @record.RankScore
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                        @if (samplelist != null && samplelist.Count > 0)
+                        {
+                            int i = 1;
+                            foreach (var item in samplelist)
+                            {
+                                <tr>
+                                    <td align="right"><label for="classid" class="control-label">案例@(i)：</label></td>
+                                    <td>
+                                        <div class="form-group form-inline">
+                                            @item.Content
+                                        </div>
+                                    </td>
+                                </tr>
+                                i++;
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td align="center" colspan="2">暂无数据</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Js{
+    <script src="/Content/js/common/tools.js"></script>
+    <script>
+        layui.use(['layer', 'form'], function () {
+            var layer = layui.layer;
+            var form = layui.form();
+
+            $("#workeryear").change(function () {
+                var year = $(this).val();
+                var month = $("#workermonth").val();
+                window.location.href = '?year=' + year + '&month=' + month;
+            })
+
+            $("#workermonth").change(function () {
+                var month = $(this).val();
+                var year = $("#workeryear").val();
+                window.location.href = '?year=' + year + '&month=' + month;
+            })
+
+        })
+    </script>
+}

@@ -100,6 +100,14 @@
                             </tr>
                         }
                     </tbody>
+                    @if (ranklist != null && ranklist.Count > 0)
+                    {
+                        <tfoot>
+                            <tr>
+                                <td align="center" colspan="6">共@(ranklist.Count)条数据</td>
+                            </tr>
+                        </tfoot>
+                    }
                 </table>
             </div>
         </div>

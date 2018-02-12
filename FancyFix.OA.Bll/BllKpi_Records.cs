@@ -4,6 +4,7 @@ using FancyFix.OA.Model;
 using FancyFix.OA.Model.Business;
 using System;
 using System.Collections.Generic;
+using System.Data;
 
 namespace FancyFix.OA.Bll
 {
@@ -24,6 +25,11 @@ namespace FancyFix.OA.Bll
             return p.OrderBy(o => o.Id).ToList();
         }
 
+        /// <summary>
+        /// 根据Id集合获取KPI
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
         public static List<Kpi_Records> GetListByIds(List<int> ids)
         {
             var where = new Where<Kpi_Records>();
@@ -34,6 +40,11 @@ namespace FancyFix.OA.Bll
             return p.OrderBy(o => o.Id).ToList();
         }
 
+        /// <summary>
+        /// 获取指定评分人的KPI
+        /// </summary>
+        /// <param name="parUserId"></param>
+        /// <returns></returns>
         public static List<Kpi_Records> GetListByParUserId(int parUserId)
         {
             var where = new Where<Kpi_Records>();
@@ -76,6 +87,28 @@ namespace FancyFix.OA.Bll
             return (int)Db.Context.FromSql(sql).ToScalar();
         }
 
+        /// <summary>
+        /// 指标未审批数量
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="parUserId"></param>
+        /// <param name="year"></param>
+        /// <param name="month"></param>
+        /// <returns></returns>
+        public static int GetUserListUnApproveCount(int userId, int parUserId, int year, int month)
+        {
+            string sql = $"select Count(1) from Kpi_Records " +
+                $"where UserId={userId} and ParUserId = {parUserId} and IsApprove=0 and IsCreated=1 and year={year} and month={month}";
+            return (int)Db.Context.FromSql(sql).ToScalar();
+        }
+
+        /// <summary>
+        /// 获取指定员工的KPI
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="year"></param>
+        /// <param name="month"></param>
+        /// <returns></returns>
         public static List<Kpi_Records> GetListByUserId(int userId, int year, int month)
         {
             var where = new Where<Kpi_Records>();
@@ -84,6 +117,17 @@ namespace FancyFix.OA.Bll
             var p = Db.Context.From<Kpi_Records>()
                  .Where(where);
             return p.OrderBy(o => o.Id).ToList();
+        }
+
+        /// <summary>
+        /// 上级未审批列表
+        /// </summary>
+        /// <param name="year"></param>
+        /// <param name="month"></param>
+        /// <returns></returns>
+        public static DataTable GetUnApproveList(int year, int month)
+        {
+            return Db.Context.FromSql($"select UserName,ParUserName from Kpi_Records where IsCreated=1 and IsApprove=0 and year={year} and month={month} group by ParUserName,UserName").ToDataTable();
         }
     }
 }

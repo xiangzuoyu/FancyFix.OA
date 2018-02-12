@@ -1,30 +1,17 @@
 ﻿@using FancyFix.OA.Model
+@using System.Data
 @{
-    ViewBag.Title = "Point";
+    ViewBag.Title = "UnApproveList";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
-    List<Kpi_Process> ranklist = ViewBag.ranklist;
-    int startyear = ViewBag.startyear;
-
+    DataTable list = ViewBag.list;
+    int startyear = ViewBag.StartYear;
     int year = ViewBag.year;
     int month = ViewBag.month;
-}
-@section Css{
-    <link href="/Content/js/plugins/datatables/bootstrap-table.min.css" rel="stylesheet" />
-    <style>
-        .callout a {
-            text-decoration: none;
-            width: 150px;
-        }
-    </style>
 }
 <div class="row">
     <div class="col-xs-12">
         <div class="box-header">
-            <h3 class="box-title">KPI排名：</h3>
-        </div>
-        <div class="box-header">
-            进程：
+            <h3 class="box-title">未完成审批人员：</h3>
             <select id="year" name="year" class="layui-select" style="max-width:100px;">
                 @for (int i = startyear; i <= DateTime.Now.Year + 1; i++)
                 {
@@ -37,49 +24,36 @@
                     <option value="@i" @(month == i ? "selected" : "")>@i 月</option>
                 }
             </select>
-            <a href="/rank/rank" class="btn btn-default pull-right">返回</a>
+            <a href="/kpi/kpi/index" class="btn btn-default pull-right">返回</a>
         </div>
         <div class="box">
             <div class="box-body">
-                <table class="table table-bordered" align="center">
+                <table class="table table-bordered">
                     <tbody>
                         <tr>
-                            <th style="text-align:center;">排名</th>
-                            <th style="text-align:center;">姓名</th>
-                            <th style="text-align:center;" class="hidden-xs">部门</th>
-                            <th style="text-align:center;">总得分</th>
-                            <th style="text-align:center;">操作</th>
+                            <th style="text-align:center;">进程</th>
+                            <th style="text-align:center;">未完成审批人员</th>
+                            <th style="text-align:center;">待审批下级人员</th>
                         </tr>
-                        @if (ranklist != null && ranklist.Count > 0)
+                        @if (list != null && list.Rows.Count > 0)
                         {
-                            foreach (var item in ranklist)
+                            foreach (DataRow item in list.Rows)
                             {
                                 <tr>
-                                    <td align="center">@item.Rank</td>
-                                    <td align="center">@item.RealName</td>
-                                    <td align="center" class="hidden-xs">@item.DepartmentName</td>
-                                    <td align="center">@item.Score</td>
-                                    <td align="center">
-                                        <a href="/rank/kpi/kpilist/@item.Id" class="btn btn-warning">查看</a>
-                                    </td>
+                                    <td align="center">@year 年 @month 月</td>
+                                    <td align="center">@item["ParUserName"]</td>
+                                    <td align="center">@item["UserName"]</td>
                                 </tr>
                             }
                         }
                         else
                         {
                             <tr>
-                                <td align="center" colspan="7">暂无数据</td>
+                                <td align="center" colspan="3">暂无数据</td>
                             </tr>
                         }
                     </tbody>
-                    @if (ranklist != null && ranklist.Count > 0)
-                    {
-                        <tfoot>
-                            <tr>
-                                <td align="center" colspan="5">共@(ranklist.Count)条数据</td>
-                            </tr>
-                        </tfoot>
-                    }
+
                 </table>
             </div>
         </div>
@@ -87,7 +61,7 @@
 </div>
 @section Js{
     <script src="/Content/js/common/tools.js"></script>
-    <script type="text/javascript">
+    <script>
         layui.use(['layer'], function () {
             var layer = layui.layer;
 
@@ -112,3 +86,6 @@
         })
     </script>
 }
+
+
+

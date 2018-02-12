@@ -126,7 +126,7 @@ function OpenWin(title, url, width, height) {
             title: title,
             type: 2,
             content: url,
-            area: document.body.clientWidth > 450 ? [width, height] : [document.body.clientWidth + 'px', (document.body.clientHeight - 150) + 'px'],
+            area: document.body.clientWidth > 450 ? [width, height] : [window.screen.width + 'px', (window.screen.height - 150) + 'px'],
         });
     } catch (ex) {
         alert('弹出窗口失败！')

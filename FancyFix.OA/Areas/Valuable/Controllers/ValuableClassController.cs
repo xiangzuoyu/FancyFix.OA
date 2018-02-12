@@ -85,8 +85,13 @@ namespace FancyFix.OA.Areas.Valuable.Controllers
             }
             else
             {
-                mod_ValuableClass.ClassName = className;
-                Bll.BllValuable_Class.Update(mod_ValuableClass, o => o.Id == id);
+                //名称有变化
+                if (mod_ValuableClass.ClassName != className)
+                {
+                    mod_ValuableClass.ClassName = className;
+                    Bll.BllValuable_Class.Update(mod_ValuableClass, o => o.Id == id);
+                    Bll.BllValuable_List.UpdateClassName(id, className); //一并修改指标里的冗余字段
+                }
                 return MessageBoxAndJump("修改成功！", string.Format("{1}/list?parId={0}", parId, this.Path));
             }
         }

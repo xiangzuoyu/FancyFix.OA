@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "ChildKpiApprove";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var userinfo = FancyFix.OA.Bll.BllMng_User.First(o => o.Id == Model.UserId);
 }
 
 @section Css{
@@ -24,6 +25,21 @@
                     <col class="col-lg-10 col-xs-9">
                 </colgroup>
                 <tbody>
+                    <tr>
+                        <td align="right"><label for="year" class="control-label">员工：</label></td>
+                        <td>
+                            @Model.UserName
+                        </td>
+                    </tr>
+                    @if (userinfo != null && !string.IsNullOrEmpty(userinfo.Pic))
+                    {
+                        <tr>
+                            <td align="right"><label for="year" class="control-label">头像：</label></td>
+                            <td>
+                                <img src="@userinfo.Pic" alt="@Model.UserName" width="80" height="80" />
+                            </td>
+                        </tr>
+                    }
                     <tr>
                         <td align="right"><label for="year" class="control-label">进程：</label></td>
                         <td>

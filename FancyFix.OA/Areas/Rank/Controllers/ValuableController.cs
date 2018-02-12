@@ -53,10 +53,11 @@ namespace FancyFix.OA.Areas.Rank.Controllers
             //筛选
             if (count > 0 && top > 0)
             {
-                double val = top * count / 100;
-                int take = val < 1 ? 1 : (int)Math.Round(val, MidpointRounding.AwayFromZero);
+                var groupRankList = ranklist.GroupBy(o => o.Rank);
+                double val = top * groupRankList.Last().Key / 100; //取到最大排名
+                int take = val < 1 ? 1 : (int)Math.Round(val, MidpointRounding.AwayFromZero); //四舍五入取整
                 if (take > 0)
-                    ranklist = ranklist.Take(take).ToList();
+                    ranklist = ranklist.Where(o => o.Rank <= take).ToList();
             }
 
             ViewBag.year = year;
@@ -131,10 +132,11 @@ namespace FancyFix.OA.Areas.Rank.Controllers
                 //筛选
                 if (top > 0)
                 {
-                    double val = top * ranklist.Count / 100;
-                    int take = val < 1 ? 1 : (int)Math.Round(val, MidpointRounding.AwayFromZero);
+                    var groupRankList = ranklist.GroupBy(o => o.Rank);
+                    double val = top * groupRankList.Last().Key / 100; //取到最大排名
+                    int take = val < 1 ? 1 : (int)Math.Round(val, MidpointRounding.AwayFromZero); //四舍五入取整
                     if (take > 0)
-                        ranklist = ranklist.Take(take).ToList();
+                        ranklist = ranklist.Where(o => o.Rank <= take).ToList();
                 }
 
                 DataTable dt = new DataTable();

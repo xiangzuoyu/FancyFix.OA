@@ -75,7 +75,13 @@ namespace FancyFix.OA.Bll
             return count > 0 && count >= valueIds.Length ? true : false;
         }
 
-
+        /// <summary>
+        /// 获取指定进程对应总分
+        /// </summary>
+        /// <param name="months"></param>
+        /// <param name="userId"></param>
+        /// <param name="year"></param>
+        /// <returns></returns>
         public static Dictionary<int, int> GetScoreByMonth(List<int> months, int userId, int year)
         {
             string sql = $"select month,sum(score) score from Valuable_Records where year = {year} and month in ({string.Join(",", months)}) and userid = {userId} and IsApprove = 1 group by month";
@@ -88,6 +94,13 @@ namespace FancyFix.OA.Bll
             }
         }
 
+        /// <summary>
+        /// 获取排名列表
+        /// </summary>
+        /// <param name="fromYear"></param>
+        /// <param name="fromMonth"></param>
+        /// <param name="toMonth"></param>
+        /// <returns></returns>
         public static List<Rank_Valuable> GetRankList(int fromYear, int fromMonth = 0, int toMonth = 0)
         {
             string where = $"IsApprove=1 and year={fromYear}";
@@ -111,6 +124,14 @@ namespace FancyFix.OA.Bll
             return Db.Context.FromSql(sql).ToList<Rank_Valuable>();
         }
 
+        /// <summary>
+        /// 获取排名Excel数据
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="year"></param>
+        /// <param name="fromMonth"></param>
+        /// <param name="toMonth"></param>
+        /// <returns></returns>
         public static DataTable GetExcelList(int userId, int year, int fromMonth, int toMonth)
         {
             string monthStr = string.Empty;
@@ -158,6 +179,19 @@ namespace FancyFix.OA.Bll
                 }
                 return dt;
             }
+        }
+
+        /// <summary>
+        /// 根据价值观获取进程
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="year"></param>
+        /// <param name="month"></param>
+        /// <param name="vid"></param>
+        /// <returns></returns>
+        public static Valuable_Records GetModelByVid(int userId, int year, int month, int vid)
+        {
+           return First(o => o.UserId == userId && o.Year == year && o.Month == month && o.Vid == vid);
         }
     }
 }

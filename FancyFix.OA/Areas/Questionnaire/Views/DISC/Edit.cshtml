@@ -84,7 +84,7 @@
                         <td>
                             <input type="hidden" id="id" name="id" value="@(Model?.Id ?? 0)">
                             <button type="submit" id="btnPass" class="btn btn-primary">保存</button>
-                            <button type="button" id="cancel" class="btn btn-default" onclick="CloseWin()">取消</button>
+                            <button type="button" id="cancel" class="btn btn-default">取消</button>
                         </td>
                     </tr>
                 </tbody>
@@ -115,6 +115,11 @@
             $("#btnPass").click(function () {
                 $form.valid();
             });
+
+            //关闭
+            $("#cancel").click(function () {
+                CloseWin();
+            })
         })
 
         //上移

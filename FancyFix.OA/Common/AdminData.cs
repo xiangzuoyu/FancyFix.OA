@@ -30,6 +30,11 @@ namespace FancyFix.OA
             return adminlist;
         }
 
+        public static List<Mng_User> GetList(Func<Mng_User, bool> predicate)
+        {
+            return adminlist.Where(predicate).ToList();
+        }
+
         public static void Load()
         {
             lock (locker)

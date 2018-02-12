@@ -7,6 +7,13 @@
     Valuable_Records record = ViewBag.record;
     IEnumerable<Rank_Class> rankclass = ViewBag.rankclass;
     IList<Valuable_Sample> samplelist = ViewBag.samplelist;
+    //获取用户信息
+    int userId = record?.UserId ?? 0;
+    Mng_User userinfo = null;
+    if (userId > 0)
+    {
+        userinfo = FancyFix.OA.Bll.BllMng_User.First(o => o.Id == userId);
+    }
 }
 @section Css{
     <link href="/Content/js/plugins/iCheck/flat/_all.css" rel="stylesheet" />
@@ -26,6 +33,21 @@
                     <col class="col-lg-10 col-xs-9">
                 </colgroup>
                 <tbody>
+                    @if (userinfo != null && !string.IsNullOrEmpty(userinfo.Pic))
+                    {
+                        <tr>
+                            <td align="right"><label for="year" class="control-label">员工：</label></td>
+                            <td>
+                                @userinfo.RealName
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"><label for="year" class="control-label">头像：</label></td>
+                            <td>
+                                <img src="@userinfo.Pic" alt="@userinfo.RealName" width="80" height="80" />
+                            </td>
+                        </tr>
+                    }
                     <tr>
                         <td align="right"><label for="classid" class="control-label">价值观：</label></td>
                         <td>

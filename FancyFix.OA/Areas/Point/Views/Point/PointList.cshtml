@@ -46,7 +46,7 @@
                                     <td align="center">@Html.Raw(item.IsApprove.Value ? (item.IsPass.Value ? "<span class=\"label label-success\">已通过</span>" : "<span class=\"label label-danger\">未通过</span>") : "<span class=\"label label-warning\">待审批</span>")</td>
                                     <td align="center">
                                         <a href="/point/point/pointedit/@item.Id" class="btn btn-warning">查看</a>
-                                        @if (!item.IsApprove.Value || IsSuperAdmin || IsDepartAdmin)
+                                        @if (!item.IsApprove.Value)
                                         {
                                             <a href="javascript:void(0)" data-id="@item.Id" class="btn btn-danger btnDel">删除</a>
                                         }

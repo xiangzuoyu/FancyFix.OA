@@ -303,11 +303,13 @@ namespace FancyFix.OA.Bll
         /// </summary>
         /// <param name="onlyInjob"></param>
         /// <returns></returns>
-        public static IEnumerable<Mng_User> GetAllList(bool onlyInjob)
+        public static IEnumerable<Mng_User> GetAllList(bool onlyInjob, int departId = 0)
         {
             var where = new Where<Mng_User>();
             if (onlyInjob)
                 where.And(o => o.InJob == true);
+            if (departId > 0)
+                where.And(o => o.DepartId == departId);
             return Db.Context.From<Mng_User>().Where(where).OrderBy(o => o.Id).ToList();
 
         }

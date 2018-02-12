@@ -188,7 +188,7 @@ namespace FancyFix.OA.Areas.Kpi.Controllers
                 id = Bll.BllKpi_Records.Insert(record);
             }
             if (id > 0)
-                return MessageBoxAndJump("保存成功！", $"/kpi/kpi/kpilist?year={year}&month={month}");
+                return Redirect($"/kpi/kpi/kpilist?year={year}&month={month}");
             else
                 return MessageBoxAndReturn("提交失败，请联系管理员！");
         }
@@ -326,6 +326,7 @@ namespace FancyFix.OA.Areas.Kpi.Controllers
             var userlist = Bll.BllKpi_Records.GetUserList(MyInfo.Id, year, month);
             foreach (var item in userlist)
             {
+                item.IsApproved = Bll.BllKpi_Records.GetUserListUnApproveCount(item.Id, MyInfo.Id, year, month) == 0;
                 item.Score = Bll.BllKpi_Process.First(o => o.UserId == item.Id && o.Year == year && o.Month == month)?.Score ?? 0;
             }
 

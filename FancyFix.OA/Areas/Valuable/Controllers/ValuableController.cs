@@ -142,6 +142,41 @@ namespace FancyFix.OA.Areas.Valuable.Controllers
             return MessageBoxAndReturn("提交失败！");
         }
 
+        public ActionResult HistorySamples(int id)
+        {
+            var valuable = Bll.BllValuable_List.First(o => o.Id == id);
+            if (valuable == null) return LayerMsgErrorAndClose("价值观不存在！");
+
+            //默认上个进程
+            var nowDate = DateTime.Now;
+            int year = RequestInt("year");
+            int month = RequestInt("month");
+            if (year < StartYear)
+                year = DateTime.Now.Year;
+            if (month < 1 || month > 12)
+                month = GetWorkerMonth(year, nowDate.AddMonths(-1).Month);
+            else
+                month = GetWorkerMonth(year, month);
+
+            //获取下拉框数据
+            var yearlist = Bll.BllConfig_Process.GetValuableYears();
+            var workerlist = GetWorkerMonthList(year);
+            var record = Bll.BllValuable_Records.GetModelByVid(MyInfo.Id, year, month, id);
+
+            List<Valuable_Sample> samplelist = null;
+            if (record != null)
+                samplelist = Bll.BllValuable_Sample.GetList(record.Id);
+
+            ViewBag.record = record;
+            ViewBag.valuable = valuable;
+            ViewBag.samplelist = samplelist;
+            ViewBag.year = year;
+            ViewBag.month = month;
+            ViewBag.yearlist = yearlist;
+            ViewBag.workerlist = workerlist;
+            return View();
+        }
+
         #endregion
 
         #region 审核下级
@@ -190,14 +225,10 @@ namespace FancyFix.OA.Areas.Valuable.Controllers
             if (record == null)
                 return MessageBoxAndReturn("该员工未自评！");
 
-            IList<Valuable_Sample> samplelist = null;
-            if (record != null)
-                samplelist = Bll.BllValuable_Sample.GetList(record.Id);
-
             int nextWorkmonth = GetNextWorkerMonth(year, month);
 
             ViewBag.isLock = (GetWorkerMonth(year, month) != GetWorkerMonth(DateTime.Now.Year, DateTime.Now.Month) || year != DateTime.Now.Year) && !(DateTime.Now.Day <= WorkerEndDay && year == DateTime.Now.Year && DateTime.Now.Month == nextWorkmonth);
-            ViewBag.samplelist = samplelist;
+            ViewBag.samplelist = Bll.BllValuable_Sample.GetList(record.Id);
             ViewBag.record = record;
             ViewBag.rankclass = Bll.BllRank_Class.Instance().GetListByParentId(0, false);
             return View(model);
@@ -235,7 +266,10 @@ namespace FancyFix.OA.Areas.Valuable.Controllers
         }
         #endregion
 
-        //获取年，月参数
+        /// <summary>
+        /// 获取并匹配价值进程年，月参数
+        /// </summary>
+        /// <returns></returns>
         public Tuple<int, int> GetYearAndMonth()
         {
             int year = RequestInt("year");

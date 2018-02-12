@@ -20,13 +20,13 @@
                     <tbody>
                         <tr>
                             <th style="text-align:center;">姓名</th>
-                            <th style="text-align:center;">电话</th>
-                            <th style="text-align:center;">邮箱</th>
+                            <th style="text-align:center;" class="hidden-xs">电话</th>
+                            <th style="text-align:center;" class="hidden-xs">邮箱</th>
                             <th style="text-align:center;">部门</th>
                             <th style="text-align:center;">应聘岗位</th>
                             <th style="text-align:center;">得分</th>
-                            <th style="text-align:center;">提交时间</th>
-                            <th style="text-align:center;">IP</th>
+                            <th style="text-align:center;" class="hidden-xs">提交时间</th>
+                            <th style="text-align:center;" class="hidden-xs">IP</th>
                             <th style="text-align:center;">操作</th>
                         </tr>
                         @if (answererlist != null && answererlist.Count > 0)
@@ -35,15 +35,15 @@
                             {
                                 <tr>
                                     <td align="center">@item.Name</td>
-                                    <td align="center">@item.Tel</td>
-                                    <td align="center">@item.Email</td>
+                                    <td align="center" class="hidden-xs">@item.Tel</td>
+                                    <td align="center" class="hidden-xs">@item.Email</td>
                                     <td align="center">@item.Department</td>
                                     <td align="center">@item.Job</td>
                                     <td align="center">@item.Score</td>
-                                    <td align="center">@item.AddTime.Value.ToString("yyyy/MM/dd HH:mm:ss")</td>
-                                    <td align="center">@item.IP</td>
+                                    <td align="center" class="hidden-xs">@item.AddTime.Value.ToString("yyyy/MM/dd HH:mm:ss")</td>
+                                    <td align="center" class="hidden-xs">@item.IP</td>
                                     <td align="center">
-                                        <a href="/questionnaire/answerer/info/@item.Id" class="btn btn-warning">查看详细</a>
+                                        <a href="/questionnaire/answerer/info/@item.Id" class="btn btn-warning">详细</a>
                                         @if (IsSuperAdmin)
                                         {
                                             <a href="javascript:void(0)" data-id="@item.Id" class="btn btn-danger btnDel">删除</a>

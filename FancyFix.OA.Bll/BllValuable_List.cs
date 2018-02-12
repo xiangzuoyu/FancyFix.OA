@@ -50,6 +50,10 @@ namespace FancyFix.OA.Bll
             return p.OrderBy(o => o.Sequence).ToList();
         }
 
+        /// <summary>
+        /// 获取所有Id
+        /// </summary>
+        /// <returns></returns>
         public static List<int> GetIds()
         {
             using (var p = Db.Context.From<Valuable_List>().Select(o => o.Id).Where(o => o.BeLock == false).ToDataReader())
@@ -58,6 +62,17 @@ namespace FancyFix.OA.Bll
                 while (p.Read()) ids.Add((int)p["Id"]);
                 return ids;
             }
+        }
+
+        /// <summary>
+        /// 更新分类名
+        /// </summary>
+        /// <param name="classId"></param>
+        /// <param name="className"></param>
+        /// <returns></returns>
+        public static bool UpdateClassName(int classId, string className)
+        {
+            return Db.Context.FromSql($"update Valuable_List set ClassName='{className}' where ClassId={classId}").ExecuteNonQuery() > 0;
         }
     }
 }

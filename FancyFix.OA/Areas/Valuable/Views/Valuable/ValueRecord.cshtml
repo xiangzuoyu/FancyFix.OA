@@ -8,7 +8,8 @@
     Valuable_Records record = ViewBag.record;
     IEnumerable<Rank_Class> rankclass = ViewBag.rankclass;
     IList<Valuable_Sample> samplelist = ViewBag.samplelist;
-    rankScore = record != null ? record.RankScore.Value : (rankclass.First()?.Score.Value ?? 0);
+    rankScore = record != null ? record.RankScore.Value : (rankclass.First()?.Score.Value ?? 0); //自评分
+    bool isApproved = record?.IsApprove ?? false;//是否已审批
 }
 @section Css{
     <link href="/Content/js/plugins/iCheck/flat/_all.css" rel="stylesheet" />
@@ -52,7 +53,7 @@
                             </div>
                         </td>
                     </tr>
-                    @if (record != null && record.IsApprove.Value)
+                    @if (isApproved)
                     {
                         <tr>
                             <td align="right"><label for="title" class="control-label">自评分：</label></td>
@@ -80,6 +81,19 @@
                                 }
                             </td>
                         </tr>
+                        if (Model.Id > 0)
+                        {
+                            <tr>
+                                <td align="right"><label for="title" class="control-label">历史案例：</label></td>
+                                <td>
+                                    <div class="form-group">
+                                        <button type="button" class="btn btn-default" id="openhistory">
+                                            点击查看
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
                     }
                     <tr>
                         <td align="right"><label for="title" class="control-label">案例：</label></td>
@@ -90,8 +104,9 @@
                                     int i = 1;
                                     foreach (var item in samplelist)
                                     {
+                                        int minSampleNum = rankclass?.First(o => o.Score == rankScore)?.SampleNum ?? 0;
                                         <div>
-                                            <label>案例@(i)</label>
+                                            <label>案例@(i) @Html.Raw(i > minSampleNum ? " <button class=\"btn btn-xs btn-danger\">删除</button>" : "")</label>
                                             @if (record != null && record.IsApprove.Value)
                                             {
                                                 <div>
@@ -109,15 +124,24 @@
                                 }
                                 else
                                 {
-                                    if (record != null && record.IsApprove.Value)
+                                    if (isApproved)
                                     {
                                         <span>无</span>
                                     }
                                 }
                             </div>
+                            @if (!isApproved)
+                            {
+                                <div class="form-group" style="margin-top:10px;">
+                                    <button type="button" class="btn btn-default" id="addMore">
+                                        <span class="glyphicon glyphicon-plus"></span>
+                                        添加更多
+                                    </button>
+                                </div>
+                            }
                         </td>
                     </tr>
-                    @if (record != null && record.IsApprove.Value)
+                    @if (isApproved)
                     {
                         <tr>
                             <td align="right"><label for="title" class="control-label">上级评分：</label></td>
@@ -144,7 +168,7 @@
                             <input type="hidden" id="year" name="year" value="@ViewBag.currentYear">
                             <input type="hidden" id="month" name="month" value="@ViewBag.currentMonth">
                             <input type="hidden" id="temp" value="">
-                            @if (record != null && record.IsApprove.Value)
+                            @if (isApproved)
                             {
                                 <button type="button" class="btn btn-default bg-green">已评审</button>
                             }
@@ -152,7 +176,7 @@
                             {
                                 <button type="submit" id="btnPass" class="btn btn-primary">提交</button>
                             }
-                            <button type="button" id="cancel" class="btn btn-default" onclick="javascript: window.history.go(-1)">返回</button>
+                            <button type="button" id="cancel" class="btn btn-default" onclick="javascript: window.location.href='/valuable/valuable/valuelist?year=@ViewBag.currentYear&month=@ViewBag.currentMonth'">返回</button>
                         </td>
                     </tr>
                 </tbody>
@@ -183,6 +207,11 @@
             $("#btnPass").click(function () {
                 $form.valid();
             });
+            $("#openhistory").click(function () {
+                OpenWin("历史案例", "/valuable/valuable/historysamples/@Model.Id", '600px', '90%');
+            })
+
+            var minSampleNum = '@(rankclass?.First(o=>o.Score == rankScore)?.SampleNum ?? 0)';
 
             //选中事件
             $("#rank input:radio").on('ifChecked', function (event) {
@@ -190,6 +219,17 @@
                     Check($(this));
                 }
             });
+
+            //增加更多
+            $("#addMore").click(function () {
+                var maxId = parseInt($("input[name=sampleId]").last().val() || 0) + 1;
+                var html = RenderHtml(maxId);
+                $("#samples").html(html);
+            });
+
+            $("#samples").on("click", ".btn-danger", function () {
+                $(this).parents("div").eq(0).remove();
+            })
 
             //事件监听
             $("#samples").on("keyup", "textarea", function () {
@@ -222,29 +262,37 @@
             else
                 SaveSample();
 
+            //选中事件
             function Check($this) {
                 var $checked = $this || $("#rank input[type='radio']:checked");
                 var sampleNum = $checked.data("sample");
                 if (sampleNum && sampleNum > 0) {
-                    //拿到缓存案例内容
-                    var temp = $("#temp").val();
-                    var tempData;
-                    if (temp != "") tempData = JSON.parse(temp);
-                    var html = "";
-                    for (var i = 0; i < sampleNum; i++) {
-                        //有出现案例框，则填入缓存内容
-                        var val = "";
-                        if (tempData && tempData.length > i) {
-                            val = tempData[i];
-                        }
-                        html += "<div><label>案例" + (i + 1) + "</label>";
-                        html += "<textarea class=\"form-control\" name=\"sample" + (i + 1) + "\" rows=\"4\" style=\"width: 100%\" required=\"required\">" + val + "</textarea>";
-                        html += " <input type=\"hidden\" name=\"sampleId\" value=" + (i + 1) + "></div>";
-                    }
+                    minSampleNum = sampleNum;
+                    var html = RenderHtml(sampleNum);
                     $("#samples").html(html);
                 } else {
                     $("#samples").html("");
                 }
+            }
+
+            //读取案例缓存，重载案例HTML
+            function RenderHtml(sampleNum) {
+                //拿到缓存案例内容
+                var temp = $("#temp").val();
+                var tempData;
+                if (temp != "") tempData = JSON.parse(temp);
+                var html = "";
+                for (var i = 0; i < sampleNum; i++) {
+                    var val = "";
+                    //有出现案例框，则填入缓存内容
+                    if (tempData && tempData.length > i) {
+                        val = tempData[i];
+                    }
+                    html += "<div><label>案例" + (i + 1) + ((i + 1) > minSampleNum ? " <button class=\"btn btn-xs btn-danger\">删除</button>" : "") + "</label>";
+                    html += "<textarea class=\"form-control\" name=\"sample" + (i + 1) + "\" rows=\"4\" style=\"width: 100%\" required=\"required\">" + val + "</textarea>";
+                    html += " <input type=\"hidden\" name=\"sampleId\" value=" + (i + 1) + "></div>";
+                }
+                return html;
             }
         })
     </script>

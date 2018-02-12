@@ -12,7 +12,7 @@ namespace FancyFix.OA.Bll
             return new BllValuable_Sample();
         }
 
-        public static IList<Valuable_Sample> GetList(int rid)
+        public static List<Valuable_Sample> GetList(int rid)
         {
             var where = new Where<Valuable_Sample>();
             where.And(o => o.Rid == rid);

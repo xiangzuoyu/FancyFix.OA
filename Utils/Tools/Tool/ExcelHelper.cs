@@ -348,5 +348,29 @@ namespace FancyFix.Tools.Tool
             hssfworkbook.SummaryInformation = si;
             return hssfworkbook;
         }
+
+
+        public static StringBuilder RenderToSql(Stream excelFileStream)
+        {
+            IWorkbook workbook = new HSSFWorkbook(excelFileStream);
+            //取第一个工作表
+            ISheet sheet = workbook.GetSheetAt(0);
+            StringBuilder sql = new StringBuilder(500);
+            try
+            {
+                //IRow headRow=sheet.CreateRow
+            }
+            finally
+            {
+                if (excelFileStream != null)
+                    excelFileStream.Dispose();
+                if (workbook != null)
+                    workbook.Close();
+                //if(sheet!=null)
+                     
+            }
+
+            return sql;
+        }
     }
 }

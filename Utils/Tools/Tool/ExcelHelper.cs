@@ -10,6 +10,7 @@ using NPOI.SS.UserModel;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using NPOI.XSSF.UserModel;
 
 namespace FancyFix.Tools.Tool
 {
@@ -350,27 +351,71 @@ namespace FancyFix.Tools.Tool
         }
 
 
-        public static StringBuilder RenderToSql(Stream excelFileStream)
+        public static string RenderToSql(string filePath, string insertSql, int startRow = 0)
         {
-            IWorkbook workbook = new HSSFWorkbook(excelFileStream);
+            IWorkbook workbook;
+
+            using (FileStream file = new FileStream(filePath, FileMode.Open, FileAccess.ReadWrite))
+            {
+                if (filePath.IndexOf(".xlsx") > 0) // 2007版本  
+                    workbook = new XSSFWorkbook(file);
+                else
+                    workbook = new HSSFWorkbook(file);// 2003版本  
+            }
             //取第一个工作表
             ISheet sheet = workbook.GetSheetAt(0);
-            StringBuilder sql = new StringBuilder(500);
+            StringBuilder builder = new StringBuilder(500);
             try
             {
-                //IRow headRow=sheet.CreateRow
+                //第一行为标题
+                IRow headRow = sheet.GetRow(0);
+                int cellCount = headRow.LastCellNum;
+                int rowCount = sheet.LastRowNum;
+
+                for (int i = startRow; i <= rowCount; i++)
+                {
+                    IRow row = sheet.GetRow(i);
+                    if (row == null)
+                        continue;
+
+                    if (i == sheet.FirstRowNum)
+                        builder.Append(insertSql + " values");
+
+                    string colStr = string.Empty;
+                    int validColl = 0;
+                    for (int j = row.FirstCellNum; j < cellCount; j++)
+                    {
+                        var cell = row.GetCell(j);
+                        if (cell == null)
+                            continue;
+
+                        if (string.IsNullOrEmpty(cell.ToString()))
+                            validColl++;
+
+                        if (j == 3)
+                        {
+
+                        }
+
+
+                        colStr += string.Format("'{0}',", cell.ToString().Replace("'", "''"));
+                    }
+
+                    if (validColl < cellCount)
+                        builder.AppendFormat("({0}),", colStr.TrimEnd(','));
+
+                }
+                builder.Length = builder.Length - 1;
             }
             finally
             {
-                if (excelFileStream != null)
-                    excelFileStream.Dispose();
                 if (workbook != null)
                     workbook.Close();
-                //if(sheet!=null)
-                     
+
             }
 
-            return sql;
+            return builder.ToString();
         }
+        
     }
 }

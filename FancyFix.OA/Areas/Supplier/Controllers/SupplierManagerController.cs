@@ -23,34 +23,17 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             if (file == null)
                 Redirect("List");
 
-            string filePath= UploadProvice.Instance().Settings["file"].FilePath+@"\"+DateTime.Now.ToString("yyyyMMddHHmmss")+ ".xlsx";
+            string filePath = UploadProvice.Instance().Settings["file"].FilePath + DateTime.Now.ToString("yyyyMMddHHmmss")
+                + (file.FileName.IndexOf(".xlsx") > 0 ? ".xlsx" : "xls");
             var size = file.ContentLength;
             var type = file.ContentType;
             file.SaveAs(filePath);
 
-            FileStream file1 = new FileStream(filePath, FileMode.Open, FileAccess.Read);
-
-            RenderToDb(file1, "ssss");
+            string insert = "insert into Supplier_List(code,name,SupplierType,BusinessScope,Contact1,Contact2,Site,Address,StartDate,EndDate,LabelId,Note)";
+            string insertSql = Tools.Tool.ExcelHelper.RenderToSql(filePath, insert);
 
             return Redirect("List");
         }
-
-        private int RenderToDb(Stream excelFileStream, string insertSql)
-        {
-            //int rowAffected = 0;
-
-            //IWorkbook workbook = new HSSFWorkbook(excelFileStream)
-            //try
-            //{
-
-            //}
-            //finally
-            //{
-            //    if (excelFileStream != null)
-            //        excelFileStream.Dispose();
-               
-            //}
-            return rowAffected;
-        }
+ 
     }
 }

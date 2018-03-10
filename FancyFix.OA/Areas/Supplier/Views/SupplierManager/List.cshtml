@@ -17,33 +17,40 @@
             <div class="box-body">
                 <section class="panel">
                     <div class="layui-form layui-form-pane">
+                        
+                        &nbsp;&nbsp;
+                        <div class="layui-inline">
+                            <div class="layui-input-inline">
+                                <input type="button" id="importBtn" class="btn bg-orange" value="导入">
+                            </div>
+                        </div>
+                        &nbsp;&nbsp;
+                        <div class="layui-inline">
+                            <div class="layui-input-inline">
+                                <input type="button" id="exportBtn" class="btn bg-orange" value="导出">
+                            </div>
+                        </div>
+                        &nbsp;&nbsp;
+                        <div class="layui-inline">
+                            <label class="layui-form-label">导出类型</label>
+                            <div class="layui-input-inline">
+                                <select id="displayid" name="displayid" lay-filter="displayid">
+                                    <option value="0">全部</option>
+                                    <option>合格</option>
+                                    <option>潜在</option>
+                                    <option>黑名单</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="layui-inline pull-right">
                             <button id="btnSearch" class="btn bg-orange" lay-submit lay-filter="formSearch">查询</button>
                         </div>
+                        @using (Html.BeginForm("list", "suppliermanager", FormMethod.Post, new { enctype = "multipart/form-data", id = "excelImportForm" }))
+                        {
+                            <input id="fileEle" name="file" type="file" style="display:none" />
+                        }
                     </div>
                 </section>
-                <div id="toolbar" class="btn-group">
-                    <select>
-                        <option>合格</option>
-                        <option>潜在</option>
-                        <option>黑名单</option>
-                    </select>
-
-                    @*@Html.Partial("UploadFile", new FancyFix.OA.Config.FileUploadConfig { Files = "", FileExt = "xlsx,xls", UploadNum = 1, MaxSize = 20 * 1024 * 1024, Domain = "local" })*@
-
-                    @using (Html.BeginForm("list", "suppliermanager", FormMethod.Post, new {enctype = "multipart/form-data" , id = "excelImportForm"}))
-                    {
-                        <input id="fileEle" name="file" type="file"/>
-                    }
-                    @*<form id="excelImportForm" enctype="multipart/form-data" action="/supplier/suppliermanager/importexcel" method="post">
-                    </form>*@
-                    @*<button id="btn_import" type="button" class="btn btn-default">
-                        导入
-                    </button>
-                    <button id="btn_export" type="button" class="btn btn-default">
-                        导出
-                    </button>*@
-                </div>
                 <table id="table" class="table table-bordered table-hover"></table>
             </div>
         </div>
@@ -54,15 +61,21 @@
     <script src="/Content/js/plugins/datatables/bootstrap-table-zh-CN.js"></script>
     <script src="/Content/js/common/tools.js"></script>
     <script>
+
+        $("#importBtn").bind("click", function () {
+            $("#fileEle").trigger("click");
+            
+        })
+
         $("#fileEle").bind("change", function () {
             excelImportForm.submit();
         })
 
-        @*        layui.use(['layer', 'form'], function () {
+               layui.use(['layer', 'form'], function () {
                 var layer = layui.layer;
                 var form = layui.form();
 
-                var TableInit = function () {
+                @* var TableInit = function () {
                     var objTable = new Object();
                     //初始化Table
                     objTable.Init = function () {
@@ -212,7 +225,7 @@
                     }, function (index) {
                         layer.close(index);
                     });
-                });
+                });*@
             })
 
             //排序
@@ -240,6 +253,6 @@
                 } else {
                     ShowError('操作失败！');
                 }
-            }*@
-        </script>
+            }
+    </script>
 }

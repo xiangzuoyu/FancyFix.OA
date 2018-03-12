@@ -351,7 +351,7 @@ namespace FancyFix.Tools.Tool
         }
 
 
-        public static string RenderToSql(string filePath, string insertSql, int startRow = 0)
+        public static List<string> RenderToSql<T>(string filePath, int startRow = 0)
         {
             IWorkbook workbook;
 
@@ -362,24 +362,25 @@ namespace FancyFix.Tools.Tool
                 else
                     workbook = new HSSFWorkbook(file);// 2003版本  
             }
+            List<string> strList = new List<string>();
             //取第一个工作表
             ISheet sheet = workbook.GetSheetAt(0);
-            StringBuilder builder = new StringBuilder(500);
+            //StringBuilder builder = new StringBuilder(500);
             try
             {
                 //第一行为标题
                 IRow headRow = sheet.GetRow(0);
                 int cellCount = headRow.LastCellNum;
                 int rowCount = sheet.LastRowNum;
-
+                
                 for (int i = startRow; i <= rowCount; i++)
                 {
                     IRow row = sheet.GetRow(i);
                     if (row == null)
                         continue;
 
-                    if (i == sheet.FirstRowNum)
-                        builder.Append(insertSql + " values");
+                    //if (i == sheet.FirstRowNum)
+                    //    builder.Append(insertSql + " values");
 
                     string colStr = string.Empty;
                     int validColl = 0;
@@ -392,20 +393,12 @@ namespace FancyFix.Tools.Tool
                         if (string.IsNullOrEmpty(cell.ToString()))
                             validColl++;
 
-                        if (j == 3)
-                        {
-
-                        }
-
-
-                        colStr += string.Format("'{0}',", cell.ToString().Replace("'", "''"));
+                        colStr += string.Format("{0}%%%@@@", cell.ToString().Replace("'", "''"));
                     }
-
+                    
                     if (validColl < cellCount)
-                        builder.AppendFormat("({0}),", colStr.TrimEnd(','));
-
+                        strList.Add(colStr);
                 }
-                builder.Length = builder.Length - 1;
             }
             finally
             {
@@ -414,8 +407,8 @@ namespace FancyFix.Tools.Tool
 
             }
 
-            return builder.ToString();
+            return strList;
         }
-        
+
     }
 }

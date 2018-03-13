@@ -119,8 +119,8 @@ namespace FancyFix.OA.Bll
                 $" (select count(1) from " +
                 $"   (select MONTH from Valuable_Records where {where} and UserId = a.UserId group by MONTH) as tb" +
                 $" ) as CountTime from Valuable_Records a " +
-                $" left join Mng_User b on a.UserId = b.Id " +
-                $" where {where} group by RealName,UserId order by sum(Score) desc";
+                $" inner join Mng_User b on a.UserId = b.Id " +
+                $" where {where} and b.InJob=1 group by RealName,UserId order by sum(Score) desc";
             return Db.Context.FromSql(sql).ToList<Rank_Valuable>();
         }
 
@@ -140,9 +140,9 @@ namespace FancyFix.OA.Bll
             else
                 monthStr = $"month = {fromMonth}";
             string sql = $" SELECT a.Id,c.RealName,b.ClassName,b.Content,a.Score,a.[Year],a.[Month] FROM [dbo].[Valuable_Records] a"
-                       + $" left JOIN Valuable_List b on a.Vid = b.Id"
-                       + $" left Join Mng_User c on a.UserId = c.Id"
-                       + $" where a.UserId={userId} and IsApprove=1 and year={year} and {monthStr}"
+                       + $" inner Join Valuable_List b on a.Vid = b.Id"
+                       + $" inner Join Mng_User c on a.UserId = c.Id"
+                       + $" where c.InJob=1 and a.UserId={userId} and IsApprove=1 and year={year} and {monthStr}"
                        + $" order by year desc,month desc";
             using (var reader = Db.Context.FromSql(sql).ToDataReader())
             {
@@ -191,7 +191,20 @@ namespace FancyFix.OA.Bll
         /// <returns></returns>
         public static Valuable_Records GetModelByVid(int userId, int year, int month, int vid)
         {
-           return First(o => o.UserId == userId && o.Year == year && o.Month == month && o.Vid == vid);
+            return First(o => o.UserId == userId && o.Year == year && o.Month == month && o.Vid == vid);
+        }
+
+        /// <summary>
+        /// 是否存在
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="year"></param>
+        /// <param name="month"></param>
+        /// <param name="vid"></param>
+        /// <returns></returns>
+        public static bool IsExist(int userId, int year, int month, int vid)
+        {
+            return FirstSelect(o => o.UserId == userId && o.Year == year && o.Month == month && o.Vid == vid, o => o.Id)?.Id > 0;
         }
     }
 }

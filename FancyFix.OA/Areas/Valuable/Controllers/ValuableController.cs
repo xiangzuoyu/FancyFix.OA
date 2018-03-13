@@ -120,6 +120,8 @@ namespace FancyFix.OA.Areas.Valuable.Controllers
             }
             else
             {
+                bool isExist = Bll.BllValuable_Records.IsExist(MyInfo.Id, yearAndMonth.Item1, yearAndMonth.Item2, id);
+                if (isExist) return MessageBoxAndReturn("请勿重复提交！");
                 record = new Valuable_Records();
                 record.CreateTime = DateTime.Now;
                 record.Rank = rank;

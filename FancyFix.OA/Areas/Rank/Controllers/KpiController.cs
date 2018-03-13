@@ -65,5 +65,34 @@ namespace FancyFix.OA.Areas.Rank.Controllers
             ViewBag.pid = process.Id;
             return View(record);
         }
+
+        public ActionResult ReCal(int year = 0, int month = 0)
+        {
+            CheckDate(ref year, ref month);
+
+            var processlist = Bll.BllKpi_Process.Query(o => o.Year == year && o.Month == month);
+            foreach (var item in processlist)
+            {
+                bool isApprove = true;
+                var records = Bll.BllKpi_Records.GetListByUserId(item.UserId.Value, item.Year.Value, item.Month.Value);
+                if (records != null && records.Count > 0)
+                {
+                    foreach (var rec in records)
+                    {
+                        if (rec.IsApprove == false)
+                        {
+                            isApprove = false;
+                            break;
+                        }
+                    }
+                    if (isApprove)
+                    {
+                        item.Score = records.Where(o => o.IsApprove == true).Sum(o => o.FinishScore).Value;
+                        Bll.BllKpi_Process.Update(item, o => o.Id == item.Id);
+                    }
+                }
+            }
+            return MessageBoxAndClose("成功！");
+        }
     }
 }

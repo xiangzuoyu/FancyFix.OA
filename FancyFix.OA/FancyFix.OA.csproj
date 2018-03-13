@@ -1829,6 +1829,7 @@
     <Content Include="Areas\Questionnaire\Views\Answerer\Info.cshtml" />
     <Content Include="Areas\Kpi\Views\KpiList\UnApproveList.cshtml" />
     <Content Include="Areas\Kpi\Views\KpiList\UnCreateList.cshtml" />
+    <Content Include="Areas\Valuable\Views\Valuable\HistorySamples.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Common\GetAdminTree.cshtml" />
   </ItemGroup>

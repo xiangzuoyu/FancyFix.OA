@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "UnCreateList";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    Dictionary<string, string> list = ViewBag.list;
+    DataTable list = ViewBag.list;
     int startyear = ViewBag.StartYear;
     int year = ViewBag.year;
     int month = ViewBag.month;
@@ -37,23 +37,25 @@
                         <tr>
                             <th style="text-align:center;">进程</th>
                             <th style="text-align:center;">未生成进程人员</th>
+                            <th style="text-align:center;">指标完成度(%)</th>
                             <th style="text-align:center;">部门</th>
                         </tr>
-                        @if (list != null && list.Count > 0)
+                        @if (list != null && list.Rows.Count > 0)
                         {
-                            foreach (var item in list)
+                            foreach (DataRow row in list.Rows)
                             {
                                 <tr>
                                     <td align="center">@year 年 @month 月</td>
-                                    <td align="center">@item.Key</td>
-                                    <td align="center">@item.Value</td>
+                                    <td align="center">@row["RealName"]</td>
+                                    <td align="center">@row["ScoreSum"]</td>
+                                    <td align="center">@row["DepartName"]</td>
                                 </tr>
                             }
                         }
                         else
                         {
                             <tr>
-                                <td align="center" colspan="3">暂无数据</td>
+                                <td align="center" colspan="4">暂无数据</td>
                             </tr>
                         }
                     </tbody>

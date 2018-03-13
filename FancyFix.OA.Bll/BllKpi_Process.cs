@@ -67,18 +67,29 @@ namespace FancyFix.OA.Bll
         {
             using (var trans = Db.Context.BeginTransaction())
             {
+                int id = trans.Update(record, o => o.Id == record.Id);
+                if (id == 0)
+                {
+                    trans.Rollback();
+                    return false;
+                }
                 //查询进程是否存在
                 var process = trans.From<Kpi_Process>().Where(o => o.UserId == record.UserId && o.Year == record.Year && o.Month == record.Month).ToFirst();
                 if (process == null) return false;
 
-                //查询进程的指标
+                //查询进程下其他所有指标
                 var recordlist = trans.From<Kpi_Records>().Where(o => o.Pid == process.Id).ToList();
-                if (recordlist == null || recordlist.Count() == 0) return false;
+                if (recordlist == null || recordlist.Count == 0) return false;
 
-                //更新状态和总分
-                process.IsApprove = !(recordlist.Count(o => o.IsApprove == false) > 0);
+                //更新状态和总分，指标
+                process.IsApprove = recordlist.Count(o => o.IsApprove == false) == 0;
                 process.Score = recordlist.Where(o => o.IsApprove == true).Sum(o => o.FinishScore).Value;
-                trans.Update(process);
+                id = trans.Update(process, o => o.Id == process.Id);
+                if (id == 0)
+                {
+                    trans.Rollback();
+                    return false;
+                }
                 trans.Commit();
                 return true;
             }
@@ -93,10 +104,10 @@ namespace FancyFix.OA.Bll
         public static List<Kpi_Process> GetRankUserList(int year, int month)
         {
             var where = new Where<Kpi_Process>();
-            where.And(o => o.Year == year && o.Month == month && o.IsApprove == true);
+            where.And<Mng_User>((a, b) => a.Year == year && a.Month == month && a.IsApprove == true && b.InJob == true);
 
             var p = Db.Context.From<Kpi_Process>()
-                 .LeftJoin<Mng_User>((a, b) => a.UserId == b.Id)
+                 .InnerJoin<Mng_User>((a, b) => a.UserId == b.Id)
                  .Select<Mng_User>((a, b) => new { a.Id, a.Score, a.Year, a.Month, a.IsApprove, b.RealName, b.DepartId })
                  .Where(where);
             return p.OrderByDescending(o => o.Score).ToList();

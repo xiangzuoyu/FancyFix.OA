@@ -104,10 +104,10 @@ namespace FancyFix.OA.Bll
         public static List<Kpi_Process> GetRankUserList(int year, int month)
         {
             var where = new Where<Kpi_Process>();
-            where.And(o => o.Year == year && o.Month == month && o.IsApprove == true);
+            where.And<Mng_User>((a, b) => a.Year == year && a.Month == month && a.IsApprove == true && b.InJob == true);
 
             var p = Db.Context.From<Kpi_Process>()
-                 .LeftJoin<Mng_User>((a, b) => a.UserId == b.Id)
+                 .InnerJoin<Mng_User>((a, b) => a.UserId == b.Id)
                  .Select<Mng_User>((a, b) => new { a.Id, a.Score, a.Year, a.Month, a.IsApprove, b.RealName, b.DepartId })
                  .Where(where);
             return p.OrderByDescending(o => o.Score).ToList();

@@ -65,10 +65,10 @@ namespace FancyFix.OA.Bll
         public static List<Mng_User> GetUserList(int parUserId, int year, int month)
         {
             string sql = $"select UserId as Id,b.RealName,c.ClassName as DepartMentName,d.GroupName from Kpi_Records a " +
-                $"left join Mng_User b on a.UserId = b.Id " +
+                $"inner join Mng_User b on a.UserId = b.Id " +
                 $"left join Mng_DepartmentClass c on b.DepartId = c.Id " +
                 $"left join Mng_PermissionGroup d on b.GroupId = d.Id " +
-                $"where a.ParUserId = {parUserId} and a.year = {year} and a.month = {month}" +
+                $"where b.InJob=1 and a.ParUserId = {parUserId} and a.year = {year} and a.month = {month}" +
                 $"group by UserId,b.RealName,c.ClassName,d.GroupName";
             return Db.Context.FromSql(sql).ToList<Mng_User>();
         }

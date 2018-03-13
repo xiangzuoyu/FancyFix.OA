@@ -321,6 +321,10 @@ namespace FancyFix.OA.Areas.Kpi.Controllers
 
         public ActionResult ChildUserList(int year = 0, int month = 0)
         {
+            //默认显示上个月
+            if (month < 1 || month > 12)
+                month = DateTime.Now.AddMonths(-1).Month;
+
             CheckDate(ref year, ref month);
 
             var userlist = Bll.BllKpi_Records.GetUserList(MyInfo.Id, year, month);

@@ -68,26 +68,6 @@
     <script src="/Content/js/common/tools.js"></script>
     <script>
 
-        var fun = {
-            init: function () {
-                $("#importBtn").bind("click", function () {
-                    $("#fileEle").trigger("click");
-                })
-                $("#exportBtn").bind("click", function () {
-                    $("#fileEle").trigger("click");
-                })
-
-                $("#fileEle").bind("change", function () {
-                    excelForm.action = "list";
-                    excelForm.submit();
-                })
-            }
-        }
-        fun.init();
-
-
-        
-
         layui.use(['layer', 'form'], function () {
             var layer = layui.layer;
             var form = layui.form();
@@ -144,14 +124,16 @@
                             title: '操作',
                             align: 'center',
                             formatter: function (v, r, i) {
-                                
+
                                 @*@foreach (var val in Enum.GetValues(typeof(SupplierLabel)))
                                 {
                                     @Html.DropDownList("myLabel"+r.Id)
                                     //@listSelect+="<option value="+@((int)val)+">@(val.ToString())</option>'
                                 }*@
-
-                                return "  <a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnEdit btn btn-md btn-primary\">编辑</a> <a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnDel btn btn-md btn-danger\">删除</a>";
+                                var listSelect = "<select id=\"label_select" + r.Id+"\" lay-filter=\"displayid\">";
+                                listSelect += "<option value=\"1\">合格</option><option value=\"2\">潜在</option><option value=\"3\">黑名单</option>";
+                                listSelect += "</select>"
+                                return listSelect+" <a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnEdit btn btn-md btn-primary\">编辑</a> <a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnDel btn btn-md btn-danger\">删除</a>";
                             }
                         }]
                     });
@@ -221,6 +203,25 @@
                 }
             });
         })
-         
+
+        var fun = {
+            init: function () {
+                $("#importBtn").bind("click", function () {
+                    $("#fileEle").trigger("click");
+                })
+                $("#exportBtn").bind("click", function () {
+                    $("#fileEle").trigger("click");
+                })
+
+                $("#fileEle").bind("change", function () {
+                    excelForm.action = "list";
+                    excelForm.submit();
+                })
+
+                $("")
+            }
+        }
+        fun.init();
+
     </script>
 }

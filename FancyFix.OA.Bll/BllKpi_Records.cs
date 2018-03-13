@@ -129,5 +129,17 @@ namespace FancyFix.OA.Bll
         {
             return Db.Context.FromSql($"select UserName,ParUserName from Kpi_Records where IsCreated=1 and IsApprove=0 and year={year} and month={month} group by ParUserName,UserName").ToDataTable();
         }
+
+        /// <summary>
+        /// 获取用户指标总百分比
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public static int GetUserScoreSum(int userId, int year, int month)
+        {
+            string sql = $"select Sum(Score) from Kpi_Records " +
+                $"where UserId={userId} and year={year} and month={month}";
+            return Db.Context.FromSql(sql).ToScalar<int>();
+        }
     }
 }

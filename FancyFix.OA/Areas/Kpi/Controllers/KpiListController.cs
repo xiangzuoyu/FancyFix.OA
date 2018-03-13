@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using FancyFix.OA.Base;
 using FancyFix.OA.Model;
+using System.Data;
 
 namespace FancyFix.OA.Areas.Kpi.Controllers
 {
@@ -27,7 +28,11 @@ namespace FancyFix.OA.Areas.Kpi.Controllers
         {
             CheckDate(ref year, ref month);
 
-            Dictionary<string, string> users = new Dictionary<string, string>();
+            DataTable dt = new DataTable();
+            dt.Columns.Add("RealName", typeof(String));
+            dt.Columns.Add("DepartName", typeof(String));
+            dt.Columns.Add("ScoreSum", typeof(String));
+
             var userlist = Bll.BllMng_User.GetAllList(true, departId);
             var departlist = Bll.BllMng_DepartmentClass.GetAll();
             var kpiprocess = Bll.BllKpi_Process.Query(o => o.Year == year && o.Month == month);
@@ -35,11 +40,18 @@ namespace FancyFix.OA.Areas.Kpi.Controllers
             {
                 var process = kpiprocess?.Find(o => o.UserId == item.Id);
                 if (process == null || process.IsCreated == false)
-                    users.Add(item.RealName, departlist.Find(o => o.Id == item.DepartId)?.ClassName ?? "");
+                {
+                    int scoreSum = Bll.BllKpi_Records.GetUserScoreSum(item.Id, year, month);
+                    var row = dt.NewRow();
+                    row["RealName"] = item.RealName;
+                    row["DepartName"] = departlist.Find(o => o.Id == item.DepartId)?.ClassName ?? "";
+                    row["ScoreSum"] = scoreSum.ToString();
+                    dt.Rows.Add(row);
+                }
             }
 
             ViewBag.departHtml = GetDepartOptions(departId);
-            ViewBag.list = users;
+            ViewBag.list = dt;
             ViewBag.year = year;
             ViewBag.month = month;
             ViewBag.startyear = StartYear;

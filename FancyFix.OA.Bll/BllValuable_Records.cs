@@ -191,7 +191,20 @@ namespace FancyFix.OA.Bll
         /// <returns></returns>
         public static Valuable_Records GetModelByVid(int userId, int year, int month, int vid)
         {
-           return First(o => o.UserId == userId && o.Year == year && o.Month == month && o.Vid == vid);
+            return First(o => o.UserId == userId && o.Year == year && o.Month == month && o.Vid == vid);
+        }
+
+        /// <summary>
+        /// 是否存在
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="year"></param>
+        /// <param name="month"></param>
+        /// <param name="vid"></param>
+        /// <returns></returns>
+        public static bool IsExist(int userId, int year, int month, int vid)
+        {
+            return FirstSelect(o => o.UserId == userId && o.Year == year && o.Month == month && o.Vid == vid, o => o.Id)?.Id > 0;
         }
     }
 }

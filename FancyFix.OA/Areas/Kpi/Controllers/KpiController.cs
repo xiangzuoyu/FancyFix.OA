@@ -381,11 +381,9 @@ namespace FancyFix.OA.Areas.Kpi.Controllers
             record.ParScore = parscore;
             record.Remark = RequestString("remark");
 
-            int result = Bll.BllKpi_Records.Update(record, o => o.Id == id);
-            if (result > 0)
+            //int result = Bll.BllKpi_Records.Update(record, o => o.Id == id);
+            if (Bll.BllKpi_Process.UpdateProcessStatus(record))
             {
-                //更新进程状态
-                Bll.BllKpi_Process.UpdateProcessStatus(record);
                 return MessageBoxAndJump("提交成功！", $"/kpi/kpi/childkpilist/{record.UserId}?year={record.Year}&month={record.Month}");
             }
             else

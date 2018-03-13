@@ -35,7 +35,7 @@
                         </colgroup>
                         <tbody>
                             <tr>
-                                <td align="right"><label for="name" class="control-label">姓名：</label></td>
+                                <td align="right"><em class="error">*</em> <label for="name" class="control-label">姓名：</label></td>
                                 <td>
                                     <div class="form-group">
                                         <input type="text" class="form-control" id="name" name="name" placeholder="姓名" style="width:100%;" required="required">
@@ -46,28 +46,28 @@
                                 <td align="right"><label for="email" class="control-label">Email：</label></td>
                                 <td>
                                     <div class="form-group">
-                                        <input type="text" class="form-control" id="email" name="email" placeholder="Email" style="width:100%;" required="required" email="true">
+                                        <input type="text" class="form-control" id="email" name="email" placeholder="Email" style="width:100%;" email="true">
                                     </div>
                                 </td>
                             </tr>
                             <tr>
-                                <td align="right"><label for="tel" class="control-label">手机：</label></td>
+                                <td align="right"><em class="error">*</em> <label for="tel" class="control-label">手机：</label></td>
                                 <td>
                                     <div class="form-group">
                                         <input type="text" class="form-control" id="tel" name="tel" placeholder="手机" style="width:100%;" required="required" isPhone="true">
                                     </div>
                                 </td>
                             </tr>
-                            <tr>
+                            @*<tr>
                                 <td align="right"><label for="job" class="control-label">部门：</label></td>
                                 <td>
                                     <div class="form-group">
                                         <input type="text" class="form-control" id="department" name="department" placeholder="部门" style="width:100%;" required="required">
                                     </div>
                                 </td>
-                            </tr>
+                            </tr>*@
                             <tr>
-                                <td align="right"><label for="job" class="control-label">应聘岗位：</label></td>
+                                <td align="right"><em class="error">*</em> <label for="job" class="control-label">应聘岗位：</label></td>
                                 <td>
                                     <div class="form-group">
                                         <input type="text" class="form-control" id="job" name="job" placeholder="应聘岗位" style="width:100%;" required="required">

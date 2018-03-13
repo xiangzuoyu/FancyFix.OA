@@ -67,18 +67,29 @@ namespace FancyFix.OA.Bll
         {
             using (var trans = Db.Context.BeginTransaction())
             {
+                int id = trans.Update(record, o => o.Id == record.Id);
+                if (id == 0)
+                {
+                    trans.Rollback();
+                    return false;
+                }
                 //查询进程是否存在
                 var process = trans.From<Kpi_Process>().Where(o => o.UserId == record.UserId && o.Year == record.Year && o.Month == record.Month).ToFirst();
                 if (process == null) return false;
 
-                //查询进程的指标
+                //查询进程下其他所有指标
                 var recordlist = trans.From<Kpi_Records>().Where(o => o.Pid == process.Id).ToList();
-                if (recordlist == null || recordlist.Count() == 0) return false;
+                if (recordlist == null || recordlist.Count == 0) return false;
 
-                //更新状态和总分
-                process.IsApprove = !(recordlist.Count(o => o.IsApprove == false) > 0);
+                //更新状态和总分，指标
+                process.IsApprove = recordlist.Count(o => o.IsApprove == false) == 0;
                 process.Score = recordlist.Where(o => o.IsApprove == true).Sum(o => o.FinishScore).Value;
-                trans.Update(process);
+                id = trans.Update(process, o => o.Id == process.Id);
+                if (id == 0)
+                {
+                    trans.Rollback();
+                    return false;
+                }
                 trans.Commit();
                 return true;
             }

@@ -27,8 +27,10 @@ namespace FancyFix.ThirdPartyPlatform.Controllers
             //验证格式
             string email = RequestString("email");
             string tel = RequestString("tel");
-            if (!Tools.Common.StringCheck.IsEmail(email)) return Json(new { result = 0, Data = "请输入正确的邮箱地址！" });
-            if (!Tools.Common.StringCheck.IsMobile(tel)) return Json(new { result = 0, Data = "请输入正确的手机号码！" });
+            if (!string.IsNullOrEmpty(email) && !Tools.Common.StringCheck.IsEmail(email))
+                return Json(new { result = 0, Data = "请输入正确的邮箱地址！" });
+            if (!Tools.Common.StringCheck.IsMobile(tel))
+                return Json(new { result = 0, Data = "请输入正确的手机号码！" });
 
             //所有结果加入列表
             List<string> disclist = new List<string>();
@@ -74,6 +76,7 @@ namespace FancyFix.ThirdPartyPlatform.Controllers
                     Country = country,
                     Area = area
                 });
+
                 if (count > 0)
                     return Json(new { result = 1, data = entity });
                 else

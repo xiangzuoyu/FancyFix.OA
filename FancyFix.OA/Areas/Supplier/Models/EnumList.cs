@@ -11,4 +11,13 @@ namespace FancyFix.OA.Areas.Supplier.Models
         潜在 = 2,
         黑名单 = 3
     }
+
+    public enum SupplierType
+    {
+        RM = 1,
+        PM = 2,
+        FG = 3,
+        Parts = 4,
+        Convert = 5,
+    }
 }

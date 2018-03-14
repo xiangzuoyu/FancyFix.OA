@@ -1,0 +1,56 @@
+﻿@using FancyFix.OA.Areas.Supplier.Models;
+@{
+    ViewBag.Title = "ExportExcel";
+    Layout = "~/Views/Shared/_Layout_In.cshtml";
+}
+
+@section Css{
+    <link href="/Content/js/plugins/iCheck/flat/_all.css" rel="stylesheet" />
+}
+<form action="SupplierManager">
+    <div class="layui-form layui-form-pane">
+        <div class="layui-inline">
+            <input name="code" type="checkbox" checked="checked" value="" title="供应商代码" />
+            <input name="" type="checkbox" checked="checked" value="" title="供应商名称" />
+            <input type="checkbox" checked="checked" value="" title="供应商名称缩写" />
+            <input type="checkbox" checked="checked" value="" title="供应商类型（RM/PM/FG/Parts/Convert)" />
+            <input type="checkbox" checked="checked" value="" title="经营范围/供应物料" />
+            <input type="checkbox" checked="checked" value="" title="联系人（1）/电话/邮箱" />
+            <input type="checkbox" checked="checked" value="" title="联系人（2）/电话/邮箱" />
+            <input type="checkbox" checked="checked" value="" title="网址" />
+            <input type="checkbox" checked="checked" value="" title="地址" />
+            <input type="checkbox" checked="checked" value="" title="合作时间（起止）" />
+            <input type="checkbox" checked="checked" value="" title="合格/黑名单/潜在" />
+            <input type="checkbox" checked="checked" value="" title="账期" />
+            <input type="checkbox" checked="checked" value="" title="备注 " />
+        </div>
+        <br />
+        <br />
+        <div class="layui-inline">
+            <label class="layui-form-label">导出类型</label>
+            <div class="layui-input-inline">
+                <select id="displayid" name="displayid" lay-filter="displayid">
+                    <option value="0">全部</option>
+                    @foreach (var val in Enum.GetValues(typeof(SupplierLabel)))
+                    {
+                        <option value="@((int)val)">@(val.ToString())</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+    </div>
+</form>
+
+@section Js{
+    <script src="/Content/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/jquery.validator.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/messages_cn.js"></script>
+    <script src="/Content/js/common/tools.js"></script>
+    <script>
+        layui.use(['layer', 'form'], function () {
+            var layer = layui.layer;
+            var form = layui.form();
+        });
+    </script>
+}

@@ -9,5 +9,6 @@ namespace FancyFix.OA.Model
     public partial class Supplier_List
     {
         public string LabelName { get; set; }
+        public string SupplierTypeName { get; set; }
     }
 }

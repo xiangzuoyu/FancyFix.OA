@@ -165,7 +165,7 @@ namespace FancyFix.Tools.Tool
         /// </summary>
         /// <param name="dtSource">源DataTable</param>
         /// <param name="strHeaderText">表头文本</param>
-        private static MemoryStream DataTableToExcel(DataTable dtSource, string strHeaderText)
+        private static MemoryStream DataTableToExcel(DataTable dtSource, string strHeaderText = "")
         {
             HSSFWorkbook workbook = new HSSFWorkbook();
             HSSFSheet sheet = (HSSFSheet)workbook.CreateSheet();
@@ -222,31 +222,34 @@ namespace FancyFix.Tools.Tool
 
                     #region 表头及样式
                     {
-                        HSSFRow headerRow = (HSSFRow)sheet.CreateRow(0);
-                        headerRow.HeightInPoints = 25;
-                        headerRow.CreateCell(0).SetCellValue(strHeaderText);
+                        if (!string.IsNullOrEmpty(strHeaderText))
+                        {
+                            HSSFRow headerRow = (HSSFRow)sheet.CreateRow(rowIndex);
+                            headerRow.HeightInPoints = 25;
+                            headerRow.CreateCell(0).SetCellValue(strHeaderText);
 
-                        HSSFCellStyle headStyle = (HSSFCellStyle)workbook.CreateCellStyle();
-                        //headStyle.Alignment = HorizontalAlignment.Center;//水平居中
-                        //headStyle.VerticalAlignment = VerticalAlignment.Center;//垂直居中
-                        HSSFFont font = (HSSFFont)workbook.CreateFont();
-                        font.FontHeightInPoints = 20;
-                        font.Boldweight = 700;
-                        headStyle.SetFont(font);
-                        headerRow.GetCell(0).CellStyle = headStyle;
-                        //sheet.AddMergedRegion(new Region(0, 0, 0, dtSource.Columns.Count - 1));
-                        //headerRow.Dispose();
+                            HSSFCellStyle headStyle = (HSSFCellStyle)workbook.CreateCellStyle();
+                            //headStyle.Alignment = HorizontalAlignment.Center;//水平居中
+                            //headStyle.VerticalAlignment = VerticalAlignment.Center;//垂直居中
+                            HSSFFont font = (HSSFFont)workbook.CreateFont();
+                            font.FontHeightInPoints = 20;
+                            font.Boldweight = 700;
+                            headStyle.SetFont(font);
+                            headerRow.GetCell(0).CellStyle = headStyle;
+                            //sheet.AddMergedRegion(new Region(0, 0, 0, dtSource.Columns.Count - 1));
+                            //headerRow.Dispose();
+                            rowIndex++;
+                        }
                     }
                     #endregion
 
-
                     #region 列头及样式
                     {
-                        HSSFRow headerRow = (HSSFRow)sheet.CreateRow(1);
+                        HSSFRow headerRow = (HSSFRow)sheet.CreateRow(rowIndex);
                         headerRow.HeightInPoints = 25;
                         HSSFCellStyle headStyle = (HSSFCellStyle)workbook.CreateCellStyle();
                         headStyle.WrapText = true;//自动换行
-                        //headStyle.Alignment = HorizontalAlignment.Center;//水平居中
+                                                  //headStyle.Alignment = HorizontalAlignment.Center;//水平居中
                         headStyle.VerticalAlignment = VerticalAlignment.Center;//垂直居中
                         HSSFFont font = (HSSFFont)workbook.CreateFont();
                         font.FontHeightInPoints = 10;
@@ -261,10 +264,10 @@ namespace FancyFix.Tools.Tool
                             sheet.SetColumnWidth(column.Ordinal, ((arrColWidth[column.Ordinal] + 1) * 256) > 10000 ? 10000 : ((arrColWidth[column.Ordinal] + 1) * 256)); //宽度10000可自定义
                         }
                         //headerRow.Dispose();
+                        rowIndex++;
                     }
                     #endregion
-
-                    rowIndex = 2;
+                    //rowIndex = 2;
                 }
                 #endregion
 

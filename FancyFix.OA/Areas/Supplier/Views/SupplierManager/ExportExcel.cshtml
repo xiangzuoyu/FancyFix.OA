@@ -7,38 +7,41 @@
 @section Css{
     <link href="/Content/js/plugins/iCheck/flat/_all.css" rel="stylesheet" />
 }
-<form action="SupplierManager">
+<form action="ExportExcel" method="post">
     <div class="layui-form layui-form-pane">
         <div class="layui-inline">
-            <input name="code" type="checkbox" checked="checked" value="" title="供应商代码" />
-            <input name="" type="checkbox" checked="checked" value="" title="供应商名称" />
-            <input type="checkbox" checked="checked" value="" title="供应商名称缩写" />
-            <input type="checkbox" checked="checked" value="" title="供应商类型（RM/PM/FG/Parts/Convert)" />
-            <input type="checkbox" checked="checked" value="" title="经营范围/供应物料" />
-            <input type="checkbox" checked="checked" value="" title="联系人（1）/电话/邮箱" />
-            <input type="checkbox" checked="checked" value="" title="联系人（2）/电话/邮箱" />
-            <input type="checkbox" checked="checked" value="" title="网址" />
-            <input type="checkbox" checked="checked" value="" title="地址" />
-            <input type="checkbox" checked="checked" value="" title="合作时间（起止）" />
-            <input type="checkbox" checked="checked" value="" title="合格/黑名单/潜在" />
-            <input type="checkbox" checked="checked" value="" title="账期" />
-            <input type="checkbox" checked="checked" value="" title="备注 " />
+            <input name="code" type="checkbox" checked="checked" title="供应商代码" />
+            <input name="name" type="checkbox" checked="checked" title="供应商名称" />
+            <input name="supplierab" type="checkbox" checked="checked" title="供应商名称缩写" />
+            <input name="suppliertype" type="checkbox" checked="checked" title="供应商类型（RM/PM/FG/Parts/Convert)" />
+            <input name="businessscope" type="checkbox" checked="checked" title="经营范围/供应物料" />
+            <input name="contact1" type="checkbox" checked="checked" title="联系人（1）/电话/邮箱" />
+            <input name="contact2" type="checkbox" checked="checked" title="联系人（2）/电话/邮箱" />
+            <input name="site" type="checkbox" checked="checked" title="网址" />
+            <input name="address" type="checkbox" checked="checked" title="地址" />
+            <input name="startdate" type="checkbox" checked="checked" title="合作时间（起止）" />
+            <input name="labelid" type="checkbox" checked="checked" title="合格/黑名单/潜在" />
+            <input name="accountdate" type="checkbox" checked="checked" title="账期" />
+            <input name="note" type="checkbox" checked="checked" title="备注 " />
         </div>
         <br />
         <br />
         <div class="layui-inline">
             <label class="layui-form-label">导出类型</label>
             <div class="layui-input-inline">
-                <select id="displayid" name="displayid" lay-filter="displayid">
+                <select id="selectLabelid" name="selectLabelid" lay-filter="displayid">
                     <option value="0">全部</option>
                     @foreach (var val in Enum.GetValues(typeof(SupplierLabel)))
                     {
                         <option value="@((int)val)">@(val.ToString())</option>
                     }
-                </select>
+                </select>                
             </div>
         </div>
-
+        &nbsp;&nbsp;&nbsp;
+        <div class="layui-inline">
+            <button id="btnSearch" class="btn bg-orange" lay-submit >导出</button>
+        </div>
     </div>
 </form>
 

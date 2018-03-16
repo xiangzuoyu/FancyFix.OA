@@ -1,4 +1,5 @@
 ﻿@using FancyFix.OA.Areas.Supplier.Models;
+@using FancyFix.Tools.Enums;
 @{
     ViewBag.Title = "ExportExcel";
     Layout = "~/Views/Shared/_Layout_In.cshtml";
@@ -10,19 +11,19 @@
 <form action="ExportExcel" method="post">
     <div class="layui-form layui-form-pane">
         <div class="layui-inline">
-            <input name="code" type="checkbox" checked="checked" title="供应商代码" />
-            <input name="name" type="checkbox" checked="checked" title="供应商名称" />
-            <input name="supplierab" type="checkbox" checked="checked" title="供应商名称缩写" />
-            <input name="suppliertype" type="checkbox" checked="checked" title="供应商类型（RM/PM/FG/Parts/Convert)" />
-            <input name="businessscope" type="checkbox" checked="checked" title="经营范围/供应物料" />
-            <input name="contact1" type="checkbox" checked="checked" title="联系人（1）/电话/邮箱" />
-            <input name="contact2" type="checkbox" checked="checked" title="联系人（2）/电话/邮箱" />
-            <input name="site" type="checkbox" checked="checked" title="网址" />
-            <input name="address" type="checkbox" checked="checked" title="地址" />
-            <input name="startdate" type="checkbox" checked="checked" title="合作时间（起止）" />
-            <input name="labelid" type="checkbox" checked="checked" title="合格/黑名单/潜在" />
-            <input name="accountdate" type="checkbox" checked="checked" title="账期" />
-            <input name="note" type="checkbox" checked="checked" title="备注 " />
+            <input name="cols" value="Code" type="checkbox" checked="checked" title="供应商代码" />
+            <input name="cols" value="Name" type="checkbox" checked="checked" title="供应商名称" />
+            <input name="cols" value="SupplierAb" type="checkbox" checked="checked" title="供应商名称缩写" />
+            <input name="cols" value="SupplierType" type="checkbox" checked="checked" title="供应商类型（RM/PM/FG/Parts/Convert)" />
+            <input name="cols" value="BusinessScope" type="checkbox" checked="checked" title="经营范围/供应物料" />
+            <input name="cols" value="Contact1" type="checkbox" checked="checked" title="联系人（1）/电话/邮箱" />
+            <input name="cols" value="Contact2" type="checkbox" checked="checked" title="联系人（2）/电话/邮箱" />
+            <input name="cols" value="Site" type="checkbox" checked="checked" title="网址" />
+            <input name="cols" value="Address" type="checkbox" checked="checked" title="地址" />
+            <input name="cols" value="StartDate" type="checkbox" checked="checked" title="合作时间（起止）" />
+            <input name="cols" value="LabelId" type="checkbox" checked="checked" title="合格/黑名单/潜在" />
+            <input name="cols" value="Accountdate" type="checkbox" checked="checked" title="账期" />
+            <input name="cols" value="Note" type="checkbox" checked="checked" title="备注 " />
         </div>
         <br />
         <br />
@@ -31,10 +32,7 @@
             <div class="layui-input-inline">
                 <select id="selectLabelid" name="selectLabelid" lay-filter="displayid">
                     <option value="0">全部</option>
-                    @foreach (var val in Enum.GetValues(typeof(SupplierLabel)))
-                    {
-                        <option value="@((int)val)">@(val.ToString())</option>
-                    }
+                    @Html.Raw(Tools.GetOptionHtml(typeof(SupplierLabel)))
                 </select>                
             </div>
         </div>

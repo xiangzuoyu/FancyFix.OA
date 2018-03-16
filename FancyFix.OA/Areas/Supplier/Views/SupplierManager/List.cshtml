@@ -1,4 +1,5 @@
 ﻿@using FancyFix.OA.Areas.Supplier.Models;
+@using FancyFix.Tools.Enums;
 @{
     ViewBag.Title = "List";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -22,10 +23,7 @@
                             <div class="layui-input-inline">
                                 <select id="selectLabelid" name="selectLabelid" lay-filter="selectLabelid">
                                     <option value="0">请选择</option>
-                                    @foreach (var val in Enum.GetValues(typeof(SupplierLabel)))
-                                    {
-                                        <option value="@((int)val)">@(val.ToString())</option>
-                                    }
+                                    @Html.Raw(Tools.GetOptionHtml(typeof(SupplierLabel)))
                                 </select>
                             </div>
                         </div>
@@ -36,8 +34,11 @@
                             <input type="button" id="exportBtn" class="btn bg-orange" value="导出">
                         </div>
                         <div id="toolbar" class="btn-group">
+                            <button id="btn_add" type="button" class="btn btn-default">
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>添加
+                            </button>
                             <button id="btn_delete" type="button" class="btn btn-default">
-                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>隐藏
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
                             </button>
                         </div>
 
@@ -102,7 +103,7 @@
                             title: '供应商代码',
                             align: 'center',
                             //width: '500px'
-                        },{
+                        }, {
                             field: 'Name',
                             title: '供应商名称',
                             align: 'center',
@@ -138,6 +139,8 @@
                             field: 'StartDate',
                             title: '合作时间',
                             align: 'center',
+                            //formatter: function (v, r, i) {
+                            //}
                         }, {
                             field: 'LabelName',
                             title: '供应商标签',
@@ -151,7 +154,7 @@
                                 else if (v == "黑名单")
                                     color = '#d2d2d2';
 
-                                return "<span style=\"color:" + color+"\">" + v + "</span>"
+                                return "<span style=\"color:" + color + "\">" + v + "</span>"
                             }
                         }, {
                             field: 'AccountDate',
@@ -165,16 +168,10 @@
                             title: '操作',
                             align: 'center',
                             formatter: function (v, r, i) {
-
-                                @*@foreach (var val in Enum.GetValues(typeof(SupplierLabel)))
-                                {
-                                    @Html.DropDownList("myLabel"+r.Id)
-                                    //@listSelect+="<option value="+@((int)val)+">@(val.ToString())</option>'
-                                }*@
-                                //var listSelect = "<select id=\"label_select" + r.Id+"\" lay-filter=\"displayid\">";
-                                //listSelect += "<option value=\"1\">合格</option><option value=\"2\">潜在</option><option value=\"3\">黑名单</option>";
-                                //listSelect += "</select>"
-                                return "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnDel btn btn-md btn-danger\">隐藏</a>";
+                                var td = '';
+                                td += "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnEdit btn btn-md btn-primary\">编辑</a> ";
+                                td += "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnDel btn btn-md btn-danger\">删除</a> ";
+                                return td
                             }
                         }]
                     });
@@ -190,7 +187,7 @@
                         ordername: params.sort,
 
                         //自定义参数
-                        title: $("#title").val()
+                        selectLabelid: $("#selectLabelid").val()
                     };
                     return temp;
                 };
@@ -205,10 +202,21 @@
                 return false;
             });
 
-            //隐藏单个产品
+            //新增
+            $("#btn_add").on('click', function () {
+                OpenWin("添加", "/supplier/suppliermanager/save", '800px', '500px');
+            });
+
+            //查看
+            $("#table").on('click', '.btnEdit', function () {
+                var id = $(this).attr("data-id");
+                OpenWin("编辑", "/supplier/suppliermanager/save/" + id, '800px', '500px');
+            });
+
+            //删除单个产品
             $("#table").on('click', '.btnDel', function () {
                 var $this = $(this);
-                layer.confirm('确定不显示该产品吗？', {
+                layer.confirm('确定删除该产品吗？', {
                     btn: ['确定', '取消']
                 }, function (index, layero) {
                     var id = $this.data("id");
@@ -216,7 +224,7 @@
                         if (data)
                             Reload();
                         else
-                            ShowError('隐藏失败！');
+                            ShowError('删除失败！');
                     });
                     layer.close(index);
                 }, function (index) {
@@ -224,10 +232,10 @@
                 });
             });
 
-            //批量隐藏
+            //批量删除
             $("#btn_delete").on('click', function () {
                 if (CheckSelections()) {
-                    layer.confirm('确定不显示所选项吗？', {
+                    layer.confirm('确定删除所选项吗？', {
                         btn: ['确定', '取消']
                     }, function (index, layero) {
                         var list = GetSelections();
@@ -235,7 +243,7 @@
                             if (data)
                                 Reload();
                             else
-                                ShowError('隐藏失败！');
+                                ShowError('删除失败！');
                         })
                         layer.close(index);
                     }, function (index) {
@@ -247,8 +255,7 @@
             //批量修改标签
             $("#btnUpdateLabel").on('click', function () {
                 var labelid = $("#selectLabelid").val();
-                if (labelid < 1)
-                {
+                if (labelid < 1) {
                     ShowError("请先在左边下拉框选择修改后的标签");
                     return;
                 }
@@ -259,8 +266,7 @@
                     }, function (index, layero) {
                         var list = GetSelections();
                         $.post('/supplier/suppliermanager/updatelabelbatch', { list, labelId: labelid }, function (data) {
-                            if (data)
-                            {
+                            if (data) {
                                 $("#selectLabelid").val(0);
                                 form.render('select');
                                 Reload();

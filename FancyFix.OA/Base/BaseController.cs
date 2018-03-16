@@ -585,6 +585,12 @@ namespace FancyFix.OA.Base
             return Content(script);
         }
 
+        public ContentResult LayerClose()
+        {
+            string script = "<script type=\"text/javascript\">var w = parent.layer.getFrameIndex(window.name);parent.layer.close(w);</script>";
+            return Content(script);
+        }
+
         #endregion
 
         #region Layer Alert操作

@@ -14,28 +14,19 @@ namespace FancyFix.OA.Bll
             return new BllSupplier_List();
         }
 
-        public static IEnumerable<Supplier_List> PageList(int page, int pageSize, out long records, int display)
+        public static IEnumerable<Supplier_List> PageList(int page, int pageSize, out long records, int labelId)
         {
             var where = new Where<Supplier_List>();
             where.And(o => o.Display != 2);
-            //if (submitterId > 0)
-            //    where.And(o => o.SubmitterId == submitterId);
-            //if (display > 0)
-            //{
-            //    if (display == 3)
-            //        where.And(o => o.Display == display || o.Display == 5);
-            //    else
-            //        where.And(o => o.Display == display);
-            //}
-
+            if (labelId > 0)
+                where.And(o => o.LabelId == labelId);
             var p = Db.Context.From<Supplier_List>()
-                //.Select((a)=>new { })
                 .Where(where);
             records = p.Count();
             return p.Page(pageSize, page).OrderByDescending(o => o.Id).ToList();
         }
 
-        public static int HideModel(int id,int myuserId)
+        public static int HideModel(int id, int myuserId)
         {
             var model = First(o => o.Id == id);
             if (model == null)
@@ -46,15 +37,15 @@ namespace FancyFix.OA.Bll
             return Update(model);
         }
 
-        public static int HideList(IEnumerable<Supplier_List> list,int myuserId)
+        public static int HideList(IEnumerable<Supplier_List> list, int myuserId)
         {
             foreach (var item in list)
-                HideModel(item.Id,myuserId);
+                HideModel(item.Id, myuserId);
 
             return 1;
         }
 
-        public static int UpdateLabel(IEnumerable<Supplier_List> list, int labelId,int myuserId)
+        public static int UpdateLabel(IEnumerable<Supplier_List> list, int labelId, int myuserId)
         {
             foreach (var item in list)
             {

@@ -27,15 +27,15 @@ namespace FancyFix.OA.Areas.Supplier.Models
     public enum PriceFrequency : byte
     {
         [Description("单次")]
-        One = 1,
+        单次 = 1,
         [Description("月")]
-        Month = 2,
+        月 = 2,
         [Description("季")]
-        Season = 3,
+        季 = 3,
         [Description("半年")]
-        HalfYear = 4,
+        半年 = 4,
         [Description("年")]
-        Year = 5
+        年 = 5
     }
 
 }

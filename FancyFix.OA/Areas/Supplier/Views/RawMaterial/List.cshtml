@@ -1,5 +1,4 @@
-﻿@using FancyFix.OA.Areas.Supplier.Models;
-@using FancyFix.Tools.Enums;
+﻿
 @{
     ViewBag.Title = "List";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -23,7 +22,7 @@
                             <div class="layui-input-inline">
                                 <select id="selectLabelid" name="selectLabelid" lay-filter="selectLabelid">
                                     <option value="0">请选择</option>
-                                    @Html.Raw(Tools.GetOptionHtml(typeof(SupplierLabel)))
+                                    @*@Html.Raw(Tools.GetOptionHtml(typeof(SupplierLabel)))*@
                                 </select>
                             </div>
                         </div>
@@ -68,7 +67,7 @@
                 //初始化Table
                 objTable.Init = function () {
                     $table.bootstrapTable({
-                        url: '/supplier/suppliermanager/pagelist',
+                        url: '/supplier/RawMaterial/pagelist',
                         method: 'get',
                         toolbar: '#toolbar',                //工具按钮用哪个容器
                         idField: "Id",                      //指定主键列
@@ -99,70 +98,40 @@
                         columns: [{
                             checkbox: true
                         }, {
-                            field: 'Code',
+                            field: 'BU',
+                            title: '部门',
+                            align: 'center',
+                        }, {
+                            field: 'SAPCode',
+                            title: '原材料代码',
+                            align: 'center',
+                        }, {
+                            field: 'Description',
+                            title: '采购产品名称',
+                            align: 'center',
+                        }, {
+                            field: 'Category',
+                            title: '品类',
+                            align: 'center',
+                        }, {
+                            field: 'LeadBuyer',
+                            title: '采购负责人',
+                            align: 'center',
+                        }, {
+                            field: 'SupplierCode',
                             title: '供应商代码',
                             align: 'center',
-                            //width: '500px'
                         }, {
-                            field: 'Name',
+                            field: 'SupplierName',
                             title: '供应商名称',
                             align: 'center',
                         }, {
-                            field: 'SupplierAb',
-                            title: '供应商名称缩写',
+                            field: 'PriceFrequencyName',
+                            title: '价格频次',
                             align: 'center',
                         }, {
-                            field: 'SupplierTypeName',
-                            title: '供应商类型',
-                            align: 'center',
-                        }, {
-                            field: 'BusinessScope',
-                            title: '经营范围/供应物料',
-                            align: 'center',
-                        }, {
-                            field: 'Contact1',
-                            title: '联系方式1',
-                            align: 'center',
-                        }, {
-                            field: 'Contact2',
-                            title: '联系方式2',
-                            align: 'center',
-                        }, {
-                            field: 'Site',
-                            title: '网址',
-                            align: 'center',
-                        }, {
-                            field: 'Address',
-                            title: '地址',
-                            align: 'center',
-                        }, {
-                            field: 'StartDate',
-                            title: '合作时间',
-                            align: 'center',
-                            //formatter: function (v, r, i) {
-                            //}
-                        }, {
-                            field: 'LabelName',
-                            title: '供应商标签',
-                            align: 'center',
-                            formatter: function (v, r, i) {
-                                var color = '';
-                                if (v == "合格")
-                                    color = '#009688';
-                                else if (v == "潜在")
-                                    color = '#FFB800';
-                                else if (v == "黑名单")
-                                    color = '#d2d2d2';
-
-                                return "<span style=\"color:" + color + "\">" + v + "</span>"
-                            }
-                        }, {
-                            field: 'AccountDate',
-                            title: '账期',
-                            align: 'center',
-                        }, {
-                            field: 'Note',
-                            title: '备注',
+                            field: 'Currency',
+                            title: '价格单位',
                             align: 'center',
                         }, {
                             title: '操作',

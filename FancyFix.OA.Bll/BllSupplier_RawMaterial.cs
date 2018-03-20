@@ -5,6 +5,7 @@ using System.Text;
 using FancyFix.OA.Model;
 using Dos.DataAccess.Base;
 using Dos.ORM;
+using System.Data;
 
 namespace FancyFix.OA.Bll
 {
@@ -15,12 +16,14 @@ namespace FancyFix.OA.Bll
             return new BllSupplier_RawMaterial();
         }
 
-        public static IEnumerable<Supplier_RawMaterial> PageList(int page, int pageSize, out long records, string file, string key)
+        public static IEnumerable<Supplier_RawMaterial> PageList(int page, int pageSize, out long records, string file, string key, int priceFrequency)
         {
             var where = new Where<Supplier_RawMaterial>();
             where.And(o => o.Display != 2);
-            if (!string.IsNullOrEmpty(file) && !string.IsNullOrEmpty(key))
-                where.And(string.Format(" '{0}'='{1}' ", file, key));
+            if (!string.IsNullOrEmpty(file) && !string.IsNullOrEmpty(key) && !file.Contains("SupplierCode,SupplierName"))
+                where.And(string.Format(" {0} like '%{1}%' ", file, key));
+            if (priceFrequency > 0)
+                where.And(o => o.PriceFrequency == priceFrequency);
             var p = Db.Context.From<Supplier_RawMaterial>()
                 .Where(where);
             records = p.Count();
@@ -50,7 +53,7 @@ namespace FancyFix.OA.Bll
                     }
                     else
                     {
-                        AddId = rawmaterialModel.VendorId.GetValueOrDefault();
+                        AddId = rawmaterialModel.Id;
                     }
 
                     if (AddId < 1)
@@ -96,5 +99,50 @@ namespace FancyFix.OA.Bll
             }
         }
 
+        public static int HideModel(int id, int myuserId)
+        {
+            var model = First(o => o.Id == id);
+            if (model == null)
+                return 0;
+            model.Display = 2;
+            model.LastDate = DateTime.Now;
+            model.LastUserId = myuserId;
+            return Update(model);
+        }
+
+        public static int HideList(IEnumerable<Supplier_RawMaterial> list, int myuserId)
+        {
+            foreach (var item in list)
+                HideModel(item.Id, myuserId);
+
+            return 1;
+        }
+
+        public static DataTable GetList(int top, string cols, string where, string orderBy, string files = "", string key = "", int priceFrequency = 0)
+        {
+            string selectCols = "*";
+            if (cols != "")
+                selectCols = cols;
+
+            string topStr = "";
+            if (top > 0)
+                topStr = "top " + top.ToString();
+            string whereStr = "Display!=2 ";
+            if (where != "")
+                whereStr += "where " + where;
+
+            if (!string.IsNullOrEmpty(files) && !string.IsNullOrEmpty(key) && !files.Contains("SupplierCode,SupplierName"))
+                whereStr += string.Format(" and {0} like '%{1}%' ", files, key);
+            if (priceFrequency > 0)
+                whereStr += string.Format(" and priceFrequency = {0}", priceFrequency);
+            string orderByStr = "";
+            if (orderBy != "")
+                orderByStr = "order by " + orderBy;
+
+            var sql = string.Format("select {0} {1} from {2} {3} {4}", topStr, selectCols, tableName, whereStr, orderByStr);
+
+            var dt = Db.Context.FromSql(sql).ToDataTable();
+            return dt;
+        }
     }
 }

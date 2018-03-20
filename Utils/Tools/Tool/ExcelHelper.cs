@@ -249,7 +249,7 @@ namespace FancyFix.Tools.Tool
                         headerRow.HeightInPoints = 25;
                         HSSFCellStyle headStyle = (HSSFCellStyle)workbook.CreateCellStyle();
                         headStyle.WrapText = true;//自动换行
-                                                  //headStyle.Alignment = HorizontalAlignment.Center;//水平居中
+                        //headStyle.Alignment = HorizontalAlignment.Center;//水平居中
                         headStyle.VerticalAlignment = VerticalAlignment.Center;//垂直居中
                         HSSFFont font = (HSSFFont)workbook.CreateFont();
                         font.FontHeightInPoints = 10;

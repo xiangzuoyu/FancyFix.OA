@@ -83,5 +83,11 @@ namespace FancyFix.OA.Bll
             return dt;
         }
 
+        public static IEnumerable<Supplier_List> GetList(int top, string cols, string where, string orderBy, string files, string key)
+        {
+
+            return GetSelectList(top, cols, where, orderBy);
+        }
+
     }
 }

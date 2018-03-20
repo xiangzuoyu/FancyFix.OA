@@ -148,7 +148,7 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
         }
 
         [HttpPost]
-        public ActionResult ExportExcel(int selectLabelid)
+        public ActionResult ExportExcel(int selectLabelid = 0)
         {
             string cols = RequestString("cols");
             var arr = cols.Split(',');

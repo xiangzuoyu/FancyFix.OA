@@ -158,6 +158,53 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             if (arr.Length < 1)
                 return LayerMsgErrorAndReturn("导出失败，请先勾选字段");
 
+            DataTable dt = NewExportDt(arr);
+
+            string where = "Display!=2 ";
+            where += selectLabelid > 0 ? " and LabelId=" + selectLabelid : "";
+            var list = Bll.BllSupplier_List.GetList(0, cols, where, "");
+            ToExcel(list, dt);
+
+            return LayerClose();
+        }
+
+        public void ToExcel(DataTable list, DataTable dt)
+        {
+            if (list == null || list.Rows.Count < 1)
+                return;
+
+            try
+            {
+                int col = list.Columns.Count;
+                foreach (DataRow item in list.Rows)
+                {
+                    var row = dt.NewRow();
+                    for (int i = 0; i < col; i++)
+                    {
+                        if (list.Columns[i].ToString() == "SupplierType")
+                            row[i] = item[i] != null
+                                ? Tools.Enums.Tools.GetEnumDescription(typeof(Models.SupplierType), item[i].ToString().ToInt32()).ToString()
+                                : "未分配";
+                        else if (list.Columns[i].ToString() == "LabelId")
+                            row[i] = item[i] != null
+                                ? Tools.Enums.Tools.GetEnumDescription(typeof(Models.SupplierLabel), item[i].ToString().ToInt32()).ToString()
+                                : "未分配";
+                        else
+                            row[i] = item[i]?.ToString();
+                    }
+                    dt.Rows.Add(row);
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+
+            string fileName = "供应商列表" + DateTime.Now.ToString("yyyyMMddHHmmss");
+            Tools.Tool.ExcelHelper.ToExcelWeb(dt, "", fileName + ".xls");
+        }
+
+        private DataTable NewExportDt(string[] arr)
+        {
             DataTable dt = new DataTable();
             foreach (var item in arr)
             {
@@ -205,47 +252,7 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
                 }
             }
 
-            string where = "Display!=2 ";
-            where += selectLabelid > 0 ? " and LabelId=" + selectLabelid : "";
-            var list = Bll.BllSupplier_List.GetList(0, cols, where, "");
-            ToExcel(list, dt);
-
-            return LayerClose();
-        }
-
-        public void ToExcel(DataTable list, DataTable dt)
-        {
-            if (list == null || list.Rows.Count < 1)
-                return;
-
-            try
-            {
-                int col = list.Columns.Count;
-                foreach (DataRow item in list.Rows)
-                {
-                    var row = dt.NewRow();
-                    for (int i = 0; i < col; i++)
-                    {
-                        if (list.Columns[i].ToString() == "SupplierType")
-                            row[i] = item[i] != null
-                                ? Tools.Enums.Tools.GetEnumDescription(typeof(Models.SupplierType), item[i].ToString().ToInt32()).ToString()
-                                : "未分配";
-                        else if (list.Columns[i].ToString() == "LabelId")
-                            row[i] = item[i] != null
-                                ? Tools.Enums.Tools.GetEnumDescription(typeof(Models.SupplierLabel), item[i].ToString().ToInt32()).ToString()
-                                : "未分配";
-                        else
-                            row[i] = item[i]?.ToString();
-                    }
-                    dt.Rows.Add(row);
-                }
-            }
-            catch (Exception ex)
-            {
-            }
-
-            string fileName = "供应商列表" + DateTime.Now.ToString("yyyyMMddHHmmss");
-            Tools.Tool.ExcelHelper.ToExcelWeb(dt, "", fileName + ".xls");
+            return dt;
         }
         #endregion
 

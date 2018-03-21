@@ -50,17 +50,20 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="layui-input-inline">
-                            <label class="layui-form-label">按年份</label>
+                        @if (prices != null && prices.Count > 0)
+                        {
                             <div class="layui-input-inline">
-                                <select id="years" name="years" lay-filter="years">
-                                    @foreach (var item in prices)
-                                    {
-                                        <option value="@item.Years" @(item.Years == year ? "selected" : "")>@item.Years 年</option>
-                                    }
-                                </select>
+                                <label class="layui-form-label">按年份</label>
+                                <div class="layui-input-inline">
+                                    <select id="years" name="years" lay-filter="years">
+                                        @foreach (var item in prices)
+                                        {
+                                            <option value="@item.Years" @(item.Years == year ? "selected" : "")>@item.Years 年</option>
+                                        }
+                                    </select>
+                                </div>
                             </div>
-                        </div>
+                        }
                         <div class="layui-input-inline">
                             &nbsp;<button id="btnSearch" class="btn bg-blue" lay-submit lay-filter="formSearch">查询</button>
                         </div>
@@ -103,7 +106,7 @@
                 //初始化Table
                 objTable.Init = function () {
                     $table.bootstrapTable({
-                        url: '/supplier/RawMaterial/pagelist',
+                        url: '/supplier/rawmaterial/pagelist',
                         method: 'get',
                         toolbar: '#toolbar',                //工具按钮用哪个容器
                         idField: "Id",                      //指定主键列
@@ -154,11 +157,11 @@
                             title: '采购负责人',
                             align: 'center',
                         }, {
-                            field: 'SupplierCode',
+                            field: 'Code',
                             title: '供应商代码',
                             align: 'center',
                         }, {
-                            field: 'SupplierName',
+                            field: 'Name',
                             title: '供应商名称',
                             align: 'center',
                         }, {
@@ -260,13 +263,13 @@
 
             //新增
             $("#btn_add").on('click', function () {
-                OpenWin("添加", "/supplier/suppliermanager/save", '800px', '500px');
+                OpenWin("添加", "/supplier/rawmaterial/save", '800px', '90%');
             });
 
             //查看
             $("#table").on('click', '.btnEdit', function () {
                 var id = $(this).attr("data-id");
-                OpenWin("编辑", "/supplier/suppliermanager/save/" + id, '800px', '500px');
+                OpenWin("编辑", "/supplier/rawmaterial/save/" + id, '800px', '500px');
             });
 
             //删除单个产品

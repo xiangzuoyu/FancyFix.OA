@@ -20,7 +20,8 @@
             <input name="cols" value="Description" type="checkbox" checked="checked" title="采购产品名称" />
             <input name="cols" value="Category" type="checkbox" checked="checked" title="品类" />
             <input name="cols" value="LeadBuyer" type="checkbox" checked="checked" title="采购负责人" />
-            <input name="cols" value="VendorId" type="checkbox" checked="checked" title="供应商代码和供应商名称" />
+            <input name="cols" value="Code" type="checkbox" checked="checked" title="供应商代码" />
+            <input name="cols" value="Name" type="checkbox" checked="checked" title="供应商名称" />
             <input name="cols" value="PriceFrequency" type="checkbox" checked="checked" title="价格频次（月/季度/半年/年/单次）" />
             <input name="cols" value="Currency" type="checkbox" checked="checked" title="价格单位" />
         </div>
@@ -30,7 +31,7 @@
             <label class="layui-form-label">按字段</label>
             <div class="layui-input-inline">
                 <select id="files" name="files" lay-filter="files">
-                    <option value="0">全部</option>
+                    <option value="">全部</option>
                     <option value="BU" @(ViewBag.files == "BU" ? "selected" : "")>部门</option>
                     <option value="SAPCode" @(ViewBag.files == "SAPCode" ? "selected" : "")>原材料代码</option>
                     <option value="Description" @(ViewBag.files == "Description" ? "selected" : "")>采购产品名称</option>

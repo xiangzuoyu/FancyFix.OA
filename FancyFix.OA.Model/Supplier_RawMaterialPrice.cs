@@ -46,6 +46,7 @@ namespace FancyFix.OA.Model
 		private DateTime? _LastDate;
 		private int? _LastUserId;
 		private int? _Display;
+		private int? _VendorId;
 		/// <summary>
 		/// 
 		/// </summary>
@@ -286,6 +287,18 @@ namespace FancyFix.OA.Model
 				this._Display=value;
 			}
 		}
+		/// <summary>
+		/// 供应商ID
+		/// </summary>
+		public int? VendorId
+		{
+			get{ return _VendorId; }
+			set
+			{
+				this.OnPropertyValueChange(_.VendorId,_VendorId,value);
+				this._VendorId=value;
+			}
+		}
 		#endregion
 
 		#region Method
@@ -329,7 +342,8 @@ namespace FancyFix.OA.Model
 				_.AddUserId,
 				_.LastDate,
 				_.LastUserId,
-				_.Display};
+				_.Display,
+				_.VendorId};
 		}
 		/// <summary>
 		/// 获取值信息
@@ -356,7 +370,8 @@ namespace FancyFix.OA.Model
 				this._AddUserId,
 				this._LastDate,
 				this._LastUserId,
-				this._Display};
+				this._Display,
+				this._VendorId};
 		}
 		#endregion
 
@@ -450,6 +465,10 @@ namespace FancyFix.OA.Model
 			/// 
 			/// </summary>
 			public readonly static Field Display = new Field("Display","Supplier_RawMaterialPrice","Display");
+			/// <summary>
+			/// 供应商ID
+			/// </summary>
+			public readonly static Field VendorId = new Field("VendorId","Supplier_RawMaterialPrice","供应商ID");
 		}
 		#endregion
 

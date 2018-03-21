@@ -16,19 +16,39 @@ namespace FancyFix.OA.Bll
             return new BllSupplier_RawMaterial();
         }
 
-        public static IEnumerable<Supplier_RawMaterial> PageList(int page, int pageSize, out long records, string file, string key, int priceFrequency)
-        {
-            var where = new Where<Supplier_RawMaterial>();
-            where.And(o => o.Display != 2);
-            if (!string.IsNullOrEmpty(file) && !string.IsNullOrEmpty(key) && !file.Contains("SupplierCode,SupplierName"))
-                where.And(string.Format(" {0} like '%{1}%' ", file, key));
-            if (priceFrequency > 0)
-                where.And(o => o.PriceFrequency == priceFrequency);
-            var p = Db.Context.From<Supplier_RawMaterial>()
-                .Where(where);
-            records = p.Count();
-            return p.Page(pageSize, page).OrderByDescending(o => o.Id).ToList();
-        }
+        //public static IEnumerable<Supplier_RawMaterial> PageList(int page, int pageSize, out long records, string file, string key, int priceFrequency)
+        //{
+        //    var where = new Where<Supplier_RawMaterial>();
+
+        //    if (!string.IsNullOrEmpty(file) && !string.IsNullOrEmpty(key))
+        //    {
+        //        if ("SupplierCode,SupplierName".Contains(file))
+        //        {
+        //            //where.And<Supplier_PriceMapping, Supplier_List>((a, b, c) => a.VendorId == b.Id && b.VendorCode == c.Code);
+        //            where.And(" a.Display!=2 ");
+        //            where.And(string.Format(" c.{0} like '%{1}%' ", file.Replace("Supplier", ""), key));
+        //            if (priceFrequency > 0)
+        //                where.And(string.Format(" a.PriceFrequency={0} ", priceFrequency));
+        //        }
+        //        else
+        //        {
+        //            where.And(o => o.Display != 2);
+        //            where.And(string.Format(" {0} like '%{1}%' ", file, key));
+        //            if (priceFrequency > 0)
+        //                where.And(o => o.PriceFrequency == priceFrequency);
+        //        }
+        //    }
+
+        //    //var p = Db.Context.From<Supplier_RawMaterial>()
+        //    //    .Select<Supplier_PriceMapping, Supplier_List>((a, b, c) => a)
+        //    //    .InnerJoin<Supplier_PriceMapping>((a, b) => a.VendorId == b.Id)
+        //    //    .Where(where);
+        //    var p = Db.Context.From<Supplier_RawMaterial>()
+        //        .Where(where);
+        //    records = p.Count();
+
+        //    return p.Page(pageSize, page).OrderByDescending(o => o.Id).ToList();
+        //}
 
         public static bool Add(List<Supplier_RawMaterial> list)
         {
@@ -42,19 +62,8 @@ namespace FancyFix.OA.Bll
                 {
                     //如果原材料代码不存在执行添加
                     var rawmaterialModel = First(o => o.SAPCode == item.SAPCode && o.Display != 2);
-                    if (rawmaterialModel == null)
-                    {
-                        AddId = BllSupplier_PriceMapping.GetPriceMappingId(item.SupplierCode, item.SupplierName, item.SAPCode, item.AddUserId.GetValueOrDefault());
-                        if (AddId < 1)
-                            continue;
 
-                        item.VendorId = AddId;
-                        AddId = Insert(item);
-                    }
-                    else
-                    {
-                        AddId = rawmaterialModel.Id;
-                    }
+                    AddId = rawmaterialModel == null ? Insert(item) : rawmaterialModel.Id;
 
                     if (AddId < 1)
                         continue;
@@ -64,9 +73,15 @@ namespace FancyFix.OA.Bll
                     if (rawmaterialpriceModel != null)
                         continue;
 
+                    //获取供应商ID，如果供应商不存在跳过
+                    var supplierModel = BllSupplier_List.First(o => o.Code == item.SupplierCode && o.Name == item.SupplierName && o.Display != 2);
+                    if (supplierModel == null)
+                        continue;
+
                     AddId = BllSupplier_RawMaterialPrice.Insert(new Supplier_RawMaterialPrice()
                     {
                         RawMaterialId = AddId,
+                        VendorId = supplierModel.Id,
                         Years = item.Years,
                         Month1 = item.Month1,
                         Month2 = item.Month2,
@@ -94,7 +109,7 @@ namespace FancyFix.OA.Bll
             }
             catch (Exception ex)
             {
-                Tools.Tool.LogHelper.WriteLog(typeof(BllSupplier_PriceMapping), ex, 0, "");
+                Tools.Tool.LogHelper.WriteLog(typeof(BllSupplier_RawMaterial), ex, 0, "");
                 return false;
             }
         }

@@ -165,7 +165,7 @@ namespace FancyFix.Tools.Tool
         /// </summary>
         /// <param name="dtSource">源DataTable</param>
         /// <param name="strHeaderText">表头文本</param>
-        private static MemoryStream DataTableToExcel(DataTable dtSource, string strHeaderText = "")
+        private static MemoryStream DataTableToExcel(DataTable dtSource, string strHeaderText = "", int headRow = 1)
         {
             HSSFWorkbook workbook = new HSSFWorkbook();
             HSSFSheet sheet = (HSSFSheet)workbook.CreateSheet();
@@ -222,22 +222,29 @@ namespace FancyFix.Tools.Tool
 
                     #region 表头及样式
                     {
+                        #region 无用，准备删除
+                        //    HSSFRow headerRow = (HSSFRow)sheet.CreateRow(rowIndex);
+                        //    headerRow.HeightInPoints = 25;
+
+                        //    HSSFCellStyle headStyle = (HSSFCellStyle)workbook.CreateCellStyle();
+                        //    headerRow.CreateCell(0).SetCellValue(strHeaderText);
+                        //    //headStyle.Alignment = HorizontalAlignment.Center;//水平居中
+                        //    //headStyle.VerticalAlignment = VerticalAlignment.Center;//垂直居中
+                        //    HSSFFont font = (HSSFFont)workbook.CreateFont();
+                        //    font.FontHeightInPoints = 20;
+                        //    font.Boldweight = 700;
+                        //    headStyle.SetFont(font);
+                        //    headerRow.GetCell(0).CellStyle = headStyle;
+                        //    //sheet.AddMergedRegion(new Region(0, 0, 0, dtSource.Columns.Count - 1));
+                        //    //headerRow.Dispose();
+                        //    rowIndex++;
+                        #endregion
+                        HSSFCellStyle hssfcellstyle = (HSSFCellStyle)workbook.CreateCellStyle();
                         if (!string.IsNullOrEmpty(strHeaderText))
                         {
-                            HSSFRow headerRow = (HSSFRow)sheet.CreateRow(rowIndex);
-                            headerRow.HeightInPoints = 25;
-                            headerRow.CreateCell(0).SetCellValue(strHeaderText);
+                            HSSFRow headerRow = NewHSSFRow(ref sheet, workbook, ref hssfcellstyle, rowIndex, false);
 
-                            HSSFCellStyle headStyle = (HSSFCellStyle)workbook.CreateCellStyle();
-                            //headStyle.Alignment = HorizontalAlignment.Center;//水平居中
-                            //headStyle.VerticalAlignment = VerticalAlignment.Center;//垂直居中
-                            HSSFFont font = (HSSFFont)workbook.CreateFont();
-                            font.FontHeightInPoints = 20;
-                            font.Boldweight = 700;
-                            headStyle.SetFont(font);
-                            headerRow.GetCell(0).CellStyle = headStyle;
-                            //sheet.AddMergedRegion(new Region(0, 0, 0, dtSource.Columns.Count - 1));
-                            //headerRow.Dispose();
+                            headerRow.CreateCell(0).SetCellValue(strHeaderText);
                             rowIndex++;
                         }
                     }
@@ -245,16 +252,21 @@ namespace FancyFix.Tools.Tool
 
                     #region 列头及样式
                     {
-                        HSSFRow headerRow = (HSSFRow)sheet.CreateRow(rowIndex);
-                        headerRow.HeightInPoints = 25;
                         HSSFCellStyle headStyle = (HSSFCellStyle)workbook.CreateCellStyle();
-                        headStyle.WrapText = true;//自动换行
-                        //headStyle.Alignment = HorizontalAlignment.Center;//水平居中
-                        headStyle.VerticalAlignment = VerticalAlignment.Center;//垂直居中
-                        HSSFFont font = (HSSFFont)workbook.CreateFont();
-                        font.FontHeightInPoints = 10;
-                        font.Boldweight = 700;
-                        headStyle.SetFont(font);
+                        HSSFRow headerRow = NewHSSFRow(ref sheet, workbook, ref headStyle, rowIndex);
+                        #region 无用，准备删除
+                        //HSSFRow headerRow = (HSSFRow)sheet.CreateRow(rowIndex);
+                        //headerRow.HeightInPoints = 25;
+
+                        //HSSFCellStyle headStyle = (HSSFCellStyle)workbook.CreateCellStyle();
+                        //headStyle.WrapText = true;//自动换行
+                        ////headStyle.Alignment = HorizontalAlignment.Center;//水平居中
+                        //headStyle.VerticalAlignment = VerticalAlignment.Center;//垂直居中
+                        //HSSFFont font = (HSSFFont)workbook.CreateFont();
+                        //font.FontHeightInPoints = 10;
+                        //font.Boldweight = 700;
+                        //headStyle.SetFont(font);
+                        #endregion
                         foreach (DataColumn column in dtSource.Columns)
                         {
                             headerRow.CreateCell(column.Ordinal).SetCellValue(column.ColumnName);
@@ -265,9 +277,17 @@ namespace FancyFix.Tools.Tool
                         }
                         //headerRow.Dispose();
                         rowIndex++;
+
+                        
+                    }
+                    //添加更多列
+                    {
+                        for (int i = 1; i < headRow; i++)
+                        {
+
+                        }
                     }
                     #endregion
-                    //rowIndex = 2;
                 }
                 #endregion
 
@@ -335,6 +355,35 @@ namespace FancyFix.Tools.Tool
                 //workbook.Dispose();//一般只用写这一个就OK了，他会遍历并释放所有资源，但当前版本有问题所以只释放sheet
                 return ms;
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sheet"></param>
+        /// <param name="workbook"></param>
+        /// <param name="headStyle">Excel样式</param>
+        /// <param name="rowIndex">插入行的索引</param>
+        /// <param name="isHead">是否列头</param>
+        /// <param name="wrapText">自动换行</param>
+        /// <param name="verticalAlignment">上下对齐样式</param>
+        /// <param name="heightInPoints">字体大小</param>
+        /// <returns></returns>
+        private static HSSFRow NewHSSFRow(ref HSSFSheet sheet, HSSFWorkbook workbook, ref HSSFCellStyle headStyle, int rowIndex, bool isHead = false, bool wrapText = true
+            , VerticalAlignment verticalAlignment = VerticalAlignment.Center, int heightInPoints = 25)
+        {
+            HSSFRow headerRow = (HSSFRow)sheet.CreateRow(rowIndex);
+            headerRow.HeightInPoints = heightInPoints;
+            headStyle = (HSSFCellStyle)workbook.CreateCellStyle();
+            if (wrapText)
+                headStyle.WrapText = true;//自动换行
+            //headStyle.Alignment = HorizontalAlignment.Center;//水平居中
+            headStyle.VerticalAlignment = verticalAlignment;//垂直居中
+            HSSFFont font = (HSSFFont)workbook.CreateFont();
+            font.FontHeightInPoints = (short)(isHead ? 20 : 10);
+            font.Boldweight = 700;
+            headStyle.SetFont(font);
+            return headerRow;
         }
 
         private static HSSFWorkbook InitializeWorkbook()

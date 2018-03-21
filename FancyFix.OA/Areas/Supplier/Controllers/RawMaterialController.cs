@@ -19,7 +19,7 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
         #region 加载列表
         public ActionResult List()
         {
-            ViewBag.prices = Bll.BllSupplier_RawMaterialPrice.GetSelectList(0, "distinct(Years)", "display!=2", "Years");
+            ViewBag.prices = Bll.BllSupplier_RawMaterialPrice.GetSelectList(0, "distinct(Years)", "display!=2", "Years") ?? new List<Supplier_RawMaterialPrice>();
 
             return View();
         }
@@ -29,7 +29,7 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             long records = 0;
             if (years == 0)
                 years = DateTime.Now.Year;
-            //检测Sql注入
+            //Sql注入检测
             string files = Tools.Usual.Utils.CheckSqlKeyword(RequestString("files"));
             string key = Tools.Usual.Utils.CheckSqlKeyword(RequestString("key")).Trim();
 
@@ -210,7 +210,7 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             string key = Tools.Usual.Utils.CheckSqlKeyword(RequestString("key"));
             string cols = RequestString("cols");
             var arr = cols.Split(',');
-            if (CheckSqlField(arr))
+            if (!CheckSqlField(arr))
                 MessageBox("选择字段异常");
             //arr= arr.Concat(new string[] { "" }).ToArray();
 

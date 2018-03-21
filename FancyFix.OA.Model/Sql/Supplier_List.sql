@@ -11,7 +11,7 @@ Target Server Type    : SQL Server
 Target Server Version : 110000
 File Encoding         : 65001
 
-Date: 2018-03-10 17:46:31
+Date: 2018-03-20 21:21:43
 */
 
 
@@ -33,10 +33,19 @@ CREATE TABLE [dbo].[Supplier_List] (
 [StartDate] datetime NULL ,
 [EndDate] datetime NULL ,
 [LabelId] int NULL ,
-[Note] nvarchar(2048) NULL 
+[Note] nvarchar(2048) NULL ,
+[SupplierAb] nvarchar(128) NULL ,
+[AddDate] datetime SPARSE NULL ,
+[AccountDate] nvarchar(126) NULL ,
+[AddUserId] int NULL ,
+[LastDate] datetime NULL ,
+[LastUserId] int NULL ,
+[Display] int NULL DEFAULT ((1)) 
 )
 
 
+GO
+DBCC CHECKIDENT(N'[dbo].[Supplier_List]', RESEED, 352)
 GO
 IF ((SELECT COUNT(*) from fn_listextendedproperty('MS_Description', 
 'SCHEMA', N'dbo', 
@@ -205,6 +214,104 @@ EXEC sp_addextendedproperty @name = N'MS_Description', @value = N'备注'
 , @level0type = 'SCHEMA', @level0name = N'dbo'
 , @level1type = 'TABLE', @level1name = N'Supplier_List'
 , @level2type = 'COLUMN', @level2name = N'Note'
+GO
+IF ((SELECT COUNT(*) from fn_listextendedproperty('MS_Description', 
+'SCHEMA', N'dbo', 
+'TABLE', N'Supplier_List', 
+'COLUMN', N'SupplierAb')) > 0) 
+EXEC sp_updateextendedproperty @name = N'MS_Description', @value = N'供应商名称缩写'
+, @level0type = 'SCHEMA', @level0name = N'dbo'
+, @level1type = 'TABLE', @level1name = N'Supplier_List'
+, @level2type = 'COLUMN', @level2name = N'SupplierAb'
+ELSE
+EXEC sp_addextendedproperty @name = N'MS_Description', @value = N'供应商名称缩写'
+, @level0type = 'SCHEMA', @level0name = N'dbo'
+, @level1type = 'TABLE', @level1name = N'Supplier_List'
+, @level2type = 'COLUMN', @level2name = N'SupplierAb'
+GO
+IF ((SELECT COUNT(*) from fn_listextendedproperty('MS_Description', 
+'SCHEMA', N'dbo', 
+'TABLE', N'Supplier_List', 
+'COLUMN', N'AddDate')) > 0) 
+EXEC sp_updateextendedproperty @name = N'MS_Description', @value = N'添加时间'
+, @level0type = 'SCHEMA', @level0name = N'dbo'
+, @level1type = 'TABLE', @level1name = N'Supplier_List'
+, @level2type = 'COLUMN', @level2name = N'AddDate'
+ELSE
+EXEC sp_addextendedproperty @name = N'MS_Description', @value = N'添加时间'
+, @level0type = 'SCHEMA', @level0name = N'dbo'
+, @level1type = 'TABLE', @level1name = N'Supplier_List'
+, @level2type = 'COLUMN', @level2name = N'AddDate'
+GO
+IF ((SELECT COUNT(*) from fn_listextendedproperty('MS_Description', 
+'SCHEMA', N'dbo', 
+'TABLE', N'Supplier_List', 
+'COLUMN', N'AccountDate')) > 0) 
+EXEC sp_updateextendedproperty @name = N'MS_Description', @value = N'账期'
+, @level0type = 'SCHEMA', @level0name = N'dbo'
+, @level1type = 'TABLE', @level1name = N'Supplier_List'
+, @level2type = 'COLUMN', @level2name = N'AccountDate'
+ELSE
+EXEC sp_addextendedproperty @name = N'MS_Description', @value = N'账期'
+, @level0type = 'SCHEMA', @level0name = N'dbo'
+, @level1type = 'TABLE', @level1name = N'Supplier_List'
+, @level2type = 'COLUMN', @level2name = N'AccountDate'
+GO
+IF ((SELECT COUNT(*) from fn_listextendedproperty('MS_Description', 
+'SCHEMA', N'dbo', 
+'TABLE', N'Supplier_List', 
+'COLUMN', N'AddUserId')) > 0) 
+EXEC sp_updateextendedproperty @name = N'MS_Description', @value = N'添加人'
+, @level0type = 'SCHEMA', @level0name = N'dbo'
+, @level1type = 'TABLE', @level1name = N'Supplier_List'
+, @level2type = 'COLUMN', @level2name = N'AddUserId'
+ELSE
+EXEC sp_addextendedproperty @name = N'MS_Description', @value = N'添加人'
+, @level0type = 'SCHEMA', @level0name = N'dbo'
+, @level1type = 'TABLE', @level1name = N'Supplier_List'
+, @level2type = 'COLUMN', @level2name = N'AddUserId'
+GO
+IF ((SELECT COUNT(*) from fn_listextendedproperty('MS_Description', 
+'SCHEMA', N'dbo', 
+'TABLE', N'Supplier_List', 
+'COLUMN', N'LastDate')) > 0) 
+EXEC sp_updateextendedproperty @name = N'MS_Description', @value = N'最后修改时间'
+, @level0type = 'SCHEMA', @level0name = N'dbo'
+, @level1type = 'TABLE', @level1name = N'Supplier_List'
+, @level2type = 'COLUMN', @level2name = N'LastDate'
+ELSE
+EXEC sp_addextendedproperty @name = N'MS_Description', @value = N'最后修改时间'
+, @level0type = 'SCHEMA', @level0name = N'dbo'
+, @level1type = 'TABLE', @level1name = N'Supplier_List'
+, @level2type = 'COLUMN', @level2name = N'LastDate'
+GO
+IF ((SELECT COUNT(*) from fn_listextendedproperty('MS_Description', 
+'SCHEMA', N'dbo', 
+'TABLE', N'Supplier_List', 
+'COLUMN', N'LastUserId')) > 0) 
+EXEC sp_updateextendedproperty @name = N'MS_Description', @value = N'最后修改人'
+, @level0type = 'SCHEMA', @level0name = N'dbo'
+, @level1type = 'TABLE', @level1name = N'Supplier_List'
+, @level2type = 'COLUMN', @level2name = N'LastUserId'
+ELSE
+EXEC sp_addextendedproperty @name = N'MS_Description', @value = N'最后修改人'
+, @level0type = 'SCHEMA', @level0name = N'dbo'
+, @level1type = 'TABLE', @level1name = N'Supplier_List'
+, @level2type = 'COLUMN', @level2name = N'LastUserId'
+GO
+IF ((SELECT COUNT(*) from fn_listextendedproperty('MS_Description', 
+'SCHEMA', N'dbo', 
+'TABLE', N'Supplier_List', 
+'COLUMN', N'Display')) > 0) 
+EXEC sp_updateextendedproperty @name = N'MS_Description', @value = N'1：显示，2：隐藏'
+, @level0type = 'SCHEMA', @level0name = N'dbo'
+, @level1type = 'TABLE', @level1name = N'Supplier_List'
+, @level2type = 'COLUMN', @level2name = N'Display'
+ELSE
+EXEC sp_addextendedproperty @name = N'MS_Description', @value = N'1：显示，2：隐藏'
+, @level0type = 'SCHEMA', @level0name = N'dbo'
+, @level1type = 'TABLE', @level1name = N'Supplier_List'
+, @level2type = 'COLUMN', @level2name = N'Display'
 GO
 
 -- ----------------------------

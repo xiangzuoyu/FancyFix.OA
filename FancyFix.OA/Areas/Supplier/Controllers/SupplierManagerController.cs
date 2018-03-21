@@ -152,6 +152,8 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
         {
             string cols = RequestString("cols");
             var arr = cols.Split(',');
+            if (!CheckSqlField(arr))
+                MessageBox("选择字段异常");
 
             if (arr.Length < 1)
                 return LayerMsgErrorAndReturn("导出失败，请先勾选字段");
@@ -329,5 +331,17 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
         }
         #endregion
 
+        #region 辅助方法
+        private bool CheckSqlField(string[] arr)
+        {
+            foreach (var item in arr)
+            {
+                if (!Tools.Usual.Utils.CheckSqlField(item))
+                    return false;
+            }
+
+            return true;
+        }
+        #endregion
     }
 }

@@ -13,9 +13,7 @@ namespace FancyFix.OA.Model
         public string Description { get; set; }
         public string Category { get; set; }
         public string LeadBuyer { get; set; }
-        public int? PriceFrequency { get; set; }
         public string PriceFrequencyName { get; set; }
-        public string Currency { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
     }

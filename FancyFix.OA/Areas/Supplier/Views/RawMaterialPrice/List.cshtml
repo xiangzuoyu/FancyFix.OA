@@ -1,7 +1,12 @@
-﻿
+﻿@using FancyFix.OA.Areas.Supplier.Models;
+@using FancyFix.Tools.Enums;
+@using FancyFix.OA.Model;
+
 @{
     ViewBag.Title = "List";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    int year = DateTime.Now.Year;
+    List<Supplier_RawMaterialPrice> prices = ViewBag.prices;
 }
 
 @section Css{
@@ -11,7 +16,7 @@
 <div class="row">
     <div class="col-xs-12">
         <div class="box-header">
-            <h3 class="box-title">原材料列表</h3>
+            <h3 class="box-title">原材料价格列表</h3>
         </div>
         <div class="box">
             <div class="box-body">
@@ -27,6 +32,8 @@
                                     <option value="Description">采购产品名称</option>
                                     <option value="Category">品类</option>
                                     <option value="LeadBuyer">采购负责人</option>
+                                    <option value="SupplierCode">供应商代码</option>
+                                    <option value="SupplierName">供应商名称</option>
                                 </select>
                             </div>
                             <div class="layui-input-inline">
@@ -35,7 +42,35 @@
                         </div>
                         &nbsp;&nbsp;
                         <div class="layui-input-inline">
+                            <label class="layui-form-label">按价格频次</label>
+                            <div class="layui-input-inline">
+                                <select id="priceFrequency" name="priceFrequency" lay-filter="priceFrequency">
+                                    <option value="0">请选择</option>
+                                    @Html.Raw(Tools.GetOptionHtml(typeof(PriceFrequency)))
+                                </select>
+                            </div>
+                        </div>
+                        @if (prices != null && prices.Count > 0)
+                        {
+                            <div class="layui-input-inline">
+                                <label class="layui-form-label">按年份</label>
+                                <div class="layui-input-inline">
+                                    <select id="years" name="years" lay-filter="years">
+                                        @foreach (var item in prices)
+                                        {
+                                            <option value="@item.Years" @(item.Years == year ? "selected" : "")>@item.Years 年</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        }
+                        <div class="layui-input-inline">
                             &nbsp;<button id="btnSearch" class="btn bg-blue" lay-submit lay-filter="formSearch">查询</button>
+                        </div>
+                        <div class="layui-inline pull-right">
+                            @*<button id="btnUpdateLabel" class="btn bg-blue">修改标签</button>&nbsp;*@
+                            <input type="button" id="importBtn" class="btn bg-orange" value="导入">&nbsp;
+                            <input type="button" id="exportBtn" class="btn bg-orange" value="导出">
                         </div>
                         <div id="toolbar" class="btn-group">
                             <button id="btn_add" type="button" class="btn btn-default">
@@ -56,8 +91,6 @@
         </div>
     </div>
 </div>
-
-
 @section Js{
     <script src="/Content/js/plugins/datatables/bootstrap-table.min.js"></script>
     <script src="/Content/js/plugins/datatables/bootstrap-table-zh-CN.js"></script>
@@ -73,7 +106,7 @@
                 //初始化Table
                 objTable.Init = function () {
                     $table.bootstrapTable({
-                        url: '/supplier/rawmaterial/pagelist',
+                        url: '/supplier/rawmaterialprice/pagelist',
                         method: 'get',
                         toolbar: '#toolbar',                //工具按钮用哪个容器
                         idField: "Id",                      //指定主键列
@@ -124,6 +157,70 @@
                             title: '采购负责人',
                             align: 'center',
                         }, {
+                            field: 'Code',
+                            title: '供应商代码',
+                            align: 'center',
+                        }, {
+                            field: 'Name',
+                            title: '供应商名称',
+                            align: 'center',
+                        }, {
+                            field: 'PriceFrequencyName',
+                            title: '价格频次',
+                            align: 'center',
+                        }, {
+                            field: 'Currency',
+                            title: '价格单位',
+                            align: 'center',
+                        }, {
+                            field: 'Month1',
+                            title: '一月',
+                            align: 'center',
+                        }, {
+                            field: 'Month2',
+                            title: '二月',
+                            align: 'center',
+                        }, {
+                            field: 'Month3',
+                            title: '三月',
+                            align: 'center',
+                        }, {
+                            field: 'Month4',
+                            title: '四月',
+                            align: 'center',
+                        }, {
+                            field: 'Month5',
+                            title: '五月',
+                            align: 'center',
+                        }, {
+                            field: 'Month6',
+                            title: '六月',
+                            align: 'center',
+                        }, {
+                            field: 'Month7',
+                            title: '七月',
+                            align: 'center',
+                        }, {
+                            field: 'Month8',
+                            title: '八月',
+                            align: 'center',
+                        }, {
+                            field: 'Month9',
+                            title: '九月',
+                            align: 'center',
+                        }, {
+                            field: 'Month10',
+                            title: '十月',
+                            align: 'center',
+                        }, {
+                            field: 'Month11',
+                            title: '十一月',
+                            align: 'center',
+                        }, {
+                            field: 'Month12',
+                            title: '十二月',
+                            align: 'center',
+                        }, {
                             title: '操作',
                             align: 'center',
                             formatter: function (v, r, i) {
@@ -148,6 +245,8 @@
                         //自定义参数
                         files: $("#files").val(),
                         key: $("#key").val(),
+                        priceFrequency: $("#priceFrequency").val(),
+                        years: $("#years").val()
                     };
                     return temp;
                 };
@@ -164,13 +263,13 @@
 
             //新增
             $("#btn_add").on('click', function () {
-                OpenWin("添加", "/supplier/rawmaterial/save", '800px', '600px');
+                OpenWin("添加", "/supplier/rawmaterialprice/save", '800px', '90%');
             });
 
             //查看
             $("#table").on('click', '.btnEdit', function () {
                 var id = $(this).attr("data-id");
-                OpenWin("编辑", "/supplier/rawmaterial/save/" + id, '800px', '600px');
+                OpenWin("编辑", "/supplier/rawmaterialprice/save/" + id, '800px', '90%');
             });
 
             //删除单个产品
@@ -180,7 +279,7 @@
                     btn: ['确定', '取消']
                 }, function (index, layero) {
                     var id = $this.data("id");
-                    $.post('/supplier/rawmaterial/delete/' + id, function (data) {
+                    $.post('/supplier/rawmaterialprice/delete/' + id, function (data) {
                         if (data)
                             Reload();
                         else
@@ -199,7 +298,7 @@
                         btn: ['确定', '取消']
                     }, function (index, layero) {
                         var list = GetSelections();
-                        $.post('/supplier/rawmaterial/deletebatch', { list }, function (data) {
+                        $.post('/supplier/rawmaterialprice/deletebatch', { list }, function (data) {
                             if (data)
                                 Reload();
                             else
@@ -212,6 +311,27 @@
                 }
             });
         })
+
+        var fun = {
+            init: function () {
+                $("#importBtn").bind("click", function () {
+                    $("#fileEle").trigger("click");
+                })
+                $("#fileEle").bind("change", function () {
+                    excelForm.action = "list";
+                    excelForm.submit();
+                })
+
+                $("#exportBtn").bind("click", function () {
+                    var par = 'files=' + $("#files").val()
+                        + '&key=' + $("#key").val()
+                        + '&priceFrequency=' + $("#priceFrequency").val()
+                        + '&years=' + $("#years").val()
+                    OpenWin("导出供应商列表", "/supplier/rawmaterialprice/exportexcel?" + par, '726px', '580px');
+                })
+            }
+        }
+        fun.init();
 
     </script>
 }

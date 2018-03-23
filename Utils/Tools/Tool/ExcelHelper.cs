@@ -11,6 +11,8 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using NPOI.XSSF.UserModel;
+using NPOI.SS.Util;
+using NPOI.HSSF.Util;
 
 namespace FancyFix.Tools.Tool
 {
@@ -93,7 +95,6 @@ namespace FancyFix.Tools.Tool
             HttpContext.Current.Response.End();
         }
 
-
         /// <summary>
         /// (mvc)流形式直接导出Excel(不推荐)
         /// </summary>
@@ -117,8 +118,6 @@ namespace FancyFix.Tools.Tool
             HttpContext.Current.Response.Flush();
             HttpContext.Current.Response.End();
         }
-
-
 
         /// <summary>
         /// 导出到Excel文件到指定路径(.xls)
@@ -145,9 +144,10 @@ namespace FancyFix.Tools.Tool
         /// <param name="dtSource">源DataTable</param>
         /// <param name="strHeaderText">表头文本</param>
         /// <param name="strFileName">保存位置和文件名(例 E:/Test.xls)</param>
-        public static void ToExcelWeb(DataTable dtSource, string strHeaderText, string fileName)
+        /// <param name="headRow">列头行数</param>
+        public static void ToExcelWeb(DataTable dtSource, string strHeaderText, string fileName, int headRow = 1)
         {
-            using (MemoryStream ms = DataTableToExcel(dtSource, strHeaderText))
+            using (MemoryStream ms = DataTableToExcel(dtSource, strHeaderText, headRow))
             {
                 HttpContext.Current.Response.Clear();
                 HttpContext.Current.Response.Charset = "UTF-8";
@@ -165,6 +165,7 @@ namespace FancyFix.Tools.Tool
         /// </summary>
         /// <param name="dtSource">源DataTable</param>
         /// <param name="strHeaderText">表头文本</param>
+        /// <param name="headRow">列头行数</param>
         private static MemoryStream DataTableToExcel(DataTable dtSource, string strHeaderText = "", int headRow = 1)
         {
             HSSFWorkbook workbook = new HSSFWorkbook();
@@ -209,13 +210,14 @@ namespace FancyFix.Tools.Tool
                     }
                 }
             }
-            int rowIndex = 0;
+            int ExcelrowIndex = 0;
+            int DtRowIndex = 0;//
             foreach (DataRow row in dtSource.Rows)
             {
                 #region 新建表，填充表头，填充列头，样式
-                if (rowIndex == 65535 || rowIndex == 0)
+                if (ExcelrowIndex == 65535 || ExcelrowIndex == 0)
                 {
-                    if (rowIndex != 0)
+                    if (ExcelrowIndex != 0)
                     {
                         sheet = (HSSFSheet)workbook.CreateSheet();
                     }
@@ -223,7 +225,7 @@ namespace FancyFix.Tools.Tool
                     #region 表头及样式
                     {
                         #region 无用，准备删除
-                        //    HSSFRow headerRow = (HSSFRow)sheet.CreateRow(rowIndex);
+                        //    HSSFRow headerRow = (HSSFRow)sheet.CreateRow(ExcelrowIndex);
                         //    headerRow.HeightInPoints = 25;
 
                         //    HSSFCellStyle headStyle = (HSSFCellStyle)workbook.CreateCellStyle();
@@ -237,15 +239,18 @@ namespace FancyFix.Tools.Tool
                         //    headerRow.GetCell(0).CellStyle = headStyle;
                         //    //sheet.AddMergedRegion(new Region(0, 0, 0, dtSource.Columns.Count - 1));
                         //    //headerRow.Dispose();
-                        //    rowIndex++;
+                        //    ExcelrowIndex++;
                         #endregion
                         HSSFCellStyle hssfcellstyle = (HSSFCellStyle)workbook.CreateCellStyle();
                         if (!string.IsNullOrEmpty(strHeaderText))
                         {
-                            HSSFRow headerRow = NewHSSFRow(ref sheet, workbook, ref hssfcellstyle, rowIndex, false);
+                            sheet.AddMergedRegion(new Region(0, 0, 0, dtSource.Columns.Count - 1));
+                            HSSFRow headerRow = NewHSSFRow(ref sheet, workbook, ref hssfcellstyle, ExcelrowIndex, false);
+                            NewFoot(ref hssfcellstyle, workbook, 15);
 
                             headerRow.CreateCell(0).SetCellValue(strHeaderText);
-                            rowIndex++;
+                            headerRow.GetCell(0).CellStyle = hssfcellstyle;
+                            ExcelrowIndex++;
                         }
                     }
                     #endregion
@@ -253,9 +258,10 @@ namespace FancyFix.Tools.Tool
                     #region 列头及样式
                     {
                         HSSFCellStyle headStyle = (HSSFCellStyle)workbook.CreateCellStyle();
-                        HSSFRow headerRow = NewHSSFRow(ref sheet, workbook, ref headStyle, rowIndex);
+                        HSSFRow headerRow = NewHSSFRow(ref sheet, workbook, ref headStyle, ExcelrowIndex, true);
+                        NewFoot(ref headStyle, workbook, 10);
                         #region 无用，准备删除
-                        //HSSFRow headerRow = (HSSFRow)sheet.CreateRow(rowIndex);
+                        //HSSFRow headerRow = (HSSFRow)sheet.CreateRow(ExcelrowIndex);
                         //headerRow.HeightInPoints = 25;
 
                         //HSSFCellStyle headStyle = (HSSFCellStyle)workbook.CreateCellStyle();
@@ -271,31 +277,51 @@ namespace FancyFix.Tools.Tool
                         {
                             headerRow.CreateCell(column.Ordinal).SetCellValue(column.ColumnName);
                             headerRow.GetCell(column.Ordinal).CellStyle = headStyle;
-
-                            //设置列宽
-                            sheet.SetColumnWidth(column.Ordinal, ((arrColWidth[column.Ordinal] + 1) * 256) > 10000 ? 10000 : ((arrColWidth[column.Ordinal] + 1) * 256)); //宽度10000可自定义
                         }
                         //headerRow.Dispose();
-                        rowIndex++;
+                        ExcelrowIndex++;
 
-                        
                     }
                     //添加更多列
                     {
                         for (int i = 1; i < headRow; i++)
                         {
+                            HSSFCellStyle headStyle = (HSSFCellStyle)workbook.CreateCellStyle();
+                            HSSFRow headerRow = NewHSSFRow(ref sheet, workbook, ref headStyle, ExcelrowIndex, true);
+                            NewFoot(ref headStyle, workbook, 10);
 
+                            foreach (DataColumn column in dtSource.Columns)
+                            {
+                                string drValue = row[column].ToString();
+                                headerRow.CreateCell(column.Ordinal).SetCellValue(drValue);
+                                headerRow.GetCell(column.Ordinal).CellStyle = headStyle;
+
+                                //设置列宽
+                                sheet.SetColumnWidth(column.Ordinal, ((arrColWidth[column.Ordinal] + 1) * 256) > 10000 ? 10000 :
+                                    ((arrColWidth[column.Ordinal] + 1) * 256)); //宽度10000可自定义
+                            }
+                            ExcelrowIndex++;
+                            
                         }
                     }
                     #endregion
                 }
                 #endregion
 
-                #region 填充内容
-                HSSFRow dataRow = (HSSFRow)sheet.CreateRow(rowIndex);
+                //跳过多行列头情况下已添加过的列
+                DtRowIndex++;
+                if (DtRowIndex < headRow)
+                    continue;
+
+                #region 填充内容 
+                #region 无用，准备删除
+                //HSSFRow dataRow = (HSSFRow)sheet.CreateRow(ExcelrowIndex);
+                //HSSFCellStyle rowStyle = (HSSFCellStyle)workbook.CreateCellStyle();
+                //rowStyle.WrapText = true;//自动换行
+                //rowStyle.VerticalAlignment = VerticalAlignment.Center;//垂直居中 
+                #endregion
                 HSSFCellStyle rowStyle = (HSSFCellStyle)workbook.CreateCellStyle();
-                rowStyle.WrapText = true;//自动换行
-                rowStyle.VerticalAlignment = VerticalAlignment.Center;//垂直居中
+                HSSFRow dataRow = NewHSSFRow(ref sheet, workbook, ref rowStyle, ExcelrowIndex, true, 15);
                 foreach (DataColumn column in dtSource.Columns)
                 {
                     HSSFCell newCell = (HSSFCell)dataRow.CreateCell(column.Ordinal);
@@ -344,7 +370,7 @@ namespace FancyFix.Tools.Tool
                 }
                 #endregion
 
-                rowIndex++;
+                ExcelrowIndex++;
             }
             using (MemoryStream ms = new MemoryStream())
             {
@@ -363,27 +389,35 @@ namespace FancyFix.Tools.Tool
         /// <param name="sheet"></param>
         /// <param name="workbook"></param>
         /// <param name="headStyle">Excel样式</param>
-        /// <param name="rowIndex">插入行的索引</param>
+        /// <param name="ExcelrowIndex">插入行的索引</param>
         /// <param name="isHead">是否列头</param>
         /// <param name="wrapText">自动换行</param>
         /// <param name="verticalAlignment">上下对齐样式</param>
         /// <param name="heightInPoints">字体大小</param>
         /// <returns></returns>
-        private static HSSFRow NewHSSFRow(ref HSSFSheet sheet, HSSFWorkbook workbook, ref HSSFCellStyle headStyle, int rowIndex, bool isHead = false, bool wrapText = true
-            , VerticalAlignment verticalAlignment = VerticalAlignment.Center, int heightInPoints = 25)
+        private static HSSFRow NewHSSFRow(ref HSSFSheet sheet, HSSFWorkbook workbook, ref HSSFCellStyle headStyle, int ExcelrowIndex, bool wrapText = true
+            , int heightInPoints = 25, VerticalAlignment verticalAlignment = VerticalAlignment.Center)
         {
-            HSSFRow headerRow = (HSSFRow)sheet.CreateRow(rowIndex);
-            headerRow.HeightInPoints = heightInPoints;
+            HSSFRow headerRow = (HSSFRow)sheet.CreateRow(ExcelrowIndex);
+            headerRow.HeightInPoints = (heightInPoints > 0) ? heightInPoints : 0;
             headStyle = (HSSFCellStyle)workbook.CreateCellStyle();
-            if (wrapText)
-                headStyle.WrapText = true;//自动换行
-            //headStyle.Alignment = HorizontalAlignment.Center;//水平居中
+            headStyle.WrapText = wrapText;//自动换行
+            headStyle.Alignment = HorizontalAlignment.Center;//水平居中
             headStyle.VerticalAlignment = verticalAlignment;//垂直居中
-            HSSFFont font = (HSSFFont)workbook.CreateFont();
-            font.FontHeightInPoints = (short)(isHead ? 20 : 10);
-            font.Boldweight = 700;
-            headStyle.SetFont(font);
+            //headStyle.BorderBottom= CellBorderType;
+
             return headerRow;
+        }
+
+        private static void NewFoot(ref HSSFCellStyle headStyle, HSSFWorkbook workbook, short fontHeightInPoints, int Boldweight = 700, bool isBold = true)
+        {
+            HSSFFont font = (HSSFFont)workbook.CreateFont();
+            font.FontHeightInPoints = fontHeightInPoints;
+            font.Boldweight = 700;
+            font.IsBold = isBold;
+            headStyle.FillForegroundColor = HSSFColor.Yellow.Index;
+            headStyle.FillPattern = FillPattern.SolidForeground;
+            headStyle.SetFont(font);
         }
 
         private static HSSFWorkbook InitializeWorkbook()

@@ -301,7 +301,7 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
         [HttpPost]
         public ActionResult Save(Supplier_List supplierList)
         {
-            Supplier_List model = Bll.BllSupplier_List.First(o => o.Id == supplierList.Id) ?? new Supplier_List();
+            Supplier_List model = Bll.BllSupplier_List.First(o => o.Id == supplierList.Id && o.Display != 2 && o.Id > 0) ?? new Supplier_List();
             model.Code = supplierList.Code;
             model.Name = supplierList.Name;
             model.SupplierAb = supplierList.SupplierAb;
@@ -329,12 +329,10 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             }
             else
             {
-                if (model.Id < 1)
-                    return LayerAlertSuccessAndRefresh("修改供应商信息失败，未找到该供应商");
                 isok = Bll.BllSupplier_List.Update(model) > 0;
             }
 
-            return LayerMsgSuccessAndRefresh("添加" + (isok ? "成功" : "失败"));
+            return LayerMsgSuccessAndRefresh("保存" + (isok ? "成功" : "失败"));
         }
         #endregion
 

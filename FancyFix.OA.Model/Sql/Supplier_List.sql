@@ -1,4 +1,4 @@
-﻿/*
+/*
 Navicat SQL Server Data Transfer
 
 Source Server         : YZX-PC
@@ -11,7 +11,7 @@ Target Server Type    : SQL Server
 Target Server Version : 110000
 File Encoding         : 65001
 
-Date: 2018-03-20 21:21:43
+Date: 2018-03-26 13:44:42
 */
 
 

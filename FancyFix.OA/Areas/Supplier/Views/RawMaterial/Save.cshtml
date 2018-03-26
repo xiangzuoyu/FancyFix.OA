@@ -61,6 +61,14 @@
                         </td>
                     </tr>
                     <tr>
+                        <td align="right"><label for="Currency" class="control-label">价格单位：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("Currency", (Model?.Currency ?? ""), new { @class = "form-control", required = "required", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
                         <td align="right"></td>
                         <td>
                             @Html.Hidden("Id", (Model?.Id ?? 0))

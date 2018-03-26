@@ -64,6 +64,7 @@ namespace FancyFix.OA.Bll
                         RawMaterialId = AddId,
                         VendorId = supplierModel.Id,
                         Years = item.Years,
+                        PriceFrequency = item.PriceFrequency,
                         Month1 = item.Month1,
                         Month2 = item.Month2,
                         Month3 = item.Month3,
@@ -114,31 +115,5 @@ namespace FancyFix.OA.Bll
             return 1;
         }
 
-        public static DataTable GetList(int top, string cols, string where, string orderBy, string files = "", string key = "", int priceFrequency = 0)
-        {
-            string selectCols = "*";
-            if (cols != "")
-                selectCols = cols;
-
-            string topStr = "";
-            if (top > 0)
-                topStr = "top " + top.ToString();
-            string whereStr = "Display!=2 ";
-            if (where != "")
-                whereStr += "where " + where;
-
-            if (!string.IsNullOrEmpty(files) && !string.IsNullOrEmpty(key) && !files.Contains("SupplierCode,SupplierName"))
-                whereStr += string.Format(" and {0} like '%{1}%' ", files, key);
-            if (priceFrequency > 0)
-                whereStr += string.Format(" and priceFrequency = {0}", priceFrequency);
-            string orderByStr = "";
-            if (orderBy != "")
-                orderByStr = "order by " + orderBy;
-
-            var sql = string.Format("select {0} {1} from {2} {3} {4}", topStr, selectCols, tableName, whereStr, orderByStr);
-
-            var dt = Db.Context.FromSql(sql).ToDataTable();
-            return dt;
-        }
     }
 }

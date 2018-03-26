@@ -32,14 +32,12 @@ namespace FancyFix.OA.Model
 		private string _Description;
 		private string _Category;
 		private string _LeadBuyer;
-		private int? _VendorId;
-		private int? _PriceFrequency;
-		private string _Currency;
 		private DateTime? _AddDate;
 		private int? _AddUserId;
 		private DateTime? _LastDate;
 		private int? _LastUserId;
 		private int? _Display;
+		private string _Currency;
 		/// <summary>
 		/// 
 		/// </summary>
@@ -113,42 +111,6 @@ namespace FancyFix.OA.Model
 			}
 		}
 		/// <summary>
-		/// 供应商代码
-		/// </summary>
-		public int? VendorId
-		{
-			get{ return _VendorId; }
-			set
-			{
-				this.OnPropertyValueChange(_.VendorId,_VendorId,value);
-				this._VendorId=value;
-			}
-		}
-		/// <summary>
-		/// 价格频次（月/季度/半年/年/单次）
-		/// </summary>
-		public int? PriceFrequency
-		{
-			get{ return _PriceFrequency; }
-			set
-			{
-				this.OnPropertyValueChange(_.PriceFrequency,_PriceFrequency,value);
-				this._PriceFrequency=value;
-			}
-		}
-		/// <summary>
-		/// 价格单位
-		/// </summary>
-		public string Currency
-		{
-			get{ return _Currency; }
-			set
-			{
-				this.OnPropertyValueChange(_.Currency,_Currency,value);
-				this._Currency=value;
-			}
-		}
-		/// <summary>
 		/// 
 		/// </summary>
 		public DateTime? AddDate
@@ -208,6 +170,18 @@ namespace FancyFix.OA.Model
 				this._Display=value;
 			}
 		}
+		/// <summary>
+		/// 价格单位
+		/// </summary>
+		public string Currency
+		{
+			get{ return _Currency; }
+			set
+			{
+				this.OnPropertyValueChange(_.Currency,_Currency,value);
+				this._Currency=value;
+			}
+		}
 		#endregion
 
 		#region Method
@@ -238,14 +212,12 @@ namespace FancyFix.OA.Model
 				_.Description,
 				_.Category,
 				_.LeadBuyer,
-				_.VendorId,
-				_.PriceFrequency,
-				_.Currency,
 				_.AddDate,
 				_.AddUserId,
 				_.LastDate,
 				_.LastUserId,
-				_.Display};
+				_.Display,
+				_.Currency};
 		}
 		/// <summary>
 		/// 获取值信息
@@ -259,14 +231,12 @@ namespace FancyFix.OA.Model
 				this._Description,
 				this._Category,
 				this._LeadBuyer,
-				this._VendorId,
-				this._PriceFrequency,
-				this._Currency,
 				this._AddDate,
 				this._AddUserId,
 				this._LastDate,
 				this._LastUserId,
-				this._Display};
+				this._Display,
+				this._Currency};
 		}
 		#endregion
 
@@ -305,18 +275,6 @@ namespace FancyFix.OA.Model
 			/// </summary>
 			public readonly static Field LeadBuyer = new Field("LeadBuyer","Supplier_RawMaterial","采购负责人");
 			/// <summary>
-			/// 供应商代码
-			/// </summary>
-			public readonly static Field VendorId = new Field("VendorId","Supplier_RawMaterial","供应商代码");
-			/// <summary>
-			/// 价格频次（月/季度/半年/年/单次）
-			/// </summary>
-			public readonly static Field PriceFrequency = new Field("PriceFrequency","Supplier_RawMaterial","价格频次（月/季度/半年/年/单次）");
-			/// <summary>
-			/// 价格单位
-			/// </summary>
-			public readonly static Field Currency = new Field("Currency","Supplier_RawMaterial","价格单位");
-			/// <summary>
 			/// 
 			/// </summary>
 			public readonly static Field AddDate = new Field("AddDate","Supplier_RawMaterial","AddDate");
@@ -336,6 +294,10 @@ namespace FancyFix.OA.Model
 			/// 
 			/// </summary>
 			public readonly static Field Display = new Field("Display","Supplier_RawMaterial","Display");
+			/// <summary>
+			/// 价格单位
+			/// </summary>
+			public readonly static Field Currency = new Field("Currency","Supplier_RawMaterial","价格单位");
 		}
 		#endregion
 

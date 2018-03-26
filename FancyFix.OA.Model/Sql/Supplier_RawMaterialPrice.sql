@@ -1,4 +1,4 @@
-﻿/*
+/*
 Navicat SQL Server Data Transfer
 
 Source Server         : YZX-PC
@@ -11,7 +11,7 @@ Target Server Type    : SQL Server
 Target Server Version : 110000
 File Encoding         : 65001
 
-Date: 2018-03-16 17:53:26
+Date: 2018-03-26 13:45:02
 */
 
 
@@ -40,10 +40,14 @@ CREATE TABLE [dbo].[Supplier_RawMaterialPrice] (
 [AddUserId] int NULL ,
 [LastDate] datetime NULL ,
 [LastUserId] int NULL ,
-[Display] int NULL DEFAULT ((1)) 
+[Display] int NULL DEFAULT ((1)) ,
+[VendorId] int NULL ,
+[PriceFrequency] int NULL 
 )
 
 
+GO
+DBCC CHECKIDENT(N'[dbo].[Supplier_RawMaterialPrice]', RESEED, 33)
 GO
 IF ((SELECT COUNT(*) from fn_listextendedproperty('MS_Description', 
 'SCHEMA', N'dbo', 
@@ -72,6 +76,34 @@ EXEC sp_addextendedproperty @name = N'MS_Description', @value = N'年份'
 , @level0type = 'SCHEMA', @level0name = N'dbo'
 , @level1type = 'TABLE', @level1name = N'Supplier_RawMaterialPrice'
 , @level2type = 'COLUMN', @level2name = N'Years'
+GO
+IF ((SELECT COUNT(*) from fn_listextendedproperty('MS_Description', 
+'SCHEMA', N'dbo', 
+'TABLE', N'Supplier_RawMaterialPrice', 
+'COLUMN', N'VendorId')) > 0) 
+EXEC sp_updateextendedproperty @name = N'MS_Description', @value = N'供应商ID'
+, @level0type = 'SCHEMA', @level0name = N'dbo'
+, @level1type = 'TABLE', @level1name = N'Supplier_RawMaterialPrice'
+, @level2type = 'COLUMN', @level2name = N'VendorId'
+ELSE
+EXEC sp_addextendedproperty @name = N'MS_Description', @value = N'供应商ID'
+, @level0type = 'SCHEMA', @level0name = N'dbo'
+, @level1type = 'TABLE', @level1name = N'Supplier_RawMaterialPrice'
+, @level2type = 'COLUMN', @level2name = N'VendorId'
+GO
+IF ((SELECT COUNT(*) from fn_listextendedproperty('MS_Description', 
+'SCHEMA', N'dbo', 
+'TABLE', N'Supplier_RawMaterialPrice', 
+'COLUMN', N'PriceFrequency')) > 0) 
+EXEC sp_updateextendedproperty @name = N'MS_Description', @value = N'价格频次'
+, @level0type = 'SCHEMA', @level0name = N'dbo'
+, @level1type = 'TABLE', @level1name = N'Supplier_RawMaterialPrice'
+, @level2type = 'COLUMN', @level2name = N'PriceFrequency'
+ELSE
+EXEC sp_addextendedproperty @name = N'MS_Description', @value = N'价格频次'
+, @level0type = 'SCHEMA', @level0name = N'dbo'
+, @level1type = 'TABLE', @level1name = N'Supplier_RawMaterialPrice'
+, @level2type = 'COLUMN', @level2name = N'PriceFrequency'
 GO
 
 -- ----------------------------

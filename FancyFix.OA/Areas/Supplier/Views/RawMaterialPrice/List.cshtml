@@ -96,6 +96,7 @@
     <script src="/Content/js/plugins/datatables/bootstrap-table-zh-CN.js"></script>
     <script src="/Content/js/common/tools.js"></script>
     <script>
+        var fun = null;
 
         layui.use(['layer', 'form'], function () {
             var layer = layui.layer;
@@ -310,28 +311,38 @@
                     });
                 }
             });
+
+
+            fun = {
+                init: function () {
+                    $("#importBtn").bind("click", function () {
+                        $("#fileEle").trigger("click");
+                    })
+                    $("#fileEle").bind("change", function () {
+                        excelForm.action = "list";
+                        excelForm.submit();
+                    })
+
+                    $("#exportBtn").bind("click", function () {
+                        var par = 'files=' + $("#files").val()
+                            + '&key=' + $("#key").val()
+                            + '&priceFrequency=' + $("#priceFrequency").val()
+                            + '&years=' + $("#years").val()
+                        OpenWin("导出供应商列表", "/supplier/rawmaterialprice/exportexcel?" + par, '726px', '580px');
+                    })
+                },
+                yearsAjax: function () {
+                    var year = $("#years");
+                    $.get('/supplier/rawmaterialprice/yearslist', { years: year.val()}, function (data) {
+                        year.html(data.result);
+                        parent.$table.bootstrapTable('refresh');
+                        form.render('select'); //刷新select选择框渲染
+                    })
+                }
+            }
+            fun.init();
         })
 
-        var fun = {
-            init: function () {
-                $("#importBtn").bind("click", function () {
-                    $("#fileEle").trigger("click");
-                })
-                $("#fileEle").bind("change", function () {
-                    excelForm.action = "list";
-                    excelForm.submit();
-                })
-
-                $("#exportBtn").bind("click", function () {
-                    var par = 'files=' + $("#files").val()
-                        + '&key=' + $("#key").val()
-                        + '&priceFrequency=' + $("#priceFrequency").val()
-                        + '&years=' + $("#years").val()
-                    OpenWin("导出供应商列表", "/supplier/rawmaterialprice/exportexcel?" + par, '726px', '580px');
-                })
-            }
-        }
-        fun.init();
 
     </script>
 }

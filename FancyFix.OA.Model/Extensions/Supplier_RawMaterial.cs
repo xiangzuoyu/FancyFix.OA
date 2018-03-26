@@ -11,6 +11,7 @@ namespace FancyFix.OA.Model
         public string SupplierCode { get; set; }
         public string SupplierName { get; set; }
         public string PriceFrequencyName { get; set; }
+        public int? PriceFrequency { get; set; }
         public int? Years { get; set; }
         public decimal? Month1 { get; set; }
         public decimal? Month2 { get; set; }

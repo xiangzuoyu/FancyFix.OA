@@ -44,6 +44,16 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             return BspTableJson(list, records);
         }
 
+        public JsonResult YearsList(int years = 0)
+        {
+            var list = Bll.BllSupplier_RawMaterialPrice.GetSelectList(0, "distinct(Years)", "display!=2", "Years");
+            string result = string.Empty;
+            foreach (var item in list)
+                result += "<option value=\"" + item.Years + "\" " + (item.Years == years ? "selected" : "") + ">" + item.Years + "年</option>";
+
+            return Json(new { result = result }, JsonRequestBehavior.AllowGet);
+        }
+
         #endregion
 
         #region 导入Excel
@@ -58,8 +68,13 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
                 string filePath = UploadProvice.Instance().Settings["file"].FilePath + DateTime.Now.ToString("yyyyMMddHHmmss")
                         + (file.FileName.IndexOf(".xlsx") > 0 ? ".xlsx" : "xls");
                 var size = file.ContentLength;
+                int maxFileSize = UploadProvice.Instance().Settings["file"].MaxFileSize;
+                
+
                 var type = file.ContentType;
                 //判断文件大小和格式
+                if (size > maxFileSize)
+                    return MessageBoxAndJump("上传失败，上传的文件太大", "list");
 
                 file.SaveAs(filePath);
 
@@ -331,7 +346,6 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             model.VendorId = supplierModel.Id;
             model.Years = rawmaterialPrice.Years;
             model.PriceFrequency = rawmaterialPrice.PriceFrequency;
-            model.Currency = model.Currency;
             model.Month1 = rawmaterialPrice.Month1;
             model.Month2 = rawmaterialPrice.Month2;
             model.Month3 = rawmaterialPrice.Month3;
@@ -359,7 +373,7 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
                 isok = Bll.BllSupplier_RawMaterialPrice.Update(model) > 0;
             }
 
-            return LayerMsgSuccessAndRefresh("保存" + (isok ? "成功" : "失败"));
+            return LayerAlertAndCallback("保存" + (isok ? "成功" : "失败"), "fun.yearsAjax()");
         }
         #endregion
 

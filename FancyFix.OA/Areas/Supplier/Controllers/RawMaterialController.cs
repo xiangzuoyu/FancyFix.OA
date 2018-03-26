@@ -24,13 +24,6 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             string files = Tools.Usual.Utils.CheckSqlKeyword(RequestString("files"));
             string key = Tools.Usual.Utils.CheckSqlKeyword(RequestString("key")).Trim();
             var list = Bll.BllSupplier_RawMaterial.PageList(page, pagesize, out records, files, key);
-            //foreach (var item in list)
-            //{
-            //    //价格频次
-            //    item.PriceFrequencyName = item.PriceFrequency != null
-            //        ? Tools.Enums.Tools.GetEnumDescription(typeof(Models.PriceFrequency), item.PriceFrequency.GetValueOrDefault().ToString().ToInt32()).ToString()
-            //        : "无";
-            //}
             return BspTableJson(list, records);
         }
 
@@ -57,6 +50,8 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             model.Description = supplierRawMaterial.Description;
             model.Category = supplierRawMaterial.Category;
             model.LeadBuyer = supplierRawMaterial.LeadBuyer;
+            model.Currency = supplierRawMaterial.Currency;
+
             model.LastDate = DateTime.Now;
             model.LastUserId = MyInfo.Id;
             bool isok = false;

@@ -49,7 +49,7 @@
             <label class="layui-form-label">按价格频次</label>
             <div class="layui-input-inline">
                 <select id="priceFrequency" name="priceFrequency" lay-filter="priceFrequency">
-                    <option value="0"  >全部</option>
+                    <option value="0">全部</option>
                     @Html.Raw(Tools.GetOptionHtml(typeof(PriceFrequency), (byte)ViewBag.priceFrequencyId))
                 </select>
             </div>
@@ -65,7 +65,7 @@
                 </select>
             </div>
         </div>
-         
+
         <div class="layui-inline pull-right">
             <button id="btnSearch" class="btn bg-orange" lay-submit>导出</button>
         </div>
@@ -77,10 +77,11 @@
     <script src="/Content/js/plugins/jqvalidate/jquery.validator.min.js"></script>
     <script src="/Content/js/plugins/jqvalidate/messages_cn.js"></script>
     <script src="/Content/js/common/tools.js"></script>
+    
     <script>
         layui.use(['layer', 'form'], function () {
             var layer = layui.layer;
             var form = layui.form();
-        });
+        }); 
     </script>
 }

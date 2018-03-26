@@ -52,6 +52,9 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
                 var size = file.ContentLength;
                 var type = file.ContentType;
                 //判断文件大小和格式
+                int maxFileSize = UploadProvice.Instance().Settings["file"].MaxFileSize;
+                if (size > maxFileSize)
+                    return MessageBoxAndJump("上传失败，上传的文件太大", "list");
 
                 file.SaveAs(filePath);
 

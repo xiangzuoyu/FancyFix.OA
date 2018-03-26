@@ -70,7 +70,6 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
                 var size = file.ContentLength;
                 int maxFileSize = UploadProvice.Instance().Settings["file"].MaxFileSize;
                 
-
                 var type = file.ContentType;
                 //判断文件大小和格式
                 if (size > maxFileSize)

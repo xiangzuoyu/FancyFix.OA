@@ -110,6 +110,8 @@
                             <td align="right"><label for="ispass" class="control-label">是否通过：</label></td>
                             <td>
                                 <input type="checkbox" name="ispass" value="true" @(Model.IsApprove.Value ? "checked=checked" : "")>
+                                <span class="text-red">【此项勾选为通过】</span>
+                                
                             </td>
                         </tr>
                         <tr>

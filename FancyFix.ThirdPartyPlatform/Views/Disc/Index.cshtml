@@ -157,32 +157,41 @@
                     submitHandler: function (form) {
                         $("#btnPass").attr("disabled", "disabled");
                         layer.msg('提交中...', { icon: 16, shade: 0.2, time: 5000 });
-                        $.post("/disc/save", $(form).serialize(), function (data) {
-                            if (data) {
-                                if (data.result > 0) {
-                                    layer.msg('提交成功！正在统计中...', { icon: 16, shade: 0.2, time: 5000 });
-                                    var result = data.data;
-                                    var html = "你的测试结果为：";
-                                    for (var i in result) {
-                                        html += "<p>" + result[i].n + "：" + result[i].v + "</p>";
-                                    }
-                                    layer.alert(html, {
-                                        title: "测试结果",
-                                        time: 0,
-                                        closeBtn: 0,
-                                        btn: ['退出'],
-                                        yes: function (index) {
-                                            window.location.href = '/disc';
+                        $.ajax({
+                            type: 'post',
+                            url:  "/disc/save",
+                            dataType: 'json',
+                            data: $(form).serialize(),
+                            success: function (data) {
+                                if (data) {
+                                    if (data.result > 0) {
+                                        layer.msg('提交成功！正在统计中...', { icon: 16, shade: 0.2, time: 5000 });
+                                        var result = data.data;
+                                        var html = "你的测试结果为：";
+                                        for (var i in result) {
+                                            html += "<p>" + result[i].n + "：" + result[i].v + "</p>";
                                         }
-                                    });
+                                        layer.alert(html, {
+                                            title: "测试结果",
+                                            time: 0,
+                                            closeBtn: 0,
+                                            btn: ['退出'],
+                                            yes: function (index) {
+                                                window.location.href = '/disc';
+                                            }
+                                        });
+                                    } else {
+                                        layer.alert(data.data, { icon: 5 });
+                                    }
                                 } else {
-                                    layer.alert(data.data, { icon: 5 });
+                                    layer.alert("发生错误，请联系公司相关负责人！", { icon: 5 });
                                 }
-                            } else {
+                                $("#btnPass").removeAttr("disabled");
+                            },
+                            error: function () {
                                 layer.alert("发生错误，请联系公司相关负责人！", { icon: 5 });
                             }
-                            $("#btnPass").removeAttr("disabled");
-                        })
+                        });
                     }
                 });
             }

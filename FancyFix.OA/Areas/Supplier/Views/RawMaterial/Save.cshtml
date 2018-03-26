@@ -1,0 +1,107 @@
+﻿@using FancyFix.OA.Model;
+
+@model Supplier_RawMaterial
+@{
+    ViewBag.Title = "Save";
+    Layout = "~/Views/Shared/_Layout_In.cshtml";
+}
+
+@section Css{
+
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <form id="mainform" action="/supplier/rawmaterial/save" method="post" style="margin-bottom:50px;">
+            <table class="layui-table">
+                <!--列宽度-->
+                <colgroup>
+                    <col class="col-lg-2">
+                    <col class="col-lg-10">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td align="right"><label for="BU" class="control-label">业务部门：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("BU", (Model?.BU ?? ""), new { @class = "form-control", required = "required", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="SAPCode" class="control-label">原材料代码：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("SAPCode", (Model?.SAPCode ?? ""), new { @class = "form-control", required = "required", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="Description" class="control-label">采购产品名称：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("Description", (Model?.Description ?? ""), new { @class = "form-control", required = "required", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="Category" class="control-label">品类：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("Category", (Model?.Category ?? ""), new { @class = "form-control", required = "required", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="LeadBuyer" class="control-label">采购负责人：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("LeadBuyer", (Model?.LeadBuyer ?? ""), new { @class = "form-control", required = "required", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="Currency" class="control-label">价格单位：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("Currency", (Model?.Currency ?? ""), new { @class = "form-control", required = "required", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"></td>
+                        <td>
+                            @Html.Hidden("Id", (Model?.Id ?? 0))
+                            <button type="submit" id="btnPass" class="btn btn-primary">保存</button>
+                            <button type="button" id="cancel" class="btn btn-default" onclick="CloseWin()">取消</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+
+@section Js{
+    <script src="/Content/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/jquery.validator.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/messages_cn.js"></script>
+    <script src="/Content/js/common/tools.js"></script>
+    <script>
+        layui.use(['layer', 'laydate'], function () {
+            var layer = layui.layer;
+
+            //表单验证
+            var $form = $("#mainform");
+            $form.validate();
+
+            //通过
+            $("#btnPass").click(function () {
+                $("#demandtypeid").attr("disabled", false);
+                $("#detailtypeid").attr("disabled", false);
+                $form.valid();
+            });
+        })
+
+    </script>
+}

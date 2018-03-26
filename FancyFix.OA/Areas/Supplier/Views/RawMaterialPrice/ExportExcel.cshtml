@@ -1,0 +1,87 @@
+﻿@using FancyFix.OA.Areas.Supplier.Models;
+@using FancyFix.Tools.Enums;
+@using FancyFix.OA.Model;
+@{
+    ViewBag.Title = "ExportExcel";
+    Layout = "~/Views/Shared/_Layout_In.cshtml";
+
+    int year = ViewBag.years;
+    List<Supplier_RawMaterialPrice> prices = ViewBag.pricesList;
+}
+
+@section Css{
+    <link href="/Content/js/plugins/iCheck/flat/_all.css" rel="stylesheet" />
+}
+<form action="ExportExcel" method="post">
+    <div class="layui-form layui-form-pane">
+        <div class="layui-inline">
+            <input name="cols" value="BU" type="checkbox" checked="checked" title="业务部门" />
+            <input name="cols" value="SAPCode" type="checkbox" checked="checked" title="原材料代码" />
+            <input name="cols" value="Description" type="checkbox" checked="checked" title="采购产品名称" />
+            <input name="cols" value="Category" type="checkbox" checked="checked" title="品类" />
+            <input name="cols" value="LeadBuyer" type="checkbox" checked="checked" title="采购负责人" />
+            <input name="cols" value="Code" type="checkbox" checked="checked" title="供应商代码" />
+            <input name="cols" value="Name" type="checkbox" checked="checked" title="供应商名称" />
+            <input name="cols" value="PriceFrequency" type="checkbox" checked="checked" title="价格频次（月/季度/半年/年/单次）" />
+            <input name="cols" value="Currency" type="checkbox" checked="checked" title="价格单位" />
+        </div>
+        <br />
+        <br />
+        <div class="layui-inline">
+            <label class="layui-form-label">按字段</label>
+            <div class="layui-input-inline">
+                <select id="files" name="files" lay-filter="files">
+                    <option value="">全部</option>
+                    <option value="BU" @(ViewBag.files == "BU" ? "selected" : "")>部门</option>
+                    <option value="SAPCode" @(ViewBag.files == "SAPCode" ? "selected" : "")>原材料代码</option>
+                    <option value="Description" @(ViewBag.files == "Description" ? "selected" : "")>采购产品名称</option>
+                    <option value="Category" @(ViewBag.files == "Category" ? "selected" : "")>品类</option>
+                    <option value="LeadBuyer" @(ViewBag.files == "LeadBuyer" ? "selected" : "")>采购负责人</option>
+                    <option value="SupplierCode" @(ViewBag.files == "SupplierCode" ? "selected" : "")>供应商代码</option>
+                    <option value="SupplierName" @(ViewBag.files == "SupplierName" ? "selected" : "")>供应商名称</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                @Html.TextBox("key", "", new { @class = "layui-input" })
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">按价格频次</label>
+            <div class="layui-input-inline">
+                <select id="priceFrequency" name="priceFrequency" lay-filter="priceFrequency">
+                    <option value="0">全部</option>
+                    @Html.Raw(Tools.GetOptionHtml(typeof(PriceFrequency), (byte)ViewBag.priceFrequencyId))
+                </select>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">按年份</label>
+            <div class="layui-input-inline">
+                <select id="years" name="years" lay-filter="years">
+                    @foreach (var item in prices)
+                    {
+                        <option value="@item.Years" @(item.Years == year ? "selected" : "")>@item.Years 年</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-inline pull-right">
+            <button id="btnSearch" class="btn bg-orange" lay-submit>导出</button>
+        </div>
+    </div>
+</form>
+
+@section Js{
+    <script src="/Content/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/jquery.validator.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/messages_cn.js"></script>
+    <script src="/Content/js/common/tools.js"></script>
+    
+    <script>
+        layui.use(['layer', 'form'], function () {
+            var layer = layui.layer;
+            var form = layui.form();
+        }); 
+    </script>
+}

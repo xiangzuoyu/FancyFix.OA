@@ -309,8 +309,6 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
         [ValidateInput(false)]
         public void SeeDetails(string content)
         {
-            var table = RequestString("content").Trim();
-
             Tools.Tool.ExcelHelper.ExportResult(content, DateTime.Now.ToString("yyyyMMddHHmmss") + ".xls");
         }
     }

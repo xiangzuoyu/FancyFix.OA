@@ -1,0 +1,232 @@
+﻿@using FancyFix.OA.Model;
+@using FancyFix.Tools.Enums;
+@using FancyFix.OA.Areas.Supplier.Models;
+@model Supplier_RawMaterialPrice
+@{
+    ViewBag.Title = "Save";
+    Layout = "~/Views/Shared/_Layout_In.cshtml";
+
+    int year = ViewBag.years;
+    List<Supplier_RawMaterialPrice> prices = ViewBag.pricesList;
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <form id="mainform" action="/supplier/rawmaterialprice/save" method="post" style="margin-bottom:50px;">
+            <table class="layui-table">
+                <!--列宽度-->
+                <colgroup>
+                    <col class="col-lg-2">
+                    <col class="col-lg-10">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td align="right"><label for="SAPCode" class="control-label">原材料代码：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("SAPCode", (Model?.SAPCode ?? ""), new { @class = "form-control", required = "required", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                            <td align="right"><label for="Description" class="control-label">采购产品名称：</label></td>
+                            <td>
+                                <div class="form-group">
+                                    @Html.TextBox("Description", (Model?.Description ?? ""), new { @class = "form-control",@readonly= "readonly", style = "width:250px;" })
+                                </div>
+                            </td>
+                        </tr>
+
+                    <tr>
+                        <td align="right"><label for="Code" class="control-label">供应商代码：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("Code", (Model?.Code ?? ""), new { @class = "form-control", required = "required", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                            <td align="right"><label for="Name" class="control-label">供应商名称：</label></td>
+                            <td>
+                                <div class="form-group">
+                                    @Html.TextBox("Name", (Model?.Name ?? ""), new { @class = "form-control", @readonly = "readonly",  style = "width:250px;" })
+                                </div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td align="right"><label class="control-label">价格频次：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <select id="PriceFrequency" name="PriceFrequency" class="layui-select">
+                                    @Html.Raw(Tools.GetOptionHtml(typeof(PriceFrequency), (byte)(Model?.PriceFrequency ?? 0)))
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="Currency" class="control-label">价格单位：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("Currency", (Model?.Currency ?? ""), new { @class = "form-control", @readonly = "readonly", required = "required", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label class="control-label">价格年份：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("Years", (Model?.Years ?? year), new { @class = "form-control", required = "required", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="Month1" class="control-label">一月：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("Month1", (Model?.Month1 ?? 0), new { @class = "form-control", type = "number", required = "required", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="Month2" class="control-label">二月：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("Month2", (Model?.Month2 ?? 0), new { @class = "form-control", type = "number", required = "required", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="Month3" class="control-label">三月：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("Month3", (Model?.Month3 ?? 0), new { @class = "form-control", type = "number", required = "required", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="Month4" class="control-label">四月：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("Month4", (Model?.Month4 ?? 0), new { @class = "form-control", type = "number", required = "required", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="Month5" class="control-label">五月：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("Month5", (Model?.Month5 ?? 0), new { @class = "form-control", type = "number", required = "required", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="Month6" class="control-label">六月：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("Month6", (Model?.Month6 ?? 0), new { @class = "form-control", type = "number", required = "required", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="Month7" class="control-label">七月：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("Month7", (Model?.Month7 ?? 0), new { @class = "form-control", type = "number", required = "required", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="Month8" class="control-label">八月：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("Month8", (Model?.Month8 ?? 0), new { @class = "form-control", type = "number", required = "required", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="Month9" class="control-label">九月：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("Month9", (Model?.Month9 ?? 0), new { @class = "form-control", type = "number", required = "required", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="Month10" class="control-label">十月：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("Month10", (Model?.Month10 ?? 0), new { @class = "form-control", type = "number", required = "required", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="Month11" class="control-label">十一月：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("Month11", (Model?.Month11 ?? 0), new { @class = "form-control", type = "number", required = "required", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="Month12" class="control-label">十二月：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("Month12", (Model?.Month12 ?? 0), new { @class = "form-control", type = "number", required = "required", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"></td>
+                        <td>
+                            @Html.Hidden("Id", (Model?.Id ?? 0))
+                            <button type="submit" id="btnPass" class="btn btn-primary">保存</button>
+                            <button type="button" id="cancel" class="btn btn-default" onclick="CloseWin()">取消</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+
+@section Js{
+    <script src="/Content/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/jquery.validator.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/messages_cn.js"></script>
+    @*<script src="/Content/js/plugins/layui/laydate/laydate.js"></script>*@
+    <script src="/Content/js/common/tools.js"></script>
+    <script>
+        layui.use(['layer', 'laydate'], function () {
+            var layer = layui.layer;
+            var laydate = layui.laydate;
+
+            //laydate.render({
+            //    elem: '#Years', //或 elem: document.getElementById('test')、elem: lay('#test') 等
+            //    type: 'year'
+            //});
+
+            ////日期控件
+            //$("#Years").click(function () {
+            //    laydate({
+            //        elem: this,
+            //        type: 'year',
+            //        //min: laydate.now(),
+            //        //format: 'YYYY-MM-DD hh:mm:ss',
+            //        format: 'YYYY',
+            //    });
+            //});
+
+            //表单验证
+            var $form = $("#mainform");
+            $form.validate();
+
+            //通过
+            $("#btnPass").click(function () {
+                $("#demandtypeid").attr("disabled", false);
+                $("#detailtypeid").attr("disabled", false);
+                $form.valid();
+            });
+        })
+
+    </script>
+}

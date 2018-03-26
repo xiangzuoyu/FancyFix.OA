@@ -39,6 +39,13 @@ namespace FancyFix.OA.Model
 		private DateTime? _EndDate;
 		private int? _LabelId;
 		private string _Note;
+		private string _SupplierAb;
+		private DateTime? _AddDate;
+		private string _AccountDate;
+		private int? _AddUserId;
+		private DateTime? _LastDate;
+		private int? _LastUserId;
+		private int? _Display;
 		/// <summary>
 		/// 
 		/// </summary>
@@ -195,6 +202,90 @@ namespace FancyFix.OA.Model
 				this._Note=value;
 			}
 		}
+		/// <summary>
+		/// 供应商名称缩写
+		/// </summary>
+		public string SupplierAb
+		{
+			get{ return _SupplierAb; }
+			set
+			{
+				this.OnPropertyValueChange(_.SupplierAb,_SupplierAb,value);
+				this._SupplierAb=value;
+			}
+		}
+		/// <summary>
+		/// 添加时间
+		/// </summary>
+		public DateTime? AddDate
+		{
+			get{ return _AddDate; }
+			set
+			{
+				this.OnPropertyValueChange(_.AddDate,_AddDate,value);
+				this._AddDate=value;
+			}
+		}
+		/// <summary>
+		/// 账期
+		/// </summary>
+		public string AccountDate
+		{
+			get{ return _AccountDate; }
+			set
+			{
+				this.OnPropertyValueChange(_.AccountDate,_AccountDate,value);
+				this._AccountDate=value;
+			}
+		}
+		/// <summary>
+		/// 添加人
+		/// </summary>
+		public int? AddUserId
+		{
+			get{ return _AddUserId; }
+			set
+			{
+				this.OnPropertyValueChange(_.AddUserId,_AddUserId,value);
+				this._AddUserId=value;
+			}
+		}
+		/// <summary>
+		/// 最后修改时间
+		/// </summary>
+		public DateTime? LastDate
+		{
+			get{ return _LastDate; }
+			set
+			{
+				this.OnPropertyValueChange(_.LastDate,_LastDate,value);
+				this._LastDate=value;
+			}
+		}
+		/// <summary>
+		/// 最后修改人
+		/// </summary>
+		public int? LastUserId
+		{
+			get{ return _LastUserId; }
+			set
+			{
+				this.OnPropertyValueChange(_.LastUserId,_LastUserId,value);
+				this._LastUserId=value;
+			}
+		}
+		/// <summary>
+		/// _1：显示，2：隐藏
+		/// </summary>
+		public int? Display
+		{
+			get{ return _Display; }
+			set
+			{
+				this.OnPropertyValueChange(_.Display,_Display,value);
+				this._Display=value;
+			}
+		}
 		#endregion
 
 		#region Method
@@ -231,7 +322,14 @@ namespace FancyFix.OA.Model
 				_.StartDate,
 				_.EndDate,
 				_.LabelId,
-				_.Note};
+				_.Note,
+				_.SupplierAb,
+				_.AddDate,
+				_.AccountDate,
+				_.AddUserId,
+				_.LastDate,
+				_.LastUserId,
+				_.Display};
 		}
 		/// <summary>
 		/// 获取值信息
@@ -251,7 +349,14 @@ namespace FancyFix.OA.Model
 				this._StartDate,
 				this._EndDate,
 				this._LabelId,
-				this._Note};
+				this._Note,
+				this._SupplierAb,
+				this._AddDate,
+				this._AccountDate,
+				this._AddUserId,
+				this._LastDate,
+				this._LastUserId,
+				this._Display};
 		}
 		#endregion
 
@@ -317,6 +422,34 @@ namespace FancyFix.OA.Model
 			/// 备注
 			/// </summary>
 			public readonly static Field Note = new Field("Note","Supplier_List","备注");
+			/// <summary>
+			/// 供应商名称缩写
+			/// </summary>
+			public readonly static Field SupplierAb = new Field("SupplierAb","Supplier_List","供应商名称缩写");
+			/// <summary>
+			/// 添加时间
+			/// </summary>
+			public readonly static Field AddDate = new Field("AddDate","Supplier_List","添加时间");
+			/// <summary>
+			/// 账期
+			/// </summary>
+			public readonly static Field AccountDate = new Field("AccountDate","Supplier_List","账期");
+			/// <summary>
+			/// 添加人
+			/// </summary>
+			public readonly static Field AddUserId = new Field("AddUserId","Supplier_List","添加人");
+			/// <summary>
+			/// 最后修改时间
+			/// </summary>
+			public readonly static Field LastDate = new Field("LastDate","Supplier_List","最后修改时间");
+			/// <summary>
+			/// 最后修改人
+			/// </summary>
+			public readonly static Field LastUserId = new Field("LastUserId","Supplier_List","最后修改人");
+			/// <summary>
+			/// _1：显示，2：隐藏
+			/// </summary>
+			public readonly static Field Display = new Field("Display","Supplier_List","_1：显示，2：隐藏");
 		}
 		#endregion
 

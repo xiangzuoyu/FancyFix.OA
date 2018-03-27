@@ -24,16 +24,13 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             return View();
         }
 
-        public JsonResult PageList(int page = 0, int pagesize = 0, int priceFrequency = 0, int years = 0)
+        public JsonResult PageList(int page = 0, int pagesize = 0, int priceFrequency = 0, int years = 0, string files = "", string key = "")
         {
             long records = 0;
             if (years == 0)
                 years = DateTime.Now.Year;
-            //Sql注入检测
-            string files = Tools.Usual.Utils.CheckSqlKeyword(RequestString("files"));
-            string key = Tools.Usual.Utils.CheckSqlKeyword(RequestString("key")).Trim();
 
-            var list = Bll.BllSupplier_RawMaterialPrice.PageList(page, pagesize, out records, files, key.Trim(), years, priceFrequency);
+            var list = Bll.BllSupplier_RawMaterialPrice.PageList(page, pagesize, out records, files, key, years, priceFrequency);
             foreach (var item in list)
             {
                 //价格频次
@@ -53,7 +50,6 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
 
             return Json(new { result = result }, JsonRequestBehavior.AllowGet);
         }
-
         #endregion
 
         #region 导入Excel
@@ -66,14 +62,17 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             try
             {
                 string filePath = UploadProvice.Instance().Settings["file"].FilePath + DateTime.Now.ToString("yyyyMMddHHmmss")
-                        + (file.FileName.IndexOf(".xlsx") > 0 ? ".xlsx" : "xls");
+                        + (file.FileName.IndexOf(".xlsx") > 0 ? ".xlsx" : ".xls");
                 var size = file.ContentLength;
                 int maxFileSize = UploadProvice.Instance().Settings["file"].MaxFileSize;
-                
+
                 var type = file.ContentType;
                 //判断文件大小和格式
                 if (size > maxFileSize)
                     return MessageBoxAndJump("上传失败，上传的文件太大", "list");
+
+                if (!Tools.Tool.CheckFilesRealFormat.ValidationFile(file))
+                    return MessageBoxAndJump("上传失败，上传的文件格式不正确", "list");
 
                 file.SaveAs(filePath);
 
@@ -187,8 +186,8 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
         [HttpPost]
         public ActionResult ExportExcel(int priceFrequency = 0, int years = 0)
         {
-            string files = Tools.Usual.Utils.CheckSqlKeyword(RequestString("files"));
-            string key = Tools.Usual.Utils.CheckSqlKeyword(RequestString("key"));
+            string files = RequestString("files");
+            string key = RequestString("key");
             string cols = RequestString("cols");
             var arr = cols.Split(',');
             if (string.IsNullOrEmpty(cols))

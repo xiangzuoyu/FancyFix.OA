@@ -17,7 +17,8 @@ namespace FancyFix.OA.Bll
         public static IEnumerable<Supplier_RawMaterialPrice> PageList(int page, int pageSize, out long records, string file, string key, int years, int priceFrequency)
         {
             var where = new Where<Supplier_RawMaterialPrice>();
-
+            file = CheckSqlValue(file);
+            key = CheckSqlKeyword(key);
             if (!string.IsNullOrEmpty(file) && !string.IsNullOrEmpty(key))
                 where.And(string.Format(" {0} like '%{1}%' ", ("SupplierCode,SupplierName".Contains(file) ? file.Replace("Supplier", "") : file), key));
 
@@ -62,6 +63,8 @@ namespace FancyFix.OA.Bll
         public static DataTable GetList(string file, string key, int years, int priceFrequency)
         {
             var where = new Where<Supplier_RawMaterialPrice>();
+            file = CheckSqlValue(file);
+            key = CheckSqlKeyword(key);
 
             if (!string.IsNullOrEmpty(file) && !string.IsNullOrEmpty(key))
                 where.And(string.Format(" {0} like '%{1}%' ", ("SupplierCode,SupplierName".Contains(file) ? file.Replace("Supplier", "") : file), key));
@@ -102,7 +105,7 @@ namespace FancyFix.OA.Bll
 
             return p.OrderByDescending(o => o.Id).ToDataTable();
         }
-        
+
         public static Supplier_RawMaterialPrice GetModel(int id)
         {
             var where = new Where<Supplier_RawMaterialPrice>();

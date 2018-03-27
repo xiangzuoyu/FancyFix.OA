@@ -48,13 +48,16 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             try
             {
                 string filePath = UploadProvice.Instance().Settings["file"].FilePath + DateTime.Now.ToString("yyyyMMddHHmmss")
-                        + (file.FileName.IndexOf(".xlsx") > 0 ? ".xlsx" : "xls");
+                        + (file.FileName.IndexOf(".xlsx") > 0 ? ".xlsx" : ".xls");
                 var size = file.ContentLength;
                 var type = file.ContentType;
                 //判断文件大小和格式
                 int maxFileSize = UploadProvice.Instance().Settings["file"].MaxFileSize;
                 if (size > maxFileSize)
                     return MessageBoxAndJump("上传失败，上传的文件太大", "list");
+
+                if (!Tools.Tool.CheckFilesRealFormat.ValidationFile(file))
+                    return MessageBoxAndJump("上传失败，上传的文件格式不正确", "list");
 
                 file.SaveAs(filePath);
 
@@ -105,9 +108,6 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
                         Code = code,
                         Name = row.GetCell(1)?.ToString(),
                         SupplierAb = row.GetCell(2)?.ToString(),
-                        //SupplierType = Enum.IsDefined(typeof(Models.SupplierType), row.GetCell(3)?.ToString())
-                        //? (int)Enum.Parse(typeof(Models.SupplierType), row.GetCell(3)?.ToString())
-                        //: 1,
                         SupplierType = Tools.Enums.Tools.GetValueByName(typeof(Models.SupplierType), row.GetCell(3)?.ToString()),
                         BusinessScope = row.GetCell(4)?.ToString(),
                         Contact1 = row.GetCell(5)?.ToString(),
@@ -115,11 +115,8 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
                         Site = row.GetCell(7)?.ToString(),
                         Address = row.GetCell(8)?.ToString(),
                         StartDate = row.GetCell(9)?.ToString().ToDateTime(),
-                        //LabelId = Enum.IsDefined(typeof(Models.SupplierLabel), row.GetCell(10)?.ToString())
-                        //? (int)Enum.Parse(typeof(Models.SupplierLabel), row.GetCell(10)?.ToString())
-                        //: 1,
                         LabelId = Tools.Enums.Tools.GetValueByName(typeof(Models.SupplierLabel), row.GetCell(10)?.ToString()),
-                        AccountDate = row.GetCell(11)?.ToString(),
+                        AccountDate = row.GetCell(11)?.ToString().ToDateTime().ToString("yyyy-MM-dd"),
                         Note = row.GetCell(12)?.ToString(),
                         AddDate = DateTime.Now,
                         AddUserId = MyInfo.Id,

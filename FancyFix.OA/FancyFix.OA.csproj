@@ -55,6 +55,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Utils\Doc.ORM\DataAccess\bin\Debug\Dos.ORM.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a" />
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
@@ -62,6 +65,18 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.3.0\lib\net40\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.3.0\lib\net40\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.3.0\lib\net40\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.3.0\lib\net40\NPOI.OpenXmlFormats.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -188,6 +203,11 @@
     <Compile Include="Areas\Rank\Controllers\ValuableController.cs" />
     <Compile Include="Areas\Rank\Controllers\RankController.cs" />
     <Compile Include="Areas\Rank\RankAreaRegistration.cs" />
+    <Compile Include="Areas\Supplier\Controllers\RawMaterialController.cs" />
+    <Compile Include="Areas\Supplier\Controllers\RawMaterialPriceController.cs" />
+    <Compile Include="Areas\Supplier\Controllers\SupplierManagerController.cs" />
+    <Compile Include="Areas\Supplier\Models\EnumList.cs" />
+    <Compile Include="Areas\Supplier\SupplierAreaRegistration.cs" />
     <Compile Include="Areas\System\Controllers\DepartmentClassController.cs" />
     <Compile Include="Areas\System\Controllers\MenuClassController.cs" />
     <Compile Include="Areas\System\Controllers\PermissionController.cs" />
@@ -1144,6 +1164,9 @@
     <Content Include="Content\js\plugins\layui\images\face\71.gif" />
     <Content Include="Content\js\plugins\layui\images\face\8.gif" />
     <Content Include="Content\js\plugins\layui\images\face\9.gif" />
+    <Content Include="Content\js\plugins\laydate\laydate.js" />
+    <Content Include="Content\js\plugins\laydate\theme\default\font\iconfont.svg" />
+    <Content Include="Content\js\plugins\laydate\theme\default\laydate.css" />
     <Content Include="Content\js\plugins\layui\layui.js" />
     <Content Include="Content\js\plugins\layui\lay\all-mobile.js" />
     <Content Include="Content\js\plugins\layui\lay\all.js" />
@@ -1502,6 +1525,7 @@
     <Folder Include="Areas\Questionnaire\Views\Shared\" />
     <Folder Include="Areas\Rank\Models\" />
     <Folder Include="Areas\Rank\Views\Shared\" />
+    <Folder Include="Areas\Supplier\Views\Shared\" />
     <Folder Include="Areas\System\Models\" />
     <Folder Include="Areas\System\Views\Shared\" />
     <Folder Include="Areas\Valuable\Models\" />
@@ -1830,6 +1854,18 @@
     <Content Include="Areas\Kpi\Views\KpiList\UnApproveList.cshtml" />
     <Content Include="Areas\Kpi\Views\KpiList\UnCreateList.cshtml" />
     <Content Include="Areas\Valuable\Views\Valuable\HistorySamples.cshtml" />
+    <Content Include="Areas\Supplier\Views\SupplierManager\List.cshtml" />
+    <Content Include="Areas\Supplier\Views\web.config" />
+    <Content Include="Areas\Supplier\Views\SupplierManager\ExportExcel.cshtml" />
+    <Content Include="Areas\Supplier\Views\SupplierManager\Save.cshtml" />
+    <Content Include="Areas\Supplier\Views\RawMaterialPrice\List.cshtml" />
+    <Content Include="Areas\Supplier\Views\RawMaterialPrice\ExportExcel.cshtml" />
+    <Content Include="Areas\Supplier\Views\RawMaterialPrice\Save.cshtml" />
+    <Content Include="Content\js\plugins\laydate\theme\default\font\iconfont.eot" />
+    <Content Include="Content\js\plugins\laydate\theme\default\font\iconfont.ttf" />
+    <Content Include="Content\js\plugins\laydate\theme\default\font\iconfont.woff" />
+    <Content Include="Areas\Supplier\Views\RawMaterial\List.cshtml" />
+    <Content Include="Areas\Supplier\Views\RawMaterial\Save.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Common\GetAdminTree.cshtml" />
   </ItemGroup>

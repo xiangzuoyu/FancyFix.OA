@@ -408,8 +408,7 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
                 var name = supplierList.Where(o => o.Id == item.RawMaterialId).FirstOrDefault()?.Description;
                 legend.Add(string.Format("'{0}'", name));
                 sbt.Append(dataModel.Replace("{name}", name).
-                    Replace("{data}",
-                    string.Format("[{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11}]",
+                    Replace("{data}", string.Format("[{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11}]",
                     item.Month1 ?? 0, item.Month2 ?? 0, item.Month3 ?? 0, item.Month4 ?? 0, item.Month5 ?? 0, item.Month6 ?? 0,
                     item.Month7 ?? 0, item.Month8 ?? 0, item.Month9 ?? 0, item.Month10 ?? 0, item.Month11 ?? 0, item.Month12 ?? 0)));
             }

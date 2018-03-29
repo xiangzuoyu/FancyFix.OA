@@ -3,16 +3,12 @@
     ViewBag.Title = "ShowCharts";
     Layout = "~/Views/Shared/_Layout_In.cshtml";
 }
-
-@section Css{
-
-}
-
+ 
 <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
 <div id="main" style="width:100%;height:500px;"></div>
 
 @section Js{
-    <script src="~/Scripts/ECharts/echarts.common.min.js"></script>
+    <script src="~/scripts/echarts/echarts.common.min.js"></script>
     <script>
         // 基于准备好的dom，初始化echarts实例
         $(document).ready(function () {
@@ -28,7 +24,7 @@
                     feature: {
                         mark: { show: true },
                         dataView: { show: true, readOnly: false },
-                        magicType: { show: true, type: ['line', 'bar','pie'] },
+                        magicType: { show: true, type: ['line', 'bar'] },
                         restore: { show: true },
                         saveAsImage: { show: true }
                     }

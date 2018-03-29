@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using Tools;
@@ -387,6 +388,35 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
         {
             if (list == null || !list.Any()) return Json(new { result = false });
             return Json(new { result = Bll.BllSupplier_RawMaterialPrice.HideList(list, MyInfo.Id) > 0 });
+        }
+        #endregion
+
+        #region 数据图表
+        public ActionResult ShowCharts(int[] id = null)
+        {
+            if (id == null)
+                return LayerAlertErrorAndClose("请先勾选需要对比的原材料价格");
+
+            var list = Bll.BllSupplier_RawMaterialPrice.GetList(id) ?? new List<Supplier_RawMaterialPrice>();
+            var supplierList = Bll.BllSupplier_RawMaterial.GetSelectList(0, "Id,Description", "display!=2", "") ?? new List<Supplier_RawMaterial>();
+
+            List<string> legend = new List<string>();
+            string dataModel = "{\"name\":\"{name}\",\"type\":\"bar\",\"data\":{data}},";
+            StringBuilder sbt = new StringBuilder();
+            foreach (var item in list)
+            {
+                var name = supplierList.Where(o => o.Id == item.RawMaterialId).FirstOrDefault()?.Description;
+                legend.Add(string.Format("'{0}'", name));
+                sbt.Append(dataModel.Replace("{name}", name).
+                    Replace("{data}",
+                    string.Format("[{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11}]",
+                    item.Month1 ?? 0, item.Month2 ?? 0, item.Month3 ?? 0, item.Month4 ?? 0, item.Month5 ?? 0, item.Month6 ?? 0,
+                    item.Month7 ?? 0, item.Month8 ?? 0, item.Month9 ?? 0, item.Month10 ?? 0, item.Month11 ?? 0, item.Month12 ?? 0)));
+            }
+            ViewBag.legend = string.Join(",", legend);
+            ViewBag.seriesData = sbt.ToString().Trim(',');
+
+            return View();
         }
         #endregion
 

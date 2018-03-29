@@ -74,10 +74,13 @@
                         </div>
                         <div id="toolbar" class="btn-group">
                             <button id="btn_add" type="button" class="btn btn-default">
-                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>添加
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 添加
                             </button>
                             <button id="btn_delete" type="button" class="btn btn-default">
-                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> 删除
+                            </button>
+                            <button id="btn_charts" type="button" class="btn btn-default">
+                                <span class="glyphicon glyphicon-signal" aria-hidden="true"></span> 生成图表
                             </button>
                         </div>
 
@@ -311,7 +314,19 @@
                     });
                 }
             });
+            //生成图表
+            $("#btn_charts").on('click', function () {
+                if (CheckSelections()) {
+                    var list = GetSelections();
+                    var arr = '';
+                    for (var i = 0; i < list.length; i++) {
+                        arr += "id=" + list[i].Id + "&";
+                    }
 
+                    ids = arr.substring(0, arr.length - 1);
+                    OpenWin("数据图表", "/supplier/rawmaterialprice/showcharts?" + ids, '80%', '70%');
+                }
+            })
 
             fun = {
                 init: function () {
@@ -333,7 +348,7 @@
                 },
                 yearsAjax: function () {
                     var year = $("#years");
-                    $.get('/supplier/rawmaterialprice/yearslist', { years: year.val()}, function (data) {
+                    $.get('/supplier/rawmaterialprice/yearslist', { years: year.val() }, function (data) {
                         year.html(data.result);
                         parent.$table.bootstrapTable('refresh');
                         form.render('select'); //刷新select选择框渲染

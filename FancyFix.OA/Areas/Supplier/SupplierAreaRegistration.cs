@@ -17,7 +17,8 @@ namespace FancyFix.OA.Areas.Supplier
             context.MapRoute(
                 "Supplier_default",
                 "Supplier/{controller}/{action}/{id}",
-                new { action = "Index", id = UrlParameter.Optional }
+                new { action = "Index", id = UrlParameter.Optional },
+                namespaces: new[] { "FancyFix.OA.Areas.Supplier.Controllers" }
             );
         }
     }

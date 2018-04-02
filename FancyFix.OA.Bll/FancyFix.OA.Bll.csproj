@@ -58,6 +58,9 @@
     <Compile Include="BllQuestionnaire_DISC.cs" />
     <Compile Include="BllQuestionnaire_Info.cs" />
     <Compile Include="BllQuestionnaire_Subject.cs" />
+    <Compile Include="BllSupplier_List.cs" />
+    <Compile Include="BllSupplier_RawMaterial.cs" />
+    <Compile Include="BllSupplier_RawMaterialPrice.cs" />
     <Compile Include="BllSys_Class.cs" />
     <Compile Include="BllPoint_Class.cs" />
     <Compile Include="BllRank_Class.cs" />

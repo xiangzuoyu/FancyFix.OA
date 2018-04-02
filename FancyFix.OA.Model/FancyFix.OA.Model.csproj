@@ -91,11 +91,17 @@
     <Compile Include="Questionnaire_Result.cs" />
     <Compile Include="Questionnaire_Subject.cs" />
     <Compile Include="Rank_Class.cs" />
+<<<<<<< HEAD
+    <Compile Include="Supplier_List.cs" />
+    <Compile Include="Supplier_RawMaterial.cs" />
+    <Compile Include="Supplier_RawMaterialPrice.cs" />
+=======
     <Compile Include="Supplier_Label.cs" />
     <Compile Include="Supplier_List.cs" />
     <Compile Include="Supplier_RawMaterial.cs" />
     <Compile Include="Supplier_RawMaterialPrice.cs" />
     <Compile Include="Supplier_Type.cs" />
+>>>>>>> 671ba80eb70e20f9ad74c7a25b83470e1573e5de
     <Compile Include="Sys_Class.cs" />
     <Compile Include="Valuable_Class.cs" />
     <Compile Include="Valuable_List.cs" />

@@ -158,6 +158,7 @@
     <Compile Include="Tool\DataTableHelper.cs" />
     <Compile Include="Tool\EncryptionHelper.cs" />
     <Compile Include="Tool\ExcelHelper.cs" />
+    <Compile Include="Tool\FileHelper.cs" />
     <Compile Include="Tool\ImageTools.cs" />
     <Compile Include="Tool\JsonHelper.cs" />
     <Compile Include="Tool\Log.cs" />

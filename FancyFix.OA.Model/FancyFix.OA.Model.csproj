@@ -91,9 +91,17 @@
     <Compile Include="Questionnaire_Result.cs" />
     <Compile Include="Questionnaire_Subject.cs" />
     <Compile Include="Rank_Class.cs" />
+<<<<<<< HEAD
     <Compile Include="Supplier_List.cs" />
     <Compile Include="Supplier_RawMaterial.cs" />
     <Compile Include="Supplier_RawMaterialPrice.cs" />
+=======
+    <Compile Include="Supplier_Label.cs" />
+    <Compile Include="Supplier_List.cs" />
+    <Compile Include="Supplier_RawMaterial.cs" />
+    <Compile Include="Supplier_RawMaterialPrice.cs" />
+    <Compile Include="Supplier_Type.cs" />
+>>>>>>> 671ba80eb70e20f9ad74c7a25b83470e1573e5de
     <Compile Include="Sys_Class.cs" />
     <Compile Include="Valuable_Class.cs" />
     <Compile Include="Valuable_List.cs" />
@@ -109,6 +117,14 @@
       <Project>{4bef1983-f275-4807-96ea-25b973bd6e94}</Project>
       <Name>Dos.ORM</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Sql\Supplier_RawMaterialPrice.sql" />
+    <Content Include="Sql\Supplier_RawMaterial.sql" />
+    <Content Include="Sql\Design_ArtTaskList.sql" />
+    <Content Include="Sql\Design_DemandType.sql" />
+    <Content Include="Sql\Design_DetailType.sql" />
+    <Content Include="Sql\Supplier_List.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

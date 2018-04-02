@@ -46,6 +46,9 @@
     <Reference Include="HttpWebAdapters">
       <HintPath>Dll\HttpWebAdapters.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\..\OA\FancyFix.OA\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
     </Reference>
@@ -151,6 +154,7 @@
     <Compile Include="Special\FacebokLoginHelper.cs" />
     <Compile Include="Special\ImageCreate.cs" />
     <Compile Include="Special\RecProduct.cs" />
+    <Compile Include="Tool\CheckFilesRealFormat.cs" />
     <Compile Include="Tool\DataTableHelper.cs" />
     <Compile Include="Tool\EncryptionHelper.cs" />
     <Compile Include="Tool\ExcelHelper.cs" />

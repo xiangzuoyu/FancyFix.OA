@@ -44,7 +44,8 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
         [HttpPost]
         public ActionResult Save(Supplier_RawMaterial supplierRawMaterial)
         {
-            Supplier_RawMaterial model = Bll.BllSupplier_RawMaterial.First(o => o.Id == supplierRawMaterial.Id && o.Display != 2 && o.Id > 0) ?? new Supplier_RawMaterial();
+            Supplier_RawMaterial model = Bll.BllSupplier_RawMaterial.First(o => o.Id == supplierRawMaterial.Id && o.Display != 2 && o.Id > 0)
+                ?? new Supplier_RawMaterial();
             model.BU = supplierRawMaterial.BU;
             model.SAPCode = supplierRawMaterial.SAPCode;
             model.Description = supplierRawMaterial.Description;

@@ -139,8 +139,12 @@
                             field: 'StartDate',
                             title: '合作时间',
                             align: 'center',
-                            //formatter: function (v, r, i) {
-                            //}
+                            formatter: function (v, r, i) {
+                                if (v.length < 10)
+                                    return "";
+                                var val = v.slice(0, 10);
+                                return val;
+                            }
                         }, {
                             field: 'LabelName',
                             title: '供应商标签',
@@ -210,7 +214,7 @@
             //查看
             $("#table").on('click', '.btnEdit', function () {
                 var id = $(this).attr("data-id");
-                OpenWin("编辑", "/supplier/suppliermanager/save/" + id, '800px', '500px');
+                OpenWin("编辑", "/supplier/suppliermanager/save/" + id, '800px', '90%');
             });
 
             //删除单个产品

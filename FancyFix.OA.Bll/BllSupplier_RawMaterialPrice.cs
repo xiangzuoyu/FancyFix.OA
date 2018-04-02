@@ -17,7 +17,8 @@ namespace FancyFix.OA.Bll
         public static IEnumerable<Supplier_RawMaterialPrice> PageList(int page, int pageSize, out long records, string file, string key, int years, int priceFrequency)
         {
             var where = new Where<Supplier_RawMaterialPrice>();
-
+            file = CheckSqlValue(file);
+            key = CheckSqlKeyword(key);
             if (!string.IsNullOrEmpty(file) && !string.IsNullOrEmpty(key))
                 where.And(string.Format(" {0} like '%{1}%' ", ("SupplierCode,SupplierName".Contains(file) ? file.Replace("Supplier", "") : file), key));
 
@@ -62,6 +63,8 @@ namespace FancyFix.OA.Bll
         public static DataTable GetList(string file, string key, int years, int priceFrequency)
         {
             var where = new Where<Supplier_RawMaterialPrice>();
+            file = CheckSqlValue(file);
+            key = CheckSqlKeyword(key);
 
             if (!string.IsNullOrEmpty(file) && !string.IsNullOrEmpty(key))
                 where.And(string.Format(" {0} like '%{1}%' ", ("SupplierCode,SupplierName".Contains(file) ? file.Replace("Supplier", "") : file), key));
@@ -69,7 +72,6 @@ namespace FancyFix.OA.Bll
             where.And(string.Format(" Years={0} ", years));
             if (priceFrequency > 0)
                 where.And(string.Format(" PriceFrequency={0} ", priceFrequency));
-
 
             var p = Db.Context.From<Supplier_RawMaterialPrice>()
                 .Select<Supplier_RawMaterial, Supplier_List>((a, b, c) => new
@@ -102,7 +104,7 @@ namespace FancyFix.OA.Bll
 
             return p.OrderByDescending(o => o.Id).ToDataTable();
         }
-        
+
         public static Supplier_RawMaterialPrice GetModel(int id)
         {
             var where = new Where<Supplier_RawMaterialPrice>();
@@ -138,6 +140,17 @@ namespace FancyFix.OA.Bll
                 .InnerJoin<Supplier_List>((b, c) => b.VendorId == c.Id && c.Display != 2)
                 .Where(where);
             return p.First();
+        }
+
+        public static IEnumerable<Supplier_RawMaterialPrice> GetList(int[] arr)
+        {
+            if (arr.Length < 1)
+                return new List<Supplier_RawMaterialPrice>();
+
+            string where = "display!=2 and id in(" + string.Join(",", arr) + ")";
+            var list = GetSelectList(0, "", where, "");
+
+            return list;
         }
 
         public static int HideModel(int id, int myuserId)

@@ -1173,6 +1173,9 @@
     <Content Include="Content\js\plugins\layui\images\face\71.gif" />
     <Content Include="Content\js\plugins\layui\images\face\8.gif" />
     <Content Include="Content\js\plugins\layui\images\face\9.gif" />
+    <Content Include="Content\js\plugins\laydate\laydate.js" />
+    <Content Include="Content\js\plugins\laydate\theme\default\font\iconfont.svg" />
+    <Content Include="Content\js\plugins\laydate\theme\default\laydate.css" />
     <Content Include="Content\js\plugins\layui\layui.js" />
     <Content Include="Content\js\plugins\layui\lay\all-mobile.js" />
     <Content Include="Content\js\plugins\layui\lay\all.js" />
@@ -1504,6 +1507,26 @@
     <Content Include="Content\Site.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\ECharts\chart\bar.js" />
+    <Content Include="Scripts\ECharts\chart\chord.js" />
+    <Content Include="Scripts\ECharts\chart\eventRiver.js" />
+    <Content Include="Scripts\ECharts\chart\force.js" />
+    <Content Include="Scripts\ECharts\chart\funnel.js" />
+    <Content Include="Scripts\ECharts\chart\gauge.js" />
+    <Content Include="Scripts\ECharts\chart\k.js" />
+    <Content Include="Scripts\ECharts\chart\line.js" />
+    <Content Include="Scripts\ECharts\chart\map.js" />
+    <Content Include="Scripts\ECharts\chart\pie.js" />
+    <Content Include="Scripts\ECharts\chart\radar.js" />
+    <Content Include="Scripts\ECharts\chart\scatter.js" />
+    <Content Include="Scripts\ECharts\chart\tree.js" />
+    <Content Include="Scripts\ECharts\chart\treemap.js" />
+    <Content Include="Scripts\ECharts\chart\venn.js" />
+    <Content Include="Scripts\ECharts\chart\wordCloud.js" />
+    <Content Include="Scripts\ECharts\echarts-all.js" />
+    <Content Include="Scripts\ECharts\echarts.common.min.js" />
+    <Content Include="Scripts\ECharts\echarts.js" />
+    <Content Include="Scripts\ECharts\echarts.simple.min.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1531,6 +1554,7 @@
     <Folder Include="Areas\Questionnaire\Views\Shared\" />
     <Folder Include="Areas\Rank\Models\" />
     <Folder Include="Areas\Rank\Views\Shared\" />
+    <Folder Include="Areas\Supplier\Views\Shared\" />
     <Folder Include="Areas\System\Models\" />
     <Folder Include="Areas\System\Views\Shared\" />
     <Folder Include="Areas\Valuable\Models\" />
@@ -1859,6 +1883,19 @@
     <Content Include="Areas\Kpi\Views\KpiList\UnApproveList.cshtml" />
     <Content Include="Areas\Kpi\Views\KpiList\UnCreateList.cshtml" />
     <Content Include="Areas\Valuable\Views\Valuable\HistorySamples.cshtml" />
+    <Content Include="Areas\Supplier\Views\SupplierManager\List.cshtml" />
+    <Content Include="Areas\Supplier\Views\web.config" />
+    <Content Include="Areas\Supplier\Views\SupplierManager\ExportExcel.cshtml" />
+    <Content Include="Areas\Supplier\Views\SupplierManager\Save.cshtml" />
+    <Content Include="Areas\Supplier\Views\RawMaterialPrice\List.cshtml" />
+    <Content Include="Areas\Supplier\Views\RawMaterialPrice\ExportExcel.cshtml" />
+    <Content Include="Areas\Supplier\Views\RawMaterialPrice\Save.cshtml" />
+    <Content Include="Content\js\plugins\laydate\theme\default\font\iconfont.eot" />
+    <Content Include="Content\js\plugins\laydate\theme\default\font\iconfont.ttf" />
+    <Content Include="Content\js\plugins\laydate\theme\default\font\iconfont.woff" />
+    <Content Include="Areas\Supplier\Views\RawMaterial\List.cshtml" />
+    <Content Include="Areas\Supplier\Views\RawMaterial\Save.cshtml" />
+    <Content Include="Areas\Supplier\Views\RawMaterialPrice\ShowCharts.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Common\GetAdminTree.cshtml" />
   </ItemGroup>

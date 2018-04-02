@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using Tools;
@@ -24,16 +25,13 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             return View();
         }
 
-        public JsonResult PageList(int page = 0, int pagesize = 0, int priceFrequency = 0, int years = 0)
+        public JsonResult PageList(int page = 0, int pagesize = 0, int priceFrequency = 0, int years = 0, string files = "", string key = "")
         {
             long records = 0;
             if (years == 0)
                 years = DateTime.Now.Year;
-            //Sql注入检测
-            string files = Tools.Usual.Utils.CheckSqlKeyword(RequestString("files"));
-            string key = Tools.Usual.Utils.CheckSqlKeyword(RequestString("key")).Trim();
 
-            var list = Bll.BllSupplier_RawMaterialPrice.PageList(page, pagesize, out records, files, key.Trim(), years, priceFrequency);
+            var list = Bll.BllSupplier_RawMaterialPrice.PageList(page, pagesize, out records, files, key, years, priceFrequency);
             foreach (var item in list)
             {
                 //价格频次
@@ -53,7 +51,6 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
 
             return Json(new { result = result }, JsonRequestBehavior.AllowGet);
         }
-
         #endregion
 
         #region 导入Excel
@@ -66,14 +63,17 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             try
             {
                 string filePath = UploadProvice.Instance().Settings["file"].FilePath + DateTime.Now.ToString("yyyyMMddHHmmss")
-                        + (file.FileName.IndexOf(".xlsx") > 0 ? ".xlsx" : "xls");
+                        + (file.FileName.IndexOf(".xlsx") > 0 ? ".xlsx" : ".xls");
                 var size = file.ContentLength;
                 int maxFileSize = UploadProvice.Instance().Settings["file"].MaxFileSize;
-                
+
                 var type = file.ContentType;
                 //判断文件大小和格式
                 if (size > maxFileSize)
                     return MessageBoxAndJump("上传失败，上传的文件太大", "list");
+
+                if (!Tools.Tool.CheckFilesRealFormat.ValidationFile(file))
+                    return MessageBoxAndJump("上传失败，上传的文件格式不正确", "list");
 
                 file.SaveAs(filePath);
 
@@ -187,8 +187,8 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
         [HttpPost]
         public ActionResult ExportExcel(int priceFrequency = 0, int years = 0)
         {
-            string files = Tools.Usual.Utils.CheckSqlKeyword(RequestString("files"));
-            string key = Tools.Usual.Utils.CheckSqlKeyword(RequestString("key"));
+            string files = RequestString("files");
+            string key = RequestString("key");
             string cols = RequestString("cols");
             var arr = cols.Split(',');
             if (string.IsNullOrEmpty(cols))
@@ -388,6 +388,34 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
         {
             if (list == null || !list.Any()) return Json(new { result = false });
             return Json(new { result = Bll.BllSupplier_RawMaterialPrice.HideList(list, MyInfo.Id) > 0 });
+        }
+        #endregion
+
+        #region 数据图表
+        public ActionResult ShowCharts(int[] id = null)
+        {
+            if (id == null)
+                return LayerAlertErrorAndClose("请先勾选需要对比的原材料价格");
+
+            var list = Bll.BllSupplier_RawMaterialPrice.GetList(id) ?? new List<Supplier_RawMaterialPrice>();
+            var supplierList = Bll.BllSupplier_RawMaterial.GetSelectList(0, "Id,Description", "display!=2", "") ?? new List<Supplier_RawMaterial>();
+
+            List<string> legend = new List<string>();
+            string dataModel = "{\"name\":\"{name}\",\"type\":\"bar\",\"data\":{data}},";
+            StringBuilder sbt = new StringBuilder();
+            foreach (var item in list)
+            {
+                var name = supplierList.Where(o => o.Id == item.RawMaterialId).FirstOrDefault()?.Description;
+                legend.Add(string.Format("'{0}'", name));
+                sbt.Append(dataModel.Replace("{name}", name).
+                    Replace("{data}", string.Format("[{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11}]",
+                    item.Month1 ?? 0, item.Month2 ?? 0, item.Month3 ?? 0, item.Month4 ?? 0, item.Month5 ?? 0, item.Month6 ?? 0,
+                    item.Month7 ?? 0, item.Month8 ?? 0, item.Month9 ?? 0, item.Month10 ?? 0, item.Month11 ?? 0, item.Month12 ?? 0)));
+            }
+            ViewBag.legend = string.Join(",", legend);
+            ViewBag.seriesData = sbt.ToString().Trim(',');
+
+            return View();
         }
         #endregion
 

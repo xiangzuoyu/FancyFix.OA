@@ -29,10 +29,10 @@ namespace FancyFix.OA.Bll
             return p.Page(pageSize, page).OrderByDescending(o => o.Id).ToList();
         }
 
-        public static bool Add(List<Supplier_RawMaterial> list)
+        public static string Add(List<Supplier_RawMaterial> list)
         {
             if (list == null || list.Count() < 1)
-                return false;
+                return "0";
 
             int AddId = 0;
             try
@@ -42,18 +42,28 @@ namespace FancyFix.OA.Bll
                     //获取供应商ID，如果供应商不存在跳过
                     var supplierModel = BllSupplier_List.First(o => o.Code == item.SupplierCode && o.Name == item.SupplierName && o.Display != 2);
                     if (supplierModel == null)
-                        continue;
+                        return "2";
 
                     //如果原材料代码不存在执行添加
                     var rawmaterialModel = First(o => o.SAPCode == item.SAPCode && o.Display != 2);
 
-                    AddId = rawmaterialModel == null ? Insert(item) : rawmaterialModel.Id;
+                    string sapcode = string.Empty;
+                    if (rawmaterialModel == null)
+                    {
+                        AddId = Insert(item);
+                        sapcode = item.SAPCode;
+                    }
+                    else
+                    {
+                        AddId = rawmaterialModel.Id;
+                        sapcode = rawmaterialModel.SAPCode;
+                    }
 
                     if (AddId < 1)
-                        continue;
+                        return "3";
 
                     //添加价格表
-                    var rawmaterialpriceModel = BllSupplier_RawMaterialPrice.First(o => o.RawMaterialId == AddId && o.VendorId == supplierModel.Id
+                    var rawmaterialpriceModel = BllSupplier_RawMaterialPrice.First(o => o.RawMaterialId == sapcode && o.VendorId == supplierModel.Code
                         && o.Years == item.Years && o.Display != 2);
 
                     if (rawmaterialpriceModel != null)
@@ -61,8 +71,8 @@ namespace FancyFix.OA.Bll
 
                     AddId = BllSupplier_RawMaterialPrice.Insert(new Supplier_RawMaterialPrice()
                     {
-                        RawMaterialId = AddId,
-                        VendorId = supplierModel.Id,
+                        RawMaterialId = sapcode,
+                        VendorId = supplierModel.Code,
                         Years = item.Years,
                         PriceFrequency = item.PriceFrequency,
                         Month1 = item.Month1,
@@ -87,12 +97,12 @@ namespace FancyFix.OA.Bll
                         continue;
                 }
 
-                return true;
+                return "0";
             }
             catch (Exception ex)
             {
                 Tools.Tool.LogHelper.WriteLog(typeof(BllSupplier_RawMaterial), ex, 0, "");
-                return false;
+                return "-1";
             }
         }
 

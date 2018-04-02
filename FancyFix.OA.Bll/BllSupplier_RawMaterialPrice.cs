@@ -52,8 +52,8 @@ namespace FancyFix.OA.Bll
                     a.Month11,
                     a.Month12
                 })
-                .InnerJoin<Supplier_RawMaterial>((a, b) => a.RawMaterialId == b.Id && a.Display != 2 && b.Display != 2)
-                .InnerJoin<Supplier_List>((b, c) => b.VendorId == c.Id && c.Display != 2)
+                .InnerJoin<Supplier_RawMaterial>((a, b) => a.RawMaterialId == b.SAPCode && a.Display != 2 && b.Display != 2)
+                .InnerJoin<Supplier_List>((b, c) => b.VendorId == c.Code && c.Display != 2)
                 .Where(where);
 
             records = p.Count();
@@ -98,8 +98,8 @@ namespace FancyFix.OA.Bll
                     a.Month11,
                     a.Month12
                 })
-                .InnerJoin<Supplier_RawMaterial>((a, b) => a.RawMaterialId == b.Id && a.Display != 2 && b.Display != 2)
-                .InnerJoin<Supplier_List>((b, c) => b.VendorId == c.Id && c.Display != 2)
+                .InnerJoin<Supplier_RawMaterial>((a, b) => a.RawMaterialId == b.SAPCode && a.Display != 2 && b.Display != 2)
+                .InnerJoin<Supplier_List>((b, c) => b.VendorId == c.Code && c.Display != 2)
                 .Where(where);
 
             return p.OrderByDescending(o => o.Id).ToDataTable();
@@ -136,8 +136,8 @@ namespace FancyFix.OA.Bll
                     a.Month11,
                     a.Month12
                 })
-                .InnerJoin<Supplier_RawMaterial>((a, b) => a.RawMaterialId == b.Id && a.Display != 2 && b.Display != 2)
-                .InnerJoin<Supplier_List>((b, c) => b.VendorId == c.Id && c.Display != 2)
+                .InnerJoin<Supplier_RawMaterial>((a, b) => a.RawMaterialId == b.SAPCode && a.Display != 2 && b.Display != 2)
+                .InnerJoin<Supplier_List>((b, c) => b.VendorId == c.Code && c.Display != 2)
                 .Where(where);
             return p.First();
         }

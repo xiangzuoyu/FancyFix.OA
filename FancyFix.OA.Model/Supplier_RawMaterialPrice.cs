@@ -27,7 +27,7 @@ namespace FancyFix.OA.Model
 	{
 		#region Model
 		private int _Id;
-		private int? _RawMaterialId;
+		private string _RawMaterialId;
 		private int? _Years;
 		private decimal? _Month1;
 		private decimal? _Month2;
@@ -46,7 +46,7 @@ namespace FancyFix.OA.Model
 		private DateTime? _LastDate;
 		private int? _LastUserId;
 		private int? _Display;
-		private int? _VendorId;
+		private string _VendorId;
 		private int? _PriceFrequency;
 		/// <summary>
 		/// 
@@ -63,7 +63,7 @@ namespace FancyFix.OA.Model
 		/// <summary>
 		/// 原材料ID
 		/// </summary>
-		public int? RawMaterialId
+		public string RawMaterialId
 		{
 			get{ return _RawMaterialId; }
 			set
@@ -291,7 +291,7 @@ namespace FancyFix.OA.Model
 		/// <summary>
 		/// 供应商ID
 		/// </summary>
-		public int? VendorId
+		public string VendorId
 		{
 			get{ return _VendorId; }
 			set

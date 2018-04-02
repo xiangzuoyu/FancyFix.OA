@@ -133,6 +133,7 @@
                             align: 'center',
                             formatter: function (v, r, i) {
                                 var td = '';
+                                //td += "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnPrice btn btn-md btn-info\">价格</a> ";
                                 td += "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnEdit btn btn-md btn-primary\">编辑</a> ";
                                 td += "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnDel btn btn-md btn-danger\">删除</a> ";
                                 return td
@@ -176,6 +177,11 @@
             $("#table").on('click', '.btnEdit', function () {
                 var id = $(this).attr("data-id");
                 OpenWin("编辑", "/supplier/rawmaterial/save/" + id, '800px', '600px');
+            });
+            //价格
+            $("#table").on('click', '.btnPrice', function () {
+                var id = $(this).attr("data-id");
+                location.href = "/supplier/rawmaterialprice/list/" + id;
             });
 
             //删除单个产品

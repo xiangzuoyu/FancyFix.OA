@@ -83,8 +83,10 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
                 if (modelList == null || modelList.Count < 1)
                     return MessageBoxAndJump("数据为空，导入失败！", "list");
 
-                if (!Bll.BllSupplier_RawMaterial.Add(modelList))
-                    return MessageBoxAndJump("导入失败", "list");
+                string msg = Bll.BllSupplier_RawMaterial.Add(modelList);
+
+                if (msg != "0")
+                    return MessageBoxAndJump("导入失败," + GetMsg(msg), "list");
             }
             catch (Exception ex)
             {
@@ -92,6 +94,27 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             }
 
             return Redirect("list");
+        }
+
+        private string GetMsg(string result)
+        {
+            string msg = string.Empty;
+            switch (result)
+            {
+                case "1":
+                    msg = "Excel数据为空";
+                    break;
+                case "2":
+                    msg = "供应商Code不存在";
+                    break;
+                case "3":
+                    msg = "原材料Code不存在";
+                    break;
+                case "-1":
+                    msg = "导入异常";
+                    break;
+            }
+            return msg;
         }
 
         private List<Supplier_RawMaterial> ExcelToList(ISheet sheet, int startRow)
@@ -341,8 +364,8 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             if (supplierModel == null)
                 return LayerAlertErrorAndReturn("供应商代码不存在，请重新输入");
             //保存价格
-            model.RawMaterialId = rawMaterialModel.Id;
-            model.VendorId = supplierModel.Id;
+            model.RawMaterialId = rawMaterialModel.SAPCode;
+            model.VendorId = supplierModel.Code;
             model.Years = rawmaterialPrice.Years;
             model.PriceFrequency = rawmaterialPrice.PriceFrequency;
             model.Month1 = rawmaterialPrice.Month1;
@@ -405,7 +428,7 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             StringBuilder sbt = new StringBuilder();
             foreach (var item in list)
             {
-                var name = supplierList.Where(o => o.Id == item.RawMaterialId).FirstOrDefault()?.Description;
+                var name = supplierList.Where(o => o.SAPCode == item.RawMaterialId).FirstOrDefault()?.Description;
                 legend.Add(string.Format("'{0}'", name));
                 sbt.Append(dataModel.Replace("{name}", name).
                     Replace("{data}", string.Format("[{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11}]",

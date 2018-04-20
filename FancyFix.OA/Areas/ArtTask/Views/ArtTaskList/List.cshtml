@@ -155,12 +155,15 @@
                                 var ele = "";
                                 if ("@ViewBag.IsDesigner" == "True")
                                 {
-                                    if (r.Display == 1)
+                                    //if (r.Display == 1)
+                                    //{
+                                    //    else
+                                    //        ele += "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnEdit btn btn-md btn-primary\">领取</a> ";
+                                    //}
+
+                                    if (r.Display == 1 &&"@ViewBag.IsDesignerAdmin" == "True")
                                     {
-                                        if ("@ViewBag.IsDesignerAdmin" == "True")
-                                            ele += "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnEdit btn btn-md btn-primary\">分配</a> ";
-                                        else
-                                            ele += "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnEdit btn btn-md btn-primary\">领取</a> ";
+                                        ele += "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnEdit btn btn-md btn-primary\">分配</a> ";
                                         ele += "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnDel btn btn-md btn-danger\">取消</a>";
                                     }
 
@@ -178,24 +181,25 @@
                                     }
                                 }
 
-                                //只有提交需求的人，才可以在需求完成时打分
-                                if (r.SubmitterId == @ViewBag.CurrentId)
+                                //只有提交需求人和总监，才可以在需求完成时打分
+                                if (r.SubmitterId == @ViewBag.CurrentId || r.AssigneeId == @ViewBag.CurrentId)
                                 {
-                                    if ((r.Display == 3 || r.Display == 5))
+                                    if (r.Display == 3)
                                     {
-                                        if (r.Display == 3)
+                                        if (r.SubmitterId == @ViewBag.CurrentId && r.Score == null && r.Comment == null)
                                             ele += "<a data-id=\"" + r.Id + "\" class=\"btnDaCall btn btn-md btn-primary\">打分</a> ";
-                                        if (r.Uri2 && r.Uri2 != '')
-                                            ele += "<a href=\"" + r.Uri2 + "\" target=\"_blank\" class=\"btn btn-md btn-primary\">下载</a> ";
+                                        if (r.AssigneeId == @ViewBag.CurrentId && r.AssigneeScore == null && r.Score == null)
+                                            ele += "<a data-id=\"" + r.Id + "\" class=\"btnDaCall btn btn-md btn-primary\">打分</a> ";
                                     }
+
+                                    if (r.Display == 5 && r.Uri2 && r.Uri2 != '')
+                                        ele += "<a href=\"" + r.Uri2 + "\" target=\"_blank\" class=\"btn btn-md btn-primary\">下载</a> ";
                                 }
 
                                 if (r.Display == 3 || r.Display == 5)
                                 {
-                                    if (r.Uri2 != null && r.Uri2 != "" &&
-                                        ("@ViewBag.IsDesigner" == "True" || "@ViewBag.IsDesignerAdmin" == "True" || r.SubmitterId == @ViewBag.CurrentId))
-
-
+                                    if (r.Uri2 != null && r.Uri2 != ""
+                                        && ("@ViewBag.IsDesigner" == "True" || "@ViewBag.IsDesignerAdmin" == "True" || r.SubmitterId == @ViewBag.CurrentId))
                                     ele += "<span data-id=\"" + r.Id + "\" class=\"btn btn-md layui-btn-disabled\">已完成</span> ";
                                 }
                                 return ele;
@@ -251,7 +255,7 @@
             form.on('select(displayid)', function (data) {
                 Reload();
                 return false;
-            });   
+            });
 
             //需求详细
             function ShowDetailedFormatter(v, r, i) {

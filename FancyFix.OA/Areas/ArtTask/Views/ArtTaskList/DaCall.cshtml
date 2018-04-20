@@ -50,7 +50,7 @@
 }
 <form id="mainform" action="/arttask/arttasklist/dacall" method="post">
     <fieldset class="starability-checkmark">
-        <legend style="font-weight:100;">请为设计师打分:</legend>
+        <legend style="font-weight:100;">请为@(ViewBag.Assignee ? "设计师" : "设计主管")打分:</legend>
         <input type="radio" id="rate10" name="rating" value="100">
         <label for="rate10" title="100分"></label>
 

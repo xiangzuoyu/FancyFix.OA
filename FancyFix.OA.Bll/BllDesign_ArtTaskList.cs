@@ -36,6 +36,28 @@ namespace FancyFix.OA.Bll
             return p.Page(pageSize, page).OrderByDescending(o => o.SubmittedDate).ToList();
         }
 
+        public static IEnumerable<Design_ArtTaskList> GetRankList(string startdate, string enddate)
+        {
+            var where = new Where<Design_ArtTaskList>();
+            where.And(o => o.Display == 5);
+            DateTime start, end;
+            //开始时间为当月1号
+            if (!string.IsNullOrEmpty(startdate))
+            {
+                start = (startdate.ToDateTime().ToString("yyyy-MM") + "-01").ToDateTime();
+                where.And(o => o.CompletionDate >= start);
+            }
+            //结束时间＜下月1号
+            if (!string.IsNullOrEmpty(enddate))
+            {
+                end = (enddate.ToDateTime().AddMonths(1).ToString("yyyy-MM") + "-01").ToDateTime();
+                where.And(o => o.CompletionDate < end);
+            }
+
+            return Db.Context.From<Design_ArtTaskList>()
+                .Where(where).ToList();
+        }
+
         /// <summary>
         /// 取消需求
         /// </summary>

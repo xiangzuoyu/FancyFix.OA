@@ -50,6 +50,9 @@ namespace FancyFix.OA.Model
 		private int? _Score;
 		private int? _Display;
 		private string _Comment;
+		private int? _AssigneeId;
+		private int? _AssigneeScore;
+		private string _AssigneeComment;
 		/// <summary>
 		/// 
 		/// </summary>
@@ -303,7 +306,7 @@ namespace FancyFix.OA.Model
 			}
 		}
 		/// <summary>
-		/// 评分
+		/// 设计师分数
 		/// </summary>
 		public int? Score
 		{
@@ -336,6 +339,42 @@ namespace FancyFix.OA.Model
 			{
 				this.OnPropertyValueChange(_.Comment,_Comment,value);
 				this._Comment=value;
+			}
+		}
+		/// <summary>
+		/// 总监ID
+		/// </summary>
+		public int? AssigneeId
+		{
+			get{ return _AssigneeId; }
+			set
+			{
+				this.OnPropertyValueChange(_.AssigneeId,_AssigneeId,value);
+				this._AssigneeId=value;
+			}
+		}
+		/// <summary>
+		/// 总监分数
+		/// </summary>
+		public int? AssigneeScore
+		{
+			get{ return _AssigneeScore; }
+			set
+			{
+				this.OnPropertyValueChange(_.AssigneeScore,_AssigneeScore,value);
+				this._AssigneeScore=value;
+			}
+		}
+		/// <summary>
+		/// 总监评论
+		/// </summary>
+		public string AssigneeComment
+		{
+			get{ return _AssigneeComment; }
+			set
+			{
+				this.OnPropertyValueChange(_.AssigneeComment,_AssigneeComment,value);
+				this._AssigneeComment=value;
 			}
 		}
 		#endregion
@@ -385,7 +424,10 @@ namespace FancyFix.OA.Model
 				_.Uri2,
 				_.Score,
 				_.Display,
-				_.Comment};
+				_.Comment,
+				_.AssigneeId,
+				_.AssigneeScore,
+				_.AssigneeComment};
 		}
 		/// <summary>
 		/// 获取值信息
@@ -416,7 +458,10 @@ namespace FancyFix.OA.Model
 				this._Uri2,
 				this._Score,
 				this._Display,
-				this._Comment};
+				this._Comment,
+				this._AssigneeId,
+				this._AssigneeScore,
+				this._AssigneeComment};
 		}
 		#endregion
 
@@ -515,9 +560,9 @@ namespace FancyFix.OA.Model
 			/// </summary>
 			public readonly static Field Uri2 = new Field("Uri2","Design_ArtTaskList","Uri2");
 			/// <summary>
-			/// 评分
+			/// 设计师分数
 			/// </summary>
-			public readonly static Field Score = new Field("Score","Design_ArtTaskList","评分");
+			public readonly static Field Score = new Field("Score","Design_ArtTaskList","设计师分数");
 			/// <summary>
 			/// 需求状态
 			/// </summary>
@@ -526,6 +571,18 @@ namespace FancyFix.OA.Model
 			/// 评论
 			/// </summary>
 			public readonly static Field Comment = new Field("Comment","Design_ArtTaskList","评论");
+			/// <summary>
+			/// 总监ID
+			/// </summary>
+			public readonly static Field AssigneeId = new Field("AssigneeId","Design_ArtTaskList","总监ID");
+			/// <summary>
+			/// 总监分数
+			/// </summary>
+			public readonly static Field AssigneeScore = new Field("AssigneeScore","Design_ArtTaskList","总监分数");
+			/// <summary>
+			/// 总监评论
+			/// </summary>
+			public readonly static Field AssigneeComment = new Field("AssigneeComment","Design_ArtTaskList","总监评论");
 		}
 		#endregion
 

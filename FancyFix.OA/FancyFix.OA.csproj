@@ -185,6 +185,7 @@
     <Compile Include="Areas\Admin\Controllers\AdminPermissionController.cs" />
     <Compile Include="Areas\ArtTask\ArtTaskAreaRegistration.cs" />
     <Compile Include="Areas\ArtTask\Controllers\ArtTaskListController.cs" />
+    <Compile Include="Areas\ArtTask\Controllers\ArtTaskRankController.cs" />
     <Compile Include="Areas\BaseClassController.cs" />
     <Compile Include="Areas\Kpi\Controllers\KpiController.cs" />
     <Compile Include="Areas\Kpi\Controllers\KpiListController.cs" />
@@ -1896,6 +1897,7 @@
     <Content Include="Areas\Supplier\Views\RawMaterial\List.cshtml" />
     <Content Include="Areas\Supplier\Views\RawMaterial\Save.cshtml" />
     <Content Include="Areas\Supplier\Views\RawMaterialPrice\ShowCharts.cshtml" />
+    <Content Include="Areas\ArtTask\Views\ArtTaskRank\Index.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Common\GetAdminTree.cshtml" />
   </ItemGroup>

@@ -156,6 +156,8 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
             model.AMPM = artTaskList.AMPM;
             model.EstimatedStartDate = artTaskList.EstimatedStartDate;
             model.EstimatedEndDate = artTaskList.EstimatedEndDate;
+            if (model.AssigneeId == null)
+                model.AssigneeId = MyInfo.Id;
             model.Display = 2;
             model.Uri2 = GetPic();
 
@@ -249,7 +251,15 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
             if (id < 1)
                 return LayerMsgErrorAndClose("加载需求失败");
 
-            //ViewBag.TaskId = id;
+            Design_ArtTaskList model = null;
+            //选中当前需求
+            if (id > 0)
+                model = Bll.BllDesign_ArtTaskList.First(o => o.Id == id);
+            if (model == null)
+                return LayerMsgErrorAndClose("加载需求失败");
+
+            ViewBag.Assignee = model.AssigneeId == MyInfo.Id;
+
 
             return View(id);
         }
@@ -265,9 +275,21 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
             if (model == null)
                 return LayerMsgErrorAndClose("未找到该需求，请联系管理员！");
 
-            model.Score = rating;
-            model.Comment = comment;
-            model.Display = 5;
+            //当前用户ID=任务分配ID时，为总监打分,否则为客户打分
+            if (model.AssigneeId == MyInfo.Id)
+            {
+                model.AssigneeScore = rating;
+                model.AssigneeComment = comment;
+            }
+            else
+            {
+                model.Score = rating;
+                model.Comment = comment;
+            }
+
+            //只有当总监和客户全部打完分状态才会改成已完成
+            if (model.Score != null && model.Comment != null && model.AssigneeScore != null && model.AssigneeComment != null)
+                model.Display = 5;
             string msg = Bll.BllDesign_ArtTaskList.Update(model) > 0 ? "成功" : "失败";
             return LayerMsgSuccessAndRefresh("打分" + msg);
         }

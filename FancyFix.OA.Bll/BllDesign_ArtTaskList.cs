@@ -56,6 +56,14 @@ namespace FancyFix.OA.Bll
 
             return Db.Context.From<Design_ArtTaskList>()
                 .Where(where).ToList();
+
+//            select a.id,RealName,GroupName, 
+//(select sum(Score) from Design_ArtTaskList where DesignerId = a.id )/ (select count(*) from Design_ArtTaskList where DesignerId = a.id ) as 平均分
+//from Mng_User a
+//left
+//join Mng_PermissionGroup b on a.GroupId = b.Id
+//where a.DepartId = 10 and b.IsAdmin = 0
+
         }
 
         /// <summary>

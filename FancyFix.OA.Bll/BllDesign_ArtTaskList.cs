@@ -3,6 +3,7 @@ using Dos.ORM;
 using FancyFix.OA.Model;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 
@@ -36,34 +37,29 @@ namespace FancyFix.OA.Bll
             return p.Page(pageSize, page).OrderByDescending(o => o.SubmittedDate).ToList();
         }
 
-        public static IEnumerable<Design_ArtTaskList> GetRankList(string startdate, string enddate)
+        public static DataTable GetRankList(string startdate, int isAdmin)
         {
             var where = new Where<Design_ArtTaskList>();
             where.And(o => o.Display == 5);
-            DateTime start, end;
-            //开始时间为当月1号
+            DateTime dateTime;
+
+            string sqlWhere = string.Empty,
+                //字段名
+                score = (isAdmin == 1 ? "Assignee" : ""),
+                job = (isAdmin == 1 ? "Assignee" : "Designer");
+
+            sqlWhere += $"where {job}Id = a.id and Display = 5 ";
             if (!string.IsNullOrEmpty(startdate))
             {
-                start = (startdate.ToDateTime().ToString("yyyy-MM") + "-01").ToDateTime();
-                where.And(o => o.CompletionDate >= start);
+                dateTime = startdate.ToDateTime();
+                sqlWhere += $"and CompletionDate>='{dateTime.ToString("yyyy - MM") + " - 01"}' " +
+                            $"and CompletionDate<'{dateTime.AddMonths(1).ToString("yyyy - MM") + " - 01"}'";
             }
-            //结束时间＜下月1号
-            if (!string.IsNullOrEmpty(enddate))
-            {
-                end = (enddate.ToDateTime().AddMonths(1).ToString("yyyy-MM") + "-01").ToDateTime();
-                where.And(o => o.CompletionDate < end);
-            }
+            string sql = "select a.id,RealName,GroupName, (select sum(" + score + "Score) from Design_ArtTaskList " + sqlWhere +
+                        ") / (select count(*) from Design_ArtTaskList " + sqlWhere + ") as 平均分 from Mng_User a" +
+                        " left join Mng_PermissionGroup b on a.GroupId = b.Id where a.DepartId = 10 and b.IsAdmin = " + isAdmin;
 
-            return Db.Context.From<Design_ArtTaskList>()
-                .Where(where).ToList();
-
-//            select a.id,RealName,GroupName, 
-//(select sum(Score) from Design_ArtTaskList where DesignerId = a.id )/ (select count(*) from Design_ArtTaskList where DesignerId = a.id ) as 平均分
-//from Mng_User a
-//left
-//join Mng_PermissionGroup b on a.GroupId = b.Id
-//where a.DepartId = 10 and b.IsAdmin = 0
-
+            return Db.Context.FromSql(sql).ToDataTable();
         }
 
         /// <summary>

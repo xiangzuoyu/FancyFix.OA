@@ -6,6 +6,8 @@
 
 @section Css{
     <link href="/Content/js/plugins/datatables/bootstrap-table.min.css" rel="stylesheet" />
+    <link id="layuicss-laydate" href="~/Content/js/plugins/laydate/theme/default/laydate.css" rel="stylesheet" type="text/css" media="all" />
+
     <style>
         .table-bordered > tbody > tr > td {
             line-height: 2.628571;
@@ -24,19 +26,15 @@
                         <div class="layui-inline">
                             <label class="layui-form-label">按日期</label>
                             <div class="layui-input-inline">
-                                <input type="text" class="layui-input" placeholder="开始月份" id="startdate" name="startdate" />
-                            </div>
-                            <div class="layui-input-inline">
-                                <input type="text" class="layui-input" placeholder="结束月份" id="enddate" name="enddate" />
+                                <input type="text" class="layui-input" placeholder="查询月份" id="datetime" name="datetime" />
                             </div>
                         </div>
                         <div class="layui-inline">
                             <label class="layui-form-label">按职位</label>
                             <div class="layui-input-inline">
                                 <select id="job" name="job" lay-filter="displayid">
-                                    <option value="0">全部</option>
-                                    <option value="1">设计师</option>
-                                    <option value="2">总监</option>
+                                    <option value="0">设计师</option>
+                                    <option value="1">总监</option>
                                 </select>
                             </div>
                         </div>
@@ -50,16 +48,17 @@
         </div>
     </div>
 </div>
+<script src="/Content/js/plugins/laydate/laydate.js"></script>
 
 @section Js{
     <script src="/Content/js/plugins/datatables/bootstrap-table.min.js"></script>
     <script src="/Content/js/plugins/datatables/bootstrap-table-zh-CN.js"></script>
+    
     <script src="/Content/js/common/tools.js"></script>
     <script>
-        layui.use(['layer', 'form', 'laydate'], function () {
+        layui.use(['layer', 'form'], function () {
             var layer = layui.layer;
-            var form = layui.form;
-            var laydate = layui.laydate;
+            var form = layui.form();
 
             var TableInit = function () {
                 var objTable = new Object();
@@ -95,11 +94,11 @@
                         //showRefresh: true,                  //是否显示刷新按钮
                         //showToggle: true,                   //是否显示详细视图和列表视图的切换按钮
                         columns: [{
-                            field: 'name',
+                            field: 'realName',
                             title: '用户名',
                             align: 'center'
                         }, {
-                            field: 'score',
+                            field: 'avgScore',
                             title: '当月平均分',
                             align: 'center'
                         }]
@@ -115,8 +114,7 @@
                         ordername: params.sort,
 
                         //自定义参数
-                        startdate: $("#startdate").val(),
-                        enddate: $("#enddate").val(),
+                        datetime: $("#datetime").val(),
                         job: $("#job").val()
                     };
                     return temp;
@@ -126,24 +124,27 @@
             //初始化Table
             new TableInit().Init();
 
-            //开始日期
-            $("#startdate").click(function () {
-                laydate({
-                    elem: this,
-                    istime: true,
-                    min: laydate.now(),
-                    format: 'YYYY-MM-DD hh:mm:ss'
-                });
+            //监听提交
+            form.on('submit(formSearch)', function (data) {
+                Reload();
+                return false;
             });
-            //结束控件
-            $("#enddate").click(function () {
-                laydate({
-                    elem: this,
-                    istime: true,
-                    min: laydate.now(),
-                    format: 'YYYY-MM-DD hh:mm:ss'
-                });
+
+            //年月选择器
+            laydate.render({
+                elem: '#datetime',
+                type: 'month'
             });
+
+            ////开始日期
+            //$("#datetime").click(function () {
+            //    laydate({
+            //        elem: this,
+            //        istime: true,
+            //        type: 'month'
+            //        //format: 'YYYY-MM-DD hh:mm:ss'
+            //    });
+            //});
         });
     </script>
 }

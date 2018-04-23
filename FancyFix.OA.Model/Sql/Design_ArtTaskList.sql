@@ -1,17 +1,17 @@
 ﻿/*
 Navicat SQL Server Data Transfer
 
-Source Server         : local1
-Source Server Version : 100000
-Source Host           : (local):1433
+Source Server         : YZX-PC
+Source Server Version : 110000
+Source Host           : 127.0.0.1:1433
 Source Database       : OA
 Source Schema         : dbo
 
 Target Server Type    : SQL Server
-Target Server Version : 100000
+Target Server Version : 110000
 File Encoding         : 65001
 
-Date: 2018-01-30 19:06:58
+Date: 2018-04-23 10:25:42
 */
 
 
@@ -25,7 +25,7 @@ CREATE TABLE [dbo].[Design_ArtTaskList] (
 [Number] varchar(100) NULL ,
 [Title] nvarchar(256) NULL ,
 [Content] nvarchar(MAX) NULL ,
-[Phone] varchar(15) NULL ,
+[Phone] varchar(20) NULL ,
 [DueDate] datetime NULL ,
 [SubmitterId] int NULL ,
 [SubmittedDate] datetime NULL ,
@@ -37,19 +37,22 @@ CREATE TABLE [dbo].[Design_ArtTaskList] (
 [DepartmentId] int NULL ,
 [Budget] money NULL ,
 [DemandTypeId] int NULL ,
-[Model] nvarchar(128) NULL ,
+[Model] nvarchar(256) NULL ,
 [StyleType] nvarchar(2048) NULL ,
 [DetailTypeId] int SPARSE NULL ,
 [Uri1] nvarchar(512) NULL ,
 [Uri2] nvarchar(512) NULL ,
 [Score] int NULL ,
 [Display] int NULL DEFAULT ((1)) ,
-[Comment] text NULL 
+[Comment] text NULL ,
+[AssigneeId] int NULL ,
+[AssigneeScore] int NULL ,
+[AssigneeComment] text NULL 
 )
 
 
 GO
-DBCC CHECKIDENT(N'[dbo].[Design_ArtTaskList]', RESEED, 11)
+DBCC CHECKIDENT(N'[dbo].[Design_ArtTaskList]', RESEED, 39)
 GO
 IF ((SELECT COUNT(*) from fn_listextendedproperty('MS_Description', 
 'SCHEMA', N'dbo', 
@@ -321,12 +324,12 @@ IF ((SELECT COUNT(*) from fn_listextendedproperty('MS_Description',
 'SCHEMA', N'dbo', 
 'TABLE', N'Design_ArtTaskList', 
 'COLUMN', N'Score')) > 0) 
-EXEC sp_updateextendedproperty @name = N'MS_Description', @value = N'评分'
+EXEC sp_updateextendedproperty @name = N'MS_Description', @value = N'设计师分数'
 , @level0type = 'SCHEMA', @level0name = N'dbo'
 , @level1type = 'TABLE', @level1name = N'Design_ArtTaskList'
 , @level2type = 'COLUMN', @level2name = N'Score'
 ELSE
-EXEC sp_addextendedproperty @name = N'MS_Description', @value = N'评分'
+EXEC sp_addextendedproperty @name = N'MS_Description', @value = N'设计师分数'
 , @level0type = 'SCHEMA', @level0name = N'dbo'
 , @level1type = 'TABLE', @level1name = N'Design_ArtTaskList'
 , @level2type = 'COLUMN', @level2name = N'Score'
@@ -358,6 +361,48 @@ EXEC sp_addextendedproperty @name = N'MS_Description', @value = N'评论'
 , @level0type = 'SCHEMA', @level0name = N'dbo'
 , @level1type = 'TABLE', @level1name = N'Design_ArtTaskList'
 , @level2type = 'COLUMN', @level2name = N'Comment'
+GO
+IF ((SELECT COUNT(*) from fn_listextendedproperty('MS_Description', 
+'SCHEMA', N'dbo', 
+'TABLE', N'Design_ArtTaskList', 
+'COLUMN', N'AssigneeId')) > 0) 
+EXEC sp_updateextendedproperty @name = N'MS_Description', @value = N'总监ID'
+, @level0type = 'SCHEMA', @level0name = N'dbo'
+, @level1type = 'TABLE', @level1name = N'Design_ArtTaskList'
+, @level2type = 'COLUMN', @level2name = N'AssigneeId'
+ELSE
+EXEC sp_addextendedproperty @name = N'MS_Description', @value = N'总监ID'
+, @level0type = 'SCHEMA', @level0name = N'dbo'
+, @level1type = 'TABLE', @level1name = N'Design_ArtTaskList'
+, @level2type = 'COLUMN', @level2name = N'AssigneeId'
+GO
+IF ((SELECT COUNT(*) from fn_listextendedproperty('MS_Description', 
+'SCHEMA', N'dbo', 
+'TABLE', N'Design_ArtTaskList', 
+'COLUMN', N'AssigneeScore')) > 0) 
+EXEC sp_updateextendedproperty @name = N'MS_Description', @value = N'总监分数'
+, @level0type = 'SCHEMA', @level0name = N'dbo'
+, @level1type = 'TABLE', @level1name = N'Design_ArtTaskList'
+, @level2type = 'COLUMN', @level2name = N'AssigneeScore'
+ELSE
+EXEC sp_addextendedproperty @name = N'MS_Description', @value = N'总监分数'
+, @level0type = 'SCHEMA', @level0name = N'dbo'
+, @level1type = 'TABLE', @level1name = N'Design_ArtTaskList'
+, @level2type = 'COLUMN', @level2name = N'AssigneeScore'
+GO
+IF ((SELECT COUNT(*) from fn_listextendedproperty('MS_Description', 
+'SCHEMA', N'dbo', 
+'TABLE', N'Design_ArtTaskList', 
+'COLUMN', N'AssigneeComment')) > 0) 
+EXEC sp_updateextendedproperty @name = N'MS_Description', @value = N'总监评论'
+, @level0type = 'SCHEMA', @level0name = N'dbo'
+, @level1type = 'TABLE', @level1name = N'Design_ArtTaskList'
+, @level2type = 'COLUMN', @level2name = N'AssigneeComment'
+ELSE
+EXEC sp_addextendedproperty @name = N'MS_Description', @value = N'总监评论'
+, @level0type = 'SCHEMA', @level0name = N'dbo'
+, @level1type = 'TABLE', @level1name = N'Design_ArtTaskList'
+, @level2type = 'COLUMN', @level2name = N'AssigneeComment'
 GO
 
 -- ----------------------------

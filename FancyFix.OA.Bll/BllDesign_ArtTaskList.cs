@@ -31,7 +31,6 @@ namespace FancyFix.OA.Bll
             }
 
             var p = Db.Context.From<Design_ArtTaskList>()
-                //.Select((a)=>new { })
                 .Where(where);
             records = p.Count();
             return p.Page(pageSize, page).OrderByDescending(o => o.SubmittedDate).ToList();

@@ -58,7 +58,6 @@
     <script>
         layui.use(['layer', 'form'], function () {
             var layer = layui.layer;
-            var laydate = layui.laydate;
             var form = layui.form();
 
             var TableInit = function () {
@@ -99,6 +98,10 @@
                             title: '用户名',
                             align: 'center'
                         }, {
+                            field: 'groupName',
+                            title: '岗位名称',
+                            align: 'center'
+                        },{
                             field: 'avgScore',
                             title: '当月平均分',
                             align: 'center'

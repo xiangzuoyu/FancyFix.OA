@@ -28,6 +28,7 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
                        {
                            //id = o.Field<int>("id"),
                            realName = o.Field<string>("RealName"),
+                           groupName = o.Field<string>("GroupName"),
                            avgScore = o.Field<int?>("平均分") ?? 0
                        });
 

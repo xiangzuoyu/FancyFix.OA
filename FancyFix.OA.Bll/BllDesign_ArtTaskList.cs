@@ -61,6 +61,13 @@ namespace FancyFix.OA.Bll
             return Db.Context.FromSql(sql).ToDataTable();
         }
 
+        public static List<int> DesignIds(int isAdmin)
+        {
+            string sql = "select a.id from Mng_User a LEFT JOIN Mng_PermissionGroup b on a.GroupId = b.Id where a.DepartId = 10 and b.IsAdmin = " + isAdmin;
+
+            return Db.Context.FromSql(sql).ToList<int>();
+        }
+
         /// <summary>
         /// 取消需求
         /// </summary>

@@ -10,15 +10,15 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
     public class ArtTaskListController : BaseAdminController
     {
         //获取设计部分配任务权限ID
-        string arrIds = ConfigurationManager.AppSettings["ArtTaskIds"];
-        string adminIds = ConfigurationManager.AppSettings["ArtTaskAdminIds"];
+        List<int> arrIds = Bll.BllDesign_ArtTaskList.DesignIds(0); // ConfigurationManager.AppSettings["ArtTaskIds"];
+        List<int> adminIds = Bll.BllDesign_ArtTaskList.DesignIds(1); //ConfigurationManager.AppSettings["ArtTaskAdminIds"];
 
         // GET: ArtTask/ArtTaskList
         public ActionResult List()
         {
             ViewBag.CurrentId = MyInfo.Id;
-            ViewBag.IsDesigner = (arrIds.Contains($",{MyInfo.Id},") || adminIds.Contains($",{MyInfo.Id},"));
-            ViewBag.IsDesignerAdmin = adminIds.Contains($",{MyInfo.Id},");
+            ViewBag.IsDesigner = (arrIds.Contains(MyInfo.Id) || adminIds.Contains(MyInfo.Id));
+            ViewBag.IsDesignerAdmin = adminIds.Contains(MyInfo.Id);
             ViewBag.AdminIds = adminIds;
             return View();
         }
@@ -27,7 +27,7 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
         {
             //非设计部门，只能查看自己的需求
             int submitterId = 0;
-            if (!arrIds.Contains($",{MyInfo.Id},") && !adminIds.Contains($",{MyInfo.Id},"))
+            if (!arrIds.Contains(MyInfo.Id) && !adminIds.Contains(MyInfo.Id))
                 submitterId = MyInfo.Id;
             long records = 0;
             var list = Bll.BllDesign_ArtTaskList.PageList(submitterId, page, pagesize, out records, displayid);
@@ -103,7 +103,7 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
             List<Mng_User> userList = null;
             userList = adminlist.FindAll(o => o.DepartId == 10) ?? new List<Mng_User>();
             //没有分配权限时，只显示自己
-            if (ConfigurationManager.AppSettings["ArtTaskIds"].ToString().Contains($",{MyInfo.Id},")
+            if (arrIds.Contains(MyInfo.Id)
                 && !ConfigurationManager.AppSettings["SuperAdminIds"].ToString().Contains($"{MyInfo.Id}"))
             {
                 designerId = MyInfo.Id;
@@ -118,7 +118,7 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
                 return LayerAlertSuccessAndRefresh("加载需求失败，未找到该需求");
 
             //判断需求是否已被领取
-            if (model.Display == 2 && model.DesignerId != MyInfo.Id && !ConfigurationManager.AppSettings["ArtTaskAdminIds"].ToString().Contains($",{MyInfo.Id},"))
+            if (model.Display == 2 && model.DesignerId != MyInfo.Id && !adminIds.Contains(MyInfo.Id))
                 return LayerAlertAndCallback("该需求已被其他人领取，请重新选择", "getTasklist.addDataFail()");
 
             //设置表单初始值
@@ -188,8 +188,8 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
             if (model != null && model.Display == 2)
                 ViewBag.CurrentDesigner = model.DesignerId ?? 0;
             //如果当前登录是设计师且没有分配的权限，优先显示他的任务
-            if (ConfigurationManager.AppSettings["ArtTaskIds"].ToString().Contains($",{MyInfo.Id},")
-                && !ConfigurationManager.AppSettings["SuperAdminIds"].ToString().Contains($"{MyInfo.Id}"))
+            if (arrIds.Contains(MyInfo.Id)
+                && !adminIds.Contains(MyInfo.Id))
                 ViewBag.CurrentDesigner = MyInfo.Id;
 
             //获取设计部人员列表

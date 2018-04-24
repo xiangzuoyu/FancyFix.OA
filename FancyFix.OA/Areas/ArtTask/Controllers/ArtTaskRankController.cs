@@ -19,7 +19,6 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
 
         public JsonResult PageList(int job, string datetime = "")
         {
-            long records = 0;
             var userList = Bll.BllMng_User.GetSelectList(0, "Id,RealName", "DepartId=10", "") ?? new List<Mng_User>();
             var rankList = Bll.BllDesign_ArtTaskList.GetRankList(datetime, job);
 
@@ -34,7 +33,7 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
 
             avgScoreList = avgScoreList.OrderByDescending(o => o.avgScore);
 
-            return BspTableJson(avgScoreList, records);
+            return BspTableJson(avgScoreList, avgScoreList.Count());
         }
      
     }

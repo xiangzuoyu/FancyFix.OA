@@ -248,14 +248,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Supplier\Views\RawMaterialPrice\ExportExcel.cshtml" />
-    <Content Include="Areas\Supplier\Views\RawMaterialPrice\List.cshtml" />
-    <Content Include="Areas\Supplier\Views\RawMaterialPrice\Save.cshtml" />
-    <Content Include="Areas\Supplier\Views\RawMaterial\List.cshtml" />
-    <Content Include="Areas\Supplier\Views\RawMaterial\Save.cshtml" />
-    <Content Include="Areas\Supplier\Views\SupplierManager\ExportExcel.cshtml" />
-    <Content Include="Areas\Supplier\Views\SupplierManager\List.cshtml" />
-    <Content Include="Areas\Supplier\Views\SupplierManager\Save.cshtml" />
     <Content Include="Areas\Supplier\Views\web.config" />
     <Content Include="Common\verifyimage.aspx" />
     <Content Include="Content\bootstrap.css" />

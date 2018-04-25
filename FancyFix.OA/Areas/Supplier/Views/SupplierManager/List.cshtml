@@ -26,9 +26,22 @@
                                     @Html.Raw(Tools.GetOptionHtml(typeof(SupplierLabel)))
                                 </select>
                             </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">按字段</label>
+                                <div class="layui-input-inline">
+                                    <select id="files" name="files" lay-filter="files">
+                                        <option value="">请选择</option>
+                                        <option value="Code">供应商代码</option>
+                                        <option value="Name">供应商名称</option>
+                                        <option value="SupplierAb">供应商名称缩写</option>
+                                    </select>
+                                </div>
+                                <div class="layui-input-inline">
+                                    @Html.TextBox("key", "", new { @class = "layui-input" })
+                                </div>
+                            </div>
                         </div>
                         <div class="layui-inline pull-right">
-                            
                             <button id="btnSearch" class="btn bg-blue" lay-submit lay-filter="formSearch">查询</button>&nbsp;
                             <input type="button" id="importBtn" class="btn bg-orange" value="导入">&nbsp;
                             <input type="button" id="exportBtn" class="btn bg-orange" value="导出">
@@ -194,7 +207,9 @@
                         ordername: params.sort,
 
                         //自定义参数
-                        selectLabelid: $("#selectLabelid").val()
+                        selectLabelid: $("#selectLabelid").val(),
+                        files: $("#files").val(),
+                        key: $("#key").val()
                     };
                     return temp;
                 };

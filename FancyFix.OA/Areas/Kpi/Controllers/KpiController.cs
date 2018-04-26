@@ -308,6 +308,15 @@ namespace FancyFix.OA.Areas.Kpi.Controllers
                 item.IsApprove = false;
                 item.IsCreated = false;
                 item.CreateTime = DateTime.Now;
+                //清空评分记录
+                item.Remark = "";
+                item.ParScore = 0;
+                item.FinishScore = 0;
+                item.ApproveTime = null;
+                item.SelfScore = 0;
+                item.IsSelfApprove = false;
+                item.SelfRemark = "";
+                item.SelfApproveTime = null;
             }
             int id = Bll.BllKpi_Records.Insert(recordlist);
             if (id > 0)
@@ -389,6 +398,42 @@ namespace FancyFix.OA.Areas.Kpi.Controllers
             if (Bll.BllKpi_Process.UpdateProcessStatus(record))
             {
                 return MessageBoxAndJump("提交成功！", $"/kpi/kpi/childkpilist/{record.UserId}?year={record.Year}&month={record.Month}");
+            }
+            else
+                return MessageBoxAndReturn("提交失败，请联系管理员！");
+        }
+        #endregion
+
+        #region KPI自评
+
+        public ActionResult SelfApprove(int id)
+        {
+            var record = Bll.BllKpi_Records.First(o => o.Id == id);
+            if (record == null) return MessageBoxAndReturn("指标不存在！");
+            if (!(record.IsCreated ?? false)) return MessageBoxAndReturn("该指标未生成，暂时不能自评！");
+            if (record.UserId != MyInfo.Id) return MessageBoxAndReturn("该指标不是你的！");
+            return View(record);
+        }
+
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult SelfApproveSave(int id)
+        {
+            var record = Bll.BllKpi_Records.First(o => o.Id == id);
+            if (record == null) return MessageBoxAndReturn("指标不存在！");
+            if (!(record.IsCreated ?? false)) return MessageBoxAndReturn("该指标未生成，暂时不能评分！");
+            if (record.UserId != MyInfo.Id) return MessageBoxAndReturn("该指标不是你的！");
+
+            int selfscore = RequestInt("selfscore");
+            record.SelfScore = selfscore;
+            record.SelfRemark = RequestString("selfremark");
+            record.SelfApproveTime = DateTime.Now;
+            record.IsSelfApprove = true;
+
+            //int result = Bll.BllKpi_Records.Update(record, o => o.Id == id);
+            if (Bll.BllKpi_Records.Update(record) > 0)
+            {
+                return MessageBoxAndJump("提交成功！", $"/kpi/kpi/kpilist?year={record.Year}&month={record.Month}");
             }
             else
                 return MessageBoxAndReturn("提交失败，请联系管理员！");

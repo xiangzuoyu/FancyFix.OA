@@ -440,8 +440,8 @@ namespace FancyFix.OA.Base
         //static string WorkerMonth = System.Configuration.ConfigurationManager.AppSettings["WorkerMonth"].ToString2().TrimEnd(',');
 
         protected static int StartYear = System.Configuration.ConfigurationManager.AppSettings["StartYear"].ToString2().ToInt32();
-
         protected static int WorkerEndDay = System.Configuration.ConfigurationManager.AppSettings["WorkerEndDay"].ToString2().ToInt32();
+        protected static int KpiCreateEndDay = System.Configuration.ConfigurationManager.AppSettings["KpiCreateEndDay"].ToString2().ToInt32();
 
         public List<int> GetWorkerMonthList(int year)
         {
@@ -492,6 +492,28 @@ namespace FancyFix.OA.Base
                     return workMonths[i];
             }
             return 1;
+        }
+
+        /// <summary>
+        /// 获取进程生成截止时间
+        /// </summary>
+        /// <param name="year"></param>
+        /// <param name="month"></param>
+        /// <returns></returns>
+        protected static DateTime GetKpiCreateEndDay(int year, int month)
+        {
+            return (year + "-" + month + "-" + (KpiCreateEndDay + 1)).ToDateTime();
+        }
+
+        /// <summary>
+        /// KPI审批截止时间
+        /// </summary>
+        /// <param name="year"></param>
+        /// <param name="month"></param>
+        /// <returns></returns>
+        protected static DateTime GetKpiApproveEndDay(int year, int month)
+        {
+            return (year + "-" + month + "-" + (WorkerEndDay + 1)).ToDateTime();
         }
 
         #endregion

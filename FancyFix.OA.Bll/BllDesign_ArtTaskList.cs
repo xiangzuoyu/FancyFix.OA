@@ -39,7 +39,7 @@ namespace FancyFix.OA.Bll
         public static DataTable GetRankList(string startdate, int isAdmin)
         {
             var where = new Where<Design_ArtTaskList>();
-            where.And(o => o.Display == 5);
+            //where.And(o => o.Display == 5);
             DateTime dateTime;
 
             string sqlWhere = string.Empty,

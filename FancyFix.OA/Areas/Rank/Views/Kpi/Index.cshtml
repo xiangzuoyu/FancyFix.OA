@@ -3,11 +3,14 @@
     ViewBag.Title = "Point";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    List<Kpi_Process> ranklist = ViewBag.ranklist;
+    List<Mng_User> ranklist = ViewBag.ranklist;
     int startyear = ViewBag.startyear;
 
     int year = ViewBag.year;
-    int month = ViewBag.month;
+    int fromMonth = ViewBag.fromMonth;
+    int toMonth = ViewBag.toMonth;
+    int departId = ViewBag.departId;
+    string realname = ViewBag.realname;
 }
 @section Css{
     <link href="/Content/js/plugins/datatables/bootstrap-table.min.css" rel="stylesheet" />
@@ -24,20 +27,45 @@
             <h3 class="box-title">考核排名：</h3>
         </div>
         <div class="box-header">
-            进程：
-            <select id="year" name="year" class="layui-select" style="max-width:100px;">
-                @for (int i = startyear; i <= DateTime.Now.Year + 1; i++)
-                {
-                    <option value="@i" @(i == year ? "selected" : "")>@i 年</option>
-                }
-            </select>
-            <select id="month" name="month" class="layui-select" style="max-width:80px;">
-                @for (int i = 1; i <= 12; i++)
-                {
-                    <option value="@i" @(month == i ? "selected" : "")>@i 月</option>
-                }
-            </select>
+            <div class="pull-left form-group">
+                进程：
+                <select id="year" name="year" class="layui-select" style="max-width:100px;">
+                    @for (int i = startyear; i <= DateTime.Now.Year + 1; i++)
+                    {
+                        <option value="@i" @(i == year ? "selected" : "")>@i 年</option>
+                    }
+                </select>
+                <select id="fromMonth" name="fromMonth" class="layui-select" style="max-width:80px;">
+                    @for (int i = 1; i <= 12; i++)
+                    {
+                        <option value="@i" @(fromMonth == i ? "selected" : "")>@i 月</option>
+                    }
+                </select>
+                <select id="toMonth" name="toMonth" class="layui-select" style="max-width:80px;">
+                    @for (int i = 1; i <= 12; i++)
+                    {
+                        <option value="@i" @(toMonth == i ? "selected" : "")>@i 月</option>
+                    }
+                </select>
+                <select id="departId" name="departId" class="layui-select" style="max-width:150px;">
+                    <option value="0">├所有部门</option>
+                    @Html.Raw(ViewBag.departHtml)
+                </select>
+            </div>
+            <div class="pull-left form-group" style="margin-left:5px;">
+                <span class="form-contorl pull-left layui-form-mid">姓名</span>
+                <input type="text" name="realname" id="realname" class="layui-input pull-left" value="@realname" style="max-width:80px">
+                <a id="btn-submit" href="javascript:void(0)" class="btn btn-default pull-left" style="margin-left:5px;">确定</a>
+            </div>
             <a href="/rank/rank" class="btn btn-default pull-right">返回</a>
+        </div>
+        <div class="box-header">
+            <div class="form-group form-inline">
+                @if (IsSuperAdmin || IsDepartAdmin)
+                {
+                    <a href="/rank/kpi/toexcelrank?year=@year&fromMonth=@fromMonth&toMonth=@toMonth&departId=@departId&realname=@realname" class="btn btn-default pull-left">导出到Excel</a>
+                }
+            </div>
         </div>
         <div class="box">
             <div class="box-body">
@@ -47,7 +75,9 @@
                             <th style="text-align:center;">排名</th>
                             <th style="text-align:center;">姓名</th>
                             <th style="text-align:center;" class="hidden-xs">部门</th>
+                            <th style="text-align:center;" class="hidden-xs">岗位</th>
                             <th style="text-align:center;">总得分</th>
+                            <th style="text-align:center;">生成次数</th>
                             <th style="text-align:center;">操作</th>
                         </tr>
                         @if (ranklist != null && ranklist.Count > 0)
@@ -57,10 +87,12 @@
                                 <tr>
                                     <td align="center">@item.Rank</td>
                                     <td align="center">@item.RealName</td>
-                                    <td align="center" class="hidden-xs">@item.DepartmentName</td>
+                                    <td align="center" class="hidden-xs">@item.DepartMentName</td>
+                                    <td align="center" class="hidden-xs">@item.GroupName</td>
                                     <td align="center">@item.Score</td>
+                                    <td align="center">@item.Count</td>
                                     <td align="center">
-                                        <a href="/rank/kpi/kpilist/@item.Id" class="btn btn-warning">查看</a>
+                                        <a href="/rank/kpi/kpilist/@item.Id?year=@year&fromMonth=@fromMonth&toMonth=@toMonth&departId=@departId" class="btn btn-warning">查看</a>
                                     </td>
                                 </tr>
                             }
@@ -68,7 +100,7 @@
                         else
                         {
                             <tr>
-                                <td align="center" colspan="7">暂无数据</td>
+                                <td align="center" colspan="6">暂无数据</td>
                             </tr>
                         }
                     </tbody>
@@ -76,7 +108,7 @@
                     {
                         <tfoot>
                             <tr>
-                                <td align="center" colspan="5">共@(ranklist.Count)条数据</td>
+                                <td align="center" colspan="6">共@(ranklist.Count)条数据</td>
                             </tr>
                         </tfoot>
                     }
@@ -91,23 +123,41 @@
         layui.use(['layer'], function () {
             var layer = layui.layer;
 
-            $("#year").change(function () {
-                var year = $(this).val();
-                var month = $("#month").val();
-                PostWhere(year, month);
+            $("#year,#fromMonth,#toMonth,#departId").change(function () {
+                PostWhere();
             })
 
-            $("#month").change(function () {
-                var month = $(this).val();
+            $("#btn-submit").click(function () {
+                PostWhere();
+            })
+
+            function PostWhere() {
                 var year = $("#year").val();
-                PostWhere(year, month);
-            })
+                var toMonth = $("#toMonth").val();
+                var fromMonth = $("#fromMonth").val();
+                var departId = $("#departId").val();
+                var realname = $("#realname").val();
 
-            function PostWhere(year, month) {
-                var where = "year=" + parseInt(year);
-                if (month > 0)
-                    where += "&month=" + parseInt(month);
-                window.location.href = window.location.pathname + "?" + where;
+                if (CheckMonth(fromMonth, toMonth)) {
+                    var where = "year=" + parseInt(year);
+                    if (toMonth > 0)
+                        where += "&toMonth=" + parseInt(toMonth);
+                    if (fromMonth > 0)
+                        where += "&fromMonth=" + parseInt(fromMonth);
+                    if (departId > 0)
+                        where += "&departId=" + parseInt(departId);
+                    if (realname != "")
+                        where += "&realname=" + realname;
+                    window.location.href = window.location.pathname + "?" + where;
+                }
+            }
+
+            function CheckMonth(fromMonth, toMonth) {
+                if (parseInt(fromMonth) > parseInt(toMonth)) {
+                    layer.msg('月份选择有误！', { icon: 2 });
+                    return false;
+                }
+                return true;
             }
         })
     </script>

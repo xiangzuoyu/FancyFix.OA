@@ -10,6 +10,7 @@
     int fromMonth = ViewBag.fromMonth;
     int toMonth = ViewBag.toMonth;
     double top = ViewBag.top;
+    int departId = ViewBag.departId;
 }
 @section Css{
     <link href="/Content/js/plugins/datatables/bootstrap-table.min.css" rel="stylesheet" />
@@ -45,6 +46,10 @@
                         <option value="@i" @(toMonth == i ? "selected" : "")>@i 月</option>
                     }
                 </select>
+                <select id="departId" name="departId" class="layui-select" style="max-width:150px;">
+                    <option value="0">├所有部门</option>
+                    @Html.Raw(ViewBag.departHtml)
+                </select>
             </div>
             <div class="pull-left form-group" style="margin-left:5px;">
                 <span class="form-contorl pull-left layui-form-mid">取前</span>
@@ -57,7 +62,7 @@
         @if (IsSuperAdmin || IsDepartAdmin)
         {
             <div class="box-header">
-                <a href="/rank/point/toexcel?year=@year&fromMonth=@fromMonth&toMonth=@toMonth&top=@top" class="btn btn-default pull-left">导出到Excel</a>
+                <a href="/rank/point/toexcel?year=@year&fromMonth=@fromMonth&toMonth=@toMonth&top=@top&departId=@departId" class="btn btn-default pull-left">导出到Excel</a>
             </div>
         }
         <div class="box">
@@ -112,47 +117,21 @@
         layui.use(['layer'], function () {
             var layer = layui.layer;
 
-            $("#year").change(function () {
-                var year = $(this).val();
-                var fromMonth = $("#fromMonth").val();
-                var toMonth = $("#toMonth").val();
-                var top = $("#top").val();
-                PostWhere(year, fromMonth, toMonth, top);
+            $("#year,#fromMonth,#toMonth,#departId").change(function () {
+                PostWhere();
             })
-
-            $("#fromMonth").change(function () {
-                var fromMonth = $(this).val();
-                var year = $("#year").val();
-                var toMonth = $("#toMonth").val();
-                var top = $("#top").val();
-                PostWhere(year, fromMonth, toMonth, top);
-            })
-
-            $("#toMonth").change(function () {
-                var toMonth = $(this).val();
-                var year = $("#year").val();
-                var fromMonth = $("#fromMonth").val();
-                var top = $("#top").val();
-                PostWhere(year, fromMonth, toMonth, top);
-            })
-
-            //$("#top").change(function () {
-            //    var top = $(this).val();
-            //    var year = $("#year").val();
-            //    var fromMonth = $("#fromMonth").val();
-            //    var toMonth = $("#toMonth").val();
-            //    PostWhere(year, fromMonth, toMonth, top);
-            //})
 
             $("#btn-submit").click(function () {
+                PostWhere();
+            })
+
+            function PostWhere() {
                 var top = $("#top").val();
                 var year = $("#year").val();
                 var fromMonth = $("#fromMonth").val();
                 var toMonth = $("#toMonth").val();
-                PostWhere(year, fromMonth, toMonth, top);
-            })
+                var departId = $("#departId").val();
 
-            function PostWhere(year, fromMonth, toMonth, top) {
                 if (CheckMonth(fromMonth, toMonth)) {
                     var where = "year=" + parseInt(year);
                     if (fromMonth > 0)
@@ -161,6 +140,8 @@
                         where += "&toMonth=" + parseInt(toMonth);
                     if (top > 0)
                         where += "&top=" + parseInt(top);
+                    if (departId > 0)
+                        where += "&departId=" + parseInt(departId);
                     window.location.href = window.location.pathname + "?" + where;
                 }
             }

@@ -4,6 +4,10 @@
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
     int pid = ViewBag.pid;
+    int departId = ViewBag.departId;
+    int year = ViewBag.year;
+    int fromMonth = ViewBag.fromMonth;
+    int toMonth = ViewBag.toMonth;
 }
 <div class="row">
     <div class="col-md-12">
@@ -53,9 +57,21 @@
                     </td>
                 </tr>
                 <tr>
+                    <td align="right"><label for="parusername" class="control-label">自评分：</label></td>
+                    <td>
+                        @Model.SelfScore
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><label for="parusername" class="control-label">自评备注：</label></td>
+                    <td>
+                        @Model.SelfRemark
+                    </td>
+                </tr>
+                <tr>
                     <td align="right"><label for="parusername" class="control-label">评分人：</label></td>
                     <td>
-                        @Model.ParUserName
+                        @Model.ParUserName @(Html.Raw(Model.IsApprove.Value? "": "<span class=\"bg-red\">【未评】</span>"))
                     </td>
                 </tr>
                 <tr>
@@ -73,7 +89,7 @@
                 <tr>
                     <td align="right"></td>
                     <td>
-                        <a href="/rank/kpi/kpilist/@ViewBag.pid" id="cancel" class="btn btn-default">返回</a>
+                        <a href="/rank/kpi/kpilist/@Model.UserId?departId=@departId&year=@year&fromMonth=@fromMonth&toMonth=@toMonth" id="cancel" class="btn btn-default">返回</a>
                     </td>
                 </tr>
             </tbody>

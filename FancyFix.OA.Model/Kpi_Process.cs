@@ -34,6 +34,7 @@ namespace FancyFix.OA.Model
 		private bool? _IsApprove;
 		private string _Remark;
 		private bool? _IsCreated;
+		private int? _SelfScore;
 		/// <summary>
 		/// 
 		/// </summary>
@@ -130,6 +131,18 @@ namespace FancyFix.OA.Model
 				this._IsCreated=value;
 			}
 		}
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? SelfScore
+		{
+			get{ return _SelfScore; }
+			set
+			{
+				this.OnPropertyValueChange(_.SelfScore,_SelfScore,value);
+				this._SelfScore=value;
+			}
+		}
 		#endregion
 
 		#region Method
@@ -161,7 +174,8 @@ namespace FancyFix.OA.Model
 				_.Month,
 				_.IsApprove,
 				_.Remark,
-				_.IsCreated};
+				_.IsCreated,
+				_.SelfScore};
 		}
 		/// <summary>
 		/// 获取值信息
@@ -176,7 +190,8 @@ namespace FancyFix.OA.Model
 				this._Month,
 				this._IsApprove,
 				this._Remark,
-				this._IsCreated};
+				this._IsCreated,
+				this._SelfScore};
 		}
 		#endregion
 
@@ -222,6 +237,10 @@ namespace FancyFix.OA.Model
 			/// 
 			/// </summary>
 			public readonly static Field IsCreated = new Field("IsCreated","Kpi_Process","IsCreated");
+			/// <summary>
+			/// 
+			/// </summary>
+			public readonly static Field SelfScore = new Field("SelfScore","Kpi_Process","SelfScore");
 		}
 		#endregion
 

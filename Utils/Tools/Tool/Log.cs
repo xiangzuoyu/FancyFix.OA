@@ -13,7 +13,7 @@ namespace FancyFix.Tools.Tool
     {
         private static readonly string logPath = ConfigurationManager.AppSettings["LogPath"];
         /// <summary>
-        /// 写入条日志
+        /// 写入条日志，包含http上下文
         /// </summary>
         /// <param name="text"></param>
         public static void Write(string text)
@@ -35,8 +35,9 @@ namespace FancyFix.Tools.Tool
         }
 
         /// <summary>
-        /// 写入条日志
+        /// 写入条日志，包含http上下文
         /// </summary>
+        /// <param name="ext">文件夹名</param>
         /// <param name="text"></param>
         public static void Write(string ext, string text)
         {
@@ -56,10 +57,23 @@ namespace FancyFix.Tools.Tool
             }
         }
 
+        /// <summary>
+        /// 写入条纯文本日志
+        /// </summary>
+        /// <param name="text"></param>
         public static void WritePur(string text)
         {
             string dirPath = PathHandle.GetFilePath(logPath.TrimEnd('/') + "/");
-            //string dirPath = "D:\\web\\dzsc.com\\file1\\promulti\\log\\";
+            WritePur(text, dirPath);
+        }
+
+        /// <summary>
+        /// 写入条纯文本日志
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="dirPath"></param>
+        public static void WritePur(string text, string dirPath)
+        {
             string filePath = dirPath + "log_" + DateTime.Now.Year + "_" + DateTime.Now.Month + "_" + DateTime.Now.Day + ".log";
             if (!Directory.Exists(dirPath))
             {
@@ -74,14 +88,18 @@ namespace FancyFix.Tools.Tool
             }
         }
 
-        public static void WritePur(string text, string dirPath)
+        /// <summary>
+        /// 插入纯净的日志行
+        /// </summary>
+        /// <param name="text"></param>
+        public static void WritePure(string text)
         {
+            string dirPath = PathHandle.GetFilePath(logPath.TrimEnd('/') + "/");
             string filePath = dirPath + "log_" + DateTime.Now.Year + "_" + DateTime.Now.Month + "_" + DateTime.Now.Day + ".log";
             if (!Directory.Exists(dirPath))
             {
                 Directory.CreateDirectory(dirPath);
             }
-            text = " ######################### " + DateTime.Now.ToString() + "#########################\r\n" + " " + text + "\r\n\r\n";
             using (StreamWriter sw = new StreamWriter(filePath, true, Encoding.Default))
             {
                 sw.WriteLine(text);

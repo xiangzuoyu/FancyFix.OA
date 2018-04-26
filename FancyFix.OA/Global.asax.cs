@@ -33,6 +33,11 @@ namespace FancyFix.OA
             AdminData.Load();
         }
 
+        protected void Application_End(object sender, EventArgs e)
+        {
+           
+        }
+
         //让WebApi支持Session
         public override void Init()
         {

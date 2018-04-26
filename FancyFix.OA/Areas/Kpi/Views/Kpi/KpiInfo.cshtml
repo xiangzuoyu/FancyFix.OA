@@ -63,7 +63,19 @@
                     </td>
                 </tr>
                 <tr>
-                    <td align="right"><label for="parusername" class="control-label">评分人：</label></td>
+                    <td align="right"><label for="parusername" class="control-label">自评分：</label></td>
+                    <td>
+                        @Model.SelfScore
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><label for="parusername" class="control-label">自评备注：</label></td>
+                    <td>
+                        @Model.SelfRemark
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right"><label for="parusername" class="control-label">最终评分人：</label></td>
                     <td>
                         @Model.ParUserName
                     </td>
@@ -71,7 +83,7 @@
                 @if (!isInner)
                 {
                     <tr>
-                        <td align="right"><label for="parscore" class="control-label">得分：</label></td>
+                        <td align="right"><label for="parscore" class="control-label">最终得分：</label></td>
                         <td>
                             @if (Model.IsApprove.Value)
                             {

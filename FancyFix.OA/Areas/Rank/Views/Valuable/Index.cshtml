@@ -1,9 +1,9 @@
-﻿@using FancyFix.OA.Model.Business
+﻿@using FancyFix.OA.Model
 @{
     ViewBag.Title = "Valuable";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    List<Rank_Valuable> ranklist = ViewBag.ranklist;
+    List<Mng_User> ranklist = ViewBag.ranklist;
     int startyear = ViewBag.startyear;
     List<int?> yearlist = ViewBag.yearlist;
     List<int> monthlist = ViewBag.monthlist;
@@ -12,6 +12,8 @@
     int fromMonth = ViewBag.fromMonth;
     int toMonth = ViewBag.toMonth;
     double top = ViewBag.top;
+    int departId = ViewBag.departId;
+    string realname = ViewBag.realname;
 }
 @section Css{
     <link href="/Content/js/plugins/datatables/bootstrap-table.min.css" rel="stylesheet" />
@@ -47,21 +49,26 @@
                         <option value="@month" @(month == toMonth ? "selected" : "")>@month 月</option>
                     }
                 </select>
+                <select id="departId" name="departId" class="layui-select" style="max-width:150px;">
+                    <option value="0">├所有部门</option>
+                    @Html.Raw(ViewBag.departHtml)
+                </select>
             </div>
             <div class="pull-left form-group" style="margin-left:5px;">
                 <span class="form-contorl pull-left layui-form-mid">取前</span>
                 <input type="text" name="top" id="top" placeholder="%" class="layui-input pull-left" value="@top" style="max-width:60px">
                 <span class="form-contorl pull-left layui-form-mid">%</span>
-                <a id="btn-submit" href="javascript:void(0)" class="btn btn-default pull-left">确定</a>
+                <span class="form-contorl pull-left layui-form-mid">姓名</span>
+                <input type="text" name="realname" id="realname" class="layui-input pull-left" value="@realname" style="max-width:80px">
+                <a id="btn-submit" href="javascript:void(0)" class="btn btn-default pull-left" style="margin-left:5px;">确定</a>
             </div>
             <a href="/rank/rank" class="btn btn-default pull-right">返回</a>
         </div>
         <div class="box-header">
             <div class="form-group form-inline">
-
                 @if (IsSuperAdmin || IsDepartAdmin)
                 {
-                    <a href="/rank/valuable/toexcelrank?year=@year&fromMonth=@fromMonth&toMonth=@toMonth&top=@top" class="btn btn-default pull-left">导出到Excel</a>
+                    <a href="/rank/valuable/toexcelrank?year=@year&fromMonth=@fromMonth&toMonth=@toMonth&top=@top&departId=@departId&realname=@realname" class="btn btn-default pull-left">导出到Excel</a>
                 }
             </div>
         </div>
@@ -73,6 +80,7 @@
                             <th style="text-align:center;">排名</th>
                             <th style="text-align:center;">姓名</th>
                             <th style="text-align:center;" class="hidden-xs">部门</th>
+                            <th style="text-align:center;" class="hidden-xs">岗位</th>
                             <th style="text-align:center;">统计次数</th>
                             <th style="text-align:center;">总分</th>
                             <th style="text-align:center;">操作</th>
@@ -84,11 +92,12 @@
                                 <tr>
                                     <td align="center">@item.Rank</td>
                                     <td align="center">@item.RealName</td>
-                                    <td align="center" class="hidden-xs">@item.DepartName</td>
-                                    <td align="center">@item.CountTime</td>
+                                    <td align="center" class="hidden-xs">@item.DepartMentName</td>
+                                    <td align="center" class="hidden-xs">@item.GroupName</td>
+                                    <td align="center">@item.Count</td>
                                     <td align="center">@item.Score</td>
                                     <td align="center">
-                                        <a href="/rank/valuable/valuelist/@item.UserId?year=@year&fromMonth=@fromMonth&toMonth=@toMonth" class="btn btn-warning">查看</a>
+                                        <a href="/rank/valuable/valuelist/@item.Id?year=@year&fromMonth=@fromMonth&toMonth=@toMonth" class="btn btn-warning">查看</a>
                                     </td>
                                 </tr>
                             }
@@ -119,45 +128,32 @@
         layui.use(['layer'], function () {
             var layer = layui.layer;
 
-            $("#year").change(function () {
-                var year = $(this).val();
-                var fromMonth = $("#fromMonth").val();
-                var toMonth = $("#toMonth").val();
-                var top = $("#top").val();
-                PostWhere(year, fromMonth, toMonth, top);
-            })
-
-            $("#fromMonth").change(function () {
-                var fromMonth = $(this).val();
-                var year = $("#year").val();
-                var toMonth = $("#toMonth").val();
-                var top = $("#top").val();
-                PostWhere(year, fromMonth, toMonth, top);
-            })
-
-            $("#toMonth").change(function () {
-                var toMonth = $(this).val();
-                var year = $("#year").val();
-                var fromMonth = $("#fromMonth").val();
-                var top = $("#top").val();
-                PostWhere(year, fromMonth, toMonth, top);
+            $("#year,#fromMonth,#toMonth,#departId").change(function () {
+                PostWhere();
             })
 
             $("#btn-submit").click(function () {
-                var top = $("#top").val();
-                var year = $("#year").val();
-                var fromMonth = $("#fromMonth").val();
-                var toMonth = $("#toMonth").val();
-                PostWhere(year, fromMonth, toMonth, top);
+                PostWhere();
             })
 
-            function PostWhere(year, fromMonth, toMonth, top) {
+            function PostWhere() {
+                var year = $("#year").val();
+                var toMonth = $("#toMonth").val();
+                var fromMonth = $("#fromMonth").val();
+                var departId = $("#departId").val();
+                var realname = $("#realname").val();
+                var top = $("#top").val();
+
                 if (CheckMonth(fromMonth, toMonth)) {
                     var where = "year=" + parseInt(year);
-                    if (fromMonth > 0)
-                        where += "&fromMonth=" + parseInt(fromMonth);
                     if (toMonth > 0)
                         where += "&toMonth=" + parseInt(toMonth);
+                    if (fromMonth > 0)
+                        where += "&fromMonth=" + parseInt(fromMonth);
+                    if (departId > 0)
+                        where += "&departId=" + parseInt(departId);
+                    if (realname != "")
+                        where += "&realname=" + realname;
                     if (top > 0)
                         where += "&top=" + parseFloat(top);
                     window.location.href = window.location.pathname + "?" + where;

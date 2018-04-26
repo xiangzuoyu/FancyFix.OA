@@ -356,5 +356,19 @@ namespace FancyFix.OA.Bll
             where.And(o => o.ParUserId == parUserId && o.Id != parUserId);
             return Db.Context.From<Mng_User>().Where(where).Count();
         }
+
+        /// <summary>
+        /// 获取所有用户，离职的人排到最后
+        /// </summary>
+        /// <returns></returns>
+        public static List<Mng_User> GetAllUser(int departId = 0)
+        {
+            string where = "where 1=1";
+            if (departId > 0)
+                where += " and a.departId=" + departId;
+            string cols = "a.Id,a.UserName,a.RealName,a.Sex,a.Email,a.InJob,a.DepartId,a.GroupId,b.ClassName as DepartMentName,c.GroupName,ParUserId";
+            string join = "left join Mng_DepartmentClass b on a.DepartId = b.Id left join Mng_PermissionGroup c on a.GroupId = c.Id";
+            return Db.Context.FromSql($"select {cols} from Mng_User a {join} {where} order by a.InJob desc,a.Id asc").ToList<Mng_User>();
+        }
     }
 }

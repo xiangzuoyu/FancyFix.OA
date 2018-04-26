@@ -4,6 +4,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     List<Valuable_List> valuablelist = ViewBag.valuablelist;
     List<Valuable_Records> recordlist = ViewBag.recordlist;
+    int year = ViewBag.currentYear;
+    int month = ViewBag.currentMonth;
 }
 @section Css{
     <link href="/Content/js/plugins/datatables/bootstrap-table.min.css" rel="stylesheet" />
@@ -44,7 +46,15 @@
                                         }
                                         else
                                         {
-                                            <a href="/valuable/valuable/valuerecord/@item.Id?year=@ViewBag.currentYear&month=@ViewBag.currentMonth" class="btn btn-warning">自评</a>
+                                            int nextWorkmonth = GetNextWorkerMonth(year, month);
+                                            if (DateTime.Now <= (year + "-" + nextWorkmonth + "-" + (KpiCreateEndDay + 1)).ToDateTime())
+                                            {
+                                                <a href="/valuable/valuable/valuerecord/@item.Id?year=@ViewBag.currentYear&month=@ViewBag.currentMonth" class="btn btn-warning">自评</a>
+                                            }
+                                            else
+                                            {
+                                                <span>自评已截止</span>
+                                            }
                                         }
                                     </td>
                                 </tr>

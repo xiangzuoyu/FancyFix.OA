@@ -13,18 +13,12 @@ namespace FancyFix.ThirdPartyPlatform.Controllers
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult ToWeixin()
         {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            string url = Request.Params["url"].ToString2().ToUrlEncode();
+            if (string.IsNullOrEmpty(url) || !url.Contains("http://") || !url.Contains("https://"))
+                url = "https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzA3OTM5NTkxNA==&scene=124#wechat_redirect";
+            return Redirect(url);
         }
     }
 }

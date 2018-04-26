@@ -116,6 +116,7 @@
     <Compile Include="Auth\LinkinHelper.cs" />
     <Compile Include="Auth\WebApiHelper.cs" />
     <Compile Include="Auth\WechatHelper.cs" />
+    <Compile Include="Entity\Rank.cs" />
     <Compile Include="Json\DISC.cs" />
     <Compile Include="Enums\Site.cs" />
     <Compile Include="Mapper\MappingHelper.cs" />

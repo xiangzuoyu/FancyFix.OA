@@ -1,9 +1,8 @@
 ﻿@using FancyFix.OA.Model;
 @model Kpi_Records
 @{
-    ViewBag.Title = "ChildKpiApprove";
+    ViewBag.Title = "SelfApprove";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var userinfo = FancyFix.OA.Bll.BllMng_User.First(o => o.Id == Model.UserId);
 }
 
 @section Css{
@@ -17,7 +16,7 @@
 }
 <div class="row">
     <div class="col-md-12">
-        <form id="mainform" action="/kpi/kpi/childkpisave" method="post">
+        <form id="mainform" action="/kpi/kpi/selfapprovesave" method="post">
             <table class="layui-table">
                 <!--列宽度-->
                 <colgroup>
@@ -25,21 +24,6 @@
                     <col class="col-lg-10 col-xs-9">
                 </colgroup>
                 <tbody>
-                    <tr>
-                        <td align="right"><label for="year" class="control-label">员工：</label></td>
-                        <td>
-                            @Model.UserName
-                        </td>
-                    </tr>
-                    @if (userinfo != null && !string.IsNullOrEmpty(userinfo.Pic))
-                    {
-                        <tr>
-                            <td align="right"><label for="year" class="control-label">头像：</label></td>
-                            <td>
-                                <img src="@userinfo.Pic" alt="@Model.UserName" width="80" height="80" />
-                            </td>
-                        </tr>
-                    }
                     <tr>
                         <td align="right"><label for="year" class="control-label">进程：</label></td>
                         <td>
@@ -58,23 +42,6 @@
                             @Model.Content
                         </td>
                     </tr>
-                    @*<tr>
-                        <td align="right"><label for="target_highest" class="control-label">目标：</label></td>
-                        <td>
-                            @if (!string.IsNullOrWhiteSpace(Model.Target_Highest))
-                            {
-                                <p>挑战目标:  @Model.Target_Highest</p>
-                            }
-                            @if (!string.IsNullOrWhiteSpace(Model.Target_Normal))
-                            {
-                                <p>标准目标:  @Model.Target_Normal</p>
-                            }
-                            @if (!string.IsNullOrWhiteSpace(Model.Target_Lowest))
-                            {
-                                <p>最低目标:  @Model.Target_Lowest</p>
-                            }
-                        </td>
-                    </tr>*@
                     <tr>
                         <td align="right"><label for="score" class="control-label">权重：</label></td>
                         <td>
@@ -88,22 +55,10 @@
                         </td>
                     </tr>
                     <tr>
-                        <td align="right"><label for="score" class="control-label">自评分：</label></td>
-                        <td>
-                            @Model.SelfScore
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="right"><label for="scoreremark" class="control-label">自评备注：</label></td>
-                        <td>
-                            @Model.SelfRemark
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="right"><label for="scoreremark" class="control-label">得分：</label></td>
+                        <td align="right"><label for="scoreremark" class="control-label">自评分：</label></td>
                         <td>
                             <div class="form-group form-inline">
-                                <input type="text" class="form-control" id="parscore" name="parscore" value="@Model.ParScore" required="required" maxlength="50" style="width:60px;" integer="true" max="120" min="0">
+                                <input type="text" class="form-control" id="selfscore" name="selfscore" value="@Model.SelfScore" required="required" maxlength="50" style="width:60px;" integer="true" max="120" min="0">
                                 <span class="layui-word-aux"> （可打0-120分）</span>
                             </div>
                         </td>
@@ -111,7 +66,7 @@
                     <tr>
                         <td align="right"><label for="scoreremark" class="control-label">备注：</label></td>
                         <td>
-                            <textarea class="form-control" id="remark" name="remark" maxlength="2000">@Model.Remark</textarea>
+                            <textarea class="form-control" id="selfremark" name="selfremark" maxlength="2000">@Model.SelfRemark</textarea>
                         </td>
                     </tr>
                     <tr>
@@ -119,7 +74,7 @@
                         <td>
                             <input type="hidden" id="id" name="id" value="@Model.Id">
                             <button type="submit" id="btnPass" class="btn btn-primary">提交</button>
-                            <a href="/kpi/kpi/childkpilist/@Model.UserId?year=@Model.Year&month=@Model.Month" id="cancel" class="btn btn-default">返回</a>
+                            <a href="/kpi/kpi/kpilist?year=@Model.Year&month=@Model.Month" id="cancel" class="btn btn-default">返回</a>
                         </td>
                     </tr>
                 </tbody>

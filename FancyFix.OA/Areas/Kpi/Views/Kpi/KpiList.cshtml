@@ -46,6 +46,7 @@
                                 <th style="text-align:center;" class="hidden-xs">定义</th>
                                 @*<th style="text-align:center;" class="hidden-xs">目标值</th>*@
                                 <th style="text-align:center;">权重</th>
+                                <th style="text-align:center;">自评</th>
                                 <th style="text-align:center;">评分人</th>
                                 <th style="text-align:center;">状态</th>
                                 <th style="text-align:center;">操作</th>
@@ -72,6 +73,7 @@
                                                 }
                                             </td>*@
                                         <td align="center"><span class="badge bg-green">@item.Score %</span></td>
+                                        <td align="center"><span class="badge bg-yellow">@item.SelfScore</span></td>
                                         <td align="center">@item.ParUserName</td>
                                         <td align="center">
                                             @if (item.IsApprove.Value)
@@ -84,9 +86,14 @@
                                             }
                                         </td>
                                         <td align="center">
-                                            @if (item.IsApprove.Value || (Model.IsCreated ?? false))
+                                            @if ((bool)item.IsApprove || (bool)Model.IsCreated || DateTime.Now >= GetKpiCreateEndDay(year, month))
                                             {
                                                 <a href="/kpi/kpi/kpiinfo/@item.Id" class="btn btn-warning">查看</a>
+                                                <!--当前时间小于截止日期，则还能对上月的任务进行自评-->
+                                                if ((bool)Model.IsCreated && !(bool)item.IsApprove && DateTime.Now.AddMonths(-1) < GetKpiCreateEndDay(year, month))
+                                                {
+                                                    <a href="/kpi/kpi/selfapprove/@item.Id" class="btn btn-warning">自评</a>
+                                                }
                                             }
                                             else
                                             {
@@ -111,9 +118,11 @@
                                     <div class="pull-left">
                                         @Html.Raw((Model.IsCreated ?? false) ? "<span class=\"badge bg-green\">该进程已生成</span>" : "<span class=\"badge bg-red\">该进程未生成</span>")
                                     </div>
-                                    @if (!(Model.IsCreated ?? false))
+                                    <!--当前进程未生成且当前时间小于该月生成截止日期，则可以生成该月进程-->
+                                    @if (!(Model.IsCreated ?? false) && DateTime.Now < GetKpiCreateEndDay(year, month))
                                     {
                                         <div class="pull-right">
+
                                             <button type="button" id="btnPass" class="btn btn-primary">生成进程</button>
                                         </div>
                                     }

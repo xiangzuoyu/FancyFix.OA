@@ -21,5 +21,15 @@ namespace FancyFix.OA.Model
         public int Score { get; set; }
 
         public string ClassName { get; set; }
+
+        public int Rank { get; set; }
+
+        public bool IsCreated { get; set; }
+
+        public int Count { get; set; }
+
+        public int SelfScore { get; set; }
+
+        public int ParScore { get; set; }
     }
 }

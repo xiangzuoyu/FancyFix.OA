@@ -97,13 +97,13 @@ namespace FancyFix.OA.Bll
         /// <summary>
         /// 获取排名列表
         /// </summary>
-        /// <param name="fromYear"></param>
+        /// <param name="year"></param>
         /// <param name="fromMonth"></param>
         /// <param name="toMonth"></param>
         /// <returns></returns>
-        public static List<Rank_Valuable> GetRankList(int fromYear, int fromMonth = 0, int toMonth = 0)
+        public static List<Rank_Valuable> GetRankList(int year, int fromMonth = 0, int toMonth = 0)
         {
-            string where = $"IsApprove=1 and year={fromYear}";
+            string where = $"IsApprove=1 and year={year}";
             string whereMonth = string.Empty;
 
             if (fromMonth > 0 && fromMonth <= 12)
@@ -122,6 +122,47 @@ namespace FancyFix.OA.Bll
                 $" inner join Mng_User b on a.UserId = b.Id " +
                 $" where {where} and b.InJob=1 group by RealName,UserId order by sum(Score) desc";
             return Db.Context.FromSql(sql).ToList<Rank_Valuable>();
+        }
+
+        /// <summary>
+        /// 获取所有用户排名列表
+        /// </summary>
+        /// <param name="year"></param>
+        /// <param name="fromMonth"></param>
+        /// <param name="toMonth"></param>
+        /// <returns></returns>
+        public static List<Mng_User> GetUserRankList(int year, int fromMonth = 0, int toMonth = 0, int departId = 0, string realname = "")
+        {
+            string where = $"IsApprove=1 and year={year}";
+
+            string whereMonth = string.Empty;
+            if (fromMonth > 0 && fromMonth <= 12 && toMonth > 0 && toMonth <= 12 && toMonth == fromMonth)
+                whereMonth = $" and month = {fromMonth} ";
+            else if (toMonth > 0 && toMonth <= 12 && toMonth > fromMonth)
+                whereMonth = $" and month >= {fromMonth} and month <= {toMonth} ";
+            else if (fromMonth > 0 && fromMonth <= 12)
+                whereMonth = $" and month >= {fromMonth} ";
+
+            where = where + whereMonth;
+
+            string where1 = " where 1=1";
+            if (realname != "")
+                where1 += $" and RealName like '{CheckSqlValue(realname)}%'";
+            if (departId > 0)
+                where1 += " and a.DepartId=" + departId;
+
+            string cols = "a.Id,UserName,RealName,Sex,Email,InJob,b.ClassName as DepartMentName,c.GroupName,ParUserId,";
+            cols += $"(select sum(Score) from Valuable_Records where {where} and UserId = a.Id) as Score,";
+            cols += $"(select count(1) from (select Month from Valuable_Records where {where} and UserId = a.Id group by Month) as tb) as Count";
+
+            string sql = $"select * from (" +
+                 $" select top 100 percent {cols} from Mng_User a " +
+                 $" left join Mng_DepartmentClass b on a.DepartId = b.Id" +
+                 $" left join Mng_PermissionGroup c on a.GroupId = c.Id" +
+                 where1 +
+                 $" order by InJob desc,a.Id asc" +
+                 $") as tb order by Score desc";
+            return Db.Context.FromSql(sql).ToList<Mng_User>();
         }
 
         /// <summary>

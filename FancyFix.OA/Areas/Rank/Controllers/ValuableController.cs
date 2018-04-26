@@ -16,6 +16,8 @@ namespace FancyFix.OA.Areas.Rank.Controllers
             int fromMonth = RequestInt("fromMonth");
             int toMonth = RequestInt("toMonth");
             double top = RequestDouble("top");
+            string realname = RequestString("realname");
+            int departId = RequestInt("departId");
 
             if (year < StartYear) year = DateTime.Now.Year;
             var workerMonthList = GetWorkerMonthList(year);
@@ -23,9 +25,7 @@ namespace FancyFix.OA.Areas.Rank.Controllers
             if (toMonth == 0) toMonth = workerMonthList.Count > 0 ? workerMonthList[workerMonthList.Count - 1] : 1;
 
             var yearlist = Bll.BllConfig_Process.GetValuableYears();
-            var departList = Bll.BllMng_DepartmentClass.Query(o => o.BeLock == false);
-            var userlist = Bll.BllMng_User.Query(o => o.InJob == true);
-            var ranklist = Bll.BllValuable_Records.GetRankList(year, fromMonth, toMonth);
+            var ranklist = Bll.BllValuable_Records.GetUserRankList(year, fromMonth, toMonth, departId, realname);
             int count = 0;
             int i = 0;
             int lastScore = 0;
@@ -33,23 +33,14 @@ namespace FancyFix.OA.Areas.Rank.Controllers
             {
                 foreach (var item in ranklist)
                 {
-                    var userInfo = userlist.Find(o => o.Id == item.UserId);
-                    if (userInfo != null)
-                    {
-                        var departInfo = departList.Find(o => o.Id == userInfo.DepartId);
-                        if (departInfo != null)
-                        {
-                            item.DepartId = departInfo.Id;
-                            item.DepartName = departInfo.ClassName;
-                        }
-                    }
+                    if (item.InJob.HasValue && !item.InJob.Value)
+                        item.RealName = item.RealName + "【离职】";
                     if (item.Score != lastScore) i++;
                     item.Rank = i;
                     lastScore = item.Score;
                 }
                 count = ranklist.Count;
             }
-
             //筛选
             if (count > 0 && top > 0)
             {
@@ -60,14 +51,17 @@ namespace FancyFix.OA.Areas.Rank.Controllers
                     ranklist = ranklist.Where(o => o.Rank <= take).ToList();
             }
 
+            ViewBag.departHtml = GetDepartOptions(departId);
             ViewBag.year = year;
             ViewBag.fromMonth = fromMonth;
             ViewBag.toMonth = toMonth;
             ViewBag.top = top;
+            ViewBag.realname = realname;
             ViewBag.startyear = StartYear;
             ViewBag.yearlist = yearlist;
             ViewBag.monthlist = workerMonthList;
             ViewBag.ranklist = ranklist;
+            ViewBag.departId = departId;
             return View();
         }
 
@@ -102,28 +96,18 @@ namespace FancyFix.OA.Areas.Rank.Controllers
             int fromMonth = RequestInt("fromMonth");
             int toMonth = RequestInt("toMonth");
             double top = RequestDouble("top");
+            string realname = RequestString("realname");
+            int departId = RequestInt("departId");
 
-            var ranklist = Bll.BllValuable_Records.GetRankList(year, fromMonth, toMonth);
+            var ranklist = Bll.BllValuable_Records.GetUserRankList(year, fromMonth, toMonth, departId, realname);
             int i = 0;
             int lastScore = 0;
             if (ranklist != null && ranklist.Count > 0)
             {
-                var departList = Bll.BllMng_DepartmentClass.Query(o => o.BeLock == false);
-                var grouplist = Bll.BllMng_PermissionGroup.Query(o => o.BeLock == false);
-                var userlist = Bll.BllMng_User.Query(o => o.InJob == true);
                 foreach (var item in ranklist)
                 {
-                    var userInfo = userlist.Find(o => o.Id == item.UserId);
-                    if (userInfo != null)
-                    {
-                        var departInfo = departList.Find(o => o.Id == userInfo.DepartId);
-                        if (departInfo != null)
-                        {
-                            item.DepartId = departInfo.Id;
-                            item.DepartName = departInfo.ClassName;
-                            item.GroupName = grouplist?.Find(o => o.Id == userInfo.GroupId)?.GroupName ?? "";
-                        }
-                    }
+                    if (item.InJob.HasValue && !item.InJob.Value)
+                        item.RealName = item.RealName + "【离职】";
                     if (item.Score != lastScore) i++;
                     item.Rank = i;
                     lastScore = item.Score;
@@ -145,14 +129,16 @@ namespace FancyFix.OA.Areas.Rank.Controllers
                 dt.Columns.Add("部门", typeof(String));
                 dt.Columns.Add("岗位", typeof(String));
                 dt.Columns.Add("得分", typeof(String));
+                dt.Columns.Add("统计次数", typeof(String));
                 foreach (var item in ranklist)
                 {
                     var row = dt.NewRow();
                     row["排名"] = item.Rank;
                     row["员工"] = item.RealName;
-                    row["部门"] = item.DepartName;
+                    row["部门"] = item.DepartMentName;
                     row["岗位"] = item.GroupName;
                     row["得分"] = item.Score;
+                    row["得分"] = item.Count;
                     dt.Rows.Add(row);
                 }
                 string fileName = "进程：" + year + "年" + fromMonth + (toMonth > fromMonth ? "至" + toMonth : "") + "月" + "价值观" + (top > 0 ? "前" + top + "%" : "") + "排名";

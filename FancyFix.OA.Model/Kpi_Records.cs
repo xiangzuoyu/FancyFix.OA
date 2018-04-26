@@ -48,6 +48,10 @@ namespace FancyFix.OA.Model
 		private string _TargetRemark;
 		private int? _ParScore;
 		private int? _FinishScore;
+		private int? _SelfScore;
+		private string _SelfRemark;
+		private DateTime? _SelfApproveTime;
+		private bool? _IsSelfApprove;
 		/// <summary>
 		/// 
 		/// </summary>
@@ -312,6 +316,54 @@ namespace FancyFix.OA.Model
 				this._FinishScore=value;
 			}
 		}
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? SelfScore
+		{
+			get{ return _SelfScore; }
+			set
+			{
+				this.OnPropertyValueChange(_.SelfScore,_SelfScore,value);
+				this._SelfScore=value;
+			}
+		}
+		/// <summary>
+		/// 
+		/// </summary>
+		public string SelfRemark
+		{
+			get{ return _SelfRemark; }
+			set
+			{
+				this.OnPropertyValueChange(_.SelfRemark,_SelfRemark,value);
+				this._SelfRemark=value;
+			}
+		}
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? SelfApproveTime
+		{
+			get{ return _SelfApproveTime; }
+			set
+			{
+				this.OnPropertyValueChange(_.SelfApproveTime,_SelfApproveTime,value);
+				this._SelfApproveTime=value;
+			}
+		}
+		/// <summary>
+		/// 
+		/// </summary>
+		public bool? IsSelfApprove
+		{
+			get{ return _IsSelfApprove; }
+			set
+			{
+				this.OnPropertyValueChange(_.IsSelfApprove,_IsSelfApprove,value);
+				this._IsSelfApprove=value;
+			}
+		}
 		#endregion
 
 		#region Method
@@ -357,7 +409,11 @@ namespace FancyFix.OA.Model
 				_.IsCreated,
 				_.TargetRemark,
 				_.ParScore,
-				_.FinishScore};
+				_.FinishScore,
+				_.SelfScore,
+				_.SelfRemark,
+				_.SelfApproveTime,
+				_.IsSelfApprove};
 		}
 		/// <summary>
 		/// 获取值信息
@@ -386,7 +442,11 @@ namespace FancyFix.OA.Model
 				this._IsCreated,
 				this._TargetRemark,
 				this._ParScore,
-				this._FinishScore};
+				this._FinishScore,
+				this._SelfScore,
+				this._SelfRemark,
+				this._SelfApproveTime,
+				this._IsSelfApprove};
 		}
 		#endregion
 
@@ -488,6 +548,22 @@ namespace FancyFix.OA.Model
 			/// 
 			/// </summary>
 			public readonly static Field FinishScore = new Field("FinishScore","Kpi_Records","FinishScore");
+			/// <summary>
+			/// 
+			/// </summary>
+			public readonly static Field SelfScore = new Field("SelfScore","Kpi_Records","SelfScore");
+			/// <summary>
+			/// 
+			/// </summary>
+			public readonly static Field SelfRemark = new Field("SelfRemark","Kpi_Records","SelfRemark");
+			/// <summary>
+			/// 
+			/// </summary>
+			public readonly static Field SelfApproveTime = new Field("SelfApproveTime","Kpi_Records","SelfApproveTime");
+			/// <summary>
+			/// 
+			/// </summary>
+			public readonly static Field IsSelfApprove = new Field("IsSelfApprove","Kpi_Records","IsSelfApprove");
 		}
 		#endregion
 

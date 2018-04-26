@@ -20,10 +20,10 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             return View();
         }
 
-        public JsonResult PageList(int page = 0, int pagesize = 0, int selectLabelid = 0)
+        public JsonResult PageList(int page = 0, int pagesize = 0, int selectLabelid = 0, string files = "", string key = "")
         {
             long records = 0;
-            var list = Bll.BllSupplier_List.PageList(page, pagesize, out records, selectLabelid);
+            var list = Bll.BllSupplier_List.PageList(page, pagesize, out records, selectLabelid,files,key);
             foreach (var item in list)
             {
                 item.SupplierTypeName = item.SupplierType != null

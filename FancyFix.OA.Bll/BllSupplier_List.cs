@@ -14,12 +14,21 @@ namespace FancyFix.OA.Bll
             return new BllSupplier_List();
         }
 
-        public static IEnumerable<Supplier_List> PageList(int page, int pageSize, out long records, int labelId)
+        public static IEnumerable<Supplier_List> PageList(int page, int pageSize, out long records, int labelId,string file, string key)
         {
             var where = new Where<Supplier_List>();
             where.And(o => o.Display != 2);
             if (labelId > 0)
                 where.And(o => o.LabelId == labelId);
+
+           
+            if (!string.IsNullOrEmpty(file) && !string.IsNullOrEmpty(key))
+            {
+                file = CheckSqlValue(file);
+                key = CheckSqlKeyword(key);
+                where.And(string.Format(" {0} like '%{1}%' ",file, key));
+            }
+
             var p = Db.Context.From<Supplier_List>()
                 .Where(where);
             records = p.Count();

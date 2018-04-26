@@ -36,7 +36,7 @@ namespace FancyFix.OA.Bll
             return p.Page(pageSize, page).OrderByDescending(o => o.SubmittedDate).ToList();
         }
 
-        public static DataTable GetRankList(string startdate, int isAdmin)
+        public static DataTable GetRankList(string startdate, int departId, int isAdmin)
         {
             var where = new Where<Design_ArtTaskList>();
             //where.And(o => o.Display == 5);
@@ -51,19 +51,27 @@ namespace FancyFix.OA.Bll
             if (!string.IsNullOrEmpty(startdate))
             {
                 dateTime = startdate.ToDateTime();
-                sqlWhere += $"and CompletionDate>='{dateTime.ToString("yyyy - MM") + " - 01"}' " +
-                            $"and CompletionDate<'{dateTime.AddMonths(1).ToString("yyyy - MM") + " - 01"}'";
+                sqlWhere += $"and Month(CompletionDate)={dateTime.Month}";
             }
-            string sql = "select a.id,RealName,GroupName, (select sum(" + score + "Score) from Design_ArtTaskList " + sqlWhere +
-                        ") / (select count(*) from Design_ArtTaskList " + sqlWhere + ") as 平均分 from Mng_User a" +
-                        " left join Mng_PermissionGroup b on a.GroupId = b.Id where a.DepartId = 10 and b.IsAdmin = " + isAdmin;
+            //列
+            string cols = "a.id,RealName,GroupName,";
+            cols += "(select sum(" + score + "Score) from Design_ArtTaskList " + sqlWhere + ") / (select count(*) from Design_ArtTaskList " + sqlWhere + ") as Score";
+
+            string sql = $"select * from (select top 100 percent {cols} from Mng_User a " +
+                         $"left join Mng_PermissionGroup b on a.GroupId = b.Id where a.DepartId = {departId} and b.IsAdmin ={isAdmin}) as tb order by Score desc,Id asc";
 
             return Db.Context.FromSql(sql).ToDataTable();
         }
 
-        public static List<int> DesignIds(int isAdmin)
+        /// <summary>
+        /// 获取设计部下面的员工
+        /// </summary>
+        /// <param name="departId"></param>
+        /// <param name="isAdmin"></param>
+        /// <returns></returns>
+        public static List<int> DesignIds(int departId, int isAdmin)
         {
-            string sql = "select a.id from Mng_User a LEFT JOIN Mng_PermissionGroup b on a.GroupId = b.Id where a.DepartId = 10 and b.IsAdmin = " + isAdmin;
+            string sql = "select a.id from Mng_User a LEFT JOIN Mng_PermissionGroup b on a.GroupId = b.Id where a.DepartId = " + departId + " and b.IsAdmin = " + isAdmin;
 
             return Db.Context.FromSql(sql).ToList<int>();
         }

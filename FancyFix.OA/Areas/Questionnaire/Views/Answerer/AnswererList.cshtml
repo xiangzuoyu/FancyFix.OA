@@ -14,6 +14,10 @@
             <h3 class="box-title">问卷【@Model.Title】用户提交列表：</h3>
             <a href="/questionnaire/subject/list" class="btn btn-default pull-right">返回</a>
         </div>
+        <div class="box-header">
+            <input type="text" id="name" placeholder="姓名" class="layui-input pull-left" value="@ViewBag.name" style="max-width:100px">
+            <a id="btn-submit" href="javascript:void(0)" class="btn btn-default pull-left" style="margin-left:5px;">确定</a>
+        </div>
         <div class="box">
             <div class="box-body">
                 <table class="table table-bordered">
@@ -99,6 +103,18 @@
                     layer.close(index);
                 });
             });
+
+            $("#btn-submit").click(function () {
+                PostWhere();
+            })
+
+            function PostWhere() {
+                var where = "";
+                var name = $("#name").val();
+                if (name != "")
+                    where += "name=" + name;
+                window.location.href = window.location.pathname + "?" + where;
+            }
         })
     </script>
 }

@@ -8,11 +8,15 @@ using System.Text;
 using System.Web.Mvc;
 using System.Data;
 using System.IO;
+using System.Configuration;
 
 namespace FancyFix.OA.Base
 {
     public class BaseAdminController : BaseController, IAdminInfo
     {
+        //设计部门Id
+        protected static int DesignDepartId = ConfigurationManager.AppSettings["DesignDepartId"]?.ToInt32() ?? 10;
+
         private Mng_User myInfo; //当前管理员对象 
 
         /// <summary>
@@ -641,7 +645,7 @@ namespace FancyFix.OA.Base
 
         protected static int StartYear = System.Configuration.ConfigurationManager.AppSettings["StartYear"].ToString2().ToInt32();
         protected static int WorkerEndDay = System.Configuration.ConfigurationManager.AppSettings["WorkerEndDay"].ToString2().ToInt32();
-        protected static int KpiCreateEndDay = System.Configuration.ConfigurationManager.AppSettings["KpiCreateEndDay"].ToString2().ToInt32();
+        protected static int CreateEndDay = System.Configuration.ConfigurationManager.AppSettings["CreateEndDay"].ToString2().ToInt32();
 
         public List<int> GetWorkerMonthList(int year)
         {

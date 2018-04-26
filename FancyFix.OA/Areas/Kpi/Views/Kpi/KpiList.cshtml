@@ -33,7 +33,14 @@
             </select>
         </div>
         <div class="box-body">
-            <a href="/kpi/kpi/kpiadd?year=@year&month=@month&pid=@Model.Id" id="addnew" class="btn btn-default pull-left">新建指标</a>
+            @if (DateTime.Now < GetKpiCreateEndDay(year, month))
+            {
+                <a href="/kpi/kpi/kpiadd?year=@year&month=@month&pid=@Model.Id" id="addnew" class="btn btn-default pull-left">新建指标</a>
+            }
+            else
+            {
+                <a href="javascript:void(0)" class="btn btn-default pull-left btnTimeout" disabled="disabled">新建指标</a>
+            }
             <a href="/kpi/kpi/index" class="btn btn-default pull-right">返回</a>
         </div>
         <div class="box">
@@ -122,8 +129,13 @@
                                     @if (!(Model.IsCreated ?? false) && DateTime.Now < GetKpiCreateEndDay(year, month))
                                     {
                                         <div class="pull-right">
-
                                             <button type="button" id="btnPass" class="btn btn-primary">生成进程</button>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="pull-right">
+                                            <button type="button" class="btn btn-primary btnTimeout" disabled="disabled">生成进程</button>
                                         </div>
                                     }
                                 </td>
@@ -142,30 +154,40 @@
             var layer = layui.layer;
 
             $("#year").change(function () {
-                var year = $(this).val();
-                var month = $("#month").val();
-                PostWhere(year, month);
+                PostWhere();
             })
 
             $("#month").change(function () {
-                var month = $(this).val();
-                var year = $("#year").val();
-                PostWhere(year, month);
+                PostWhere();
             })
 
-            function PostWhere(year, month) {
+            function PostWhere() {
+                var year = $("#year").val();
+                var month = $("#month").val();
                 var where = "year=" + parseInt(year);
                 if (month > 0)
                     where += "&month=" + parseInt(month);
                 window.location.href = window.location.pathname + "?" + where;
             }
 
+            //生成进程
             $("#btnPass").click(function () {
-                layer.confirm('生成成功后，指标项将不能再修改，确定生成吗？', {
+                layer.confirm('进程生成后，指标项将不能再修改！<br>确定生成吗？', {
+                    icon: 6,
                     btn: ['生成', '取消']
                 }, function () {
-                    $("#createform").submit();
+                    layer.confirm('重要的事情说三遍！！！<br>确定吗？确定吗？确定吗？', {
+                        icon: 6,
+                        btn: ['非常确定', '我再看看']
+                    }, function () {
+                        $("#createform").submit();
+                    });
                 });
+            })
+
+            //超时提醒
+            $(".btnTimeout").click(function () {
+                layer.msg('禁止添加，已超过生成当月进程的时间！', { icon: 5 });
             })
 
             $(".btndelete").click(function () {

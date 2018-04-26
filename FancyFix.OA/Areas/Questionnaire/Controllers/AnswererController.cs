@@ -15,8 +15,11 @@ namespace FancyFix.OA.Areas.Questionnaire.Controllers
             int pageSize = 15;
             long records = 0;
 
-            var answererlist = Bll.BllQuestionnaire_Answerer.PageList(0, true, page, pageSize, out records);
+            string name = RequestString("name");
+
+            var answererlist = Bll.BllQuestionnaire_Answerer.PageList(0, true, name, page, pageSize, out records);
             ViewBag.answererlist = answererlist;
+            ViewBag.name = name;
             ViewBag.pageStr = ShowPage((int)records, pageSize, page, 5, "", false);
             return View();
         }
@@ -41,8 +44,11 @@ namespace FancyFix.OA.Areas.Questionnaire.Controllers
             var subject = Bll.BllQuestionnaire_Subject.First(o => o.Id == id);
             if (subject == null) return MessageBoxAndReturn("问卷不存在！");
 
-            var answererlist = Bll.BllQuestionnaire_Answerer.PageList(id, false, page, pageSize, out records);
+            string name = RequestString("name");
+
+            var answererlist = Bll.BllQuestionnaire_Answerer.PageList(id, false, name, page, pageSize, out records);
             ViewBag.answererlist = answererlist;
+            ViewBag.name = name;
             ViewBag.pageStr = ShowPage((int)records, pageSize, page, 5, "", false);
             return View(subject);
         }

@@ -1,4 +1,4 @@
-# FancyFix.OA
+﻿# FancyFix.OA
   FancyFix OA系统
   
 ## 主要模块
@@ -10,3 +10,5 @@
 * 设计需求排期
 * 问卷调查
 * DISC测试
+* 供应商模块
+

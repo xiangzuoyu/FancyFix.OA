@@ -441,7 +441,7 @@ namespace FancyFix.OA.Base
 
         protected static int StartYear = System.Configuration.ConfigurationManager.AppSettings["StartYear"].ToString2().ToInt32();
         protected static int WorkerEndDay = System.Configuration.ConfigurationManager.AppSettings["WorkerEndDay"].ToString2().ToInt32();
-        protected static int KpiCreateEndDay = System.Configuration.ConfigurationManager.AppSettings["KpiCreateEndDay"].ToString2().ToInt32();
+        protected static int CreateEndDay = System.Configuration.ConfigurationManager.AppSettings["CreateEndDay"].ToString2().ToInt32();
 
         public List<int> GetWorkerMonthList(int year)
         {
@@ -502,7 +502,7 @@ namespace FancyFix.OA.Base
         /// <returns></returns>
         protected static DateTime GetKpiCreateEndDay(int year, int month)
         {
-            return (year + "-" + month + "-" + (KpiCreateEndDay + 1)).ToDateTime();
+            return (year + "-" + month + "-" + (CreateEndDay + 1)).ToDateTime();
         }
 
         /// <summary>

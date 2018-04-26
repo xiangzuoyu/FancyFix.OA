@@ -26,7 +26,7 @@
                         <div class="layui-inline">
                             <label class="layui-form-label">选择月份</label>
                             <div class="layui-input-inline">
-                                <input type="text" class="layui-input" id="datetime" name="datetime" />
+                                <input type="text" class="layui-input" id="datetime" name="datetime" value="@DateTime.Now.ToString("yyyy-MM")" />
                             </div>
                         </div>
                         <div class="layui-inline">
@@ -53,7 +53,7 @@
 @section Js{
     <script src="/Content/js/plugins/datatables/bootstrap-table.min.js"></script>
     <script src="/Content/js/plugins/datatables/bootstrap-table-zh-CN.js"></script>
-    
+
     <script src="/Content/js/common/tools.js"></script>
     <script>
         layui.use(['layer', 'form'], function () {
@@ -101,7 +101,7 @@
                             field: 'groupName',
                             title: '岗位名称',
                             align: 'center'
-                        },{
+                        }, {
                             field: 'avgScore',
                             title: '当月平均分',
                             align: 'center'

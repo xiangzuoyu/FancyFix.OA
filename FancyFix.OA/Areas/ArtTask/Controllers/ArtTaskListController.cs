@@ -10,8 +10,8 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
     public class ArtTaskListController : BaseAdminController
     {
         //获取设计部分配任务权限ID
-        List<int> arrIds = Bll.BllDesign_ArtTaskList.DesignIds(0); // ConfigurationManager.AppSettings["ArtTaskIds"];
-        List<int> adminIds = Bll.BllDesign_ArtTaskList.DesignIds(1); //ConfigurationManager.AppSettings["ArtTaskAdminIds"];
+        List<int> arrIds = Bll.BllDesign_ArtTaskList.DesignIds(DesignDepartId, 0); 
+        List<int> adminIds = Bll.BllDesign_ArtTaskList.DesignIds(DesignDepartId, 1);
 
         // GET: ArtTask/ArtTaskList
         public ActionResult List()
@@ -101,7 +101,7 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
             //加载需求
             var adminlist = AdminData.GetList() ?? new List<Mng_User>();
             List<Mng_User> userList = null;
-            userList = adminlist.FindAll(o => o.DepartId == 10) ?? new List<Mng_User>();
+            userList = adminlist.FindAll(o => o.DepartId == DesignDepartId) ?? new List<Mng_User>();
             //没有分配权限时，只显示自己
             if (arrIds.Contains(MyInfo.Id)
                 && !ConfigurationManager.AppSettings["SuperAdminIds"].ToString().Contains($"{MyInfo.Id}"))
@@ -194,7 +194,7 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
 
             //获取设计部人员列表
             var adminlist = AdminData.GetList() ?? new List<Mng_User>();
-            ViewBag.designerList = adminlist.FindAll(o => o.DepartId == 10) ?? new List<Mng_User>();
+            ViewBag.designerList = adminlist.FindAll(o => o.DepartId == DesignDepartId) ?? new List<Mng_User>();
 
             return View(model);
         }

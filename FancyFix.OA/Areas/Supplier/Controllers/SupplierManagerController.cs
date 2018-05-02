@@ -23,7 +23,7 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
         public JsonResult PageList(int page = 0, int pagesize = 0, int selectLabelid = 0, string files = "", string key = "")
         {
             long records = 0;
-            var list = Bll.BllSupplier_List.PageList(page, pagesize, out records, selectLabelid,files,key);
+            var list = Bll.BllSupplier_List.PageList(page, pagesize, out records, selectLabelid, files, key);
             foreach (var item in list)
             {
                 item.SupplierTypeName = item.SupplierType != null
@@ -36,6 +36,7 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
 
             return BspTableJson(list, records);
         }
+
         #endregion
 
         #region 导入Excel
@@ -301,7 +302,11 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
         [HttpPost]
         public ActionResult Save(Supplier_List supplierList)
         {
-            Supplier_List model = Bll.BllSupplier_List.First(o => o.Id == supplierList.Id && o.Display != 2 && o.Id > 0) ?? new Supplier_List();
+            Supplier_List model = Bll.BllSupplier_List.First(o => (o.Code == supplierList.Code || o.Name == supplierList.Name) && o.Display != 2);
+            if (model != null)
+                return LayerMsgErrorAndReturn("供应商代码或，名称重复，请重新输入！");
+
+            model = Bll.BllSupplier_List.First(o => o.Id == supplierList.Id && o.Display != 2) ?? new Supplier_List();
             model.Code = supplierList.Code;
             model.Name = supplierList.Name;
             model.SupplierAb = supplierList.SupplierAb;
@@ -333,6 +338,15 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             }
 
             return LayerMsgSuccessAndRefresh("保存" + (isok ? "成功" : "失败"));
+        }
+
+        //判断供应商code或name是否重复
+        [HttpGet]
+        public JsonResult SupplierIsRepeat(string code = "", string name = "")
+        {
+            var model = Bll.BllSupplier_List.SupplierIsRepeat(code, name);
+            string result = model == null ? "false" : "true";
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
         #endregion
 

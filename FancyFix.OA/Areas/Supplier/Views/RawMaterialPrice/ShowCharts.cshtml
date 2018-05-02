@@ -3,8 +3,15 @@
     ViewBag.Title = "ShowCharts";
     Layout = "~/Views/Shared/_Layout_In.cshtml";
 }
- 
+
 <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+<div style="text-align:center;" class="echartsBtn">
+    <span style="margin-left:50px;color:#1E9FFF;" class="btn btn-default" data-val="1">按月显示</span>
+    <span style="margin-left:10px;color:#5FB878;" class="btn btn-default" data-val="2">按季度显示</span>
+    <span style="margin-left:10px;color:#FF5722;" class="btn btn-default" data-val="3">按年显示</span>
+</div>
+<br /><br />
+
 <div id="main" style="width:100%;height:500px;"></div>
 
 @section Js{
@@ -33,17 +40,125 @@
                     data: [@Html.Raw(ViewBag.legend)]
                 },
                 xAxis: {
-                    data: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"]
+                    data: []
                 },
                 yAxis: {},
-                series: [@Html.Raw(ViewBag.seriesData)]
+                @*series: [@Html.Raw(ViewBag.seriesData)]*@
+                series: [
+                    {
+                        name: "直接访问",
+                        type: "bar",
+                        data: [0]
+                    }
+                ]
             };
             // 使用刚指定的配置项和数据显示图表。
+
             myChart.setOption(option);
-        })
 
+            var fun = {
+                //图表类型，1：按月显示；2：按季度显示；3：按年显示
+                chartType:1,
+                chartLegend:[@Html.Raw(ViewBag.legend)],
+                chartData: @ViewBag.seriesData,
+                init: function () { },
+                //根据图表类型选择X轴
+                xAxisSwitch: function (type) {
+                    var arr = ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"];
+                    switch (type)
+                    {
+                        case 1:
+                            //不需要变
+                            break;
+                        case 2:
+                            arr = ["第一季度", "第二季度", "第三季度", "第四季度"]
+                            break;
+                        case 3:
+                            arr = [@Html.Raw(ViewBag.Year)+"年"]
+                            break;
+                    }
+                    return arr;
+                },
+                //重新创建数据模型
+                seriesNew: function (type) {
+                    var data = fun.seriesDataSwitch(type)
+                    var arr = [];
+                    for (var i = 0; i < fun.chartData.length; i++) {
+                        var obj = {
+                            name: fun.chartLegend[i],
+                            type: "bar",
+                            data: data[i]
+                        }
+                        arr.push(obj);
+                    }
 
+                    return arr;
+                },
+                //根据图表类型选择数据统计方式
+                seriesDataSwitch: function (type) {
+                    var arr1 = [];
+                    switch (type)
+                    {
+                        //按月
+                        case 1:
+                            arr1 = fun.chartData;
+                            break;
+                        //按季度
+                        case 2:
+                            var sum = 0;
+                            var index = 0;
+                            for (var i = 0; i < fun.chartData.length; i++) {
+                                var arr2 = [];
+                                for (var j = 0; j < fun.chartData[i].length; j++) {
+                                    sum += fun.chartData[i][j];
+                                    index++;
 
+                                    if (index == 3)
+                                    {
+                                        arr2.push(sum);
+                                        sum = 0;
+                                        index = 0;
+                                    }
+                                }
+                                arr1.push(arr2);
+                            }
+                            break;
+                        //按年
+                        case 3:
+                            for (var i = 0; i < fun.chartData.length; i++) {
+                                var sum = 0;
+                                var arr2 = [];
+                                for (var j = 0; j < fun.chartData[i].length; j++) {
+                                    sum += fun.chartData[i][j];
+                                }
+                                arr2.push(sum)
+                                arr1.push(arr2);
+                            }
+                            break;
+                    }
+                    return arr1;
+                },
+                //重新渲染图表
+                setOption: function () {
+                    var xAxisData = fun.xAxisSwitch(fun.chartType);
+                    var seriesData = fun.seriesNew(fun.chartType);
+                    myChart.setOption({
+                        xAxis: {
+                            data: xAxisData
+                        },
+                        series: seriesData
+                    })
+                }
+            }
+
+            fun.setOption();
+
+            $(".echartsBtn>span").bind("click", function () {
+                var type = $(this).data().val;
+                fun.chartType = type;
+                fun.setOption();
+            })
+        });
 
     </script>
 }

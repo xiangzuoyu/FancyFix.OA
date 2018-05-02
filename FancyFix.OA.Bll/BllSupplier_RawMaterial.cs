@@ -59,10 +59,11 @@ namespace FancyFix.OA.Bll
                         sapcode = rawmaterialModel.SAPCode;
                     }
 
+                    //原材料Code不存在
                     if (AddId < 1)
                         return "3";
 
-                    //添加价格表
+                    //添加价格表，如果原材料代码相同 && 供应商代码相同 && 年份相同 && 为可用状态，就跳过
                     var rawmaterialpriceModel = BllSupplier_RawMaterialPrice.First(o => o.RawMaterialId == sapcode && o.VendorId == supplierModel.Code
                         && o.Years == item.Years && o.Display != 2);
 

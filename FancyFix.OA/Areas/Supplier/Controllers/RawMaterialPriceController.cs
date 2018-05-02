@@ -421,23 +421,33 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
                 return LayerAlertErrorAndClose("请先勾选需要对比的原材料价格");
 
             var list = Bll.BllSupplier_RawMaterialPrice.GetList(id) ?? new List<Supplier_RawMaterialPrice>();
-            var supplierList = Bll.BllSupplier_RawMaterial.GetSelectList(0, "Id,Description", "display!=2", "") ?? new List<Supplier_RawMaterial>();
+            var rawMaterialList = Bll.BllSupplier_RawMaterial.GetSelectList(0, "Id,SAPCode,Description", "display!=2", "") ?? new List<Supplier_RawMaterial>();
+            var supplierList = Bll.BllSupplier_List.GetSelectList(0, "Id,Code,Name", "display!=2", "") ?? new List<Supplier_List>();
+
 
             List<string> legend = new List<string>();
-            string dataModel = "{\"name\":\"{name}\",\"type\":\"bar\",\"data\":{data}},";
+            //string dataModel = "{\"name\":\"{name}\",\"type\":\"bar\",\"data\":{data}},";
             StringBuilder sbt = new StringBuilder();
+            List<string> series = new List<string>();
             foreach (var item in list)
             {
-                var name = supplierList.Where(o => o.SAPCode == item.RawMaterialId).FirstOrDefault()?.Description;
-                legend.Add(string.Format("'{0}'", name));
-                sbt.Append(dataModel.Replace("{name}", name).
-                    Replace("{data}", string.Format("[{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11}]",
-                    item.Month1 ?? 0, item.Month2 ?? 0, item.Month3 ?? 0, item.Month4 ?? 0, item.Month5 ?? 0, item.Month6 ?? 0,
-                    item.Month7 ?? 0, item.Month8 ?? 0, item.Month9 ?? 0, item.Month10 ?? 0, item.Month11 ?? 0, item.Month12 ?? 0)));
+                var rawMaterialName = rawMaterialList.Where(o => o.SAPCode == item.RawMaterialId).FirstOrDefault()?.Description;
+                var supplierName = supplierList.Where(o => o.Code == item.VendorId).FirstOrDefault()?.Name;
+                legend.Add(string.Format("'{0}'", $"{ rawMaterialName}_{supplierName}"));
+                //sbt.Append(dataModel.Replace("{name}", name).
+                //    Replace("{data}", string.Format("[{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11}]",
+                //    item.Month1 ?? 0, item.Month2 ?? 0, item.Month3 ?? 0, item.Month4 ?? 0, item.Month5 ?? 0, item.Month6 ?? 0,
+                //    item.Month7 ?? 0, item.Month8 ?? 0, item.Month9 ?? 0, item.Month10 ?? 0, item.Month11 ?? 0, item.Month12 ?? 0)));
+
+                series.Add(string.Format("[{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11}]",
+                    item.Month1.GetValueOrDefault(), item.Month2.GetValueOrDefault(), item.Month3.GetValueOrDefault(), item.Month4.GetValueOrDefault(),
+                    item.Month5.GetValueOrDefault(), item.Month6.GetValueOrDefault(), item.Month7.GetValueOrDefault(), item.Month8.GetValueOrDefault(),
+                    item.Month9.GetValueOrDefault(), item.Month10.GetValueOrDefault(), item.Month11.GetValueOrDefault(), item.Month12.GetValueOrDefault()));
             }
             ViewBag.legend = string.Join(",", legend);
-            ViewBag.seriesData = sbt.ToString().Trim(',');
-
+            ViewBag.seriesData = $"[{string.Join(",", series)}]";
+            //ViewBag.seriesData = sbt.ToString().Trim(',');
+            ViewBag.Year = list.First()?.Years;
             return View();
         }
         #endregion

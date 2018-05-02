@@ -11,7 +11,7 @@ Target Server Type    : SQL Server
 Target Server Version : 110000
 File Encoding         : 65001
 
-Date: 2018-03-26 13:45:02
+Date: 2018-05-02 17:48:44
 */
 
 
@@ -22,7 +22,7 @@ DROP TABLE [dbo].[Supplier_RawMaterialPrice]
 GO
 CREATE TABLE [dbo].[Supplier_RawMaterialPrice] (
 [Id] int NOT NULL IDENTITY(1,1) ,
-[RawMaterialId] int NULL ,
+[RawMaterialId] nvarchar(128) NULL ,
 [Years] int NULL ,
 [Month1] money NULL ,
 [Month2] money NULL ,
@@ -41,13 +41,13 @@ CREATE TABLE [dbo].[Supplier_RawMaterialPrice] (
 [LastDate] datetime NULL ,
 [LastUserId] int NULL ,
 [Display] int NULL DEFAULT ((1)) ,
-[VendorId] int NULL ,
+[VendorId] nvarchar(128) NULL ,
 [PriceFrequency] int NULL 
 )
 
 
 GO
-DBCC CHECKIDENT(N'[dbo].[Supplier_RawMaterialPrice]', RESEED, 33)
+DBCC CHECKIDENT(N'[dbo].[Supplier_RawMaterialPrice]', RESEED, 46)
 GO
 IF ((SELECT COUNT(*) from fn_listextendedproperty('MS_Description', 
 'SCHEMA', N'dbo', 

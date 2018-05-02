@@ -11,7 +11,7 @@ Target Server Type    : SQL Server
 Target Server Version : 110000
 File Encoding         : 65001
 
-Date: 2018-03-26 13:44:53
+Date: 2018-05-02 17:49:06
 */
 
 
@@ -37,7 +37,7 @@ CREATE TABLE [dbo].[Supplier_RawMaterial] (
 
 
 GO
-DBCC CHECKIDENT(N'[dbo].[Supplier_RawMaterial]', RESEED, 40)
+DBCC CHECKIDENT(N'[dbo].[Supplier_RawMaterial]', RESEED, 51)
 GO
 IF ((SELECT COUNT(*) from fn_listextendedproperty('MS_Description', 
 'SCHEMA', N'dbo', 

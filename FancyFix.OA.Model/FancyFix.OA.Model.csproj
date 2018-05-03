@@ -64,6 +64,7 @@
     <Compile Include="Extensions\Point_List.cs" />
     <Compile Include="Extensions\Kpi_Process.cs" />
     <Compile Include="Extensions\Supplier_List.cs" />
+    <Compile Include="Extensions\Supplier_Price.cs" />
     <Compile Include="Extensions\Supplier_RawMaterial.cs" />
     <Compile Include="Extensions\Supplier_RawMaterialPrice.cs" />
     <Compile Include="Extensions\Valuable_Records.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="Questionnaire_Subject.cs" />
     <Compile Include="Rank_Class.cs" />
     <Compile Include="Supplier_List.cs" />
+    <Compile Include="Supplier_Price.cs" />
     <Compile Include="Supplier_RawMaterial.cs" />
     <Compile Include="Supplier_RawMaterialPrice.cs" />
     <Compile Include="Sys_Class.cs" />

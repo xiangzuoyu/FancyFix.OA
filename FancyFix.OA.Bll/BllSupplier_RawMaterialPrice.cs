@@ -24,7 +24,7 @@ namespace FancyFix.OA.Bll
                 where.And(string.Format(" {0} like '%{1}%' ", ("SupplierCode,SupplierName".Contains(file) ? file.Replace("Supplier", "") : file), key));
             }
 
-            where.And(string.Format(" Years={0} ", years));
+            //where.And(string.Format(" Years={0} ", years));
             if (priceFrequency > 0)
                 where.And(string.Format(" PriceFrequency={0} ", priceFrequency));
 
@@ -40,19 +40,19 @@ namespace FancyFix.OA.Bll
                     c.Code,
                     c.Name,
                     b.Currency,
-                    a.PriceFrequency,
-                    a.Month1,
-                    a.Month2,
-                    a.Month3,
-                    a.Month4,
-                    a.Month5,
-                    a.Month6,
-                    a.Month7,
-                    a.Month8,
-                    a.Month9,
-                    a.Month10,
-                    a.Month11,
-                    a.Month12
+                    a.PriceFrequency
+                    //a.Month1,
+                    //a.Month2,
+                    //a.Month3,
+                    //a.Month4,
+                    //a.Month5,
+                    //a.Month6,
+                    //a.Month7,
+                    //a.Month8,
+                    //a.Month9,
+                    //a.Month10,
+                    //a.Month11,
+                    //a.Month12
                 })
                 .InnerJoin<Supplier_RawMaterial>((a, b) => a.RawMaterialId == b.SAPCode && a.Display != 2 && b.Display != 2)
                 .InnerJoin<Supplier_List>((b, c) => b.VendorId == c.Code && c.Display != 2)
@@ -71,7 +71,7 @@ namespace FancyFix.OA.Bll
             if (!string.IsNullOrEmpty(file) && !string.IsNullOrEmpty(key))
                 where.And(string.Format(" {0} like '%{1}%' ", ("SupplierCode,SupplierName".Contains(file) ? file.Replace("Supplier", "") : file), key));
 
-            where.And(string.Format(" Years={0} ", years));
+            //where.And(string.Format(" Years={0} ", years));
             if (priceFrequency > 0)
                 where.And(string.Format(" PriceFrequency={0} ", priceFrequency));
 

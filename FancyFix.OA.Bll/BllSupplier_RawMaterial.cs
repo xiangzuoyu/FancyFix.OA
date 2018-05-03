@@ -29,75 +29,78 @@ namespace FancyFix.OA.Bll
             return p.Page(pageSize, page).OrderByDescending(o => o.Id).ToList();
         }
 
-        public static string Add(List<Supplier_RawMaterial> list)
+        /// <summary>
+        /// 添加价格映射表，返回ID
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static string Add(Supplier_RawMaterial model, ref int AddId)
         {
-            if (list == null || list.Count() < 1)
-                return "0";
+            if (model == null)
+                return "-1";
 
-            int AddId = 0;
             try
             {
-                foreach (var item in list)
+                //获取供应商ID，如果供应商不存在跳过
+                var supplierModel = BllSupplier_List.First(o => o.Code == model.SupplierCode && o.Name == model.SupplierName && o.Display != 2);
+                if (supplierModel == null)
+                    return "2";
+
+                //如果原材料代码不存在执行添加
+                var rawmaterialModel = First(o => o.SAPCode == model.SAPCode && o.Display != 2);
+
+                string sapcode = string.Empty;
+                if (rawmaterialModel == null)
                 {
-                    //获取供应商ID，如果供应商不存在跳过
-                    var supplierModel = BllSupplier_List.First(o => o.Code == item.SupplierCode && o.Name == item.SupplierName && o.Display != 2);
-                    if (supplierModel == null)
-                        return "2";
-
-                    //如果原材料代码不存在执行添加
-                    var rawmaterialModel = First(o => o.SAPCode == item.SAPCode && o.Display != 2);
-
-                    string sapcode = string.Empty;
-                    if (rawmaterialModel == null)
-                    {
-                        AddId = Insert(item);
-                        sapcode = item.SAPCode;
-                    }
-                    else
-                    {
-                        AddId = rawmaterialModel.Id;
-                        sapcode = rawmaterialModel.SAPCode;
-                    }
-
-                    //原材料Code不存在
-                    if (AddId < 1)
-                        return "3";
-
-                    //添加价格表，如果原材料代码相同 && 供应商代码相同 && 年份相同 && 为可用状态，就跳过
-                    var rawmaterialpriceModel = BllSupplier_RawMaterialPrice.First(o => o.RawMaterialId == sapcode && o.VendorId == supplierModel.Code
-                        && o.Years == item.Years && o.Display != 2);
-
-                    if (rawmaterialpriceModel != null)
-                        continue;
-
-                    AddId = BllSupplier_RawMaterialPrice.Insert(new Supplier_RawMaterialPrice()
-                    {
-                        RawMaterialId = sapcode,
-                        VendorId = supplierModel.Code,
-                        Years = item.Years,
-                        PriceFrequency = item.PriceFrequency,
-                        Month1 = item.Month1,
-                        Month2 = item.Month2,
-                        Month3 = item.Month3,
-                        Month4 = item.Month4,
-                        Month5 = item.Month5,
-                        Month6 = item.Month6,
-                        Month7 = item.Month7,
-                        Month8 = item.Month8,
-                        Month9 = item.Month9,
-                        Month10 = item.Month10,
-                        Month11 = item.Month11,
-                        Month12 = item.Month12,
-                        AddDate = item.AddDate,
-                        AddUserId = item.AddUserId,
-                        LastDate = item.AddDate,
-                        LastUserId = item.AddUserId
-                    });
-
-                    if (AddId < 1)
-                        continue;
+                    AddId = Insert(model);
+                    sapcode = model.SAPCode;
+                }
+                else
+                {
+                    AddId = rawmaterialModel.Id;
+                    sapcode = rawmaterialModel.SAPCode;
                 }
 
+                //原材料Code不存在
+                if (AddId < 1)
+                    return "3";
+
+                //添加价格表，如果原材料代码相同 && 供应商代码相同 && 年份相同 && 为可用状态，就跳过
+                var rawmaterialpriceModel = BllSupplier_RawMaterialPrice.First(o => o.RawMaterialId == sapcode && o.VendorId == supplierModel.Code
+                    && o.Display != 2);
+                //已添加就直接返回映射表ID
+                if (rawmaterialpriceModel != null)
+                {
+                    AddId = rawmaterialpriceModel.Id;
+                    return "0";
+                }
+
+                AddId = BllSupplier_RawMaterialPrice.Insert(new Supplier_RawMaterialPrice()
+                {
+                    RawMaterialId = sapcode,
+                    VendorId = supplierModel.Code,
+                    PriceFrequency = model.PriceFrequency,
+                    //Years = model.Years,
+                    //Month1 = model.Month1,
+                    //Month2 = model.Month2,
+                    //Month3 = model.Month3,
+                    //Month4 = model.Month4,
+                    //Month5 = model.Month5,
+                    //Month6 = model.Month6,
+                    //Month7 = model.Month7,
+                    //Month8 = model.Month8,
+                    //Month9 = model.Month9,
+                    //Month10 = model.Month10,
+                    //Month11 = model.Month11,
+                    //Month12 = model.Month12,
+                    AddDate = model.AddDate,
+                    AddUserId = model.AddUserId,
+                    LastDate = model.AddDate,
+                    LastUserId = model.AddUserId
+                });
+
+                if (AddId < 1)
+                    return "-1";
                 return "0";
             }
             catch (Exception ex)

@@ -59,6 +59,7 @@
     <Compile Include="BllQuestionnaire_Info.cs" />
     <Compile Include="BllQuestionnaire_Subject.cs" />
     <Compile Include="BllSupplier_List.cs" />
+    <Compile Include="BllSupplier_Price.cs" />
     <Compile Include="BllSupplier_RawMaterial.cs" />
     <Compile Include="BllSupplier_RawMaterialPrice.cs" />
     <Compile Include="BllSys_Class.cs" />

@@ -1891,6 +1891,7 @@
     <Content Include="Areas\Supplier\Views\RawMaterialPrice\ShowCharts.cshtml" />
     <Content Include="Areas\ArtTask\Views\ArtTaskRank\Index.cshtml" />
     <Content Include="Areas\Kpi\Views\Kpi\SelfApprove.cshtml" />
+    <Content Include="Areas\Supplier\Views\RawMaterialPrice\PriceList.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Common\GetAdminTree.cshtml" />
   </ItemGroup>

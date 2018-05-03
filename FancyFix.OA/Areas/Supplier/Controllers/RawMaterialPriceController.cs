@@ -20,7 +20,8 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
         #region 加载列表
         public ActionResult List()
         {
-            ViewBag.prices = Bll.BllSupplier_RawMaterialPrice.GetSelectList(0, "distinct(Years)", "display!=2", "Years");
+            //ViewBag.prices = Bll.BllSupplier_RawMaterialPrice.GetSelectList(0, "distinct(Years)", "display!=2", "Years");
+            //ViewBag.prices = Bll.BllSupplier_Price.GetSelectList(0, "distinct(Years)", "display!=2", "Years");
 
             return View();
         }
@@ -53,6 +54,29 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
         }
         #endregion
 
+        #region 价格列表
+        public ActionResult PriceList(int[] id = null, string starttime = "", string endtime = "")
+        {
+            //if (id == null)
+            //    return LayerAlertErrorAndClose("请先勾选需要查看的原材料价格");
+
+            int page = GetThisPage();
+            int pageSize = 2;
+            long records = 0;
+            DateTime startdate = string.IsNullOrEmpty(starttime) ? DateTime.Now : starttime.ToDateTime();
+            DateTime enddate = string.IsNullOrEmpty(endtime) ? DateTime.Now : endtime.ToDateTime();
+
+            var pricelist = Bll.BllSupplier_Price.PageList(id, page, pageSize, out records, startdate, enddate);
+            ViewBag.answererlist = pricelist;
+            ViewBag.pageStr = ShowPage((int)records, pageSize, page, 5, "", false);
+            ViewBag.ids = id;
+
+            return View();
+        }
+
+
+        #endregion
+
         #region 导入Excel
         [HttpPost]
         public ActionResult List(HttpPostedFileBase file)
@@ -78,12 +102,11 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
                 file.SaveAs(filePath);
 
                 var sheet = Tools.Tool.ExcelHelper.ReadExcel(filePath);
-                var modelList = ExcelToList(sheet, 2);
+                string msg = ExcelToList(sheet, 2);
 
-                if (modelList == null || modelList.Count < 1)
-                    return MessageBoxAndJump("数据为空，导入失败！", "list");
-
-                string msg = Bll.BllSupplier_RawMaterial.Add(modelList);
+                //if (modelList == null || modelList.Count < 1)
+                //    return MessageBoxAndJump("数据为空，导入失败！", "list");
+                //string msg = Bll.BllSupplier_RawMaterial.Add(modelList);
 
                 if (msg != "0")
                     return MessageBoxAndJump("导入失败," + GetMsg(msg), "list");
@@ -117,81 +140,147 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             return msg;
         }
 
-        private List<Supplier_RawMaterial> ExcelToList(ISheet sheet, int startRow)
+        private string ExcelToList(ISheet sheet, int startRow)
         {
-            List<Supplier_RawMaterial> supList = new List<Supplier_RawMaterial>();
+            var logDate = DateTime.Now;
+            //List<Supplier_RawMaterial> supList = new List<Supplier_RawMaterial>();
             if (sheet == null)
-                return supList;
+                return "1";
 
             //第一行为标题
             try
             {
-                IRow headRow = sheet.GetRow(0);
-                int cellCount = headRow.LastCellNum;
+                IRow headRow = sheet.GetRow(startRow);
+                int cellTotal = headRow.LastCellNum;
                 int rowCount = sheet.LastRowNum;
-
-                int? year = 0;
 
                 for (int i = startRow; i <= rowCount; i++)
                 {
                     IRow row = sheet.GetRow(i);
-                    if (row == null)
+                    if (row == null ||
+                        string.IsNullOrEmpty(row.GetCell(1)?.ToString()) ||
+                        string.IsNullOrEmpty(row.GetCell(2)?.ToString()) ||
+                        string.IsNullOrEmpty(row.GetCell(5)?.ToString()))
                         continue;
 
-                    //获取价格年份
+                    //标题行
                     if (i == startRow)
                     {
-                        year = row.GetCell(9)?.ToString().TrimStart('\'').ToDateTime().Year;
-                        if (year == null || year < 1)
-                            return new List<Supplier_RawMaterial>();
-
+                        headRow = row;
                         continue;
                     }
 
-                    var model = new Supplier_RawMaterial()
-                    {
-                        BU = row.GetCell(0)?.ToString(),
-                        SAPCode = row.GetCell(1)?.ToString(),
-                        Description = row.GetCell(2)?.ToString(),
-                        Category = row.GetCell(3)?.ToString(),
-                        LeadBuyer = row.GetCell(4)?.ToString(),
-                        SupplierCode = row.GetCell(5)?.ToString(),
-                        SupplierName = row.GetCell(6)?.ToString(),
-                        PriceFrequency = Tools.Enums.Tools.GetValueByName(typeof(Models.PriceFrequency), row.GetCell(7)?.ToString()),
-                        Currency = row.GetCell(8)?.ToString(),
-                        Years = year,
-                        Month1 = row.GetCell(9)?.ToString().ToDecimal(),
-                        Month2 = row.GetCell(10)?.ToString().ToDecimal(),
-                        Month3 = row.GetCell(11)?.ToString().ToDecimal(),
-                        Month4 = row.GetCell(12)?.ToString().ToDecimal(),
-                        Month5 = row.GetCell(13)?.ToString().ToDecimal(),
-                        Month6 = row.GetCell(14)?.ToString().ToDecimal(),
-                        Month7 = row.GetCell(15)?.ToString().ToDecimal(),
-                        Month8 = row.GetCell(16)?.ToString().ToDecimal(),
-                        Month9 = row.GetCell(17)?.ToString().ToDecimal(),
-                        Month10 = row.GetCell(18)?.ToString().ToDecimal(),
-                        Month11 = row.GetCell(19)?.ToString().ToDecimal(),
-                        Month12 = row.GetCell(20)?.ToString().ToDecimal(),
-                        AddDate = DateTime.Now,
-                        AddUserId = MyInfo.Id,
-                        LastDate = DateTime.Now,
-                        LastUserId = MyInfo.Id
-                    };
-
-                    //如果关键几个字段没有数据，就跳过
-                    if (string.IsNullOrEmpty(model.SAPCode) &&
-                        string.IsNullOrEmpty(model.Description) &&
-                        string.IsNullOrEmpty(model.SupplierCode))
+                    var rawMaterialModel = CreateRawMaterialModel(row, logDate);
+                    if (rawMaterialModel == null)
                         continue;
-                    supList.Add(model);
+
+                    int id = 0;
+                    string isok = Bll.BllSupplier_RawMaterial.Add(rawMaterialModel, ref id);
+                    if (isok != "0")
+                        return isok;
+
+                    AddPrice(row, headRow, id, cellTotal, logDate);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return supList;
+                return "-1";
             }
 
-            return supList;
+            return "0";
+        }
+
+        /// <summary>
+        /// 根据数据填充价格映射模型
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="logDate"></param>
+        /// <returns></returns>
+        private Supplier_RawMaterial CreateRawMaterialModel(IRow row, DateTime logDate)
+        {
+            if (row == null) return null;
+
+            var model = new Supplier_RawMaterial()
+            {
+                BU = row.GetCell(0)?.ToString(),
+                SAPCode = row.GetCell(1)?.ToString(),
+                Description = row.GetCell(2)?.ToString(),
+                Category = row.GetCell(3)?.ToString(),
+                LeadBuyer = row.GetCell(4)?.ToString(),
+                SupplierCode = row.GetCell(5)?.ToString(),
+                SupplierName = row.GetCell(6)?.ToString(),
+                PriceFrequency = Tools.Enums.Tools.GetValueByName(typeof(Models.PriceFrequency), row.GetCell(7)?.ToString()),
+                Currency = row.GetCell(8)?.ToString(),
+                //Years = year,
+                //Month1 = row.GetCell(9)?.ToString().ToDecimal(),
+                //Month2 = row.GetCell(10)?.ToString().ToDecimal(),
+                //Month3 = row.GetCell(11)?.ToString().ToDecimal(),
+                //Month4 = row.GetCell(12)?.ToString().ToDecimal(),
+                //Month5 = row.GetCell(13)?.ToString().ToDecimal(),
+                //Month6 = row.GetCell(14)?.ToString().ToDecimal(),
+                //Month7 = row.GetCell(15)?.ToString().ToDecimal(),
+                //Month8 = row.GetCell(16)?.ToString().ToDecimal(),
+                //Month9 = row.GetCell(17)?.ToString().ToDecimal(),
+                //Month10 = row.GetCell(18)?.ToString().ToDecimal(),
+                //Month11 = row.GetCell(19)?.ToString().ToDecimal(),
+                //Month12 = row.GetCell(20)?.ToString().ToDecimal(),
+                AddDate = logDate,
+                AddUserId = MyInfo.Id,
+                LastDate = logDate,
+                LastUserId = MyInfo.Id
+            };
+
+            if (string.IsNullOrEmpty(model.SAPCode) &&
+                string.IsNullOrEmpty(model.Description) &&
+                string.IsNullOrEmpty(model.SupplierCode))
+                return null;
+
+            return model;
+        }
+
+        private bool AddPrice(IRow row, IRow headRow, int priceId, int cellTotal, DateTime logDate)
+        {
+            if (row == null || headRow == null)
+                return false;
+            //List<Supplier_Price> list = new List<Supplier_Price>();
+            //遍历个每行原材料后面的价格
+            try
+            {
+                for (int i = 9; i < cellTotal; i++)
+                {
+                    string price = row.GetCell(i).ToString();
+                    //如果价格为空，跳过
+                    if (string.IsNullOrEmpty(price))
+                        continue;
+
+                    var date = headRow.GetCell(i).ToString().Split('-');
+                    if (date.Length != 2)
+                        continue;
+                    var years = date[0].TrimStart('\'').ToInt32();
+
+                    var priceModel = new Supplier_Price
+                    {
+                        RawMaterialPriceId = priceId,
+                        Years = years,
+                        Month = date[1].ToInt32(),
+                        Price = price.ToDecimal(),
+                        AddDate = logDate,
+                        AddUserId = MyInfo.Id,
+                        LastDate = logDate,
+                        LastUserId = MyInfo.Id,
+                        Display = 1
+                    };
+
+                    Bll.BllSupplier_Price.Add(priceModel);
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+            return true;
+
         }
         #endregion
 

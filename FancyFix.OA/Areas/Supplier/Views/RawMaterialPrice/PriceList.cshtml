@@ -1,0 +1,136 @@
+﻿
+@{
+    ViewBag.Title = "PriceList";
+    Layout = "~/Views/Shared/_Layout_In.cshtml";
+    int[] ids = ViewBag.ids;
+}
+
+@section Css{
+    <link href="/Content/js/plugins/datatables/bootstrap-table.min.css" rel="stylesheet" />
+    <link id="layuicss-laydate" href="~/Content/js/plugins/laydate/theme/default/laydate.css" rel="stylesheet" type="text/css" media="all" />
+}
+
+<div class="row">
+    <div class="col-xs-12">
+
+        <div class="box">
+            <div class="box-body">
+                <section class="panel">
+                    <div class="layui-form layui-form-pane">
+                        <div class="layui-input-inline">
+                            <label class="layui-form-label">按年份</label>
+                            <div class="layui-input-inline">
+                                @Html.TextBox("startMonth", null, new { type = "text", @class = "layui-input", placeholder = "开始月份" })
+                            </div> -
+                            <div class="layui-input-inline">
+                                @Html.TextBox("endMonth", null, new { type = "text", @class = "layui-input", placeholder = "结束月份" })
+                            </div>
+                        </div>
+
+                        <div class="layui-input-inline">
+                            &nbsp;<button id="btnSearch" class="btn bg-blue" lay-submit lay-filter="formSearch">查询</button>
+                        </div>
+                        <div class="layui-inline pull-right">
+                            @*<button id="btnUpdateLabel" class="btn bg-blue">修改标签</button>&nbsp;*@
+                            <input type="button" id="exportBtn" class="btn bg-orange" value="导出">
+                        </div>
+                        <form id="excelForm" action="list" method="post" enctype="multipart/form-data">
+                            <input id="fileEle" name="file" type="file" style="display:none" />
+                        </form>
+                    </div>
+                </section>
+
+                <div class="bootstrap-table">
+                    <div id="toolbar" class="btn-group">
+                        <button id="btn_delete" type="button" class="btn btn-default">
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> 删除
+                        </button>
+                        <button id="btn_charts" type="button" class="btn btn-default">
+                            <span class="glyphicon glyphicon-signal" aria-hidden="true"></span> 生成图表
+                        </button>
+                    </div>
+                </div>
+                <table id="table" class="table table-bordered table-hover"></table>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/Content/js/plugins/laydate/laydate.js"></script>
+@section Js{
+    <script src="/Content/js/plugins/datatables/bootstrap-table.min.js"></script>
+    <script src="/Content/js/plugins/datatables/bootstrap-table-zh-CN.js"></script>
+    <script src="/Content/js/common/tools.js"></script>
+    <script>
+        var fun = null;
+
+        layui.use(['layer', 'form'], function () {
+            var layer = layui.layer;
+
+            fun = {
+                init: function () {
+                    //绑定导出
+                    $("#importBtn").bind("click", function () {
+                        $("#fileEle").trigger("click");
+                    })
+
+                    $("#exportBtn").bind("click", function () {
+                        var par = 'files=' + $("#files").val()
+                            + '&key=' + $("#key").val()
+                            + '&priceFrequency=' + $("#priceFrequency").val()
+                            + '&years=' + $("#years").val()
+                        OpenWin("导出供应商列表", "/supplier/rawmaterialprice/exportexcel?" + par, '726px', '580px');
+                    })
+                },
+                ajax: function () {
+
+                }
+
+            }
+
+            //新增
+            $("#btn_add").on('click', function () {
+                OpenWin("添加", "/supplier/rawmaterialprice/save", '800px', '90%');
+            });
+
+            //查看
+            $("#table").on('click', '.btnEdit', function () {
+                var id = $(this).attr("data-id");
+                OpenWin("编辑", "/supplier/rawmaterialprice/save/" + id, '800px', '90%');
+            });
+
+            //生成图表
+            $("#btn_charts").on('click', function () {
+                if (CheckSelections()) {
+                    var list = GetSelections();
+                    var arr = '';
+                    for (var i = 0; i < list.length; i++) {
+                        arr += "id=" + list[i].Id + "&";
+                    }
+
+                    ids = arr.substring(0, arr.length - 1);
+                    OpenWin("数据图表", "/supplier/rawmaterialprice/showcharts?" + ids, '80%', '70%');
+                }
+            })
+
+            
+            //加载数据
+            $(function () {
+                fun.init();
+
+                //年月选择器
+                laydate.render({
+                    elem: '#startMonth',
+                    type: 'month'
+                });
+                laydate.render({
+                    elem: '#endMonth',
+                    type: 'month'
+                });
+            });
+
+           
+        })
+
+
+    </script>
+}

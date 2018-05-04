@@ -1,8 +1,10 @@
-﻿
+﻿@using FancyFix.OA.Model
 @{
     ViewBag.Title = "PriceList";
     Layout = "~/Views/Shared/_Layout_In.cshtml";
-    int[] ids = ViewBag.ids;
+    string ids = ViewBag.ids;
+    string Starttime = ViewBag.Starttime;
+    string Endtime = ViewBag.Endtime;
 }
 
 @section Css{
@@ -20,10 +22,10 @@
                         <div class="layui-input-inline">
                             <label class="layui-form-label">按年份</label>
                             <div class="layui-input-inline">
-                                @Html.TextBox("startMonth", null, new { type = "text", @class = "layui-input", placeholder = "开始月份" })
+                                @Html.TextBox("startMonth", Starttime, new { type = "text", @class = "layui-input", placeholder = "开始月份" })
                             </div> -
                             <div class="layui-input-inline">
-                                @Html.TextBox("endMonth", null, new { type = "text", @class = "layui-input", placeholder = "结束月份" })
+                                @Html.TextBox("endMonth", Endtime, new { type = "text", @class = "layui-input", placeholder = "结束月份" })
                             </div>
                         </div>
 
@@ -48,9 +50,20 @@
                         <button id="btn_charts" type="button" class="btn btn-default">
                             <span class="glyphicon glyphicon-signal" aria-hidden="true"></span> 生成图表
                         </button>
+                        @*当前显示的采购id*@
+                        <input type="hidden" id="ids" value="@ids">
                     </div>
                 </div>
-                <table id="table" class="table table-bordered table-hover"></table>
+                <div class="box" style="border-top:0px;box-shadow:none;border-top:0px;box-shadow:none;overflow-x: scroll;">
+                    @Html.Raw(ViewBag.pricelist)
+                    
+                </div>
+
+                <div class="box-footer clearfix">
+                    <div class="no-margin pull-right">
+                        @Html.Raw(ViewBag.pageStr)
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -80,9 +93,6 @@
                             + '&years=' + $("#years").val()
                         OpenWin("导出供应商列表", "/supplier/rawmaterialprice/exportexcel?" + par, '726px', '580px');
                     })
-                },
-                ajax: function () {
-
                 }
 
             }
@@ -112,7 +122,7 @@
                 }
             })
 
-            
+
             //加载数据
             $(function () {
                 fun.init();
@@ -128,9 +138,24 @@
                 });
             });
 
-           
+
         })
 
+        $("#btnSearch").click(function () {
+            PostWhere();
+        })
 
+        function PostWhere() {
+            var where = "";
+            var ids = $("#ids").val();
+            where += ids;
+            var startMonth = $("#startMonth").val();
+            if (startMonth != "")
+                where += "&starttime=" + startMonth;
+            var endtime = $("#endMonth").val();
+            if (endtime != "")
+                where += "&endtime=" + endtime;
+            window.location.href = window.location.pathname + "?" + where;
+        }
     </script>
 }

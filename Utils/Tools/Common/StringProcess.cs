@@ -103,7 +103,45 @@ namespace FancyFix.Tools.Common
             return str;
         }
 
+        /// <summary>
+        /// 截取字符串
+        /// </summary>
+        /// <param name="strOriginal">原字符</param>
+        /// <param name="strFirst">开始字符</param>
+        /// <param name="strLast">结束字符</param>
+        /// <param name="trim">是否不包括开始结束字符</param>
+        /// <returns></returns>
+        public static string GetContent(string strOriginal, string strFirst, string strLast, bool trim = true)
+        {
+            if (string.IsNullOrEmpty(strOriginal) == true)
+                return "";
 
+            string s = "";
+            int t1, t2, t3;
+            
+            if (trim)
+            {
+                string strOriginal1 = strOriginal, strFirst1 = strFirst, strLast1 = strLast;
+                t1 = strOriginal1.IndexOf(strFirst1);
+                if (t1 >= 0)
+                {
+                    t2 = strOriginal1.Length;
+                    t3 = t1 + strFirst1.Length;
+                    strOriginal1 = strOriginal1.Substring(t3);
+
+                    t1 = strOriginal1.IndexOf(strLast1);
+                    t3 = t1;
+                    if (t3 > 0)
+                        s = strOriginal1.Substring(0, t3);
+                }
+            }
+            else
+            {
+                s = GetContent(strOriginal, strFirst, strLast);
+                s = strFirst + s + strLast;
+            }
+            return s;
+        }
 
     }
 }

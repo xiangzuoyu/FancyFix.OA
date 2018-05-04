@@ -1,6 +1,7 @@
 ﻿using FancyFix.OA.Base;
 using FancyFix.OA.Model;
 using FancyFix.Tools.Config;
+using FancyFix.Tools.Tool;
 using NPOI.SS.UserModel;
 using System;
 using System.Collections.Generic;
@@ -26,13 +27,13 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             return View();
         }
 
-        public JsonResult PageList(int page = 0, int pagesize = 0, int priceFrequency = 0, int years = 0, string files = "", string key = "")
+        public JsonResult PageList(int page = 0, int pagesize = 0, int priceFrequency = 0, string files = "", string key = "")
         {
             long records = 0;
-            if (years == 0)
-                years = DateTime.Now.Year;
+            //if (years == 0)
+            //    years = DateTime.Now.Year;
 
-            var list = Bll.BllSupplier_RawMaterialPrice.PageList(page, pagesize, out records, files, key, years, priceFrequency);
+            var list = Bll.BllSupplier_RawMaterialPrice.PageList(page, pagesize, out records, files, key, priceFrequency);
             foreach (var item in list)
             {
                 //价格频次
@@ -57,23 +58,145 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
         #region 价格列表
         public ActionResult PriceList(int[] id = null, string starttime = "", string endtime = "")
         {
-            //if (id == null)
-            //    return LayerAlertErrorAndClose("请先勾选需要查看的原材料价格");
+            if (id == null)
+                return LayerAlertErrorAndClose("请先勾选需要查看的原材料价格");
 
             int page = GetThisPage();
-            int pageSize = 2;
+            int pageSize = 15;
             long records = 0;
-            DateTime startdate = string.IsNullOrEmpty(starttime) ? DateTime.Now : starttime.ToDateTime();
-            DateTime enddate = string.IsNullOrEmpty(endtime) ? DateTime.Now : endtime.ToDateTime();
 
-            var pricelist = Bll.BllSupplier_Price.PageList(id, page, pageSize, out records, startdate, enddate);
-            ViewBag.answererlist = pricelist;
-            ViewBag.pageStr = ShowPage((int)records, pageSize, page, 5, "", false);
-            ViewBag.ids = id;
+            var rawMaterialPriceList = Bll.BllSupplier_RawMaterialPrice.PageList(page, pageSize, out records, "", "", 0, id.ToList())
+                ?? new List<Supplier_RawMaterialPrice>();
+
+            DateTime startdate, enddate;
+            GetDate(starttime, endtime, out startdate, out enddate);
+            var pricelist = Bll.BllSupplier_Price.GetList(startdate, enddate);
+            var rawMaterialList = Bll.BllSupplier_RawMaterial.GetSelectList(0, "Id,SAPCode,Description", "display!=2", "") ?? new List<Supplier_RawMaterial>();
+            var supplierList = Bll.BllSupplier_List.GetSelectList(0, "Id,Code,Name", "display!=2", "") ?? new List<Supplier_List>();
+
+            //var arr = CreateCols(startdate, enddate);
+            string table = CreateTable(rawMaterialPriceList, pricelist, rawMaterialList, supplierList, startdate, enddate);
+
+            string pageStr = ShowPage((int)records, pageSize, page, 5, $"starttime={starttime}&endtime={endtime}", false);
+            pageStr = pageStr.Replace(HttpUtility.UrlEncode(string.Join(",", id)), string.Join("&id=", id));
+            ViewBag.pricelist = table;
+            ViewBag.pageStr = pageStr;
+            ViewBag.Starttime = starttime;
+            ViewBag.Endtime = endtime;
+            ViewBag.ids = $"id=" + string.Join("&id=", id);
 
             return View();
         }
 
+
+
+        private string CreateTable(IEnumerable<Supplier_RawMaterialPrice> rawMaterialPriceList, List<Supplier_Price> pricelist,
+            IEnumerable<Supplier_RawMaterial> rawMaterialList, IEnumerable<Supplier_List> supplierList, DateTime start, DateTime end)
+        {
+            #region 添加表头
+            int yearsNum = end.Year - start.Year + 1;
+            int colNum = 0;
+            var table = CreateHeads(start, end, out colNum);
+            #endregion
+
+            if (rawMaterialPriceList == null || rawMaterialPriceList.Count() < 1)
+            {
+                table.AddSpanCol("暂无数据", colNum);
+                return table.GetTable();
+            }
+
+            foreach (var item in rawMaterialPriceList)
+            {
+                DateTime startdate = start;
+                DateTime enddate = end;
+                var prices = pricelist.Where(o => o.RawMaterialPriceId == item.Id).ToList() ?? new List<Supplier_Price>();
+                var rawMaterial = rawMaterialList.Where(o => o.SAPCode == item.RawMaterialId).FirstOrDefault() ?? new Supplier_RawMaterial();
+                var supplier = supplierList.Where(o => o.Code == item.VendorId).FirstOrDefault() ?? new Supplier_List();
+
+                //item.BU = rawMaterial.BU;
+                //item.SAPCode = rawMaterial.SAPCode;
+                //item.Description = rawMaterial.Description;
+                //item.Category = rawMaterial.Category;
+                //item.LeadBuyer = rawMaterial.LeadBuyer;
+                //item.Currency = rawMaterial.Currency;
+                //item.Code = supplier.Code;
+                //item.Name = supplier.Name;
+
+                table.AddCol(supplier.Code);
+                table.AddCol(supplier.Name);
+                table.AddCol(rawMaterial.SAPCode);
+                table.AddCol(rawMaterial.Description);
+
+                //for (int i = 0; i < yearsNum; i++)
+                //{
+                //    for (int j = 1; j < 13; j++)
+                //    {
+                //    }
+                //}
+
+                while (startdate >= enddate)
+                {
+                    var price = prices.Where(o => o.Years == (startdate.Year) && o.Month == startdate.Month).Select(o => o.Price).FirstOrDefault()
+                            .GetValueOrDefault();
+
+                    table.AddCol(price.ToString("f2"), price <= 0 ? "color:#d2d2d2;" : "");
+                    startdate.AddMonths(1);
+                    colNum++;
+                }
+
+                table.AddRow();
+            }
+
+            return table.GetTable();
+        }
+
+        private Tables CreateHeads(DateTime startYears, DateTime endYearsa, out int colNum)
+        {
+            var table = new Tables();
+            table.AddHeadCol("供应商代码", "min-width: 125px;");
+            table.AddHeadCol("供应商名称", "min-width: 160px;");
+            table.AddHeadCol("原材料代码", "min-width: 130px;");
+            table.AddHeadCol("原材料名称", "min-width: 135px;");
+            colNum = 4;
+
+            while (startYears >= endYearsa)
+            {
+                table.AddHeadCol($"{startYears.ToString("yyyy-MM")}", "min-width: 85px;");
+                startYears.AddMonths(1);
+                colNum++;
+            }
+
+            //for (int i = 0; i < yearsNum; i++)
+            //{
+            //    for (int j = 1; j < 13; j++)
+            //    {
+            //        table.AddHeadCol($"{startYears + i}-{j}", "min-width: 85px;");
+            //        colNum++;
+            //    }
+            //}
+            table.AddHeadRow();
+
+            return table;
+        }
+
+        /// <summary>
+        /// 如果日期范围为空，默认设为当年
+        /// </summary>
+        /// <param name="starttime"></param>
+        /// <param name="endtime"></param>
+        /// <param name="startdate"></param>
+        /// <param name="enddate"></param>
+        private void GetDate(string starttime, string endtime, out DateTime startdate, out DateTime enddate)
+        {
+            DateTime currentDate = DateTime.Now;
+
+            startdate = string.IsNullOrEmpty(starttime)
+                ? ($"{currentDate.ToString("yyyy")}-01-01").ToDateTime()
+                : starttime.ToDateTime();
+            enddate = string.IsNullOrEmpty(endtime)
+                ? ($"{currentDate.AddYears(1).ToString("yyyy")}-01-01").ToDateTime().AddDays(-1)
+                : endtime.ToDateTime().AddMonths(1).AddDays(-1);
+        }
 
         #endregion
 

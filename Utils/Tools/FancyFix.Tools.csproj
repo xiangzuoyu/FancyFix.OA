@@ -168,6 +168,7 @@
     <Compile Include="Tool\SendMail.cs" />
     <Compile Include="Tool\SpiderHelper.cs" />
     <Compile Include="Tool\StringSimilarityTools.cs" />
+    <Compile Include="Tool\Table\Tables.cs" />
     <Compile Include="Tool\uploader.cs" />
     <Compile Include="Tool\VerifyImage.cs" />
     <Compile Include="Ueditor\Config.cs" />

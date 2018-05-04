@@ -14,7 +14,8 @@ namespace FancyFix.OA.Bll
             return new BllSupplier_RawMaterialPrice();
         }
 
-        public static IEnumerable<Supplier_RawMaterialPrice> PageList(int page, int pageSize, out long records, string file, string key, int years, int priceFrequency)
+        public static IEnumerable<Supplier_RawMaterialPrice> PageList(int page, int pageSize, out long records, string file, string key, int priceFrequency
+            , List<int> ids = null)
         {
             var where = new Where<Supplier_RawMaterialPrice>();
             if (!string.IsNullOrEmpty(file) && !string.IsNullOrEmpty(key))
@@ -23,8 +24,9 @@ namespace FancyFix.OA.Bll
                 key = CheckSqlKeyword(key);
                 where.And(string.Format(" {0} like '%{1}%' ", ("SupplierCode,SupplierName".Contains(file) ? file.Replace("Supplier", "") : file), key));
             }
+            if (ids != null)
+                where.And(string.Format(" Supplier_RawMaterialPrice.id in ({0}) ", string.Join(",", ids)));
 
-            //where.And(string.Format(" Years={0} ", years));
             if (priceFrequency > 0)
                 where.And(string.Format(" PriceFrequency={0} ", priceFrequency));
 
@@ -40,7 +42,9 @@ namespace FancyFix.OA.Bll
                     c.Code,
                     c.Name,
                     b.Currency,
-                    a.PriceFrequency
+                    a.PriceFrequency,
+                    a.VendorId,
+                    a.RawMaterialId
                     //a.Month1,
                     //a.Month2,
                     //a.Month3,
@@ -150,7 +154,7 @@ namespace FancyFix.OA.Bll
                 return new List<Supplier_RawMaterialPrice>();
 
             string where = "display!=2 and id in(" + string.Join(",", arr) + ")";
-            var list = GetSelectList(0, "", where, "");
+            var list = GetSelectList(0, "Id,RawMaterialId,VendorId,PriceFrequency", where, "");
 
             return list;
         }

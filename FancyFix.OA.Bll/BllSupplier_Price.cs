@@ -1,4 +1,5 @@
-﻿using Dos.ORM;
+﻿using Dos.DataAccess.Base;
+using Dos.ORM;
 using FancyFix.OA.Model;
 using System;
 using System.Collections.Generic;
@@ -45,15 +46,23 @@ namespace FancyFix.OA.Bll
             }
         }
 
-        public static List<Supplier_Price> PageList(int[] ids, int page, int pageSize, out long records,DateTime startdate,DateTime enddate)
+        public static List<Supplier_Price> GetList(DateTime startdate, DateTime enddate)
         {
-            //var list = Bll.BllSupplier_RawMaterialPrice.GetList(id) ?? new List<Supplier_RawMaterialPrice>();
-            //var rawMaterialList = Bll.BllSupplier_RawMaterial.GetSelectList(0, "Id,SAPCode,Description", "display!=2", "") ?? new List<Supplier_RawMaterial>();
-            //var supplierList = Bll.BllSupplier_List.GetSelectList(0, "Id,Code,Name", "display!=2", "") ?? new List<Supplier_List>();
+            var where = new Where<Supplier_Price>();
+            //where.And(o=>o.Years >= startdate.Year && o.Years <= enddate.Year &&
+            //          o.Month >= startdate.Month && o.Month <= enddate.Month);
+            //where.And(o => $"{o.Years}-{o.Month}-1".ToDateTime() >= startdate && $"{o.Years}-{o.Month}".ToDateTime().AddMonths(1).AddDays(-1) <= enddate);
+            where.And(" CONVERT(datetime,CONVERT(VARCHAR(50),Years) +'-'+CONVERT(VARCHAR(50),Month)+'-1',101) >='" + startdate.ToString("yyyy-MM-dd")
+                   + "' and DATEADD(DAY, -1, DATEADD(Month, 1, CONVERT(datetime, CONVERT(VARCHAR(50), Years) + '-' + CONVERT(VARCHAR(50), Month) + '-1', 101))) <= '"
+                   + enddate.ToString("yyyy-MM-dd") + "' ");
 
+            var p = Db.Context.From<Supplier_Price>()
+                .Where(where);
 
-
-            return new List<Supplier_Price>();
+            return p.ToList();
         }
+
+
+
     }
 }

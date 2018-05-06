@@ -28,19 +28,19 @@ namespace FancyFix.OA.Model
 		#region Model
 		private int _Id;
 		private string _RawMaterialId;
-		private int? _Years;
-		private decimal? _Month1;
-		private decimal? _Month2;
-		private decimal? _Month3;
-		private decimal? _Month4;
-		private decimal? _Month5;
-		private decimal? _Month6;
-		private decimal? _Month7;
-		private decimal? _Month8;
-		private decimal? _Month9;
-		private decimal? _Month10;
-		private decimal? _Month11;
-		private decimal? _Month12;
+		//private int? _Years;
+		//private decimal? _Month1;
+		//private decimal? _Month2;
+		//private decimal? _Month3;
+		//private decimal? _Month4;
+		//private decimal? _Month5;
+		//private decimal? _Month6;
+		//private decimal? _Month7;
+		//private decimal? _Month8;
+		//private decimal? _Month9;
+		//private decimal? _Month10;
+		//private decimal? _Month11;
+		//private decimal? _Month12;
 		private DateTime? _AddDate;
 		private int? _AddUserId;
 		private DateTime? _LastDate;
@@ -72,162 +72,162 @@ namespace FancyFix.OA.Model
 				this._RawMaterialId=value;
 			}
 		}
-		/// <summary>
-		/// 年份
-		/// </summary>
-		public int? Years
-		{
-			get{ return _Years; }
-			set
-			{
-				this.OnPropertyValueChange(_.Years,_Years,value);
-				this._Years=value;
-			}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public decimal? Month1
-		{
-			get{ return _Month1; }
-			set
-			{
-				this.OnPropertyValueChange(_.Month1,_Month1,value);
-				this._Month1=value;
-			}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public decimal? Month2
-		{
-			get{ return _Month2; }
-			set
-			{
-				this.OnPropertyValueChange(_.Month2,_Month2,value);
-				this._Month2=value;
-			}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public decimal? Month3
-		{
-			get{ return _Month3; }
-			set
-			{
-				this.OnPropertyValueChange(_.Month3,_Month3,value);
-				this._Month3=value;
-			}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public decimal? Month4
-		{
-			get{ return _Month4; }
-			set
-			{
-				this.OnPropertyValueChange(_.Month4,_Month4,value);
-				this._Month4=value;
-			}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public decimal? Month5
-		{
-			get{ return _Month5; }
-			set
-			{
-				this.OnPropertyValueChange(_.Month5,_Month5,value);
-				this._Month5=value;
-			}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public decimal? Month6
-		{
-			get{ return _Month6; }
-			set
-			{
-				this.OnPropertyValueChange(_.Month6,_Month6,value);
-				this._Month6=value;
-			}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public decimal? Month7
-		{
-			get{ return _Month7; }
-			set
-			{
-				this.OnPropertyValueChange(_.Month7,_Month7,value);
-				this._Month7=value;
-			}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public decimal? Month8
-		{
-			get{ return _Month8; }
-			set
-			{
-				this.OnPropertyValueChange(_.Month8,_Month8,value);
-				this._Month8=value;
-			}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public decimal? Month9
-		{
-			get{ return _Month9; }
-			set
-			{
-				this.OnPropertyValueChange(_.Month9,_Month9,value);
-				this._Month9=value;
-			}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public decimal? Month10
-		{
-			get{ return _Month10; }
-			set
-			{
-				this.OnPropertyValueChange(_.Month10,_Month10,value);
-				this._Month10=value;
-			}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public decimal? Month11
-		{
-			get{ return _Month11; }
-			set
-			{
-				this.OnPropertyValueChange(_.Month11,_Month11,value);
-				this._Month11=value;
-			}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public decimal? Month12
-		{
-			get{ return _Month12; }
-			set
-			{
-				this.OnPropertyValueChange(_.Month12,_Month12,value);
-				this._Month12=value;
-			}
-		}
+		///// <summary>
+		///// 年份
+		///// </summary>
+		//public int? Years
+		//{
+		//	get{ return _Years; }
+		//	set
+		//	{
+		//		this.OnPropertyValueChange(_.Years,_Years,value);
+		//		this._Years=value;
+		//	}
+		//}
+		///// <summary>
+		///// 
+		///// </summary>
+		//public decimal? Month1
+		//{
+		//	get{ return _Month1; }
+		//	set
+		//	{
+		//		this.OnPropertyValueChange(_.Month1,_Month1,value);
+		//		this._Month1=value;
+		//	}
+		//}
+		///// <summary>
+		///// 
+		///// </summary>
+		//public decimal? Month2
+		//{
+		//	get{ return _Month2; }
+		//	set
+		//	{
+		//		this.OnPropertyValueChange(_.Month2,_Month2,value);
+		//		this._Month2=value;
+		//	}
+		//}
+		///// <summary>
+		///// 
+		///// </summary>
+		//public decimal? Month3
+		//{
+		//	get{ return _Month3; }
+		//	set
+		//	{
+		//		this.OnPropertyValueChange(_.Month3,_Month3,value);
+		//		this._Month3=value;
+		//	}
+		//}
+		///// <summary>
+		///// 
+		///// </summary>
+		//public decimal? Month4
+		//{
+		//	get{ return _Month4; }
+		//	set
+		//	{
+		//		this.OnPropertyValueChange(_.Month4,_Month4,value);
+		//		this._Month4=value;
+		//	}
+		//}
+		///// <summary>
+		///// 
+		///// </summary>
+		//public decimal? Month5
+		//{
+		//	get{ return _Month5; }
+		//	set
+		//	{
+		//		this.OnPropertyValueChange(_.Month5,_Month5,value);
+		//		this._Month5=value;
+		//	}
+		//}
+		///// <summary>
+		///// 
+		///// </summary>
+		//public decimal? Month6
+		//{
+		//	get{ return _Month6; }
+		//	set
+		//	{
+		//		this.OnPropertyValueChange(_.Month6,_Month6,value);
+		//		this._Month6=value;
+		//	}
+		//}
+		///// <summary>
+		///// 
+		///// </summary>
+		//public decimal? Month7
+		//{
+		//	get{ return _Month7; }
+		//	set
+		//	{
+		//		this.OnPropertyValueChange(_.Month7,_Month7,value);
+		//		this._Month7=value;
+		//	}
+		//}
+		///// <summary>
+		///// 
+		///// </summary>
+		//public decimal? Month8
+		//{
+		//	get{ return _Month8; }
+		//	set
+		//	{
+		//		this.OnPropertyValueChange(_.Month8,_Month8,value);
+		//		this._Month8=value;
+		//	}
+		//}
+		///// <summary>
+		///// 
+		///// </summary>
+		//public decimal? Month9
+		//{
+		//	get{ return _Month9; }
+		//	set
+		//	{
+		//		this.OnPropertyValueChange(_.Month9,_Month9,value);
+		//		this._Month9=value;
+		//	}
+		//}
+		///// <summary>
+		///// 
+		///// </summary>
+		//public decimal? Month10
+		//{
+		//	get{ return _Month10; }
+		//	set
+		//	{
+		//		this.OnPropertyValueChange(_.Month10,_Month10,value);
+		//		this._Month10=value;
+		//	}
+		//}
+		///// <summary>
+		///// 
+		///// </summary>
+		//public decimal? Month11
+		//{
+		//	get{ return _Month11; }
+		//	set
+		//	{
+		//		this.OnPropertyValueChange(_.Month11,_Month11,value);
+		//		this._Month11=value;
+		//	}
+		//}
+		///// <summary>
+		///// 
+		///// </summary>
+		//public decimal? Month12
+		//{
+		//	get{ return _Month12; }
+		//	set
+		//	{
+		//		this.OnPropertyValueChange(_.Month12,_Month12,value);
+		//		this._Month12=value;
+		//	}
+		//}
 		/// <summary>
 		/// 
 		/// </summary>
@@ -338,19 +338,19 @@ namespace FancyFix.OA.Model
 			return new Field[] {
 				_.Id,
 				_.RawMaterialId,
-				_.Years,
-				_.Month1,
-				_.Month2,
-				_.Month3,
-				_.Month4,
-				_.Month5,
-				_.Month6,
-				_.Month7,
-				_.Month8,
-				_.Month9,
-				_.Month10,
-				_.Month11,
-				_.Month12,
+				//_.Years,
+				//_.Month1,
+				//_.Month2,
+				//_.Month3,
+				//_.Month4,
+				//_.Month5,
+				//_.Month6,
+				//_.Month7,
+				//_.Month8,
+				//_.Month9,
+				//_.Month10,
+				//_.Month11,
+				//_.Month12,
 				_.AddDate,
 				_.AddUserId,
 				_.LastDate,
@@ -367,19 +367,19 @@ namespace FancyFix.OA.Model
 			return new object[] {
 				this._Id,
 				this._RawMaterialId,
-				this._Years,
-				this._Month1,
-				this._Month2,
-				this._Month3,
-				this._Month4,
-				this._Month5,
-				this._Month6,
-				this._Month7,
-				this._Month8,
-				this._Month9,
-				this._Month10,
-				this._Month11,
-				this._Month12,
+				//this._Years,
+				//this._Month1,
+				//this._Month2,
+				//this._Month3,
+				//this._Month4,
+				//this._Month5,
+				//this._Month6,
+				//this._Month7,
+				//this._Month8,
+				//this._Month9,
+				//this._Month10,
+				//this._Month11,
+				//this._Month12,
 				this._AddDate,
 				this._AddUserId,
 				this._LastDate,

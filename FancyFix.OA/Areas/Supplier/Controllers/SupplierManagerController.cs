@@ -302,9 +302,9 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
         [HttpPost]
         public ActionResult Save(Supplier_List supplierList)
         {
-            Supplier_List model = Bll.BllSupplier_List.First(o => (o.Code == supplierList.Code || o.Name == supplierList.Name) && o.Display != 2);
+            Supplier_List model = Bll.BllSupplier_List.First(o => o.Code == supplierList.Code && o.Name == supplierList.Name && o.Display != 2);
             if (model != null)
-                return LayerMsgErrorAndReturn("供应商代码或，名称重复，请重新输入！");
+                return LayerMsgErrorAndReturn("供应商代码或名称重复，请重新输入！");
 
             model = Bll.BllSupplier_List.First(o => o.Id == supplierList.Id && o.Display != 2) ?? new Supplier_List();
             model.Code = supplierList.Code;

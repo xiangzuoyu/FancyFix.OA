@@ -113,6 +113,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Sql\Supplier_Price.sql" />
     <Content Include="Sql\Supplier_RawMaterialPrice.sql" />
     <Content Include="Sql\Supplier_RawMaterial.sql" />
     <Content Include="Sql\Design_ArtTaskList.sql" />

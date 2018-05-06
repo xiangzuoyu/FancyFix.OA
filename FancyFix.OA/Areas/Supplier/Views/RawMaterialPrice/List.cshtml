@@ -50,27 +50,13 @@
                                 </select>
                             </div>
                         </div>
-                        @*@if (prices != null && prices.Count > 0)
-                            {
-                                <div class="layui-input-inline">
-                                    <label class="layui-form-label">按年份</label>
-                                    <div class="layui-input-inline">
-                                        <select id="years" name="years" lay-filter="years">
-                                            @foreach (var item in prices)
-                                            {
-                                                <option value="@item.Years" @(item.Years == year ? "selected" : "")>@item.Years 年</option>
-                                            }
-                                        </select>
-                                    </div>
-                                </div>
-                            }*@
                         <div class="layui-input-inline">
                             &nbsp;<button id="btnSearch" class="btn bg-blue" lay-submit lay-filter="formSearch">查询</button>
                         </div>
                         <div class="layui-inline pull-right">
                             @*<button id="btnUpdateLabel" class="btn bg-blue">修改标签</button>&nbsp;*@
                             <input type="button" id="importBtn" class="btn bg-orange" value="导入">&nbsp;
-                            @*<input type="button" id="exportBtn" class="btn bg-orange" value="导出">*@
+                            <input type="button" id="exportBtn" class="btn bg-orange" value="导出">
                         </div>
                         <div id="toolbar" class="btn-group">
                             <button id="btn_add" type="button" class="btn btn-default">
@@ -180,55 +166,6 @@
                             title: '价格单位',
                             align: 'center',
                         },
-                        //{
-                        //    field: 'Month1',
-                        //    title: '一月',
-                        //    align: 'center',
-                        //}, {
-                        //    field: 'Month2',
-                        //    title: '二月',
-                        //    align: 'center',
-                        //}, {
-                        //    field: 'Month3',
-                        //    title: '三月',
-                        //    align: 'center',
-                        //}, {
-                        //    field: 'Month4',
-                        //    title: '四月',
-                        //    align: 'center',
-                        //}, {
-                        //    field: 'Month5',
-                        //    title: '五月',
-                        //    align: 'center',
-                        //}, {
-                        //    field: 'Month6',
-                        //    title: '六月',
-                        //    align: 'center',
-                        //}, {
-                        //    field: 'Month7',
-                        //    title: '七月',
-                        //    align: 'center',
-                        //}, {
-                        //    field: 'Month8',
-                        //    title: '八月',
-                        //    align: 'center',
-                        //}, {
-                        //    field: 'Month9',
-                        //    title: '九月',
-                        //    align: 'center',
-                        //}, {
-                        //    field: 'Month10',
-                        //    title: '十月',
-                        //    align: 'center',
-                        //}, {
-                        //    field: 'Month11',
-                        //    title: '十一月',
-                        //    align: 'center',
-                        //}, {
-                        //    field: 'Month12',
-                        //    title: '十二月',
-                        //    align: 'center',
-                        //},
                         {
                             title: '操作',
                             align: 'center',
@@ -331,7 +268,7 @@
                     }
 
                     ids = arr.substring(0, arr.length - 1);
-                    OpenWin("原材料价格列表", "/supplier/rawmaterialprice/pricelist?" + ids, '80%', '70%');
+                    OpenWin("原材料价格列表", "/supplier/rawmaterialprice/pricelist?" + ids, '90%', '90%');
                 }
             })
 
@@ -352,15 +289,7 @@
                             + '&years=' + $("#years").val()
                         OpenWin("导出供应商列表", "/supplier/rawmaterialprice/exportexcel?" + par, '726px', '580px');
                     })
-                },
-                yearsAjax: function () {
-                    var year = $("#years");
-                    $.get('/supplier/rawmaterialprice/yearslist', { years: year.val() }, function (data) {
-                        year.html(data.result);
-                        parent.$table.bootstrapTable('refresh');
-                        form.render('select'); //刷新select选择框渲染
-                    })
-                }
+                } 
             }
             fun.init();
         })

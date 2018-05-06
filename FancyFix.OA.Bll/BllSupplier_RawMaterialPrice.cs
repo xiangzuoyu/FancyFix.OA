@@ -66,7 +66,7 @@ namespace FancyFix.OA.Bll
             return p.Page(pageSize, page).OrderByDescending(o => o.Id).ToList();
         }
 
-        public static DataTable GetList(string file, string key, int years, int priceFrequency)
+        public static DataTable GetList(string file, string key, int priceFrequency)
         {
             var where = new Where<Supplier_RawMaterialPrice>();
             file = CheckSqlValue(file);
@@ -82,6 +82,7 @@ namespace FancyFix.OA.Bll
             var p = Db.Context.From<Supplier_RawMaterialPrice>()
                 .Select<Supplier_RawMaterial, Supplier_List>((a, b, c) => new
                 {
+                    a.Id,
                     b.BU,
                     b.SAPCode,
                     b.Description,
@@ -89,20 +90,21 @@ namespace FancyFix.OA.Bll
                     b.LeadBuyer,
                     c.Code,
                     c.Name,
-                    b.Currency,
                     a.PriceFrequency,
-                    a.Month1,
-                    a.Month2,
-                    a.Month3,
-                    a.Month4,
-                    a.Month5,
-                    a.Month6,
-                    a.Month7,
-                    a.Month8,
-                    a.Month9,
-                    a.Month10,
-                    a.Month11,
-                    a.Month12
+                    b.Currency
+
+                    //a.Month1,
+                    //a.Month2,
+                    //a.Month3,
+                    //a.Month4,
+                    //a.Month5,
+                    //a.Month6,
+                    //a.Month7,
+                    //a.Month8,
+                    //a.Month9,
+                    //a.Month10,
+                    //a.Month11,
+                    //a.Month12
                 })
                 .InnerJoin<Supplier_RawMaterial>((a, b) => a.RawMaterialId == b.SAPCode && a.Display != 2 && b.Display != 2)
                 .InnerJoin<Supplier_List>((b, c) => b.VendorId == c.Code && c.Display != 2)
@@ -128,19 +130,19 @@ namespace FancyFix.OA.Bll
                     c.Name,
                     b.Currency,
                     a.PriceFrequency,
-                    a.Years,
-                    a.Month1,
-                    a.Month2,
-                    a.Month3,
-                    a.Month4,
-                    a.Month5,
-                    a.Month6,
-                    a.Month7,
-                    a.Month8,
-                    a.Month9,
-                    a.Month10,
-                    a.Month11,
-                    a.Month12
+                    //a.Years,
+                    //a.Month1,
+                    //a.Month2,
+                    //a.Month3,
+                    //a.Month4,
+                    //a.Month5,
+                    //a.Month6,
+                    //a.Month7,
+                    //a.Month8,
+                    //a.Month9,
+                    //a.Month10,
+                    //a.Month11,
+                    //a.Month12
                 })
                 .InnerJoin<Supplier_RawMaterial>((a, b) => a.RawMaterialId == b.SAPCode && a.Display != 2 && b.Display != 2)
                 .InnerJoin<Supplier_List>((b, c) => b.VendorId == c.Code && c.Display != 2)

@@ -36,6 +36,7 @@ namespace FancyFix.OA.Model
 		private DateTime? _LastDate;
 		private int? _LastUserId;
 		private int? _Display;
+		private DateTime? _YearsMonth;
 		/// <summary>
 		/// 
 		/// </summary>
@@ -148,12 +149,24 @@ namespace FancyFix.OA.Model
 		/// 
 		/// </summary>
 		public int? Display
-        {
+		{
 			get{ return _Display; }
 			set
 			{
-				this.OnPropertyValueChange(_.Display, _Display, value);
-				this._Display = value;
+				this.OnPropertyValueChange(_.Display,_Display,value);
+				this._Display=value;
+			}
+		}
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? YearsMonth
+		{
+			get{ return _YearsMonth; }
+			set
+			{
+				this.OnPropertyValueChange(_.YearsMonth,_YearsMonth,value);
+				this._YearsMonth=value;
 			}
 		}
 		#endregion
@@ -189,7 +202,8 @@ namespace FancyFix.OA.Model
 				_.AddUserId,
 				_.LastDate,
 				_.LastUserId,
-				_.Display};
+				_.Display,
+				_.YearsMonth};
 		}
 		/// <summary>
 		/// 获取值信息
@@ -206,7 +220,8 @@ namespace FancyFix.OA.Model
 				this._AddUserId,
 				this._LastDate,
 				this._LastUserId,
-				this._Display};
+				this._Display,
+				this._YearsMonth};
 		}
 		#endregion
 
@@ -259,7 +274,11 @@ namespace FancyFix.OA.Model
 			/// <summary>
 			/// 
 			/// </summary>
-			public readonly static Field Display = new Field("Display", "Supplier_Price", "Display");
+			public readonly static Field Display = new Field("Display","Supplier_Price","Display");
+			/// <summary>
+			/// 
+			/// </summary>
+			public readonly static Field YearsMonth = new Field("YearsMonth","Supplier_Price","YearsMonth");
 		}
 		#endregion
 

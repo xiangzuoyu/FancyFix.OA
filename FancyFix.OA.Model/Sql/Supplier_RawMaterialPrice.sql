@@ -1,17 +1,17 @@
 /*
 Navicat SQL Server Data Transfer
 
-Source Server         : YZX-PC
-Source Server Version : 110000
-Source Host           : 127.0.0.1:1433
+Source Server         : local1
+Source Server Version : 100000
+Source Host           : (local):1433
 Source Database       : OA
 Source Schema         : dbo
 
 Target Server Type    : SQL Server
-Target Server Version : 110000
+Target Server Version : 100000
 File Encoding         : 65001
 
-Date: 2018-05-02 17:48:44
+Date: 2018-05-05 13:56:51
 */
 
 
@@ -23,19 +23,6 @@ GO
 CREATE TABLE [dbo].[Supplier_RawMaterialPrice] (
 [Id] int NOT NULL IDENTITY(1,1) ,
 [RawMaterialId] nvarchar(128) NULL ,
-[Years] int NULL ,
-[Month1] money NULL ,
-[Month2] money NULL ,
-[Month3] money NULL ,
-[Month4] money NULL ,
-[Month5] money NULL ,
-[Month6] money NULL ,
-[Month7] money NULL ,
-[Month8] money NULL ,
-[Month9] money NULL ,
-[Month10] money NULL ,
-[Month11] money NULL ,
-[Month12] money NULL ,
 [AddDate] datetime NULL ,
 [AddUserId] int NULL ,
 [LastDate] datetime NULL ,
@@ -47,7 +34,7 @@ CREATE TABLE [dbo].[Supplier_RawMaterialPrice] (
 
 
 GO
-DBCC CHECKIDENT(N'[dbo].[Supplier_RawMaterialPrice]', RESEED, 46)
+DBCC CHECKIDENT(N'[dbo].[Supplier_RawMaterialPrice]', RESEED, 48)
 GO
 IF ((SELECT COUNT(*) from fn_listextendedproperty('MS_Description', 
 'SCHEMA', N'dbo', 
@@ -62,20 +49,6 @@ EXEC sp_addextendedproperty @name = N'MS_Description', @value = N'原材料ID'
 , @level0type = 'SCHEMA', @level0name = N'dbo'
 , @level1type = 'TABLE', @level1name = N'Supplier_RawMaterialPrice'
 , @level2type = 'COLUMN', @level2name = N'RawMaterialId'
-GO
-IF ((SELECT COUNT(*) from fn_listextendedproperty('MS_Description', 
-'SCHEMA', N'dbo', 
-'TABLE', N'Supplier_RawMaterialPrice', 
-'COLUMN', N'Years')) > 0) 
-EXEC sp_updateextendedproperty @name = N'MS_Description', @value = N'年份'
-, @level0type = 'SCHEMA', @level0name = N'dbo'
-, @level1type = 'TABLE', @level1name = N'Supplier_RawMaterialPrice'
-, @level2type = 'COLUMN', @level2name = N'Years'
-ELSE
-EXEC sp_addextendedproperty @name = N'MS_Description', @value = N'年份'
-, @level0type = 'SCHEMA', @level0name = N'dbo'
-, @level1type = 'TABLE', @level1name = N'Supplier_RawMaterialPrice'
-, @level2type = 'COLUMN', @level2name = N'Years'
 GO
 IF ((SELECT COUNT(*) from fn_listextendedproperty('MS_Description', 
 'SCHEMA', N'dbo', 

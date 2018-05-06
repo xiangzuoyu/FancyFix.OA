@@ -44,15 +44,6 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             return BspTableJson(list, records);
         }
 
-        public JsonResult YearsList(int years = 0)
-        {
-            var list = Bll.BllSupplier_RawMaterialPrice.GetSelectList(0, "distinct(Years)", "display!=2", "Years");
-            string result = string.Empty;
-            foreach (var item in list)
-                result += "<option value=\"" + item.Years + "\" " + (item.Years == years ? "selected" : "") + ">" + item.Years + "年</option>";
-
-            return Json(new { result = result }, JsonRequestBehavior.AllowGet);
-        }
         #endregion
 
         #region 价格列表
@@ -74,21 +65,17 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             var rawMaterialList = Bll.BllSupplier_RawMaterial.GetSelectList(0, "Id,SAPCode,Description", "display!=2", "") ?? new List<Supplier_RawMaterial>();
             var supplierList = Bll.BllSupplier_List.GetSelectList(0, "Id,Code,Name", "display!=2", "") ?? new List<Supplier_List>();
 
-            //var arr = CreateCols(startdate, enddate);
             string table = CreateTable(rawMaterialPriceList, pricelist, rawMaterialList, supplierList, startdate, enddate);
-
             string pageStr = ShowPage((int)records, pageSize, page, 5, $"starttime={starttime}&endtime={endtime}", false);
             pageStr = pageStr.Replace(HttpUtility.UrlEncode(string.Join(",", id)), string.Join("&id=", id));
             ViewBag.pricelist = table;
             ViewBag.pageStr = pageStr;
-            ViewBag.Starttime = starttime;
-            ViewBag.Endtime = endtime;
+            ViewBag.Starttime = startdate.ToString("yyyy-MM");
+            ViewBag.Endtime = enddate.ToString("yyyy-MM");
             ViewBag.ids = $"id=" + string.Join("&id=", id);
 
             return View();
         }
-
-
 
         private string CreateTable(IEnumerable<Supplier_RawMaterialPrice> rawMaterialPriceList, List<Supplier_Price> pricelist,
             IEnumerable<Supplier_RawMaterial> rawMaterialList, IEnumerable<Supplier_List> supplierList, DateTime start, DateTime end)
@@ -127,20 +114,13 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
                 table.AddCol(rawMaterial.SAPCode);
                 table.AddCol(rawMaterial.Description);
 
-                //for (int i = 0; i < yearsNum; i++)
-                //{
-                //    for (int j = 1; j < 13; j++)
-                //    {
-                //    }
-                //}
-
-                while (startdate >= enddate)
+                while (startdate <= enddate)
                 {
                     var price = prices.Where(o => o.Years == (startdate.Year) && o.Month == startdate.Month).Select(o => o.Price).FirstOrDefault()
                             .GetValueOrDefault();
 
                     table.AddCol(price.ToString("f2"), price <= 0 ? "color:#d2d2d2;" : "");
-                    startdate.AddMonths(1);
+                    startdate = startdate.AddMonths(1);
                     colNum++;
                 }
 
@@ -159,21 +139,13 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             table.AddHeadCol("原材料名称", "min-width: 135px;");
             colNum = 4;
 
-            while (startYears >= endYearsa)
+            while (startYears <= endYearsa)
             {
                 table.AddHeadCol($"{startYears.ToString("yyyy-MM")}", "min-width: 85px;");
-                startYears.AddMonths(1);
+                startYears = startYears.AddMonths(1);
                 colNum++;
             }
 
-            //for (int i = 0; i < yearsNum; i++)
-            //{
-            //    for (int j = 1; j < 13; j++)
-            //    {
-            //        table.AddHeadCol($"{startYears + i}-{j}", "min-width: 85px;");
-            //        colNum++;
-            //    }
-            //}
             table.AddHeadRow();
 
             return table;
@@ -391,13 +363,14 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
                         AddUserId = MyInfo.Id,
                         LastDate = logDate,
                         LastUserId = MyInfo.Id,
-                        Display = 1
+                        Display = 1,
+                        YearsMonth = $"{years.ToString()}-{date[1].ToString()}-1".ToDateTime()
                     };
 
-                    Bll.BllSupplier_Price.Add(priceModel);
+                    Bll.BllSupplier_Price.DeleteAndAdd(priceModel);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
@@ -414,17 +387,23 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             ViewBag.key = key;
             ViewBag.priceFrequencyId = priceFrequency;
             ViewBag.years = years < 1 ? DateTime.Now.Year : years;
-            ViewBag.pricesList = Bll.BllSupplier_RawMaterialPrice.GetSelectList(0, "distinct(Years)", "display!=2", "Years");
+
+            DateTime startdate, enddate;
+            GetDate("", "", out startdate, out enddate);
+            ViewBag.Starttime = startdate.ToString("yyyy-MM");
+            ViewBag.Endtime = enddate.ToString("yyyy-MM");
 
             return View();
         }
 
         [HttpPost]
-        public ActionResult ExportExcel(int priceFrequency = 0, int years = 0)
+        public ActionResult ExportExcel(int priceFrequency = 0)
         {
             string files = RequestString("files");
             string key = RequestString("key");
             string cols = RequestString("cols");
+            DateTime startMonth = RequestString("startMonth").ToDateTime();
+            DateTime endMonth = RequestString("endMonth").ToDateTime();
             var arr = cols.Split(',');
             if (string.IsNullOrEmpty(cols))
                 return MessageBoxAndReturn("请先至少选择一个要导出的字段");
@@ -432,22 +411,24 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             if (!CheckSqlField(arr))
                 return MessageBoxAndReturn("选择导出的字段异常");
 
-            if (years < 1)
-                return MessageBoxAndReturn("请先选择导出的年份！");
+            DataTable dt = NewExportDt(arr, ref cols, startMonth, endMonth);
 
-            DataTable dt = NewExportDt(arr, years, ref cols);
-
-            var list = Bll.BllSupplier_RawMaterialPrice.GetList(files, key, years, priceFrequency);
-            ToExcel(list, dt, years, cols);
+            var list = Bll.BllSupplier_RawMaterialPrice.GetList(files, key, priceFrequency);
+            var pricelist = Bll.BllSupplier_Price.GetList(startMonth, endMonth);
+            ToExcel(list, pricelist, dt, cols, startMonth, endMonth);
 
             return MessageBoxAndClose("导出成功");
         }
 
-        private DataTable NewExportDt(string[] arr, int years, ref string cols)
+        private DataTable NewExportDt(string[] arr, ref string cols, DateTime startMonth, DateTime endMonth)
         {
             DataTable dt = new DataTable();
             DataRow rows = dt.NewRow();
             int rowIndex = 0;
+
+            NewDtHead(ref dt, ref rows, rowIndex, "PriceId", "PriceId");
+            cols += ",PriceId";
+            rowIndex++;
             foreach (var item in arr)
             {
                 switch (item)
@@ -483,12 +464,13 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
                 rowIndex++;
             }
 
-            for (int i = 1; i < 13; i++)
+            while (startMonth <= endMonth)
             {
-                string columns = string.Format("'{0}/{1}", years.ToString(), i);
+                string columns = string.Format("'{0}/{1}", startMonth.Year.ToString(), startMonth.Month.ToString());
                 dt.Columns.Add(columns, typeof(String));
-                rows[rowIndex] = string.Format("'{0}-{1}", years.ToString(), i);
-                cols += ",Month" + i;
+                rows[rowIndex] = string.Format("'{0}-{1}", startMonth.Year.ToString(), startMonth.Month.ToString());
+                //cols += ",Month" + startMonth.Month.ToString();
+                startMonth = startMonth.AddMonths(1);
                 rowIndex++;
             }
 
@@ -496,7 +478,7 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             return dt;
         }
 
-        public void ToExcel(DataTable list, DataTable excelDt, int years, string cols)
+        public void ToExcel(DataTable list, List<Supplier_Price> pricelist, DataTable excelDt, string cols, DateTime startMonth, DateTime endMonth)
         {
             if (list == null || list.Rows.Count < 1)
                 return;
@@ -507,9 +489,13 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
                 int col = list.Columns.Count;
                 foreach (DataRow item in list.Rows)
                 {
+                    DateTime starttiem = startMonth;
+                    DateTime endtime = endMonth;
+
                     var row = dt.NewRow();
 
-                    for (int i = 0, j = 0; j < dt.Columns.Count; i++, j++)
+                    int i = 0, j = 0;
+                    for (i = 0, j = 0; i < list.Columns.Count; i++, j++)
                     {
                         var colum = list.Columns[i].ToString();
                         //当前字段不在导出范围内则跳过
@@ -526,9 +512,26 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
                                 : "无";
                         else
                             row[j] = item[i]?.ToString();
+
                     }
+
+                    //循环价格
+                    while (starttiem <= endtime)
+                    {
+                        //string columns = string.Format("'{0}/{1}", startMonth.Year.ToString(), startMonth.Month.ToString());
+                        //dt.Columns.Add(columns, typeof(String));
+                        var price = pricelist.Where(o => o.RawMaterialPriceId.ToString() == row[0].ToString() && o.Years == (starttiem.Year)
+                            && o.Month == starttiem.Month).Select(o => o.Price).FirstOrDefault().GetValueOrDefault();
+
+                        row[j] = price.ToString("f2");
+                        starttiem = starttiem.AddMonths(1);
+                        j++;
+                    }
+
                     dt.Rows.Add(row);
                 }
+
+                dt.Columns.Remove("PriceId");
             }
             catch (Exception ex)
             {
@@ -547,27 +550,44 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
         #endregion
 
         #region 编辑
-        public ActionResult Save(int id = 0)
+        public ActionResult Save(int id = 0, int year = 0)
         {
             Supplier_RawMaterialPrice model = null;
-            ViewBag.years = DateTime.Now.Year;
 
-            if (id > 0)
-            {
-                model = Bll.BllSupplier_RawMaterialPrice.GetModel(id);
-                if (model == null)
-                    return LayerAlertErrorAndReturn("加载原材料价格信息失败，未找到该原材料价格");
-            }
+            if (id < 1)
+                return View(model);
+
+            model = Bll.BllSupplier_RawMaterialPrice.GetModel(id);
+            if (model == null)
+                return LayerAlertErrorAndReturn("加载原材料价格信息失败，未找到该原材料价格");
+
+            var list = Bll.BllSupplier_Price.GetSelectList(0, "Id,RawMaterialPriceId,Years,Month,Price,Display,YearsMonth"
+                , "RawMaterialPriceId=" + model.Id, "YearsMonth");
+
+            var selectList = list.Select(o => o.Years).Distinct();
+            ViewBag.SelectList = CreateSelectList(selectList, year);
+
+            if (list == null || list.Count() < 1)
+                return View(model);
+
+            //显示的价格年份
+            int years = year < 1 ? selectList.First().GetValueOrDefault() : year;
+
+            var priceModel = list.Where(o => o.Years == years).ToList();
+            if (priceModel == null || priceModel.Count() < 1)
+                return View(model);
+
+            ViewBag.prices2 = priceModel;
 
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult Save(Supplier_RawMaterialPrice rawmaterialPrice)
+        public ActionResult Save(Supplier_RawMaterialPrice rawmaterialPrice, int Years = 0, string Action = "")
         {
             Supplier_RawMaterialPrice model = Bll.BllSupplier_RawMaterialPrice.First(o => o.Id == rawmaterialPrice.Id && o.Display != 2) ?? new Supplier_RawMaterialPrice();
 
-            //根据原材料不存在，返回提示
+            //如果原材料不存在，返回提示
             var rawMaterialModel = Bll.BllSupplier_RawMaterial.First(o => o.SAPCode == rawmaterialPrice.SAPCode && o.Display != 2);
             if (rawMaterialModel == null)
                 return LayerAlertErrorAndReturn("原材料代码不存在，请重新输入");
@@ -578,24 +598,32 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             //保存价格
             model.RawMaterialId = rawMaterialModel.SAPCode;
             model.VendorId = supplierModel.Code;
-            model.Years = rawmaterialPrice.Years;
             model.PriceFrequency = rawmaterialPrice.PriceFrequency;
-            model.Month1 = rawmaterialPrice.Month1;
-            model.Month2 = rawmaterialPrice.Month2;
-            model.Month3 = rawmaterialPrice.Month3;
-            model.Month4 = rawmaterialPrice.Month4;
-            model.Month5 = rawmaterialPrice.Month5;
-            model.Month6 = rawmaterialPrice.Month6;
-            model.Month7 = rawmaterialPrice.Month7;
-            model.Month8 = rawmaterialPrice.Month8;
-            model.Month9 = rawmaterialPrice.Month9;
-            model.Month10 = rawmaterialPrice.Month10;
-            model.Month11 = rawmaterialPrice.Month11;
-            model.Month12 = rawmaterialPrice.Month12;
             model.LastUserId = MyInfo.Id;
             model.LastDate = DateTime.Now;
             model.Display = 1;
             bool isok = false;
+
+            DateTime datetime = DateTime.Now;
+            List<Supplier_Price> prices = new List<Supplier_Price>();
+            for (int i = 1; i < 13; i++)
+            {
+                prices.Add(new Supplier_Price
+                {
+                    RawMaterialPriceId = model.Id,
+                    Years = Years,
+                    Month = i,
+                    Price = RequestDecimal("month" + i),
+                    AddDate = datetime,
+                    AddUserId = MyInfo.Id,
+                    LastDate = datetime,
+                    LastUserId = MyInfo.Id,
+                    Display = 1,
+                    YearsMonth = $"{Years}-{i}-1".ToDateTime()
+                });
+            }
+
+            //编辑报价表
             if (rawmaterialPrice.Id < 1)
             {
                 model.AddDate = model.LastDate;
@@ -606,8 +634,22 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             {
                 isok = Bll.BllSupplier_RawMaterialPrice.Update(model) > 0;
             }
+            //编辑价格表
+            isok = Bll.BllSupplier_Price.InsertPrice(Years, model.Id, prices);
 
-            return LayerAlertAndCallback("保存" + (isok ? "成功" : "失败"), "fun.yearsAjax()");
+            return LayerAlert("保存" + (isok ? "成功" : "失败"));
+        }
+
+        //拼接Select下拉框
+        public string CreateSelectList(IEnumerable<int?> list, int year)
+        {
+            string result = string.Empty;
+            foreach (var item in list)
+            {
+                result += string.Format("<option value=\"{0}\" {2}>{1}</option>", item, item, item == year ? "selected" : "");
+            }
+
+            return result;
         }
         #endregion
 
@@ -627,40 +669,179 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
         #endregion
 
         #region 数据图表
-        public ActionResult ShowCharts(int[] id = null)
+        public ActionResult ShowCharts(int[] id = null, string startdate = "", string enddate = "")
         {
-            if (id == null)
-                return LayerAlertErrorAndClose("请先勾选需要对比的原材料价格");
+            if (id == null || string.IsNullOrEmpty(startdate) || string.IsNullOrEmpty(enddate))
+                return LayerAlertErrorAndClose("请先勾选需要对比的原材料价格并选择日期");
 
+            ViewBag.ids = string.Join("&id=", id);
+            ViewBag.startdate = startdate;
+            ViewBag.enddate = enddate;
+
+            return View();
+        }
+
+        public JsonResult GetChartsData(int[] id = null, string startdate = "", string enddate = "", int chartType = 1)
+        {
+            DateTime startMonth, endMonth;
+            GetDate(startdate, enddate, out startMonth, out endMonth);
+            var pricelist = Bll.BllSupplier_Price.GetList(startMonth, endMonth);
             var list = Bll.BllSupplier_RawMaterialPrice.GetList(id) ?? new List<Supplier_RawMaterialPrice>();
-            var rawMaterialList = Bll.BllSupplier_RawMaterial.GetSelectList(0, "Id,SAPCode,Description", "display!=2", "") ?? new List<Supplier_RawMaterial>();
+            var rawMaterialList = Bll.BllSupplier_RawMaterial.GetSelectList(0, "Id,SAPCode,Description", "display!=2", "")
+                ?? new List<Supplier_RawMaterial>();
             var supplierList = Bll.BllSupplier_List.GetSelectList(0, "Id,Code,Name", "display!=2", "") ?? new List<Supplier_List>();
 
-
             List<string> legend = new List<string>();
-            //string dataModel = "{\"name\":\"{name}\",\"type\":\"bar\",\"data\":{data}},";
-            StringBuilder sbt = new StringBuilder();
             List<string> series = new List<string>();
-            foreach (var item in list)
-            {
-                var rawMaterialName = rawMaterialList.Where(o => o.SAPCode == item.RawMaterialId).FirstOrDefault()?.Description;
-                var supplierName = supplierList.Where(o => o.Code == item.VendorId).FirstOrDefault()?.Name;
-                legend.Add(string.Format("'{0}'", $"{ rawMaterialName}_{supplierName}"));
-                //sbt.Append(dataModel.Replace("{name}", name).
-                //    Replace("{data}", string.Format("[{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11}]",
-                //    item.Month1 ?? 0, item.Month2 ?? 0, item.Month3 ?? 0, item.Month4 ?? 0, item.Month5 ?? 0, item.Month6 ?? 0,
-                //    item.Month7 ?? 0, item.Month8 ?? 0, item.Month9 ?? 0, item.Month10 ?? 0, item.Month11 ?? 0, item.Month12 ?? 0)));
+            List<string> xAxis = new List<string>();
+            StringBuilder str = new StringBuilder();
+            List<string> prices = new List<string>();
 
-                series.Add(string.Format("[{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11}]",
-                    item.Month1.GetValueOrDefault(), item.Month2.GetValueOrDefault(), item.Month3.GetValueOrDefault(), item.Month4.GetValueOrDefault(),
-                    item.Month5.GetValueOrDefault(), item.Month6.GetValueOrDefault(), item.Month7.GetValueOrDefault(), item.Month8.GetValueOrDefault(),
-                    item.Month9.GetValueOrDefault(), item.Month10.GetValueOrDefault(), item.Month11.GetValueOrDefault(), item.Month12.GetValueOrDefault()));
+            if (chartType == 1)
+            {
+                foreach (var item in list)
+                {
+                    DateTime start = startMonth, end = endMonth;
+                    var rawMaterialName = rawMaterialList.Where(o => o.SAPCode == item.RawMaterialId).FirstOrDefault()?.Description;
+                    var supplierName = supplierList.Where(o => o.Code == item.VendorId).FirstOrDefault()?.Name;
+                    legend.Add($"{ rawMaterialName}_{supplierName}");
+
+                    //循环价格
+                    while (start <= end)
+                    {
+                        var price = pricelist.Where(o => o.RawMaterialPriceId.ToString() == item.Id.ToString() && o.Years == (start.Year)
+                            && o.Month == start.Month).Select(o => o.Price).FirstOrDefault().GetValueOrDefault();
+
+                        prices.Add(price.ToString("f2"));
+
+                        if (str.Length < 1)
+                            xAxis.Add($"{start.Year}-{start.Month}");
+
+                        start = start.AddMonths(1);
+                    }
+
+                    if (str.Length < 1)
+                        str.Append(string.Join(",", xAxis));
+                    series.Add("{" + $"\"name\":\"{ rawMaterialName}_{supplierName}\",\"type\":\"bar\",\"data\":[{string.Join(",", prices)}]" + "}");
+                    prices.Clear();
+                }
+
             }
-            ViewBag.legend = string.Join(",", legend);
-            ViewBag.seriesData = $"[{string.Join(",", series)}]";
-            //ViewBag.seriesData = sbt.ToString().Trim(',');
-            ViewBag.Year = list.First()?.Years;
-            return View();
+            else if (chartType == 2)
+            {
+                foreach (var item in list)
+                {
+                    DateTime start = startMonth, end = endMonth;
+                    var rawMaterialName = rawMaterialList.Where(o => o.SAPCode == item.RawMaterialId).FirstOrDefault()?.Description;
+                    var supplierName = supplierList.Where(o => o.Code == item.VendorId).FirstOrDefault()?.Name;
+                    legend.Add($"{ rawMaterialName}_{supplierName}");
+
+                    decimal price = 0;
+                    //循环价格
+                    while (start <= end)
+                    {
+
+
+                        switch (start.Month)
+                        {
+                            case 1:
+                            case 2:
+                            case 3:
+                                if (str.Length < 1)
+                                    xAxis.Add($"{start.Year}-第一季度");
+
+                                price = pricelist.Where(o => o.RawMaterialPriceId.ToString() == item.Id.ToString() && o.Years == start.Year
+                                    && o.Month >= 1 && o.Month <= 3).Select(o => o.Price).FirstOrDefault().GetValueOrDefault();
+
+                                prices.Add(price.ToString("f2"));
+                                start = start.AddMonths(3 - start.Month);
+                                break;
+                            case 4:
+                            case 5:
+                            case 6:
+                                if (str.Length < 1)
+                                    xAxis.Add($"{start.Year}-第二季度");
+
+                                price = pricelist.Where(o => o.RawMaterialPriceId.ToString() == item.Id.ToString() && o.Years == start.Year
+                                    && o.Month >= 4 && o.Month <= 6).Select(o => o.Price).FirstOrDefault().GetValueOrDefault();
+
+                                prices.Add(price.ToString("f2"));
+                                start = start.AddMonths(6 - start.Month);
+                                break;
+                            case 7:
+                            case 8:
+                            case 9:
+                                if (str.Length < 1)
+                                    xAxis.Add($"{start.Year}-第三季度");
+
+                                price = pricelist.Where(o => o.RawMaterialPriceId.ToString() == item.Id.ToString() && o.Years == start.Year
+                                    && o.Month >= 7 && o.Month <= 9).Select(o => o.Price).FirstOrDefault().GetValueOrDefault();
+
+                                prices.Add(price.ToString("f2"));
+
+                                start = start.AddMonths(9 - start.Month);
+                                break;
+                            case 10:
+                            case 11:
+                            case 12:
+                                if (str.Length < 1)
+                                    xAxis.Add($"{start.Year}-第四季度");
+
+                                price = pricelist.Where(o => o.RawMaterialPriceId.ToString() == item.Id.ToString() && o.Years == start.Year
+                                   && o.Month >= 10 && o.Month <= 12).Select(o => o.Price).FirstOrDefault().GetValueOrDefault();
+
+                                start = start.AddMonths(12 - start.Month);
+                                break;
+
+                        }
+
+                        start = start.AddMonths(1);
+                    }
+
+
+
+                    if (str.Length < 1)
+                        str.Append(string.Join(",", xAxis));
+                    series.Add("{" + $"\"name\":\"{ rawMaterialName}_{supplierName}\",\"type\":\"bar\",\"data\":[{string.Join(",", prices)}]" + "}");
+                    prices.Clear();
+                }
+            }
+            else if (chartType == 3)
+            {
+                foreach (var item in list)
+                {
+                    DateTime start = $"{startMonth.Year}-1-1".ToDateTime(), end = endMonth;
+                    var rawMaterialName = rawMaterialList.Where(o => o.SAPCode == item.RawMaterialId).FirstOrDefault()?.Description;
+                    var supplierName = supplierList.Where(o => o.Code == item.VendorId).FirstOrDefault()?.Name;
+                    legend.Add($"{ rawMaterialName}_{supplierName}");
+
+                    //循环价格
+                    while (start <= end)
+                    {
+                        var price = pricelist.Where(o => o.RawMaterialPriceId.ToString() == item.Id.ToString()
+                            && o.Years == (start.Year)).Select(o => o.Price).Sum().GetValueOrDefault();
+
+                        prices.Add(price.ToString("f2"));
+
+                        if (str.Length < 1)
+                            xAxis.Add(start.Year.ToString());
+
+                        start = start.AddYears(1);
+                    }
+
+                    if (str.Length < 1)
+                        str.Append(string.Join(",", xAxis));
+                    series.Add("{" + $"\"name\":\"{ rawMaterialName}_{supplierName}\",\"type\":\"bar\",\"data\":[{string.Join(",", prices)}]" + "}");
+                    prices.Clear();
+                }
+            }
+
+            return Json(new
+            {
+                seriesData = $"[{string.Join(",", series)}]",
+                legend = string.Join(",", legend),
+                xAxis = $"{str.ToString()}"
+            }, JsonRequestBehavior.AllowGet);
         }
         #endregion
 
@@ -675,6 +856,8 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
 
             return true;
         }
+
+
         #endregion
     }
 }

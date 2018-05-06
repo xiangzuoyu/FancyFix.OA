@@ -6,9 +6,54 @@
     ViewBag.Title = "Save";
     Layout = "~/Views/Shared/_Layout_In.cshtml";
 
-    int year = ViewBag.years;
-    List<Supplier_RawMaterialPrice> prices = ViewBag.pricesList;
+    List<Supplier_Price> prices2 = ViewBag.prices2 ?? new List<Supplier_Price>();
 }
+
+<script>
+    function RetrunMonth(month) {
+        var result = "";
+        switch (month) {
+            case 1:
+                result = "一";
+                break;
+            case 2:
+                result = "二";
+                break;
+            case 3:
+                result = "三";
+                break;
+            case 4:
+                result = "四";
+                break;
+            case 5:
+                result = "五";
+                break;
+            case 6:
+                result = "六";
+                break;
+            case 7:
+                result = "七";
+                break;
+            case 8:
+                result = "八";
+                break;
+            case 9:
+                result = "九";
+                break;
+            case 10:
+                result = "十";
+                break;
+            case 11:
+                result = "十一";
+                break;
+            case 12:
+                result = "十二";
+                break;
+                console.log(result)
+        }
+        return result;
+    }
+</script>
 
 <div class="row">
     <div class="col-md-12">
@@ -29,13 +74,13 @@
                         </td>
                     </tr>
                     <tr>
-                            <td align="right"><label for="Description" class="control-label">采购产品名称：</label></td>
-                            <td>
-                                <div class="form-group">
-                                    @Html.TextBox("Description", (Model?.Description ?? ""), new { @class = "form-control",@readonly= "readonly", style = "width:250px;" })
-                                </div>
-                            </td>
-                        </tr>
+                        <td align="right"><label for="Description" class="control-label">采购产品名称：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("Description", (Model?.Description ?? ""), new { @class = "form-control", @readonly = "readonly", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
 
                     <tr>
                         <td align="right"><label for="Code" class="control-label">供应商代码：</label></td>
@@ -46,13 +91,13 @@
                         </td>
                     </tr>
                     <tr>
-                            <td align="right"><label for="Name" class="control-label">供应商名称：</label></td>
-                            <td>
-                                <div class="form-group">
-                                    @Html.TextBox("Name", (Model?.Name ?? ""), new { @class = "form-control", @readonly = "readonly",  style = "width:250px;" })
-                                </div>
-                            </td>
-                        </tr>
+                        <td align="right"><label for="Name" class="control-label">供应商名称：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("Name", (Model?.Name ?? ""), new { @class = "form-control", @readonly = "readonly", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
                     <tr>
                         <td align="right"><label class="control-label">价格频次：</label></td>
                         <td>
@@ -71,114 +116,47 @@
                             </div>
                         </td>
                     </tr>
-                    <tr>
+                    <tr id="updateYearTr" style="@(ViewBag.SelectList==null?"display:none;":"")">
                         <td align="right"><label class="control-label">价格年份：</label></td>
                         <td>
                             <div class="form-group">
-                                @Html.TextBox("Years", (Model?.Years ?? year), new { @class = "form-control", required = "required", style = "width:250px;" })
+                                <select class="layui-select" id="updateYears" name="updateYears" style="width:150px">
+                                    @Html.Raw(ViewBag.SelectList);
+                                </select>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<button class="btn" id="btnAddYear" type="button">新增年份</button>
                             </div>
                         </td>
                     </tr>
-                    <tr>
-                        <td align="right"><label for="Month1" class="control-label">一月：</label></td>
+                    <tr id="addYearTr" style="@(ViewBag.SelectList!=null?"display:none;":"")">
+                        <td align="right"><label class="control-label">新增价格年份：</label></td>
                         <td>
                             <div class="form-group">
-                                @Html.TextBox("Month1", (Model?.Month1 ?? 0), new { @class = "form-control", type = "number", required = "required", style = "width:250px;" })
+                                @Html.TextBox("addYears", null, new { @class = "form-control layui-input-inline", placeholder = "请输入年份", required = "required", style = "width:150px;" })
+                                <button class="btn" id="btnUpdateYear" style="@(ViewBag.SelectList==null?"display:none;":"")" type="button">修改年份</button>
                             </div>
                         </td>
                     </tr>
-                    <tr>
-                        <td align="right"><label for="Month2" class="control-label">二月：</label></td>
-                        <td>
-                            <div class="form-group">
-                                @Html.TextBox("Month2", (Model?.Month2 ?? 0), new { @class = "form-control", type = "number", required = "required", style = "width:250px;" })
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="right"><label for="Month3" class="control-label">三月：</label></td>
-                        <td>
-                            <div class="form-group">
-                                @Html.TextBox("Month3", (Model?.Month3 ?? 0), new { @class = "form-control", type = "number", required = "required", style = "width:250px;" })
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="right"><label for="Month4" class="control-label">四月：</label></td>
-                        <td>
-                            <div class="form-group">
-                                @Html.TextBox("Month4", (Model?.Month4 ?? 0), new { @class = "form-control", type = "number", required = "required", style = "width:250px;" })
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="right"><label for="Month5" class="control-label">五月：</label></td>
-                        <td>
-                            <div class="form-group">
-                                @Html.TextBox("Month5", (Model?.Month5 ?? 0), new { @class = "form-control", type = "number", required = "required", style = "width:250px;" })
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="right"><label for="Month6" class="control-label">六月：</label></td>
-                        <td>
-                            <div class="form-group">
-                                @Html.TextBox("Month6", (Model?.Month6 ?? 0), new { @class = "form-control", type = "number", required = "required", style = "width:250px;" })
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="right"><label for="Month7" class="control-label">七月：</label></td>
-                        <td>
-                            <div class="form-group">
-                                @Html.TextBox("Month7", (Model?.Month7 ?? 0), new { @class = "form-control", type = "number", required = "required", style = "width:250px;" })
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="right"><label for="Month8" class="control-label">八月：</label></td>
-                        <td>
-                            <div class="form-group">
-                                @Html.TextBox("Month8", (Model?.Month8 ?? 0), new { @class = "form-control", type = "number", required = "required", style = "width:250px;" })
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="right"><label for="Month9" class="control-label">九月：</label></td>
-                        <td>
-                            <div class="form-group">
-                                @Html.TextBox("Month9", (Model?.Month9 ?? 0), new { @class = "form-control", type = "number", required = "required", style = "width:250px;" })
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="right"><label for="Month10" class="control-label">十月：</label></td>
-                        <td>
-                            <div class="form-group">
-                                @Html.TextBox("Month10", (Model?.Month10 ?? 0), new { @class = "form-control", type = "number", required = "required", style = "width:250px;" })
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="right"><label for="Month11" class="control-label">十一月：</label></td>
-                        <td>
-                            <div class="form-group">
-                                @Html.TextBox("Month11", (Model?.Month11 ?? 0), new { @class = "form-control", type = "number", required = "required", style = "width:250px;" })
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="right"><label for="Month12" class="control-label">十二月：</label></td>
-                        <td>
-                            <div class="form-group">
-                                @Html.TextBox("Month12", (Model?.Month12 ?? 0), new { @class = "form-control", type = "number", required = "required", style = "width:250px;" })
-                            </div>
-                        </td>
-                    </tr>
+                    @for (int i = 1; i < 13; i++)
+                    {
+                        <tr>
+                            <td align="right">
+                                <label for="Month1" class="control-label">
+                                    <script>RetrunMonth(@i)</script>月
+                                </label>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    @Html.TextBox("Month" + i, (prices2?.Find(o => o.Month == i)?.Price ?? 0), new { @class = "form-control", type = "number", required = "required", style = "width:250px;" })
+                                </div>
+                            </td>
+                        </tr>
+                    }
                     <tr>
                         <td align="right"></td>
                         <td>
                             @Html.Hidden("Id", (Model?.Id ?? 0))
+                            @Html.Hidden("Action", "update")
+                            @Html.Hidden("Years", "update")
                             <button type="submit" id="btnPass" class="btn btn-primary">保存</button>
                             <button type="button" id="cancel" class="btn btn-default" onclick="CloseWin()">取消</button>
                         </td>
@@ -189,7 +167,8 @@
     </div>
 </div>
 
-@section Js{
+@section Js
+{
     <script src="/Content/js/plugins/iCheck/icheck.min.js"></script>
     <script src="/Content/js/plugins/jqvalidate/jquery.validator.min.js"></script>
     <script src="/Content/js/plugins/jqvalidate/messages_cn.js"></script>
@@ -198,23 +177,37 @@
     <script>
         layui.use(['layer', 'laydate'], function () {
             var layer = layui.layer;
+            var form = layui.form;
             var laydate = layui.laydate;
 
-            //laydate.render({
-            //    elem: '#Years', //或 elem: document.getElementById('test')、elem: lay('#test') 等
-            //    type: 'year'
-            //});
+            var fun = {
+                init: function () {
+                    //绑定年份下拉框事件
+                    $("#updateYears").bind("change", function () {
+                        var where = "";
+                        where += "Id=" + $("#Id").val();
+                        location.href = window.location.pathname + "?Id=" + $("#Id").val() + "&year=" + $("#updateYears").val()
+                    });
+                    //绑定新增年份按钮事件
+                    $("#btnAddYear").bind("click", function () {
+                        $("#updateYearTr").hide()
+                        $("#addYearTr").show()
+                        $("#Action").val("add");
+                    })
+                    //绑定修改年份按钮事件
+                    $("#btnUpdateYear").bind("click", function () {
+                        $("#addYearTr").hide()
+                        $("#updateYearTr").show()
+                        $("#Action").val("update");
+                    })
+                }
+            }
 
-            ////日期控件
-            //$("#Years").click(function () {
-            //    laydate({
-            //        elem: this,
-            //        type: 'year',
-            //        //min: laydate.now(),
-            //        //format: 'YYYY-MM-DD hh:mm:ss',
-            //        format: 'YYYY',
-            //    });
-            //});
+
+
+            $(function () {
+                fun.init();
+            })
 
             //表单验证
             var $form = $("#mainform");
@@ -224,6 +217,9 @@
             $("#btnPass").click(function () {
                 $("#demandtypeid").attr("disabled", false);
                 $("#detailtypeid").attr("disabled", false);
+
+                var year = ($("#Action").val() == "add") ? $("#addYears").val() : $("#updateYears").val();
+                $("#Years").val(year)
                 $form.valid();
             });
         })

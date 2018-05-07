@@ -123,5 +123,12 @@ namespace FancyFix.OA.ViewModel
 
         [Display(Name = "图案Id")]
         public int patternid { get; set; }
+
+        [Display(Name = "供应商Id")]
+        public int supplierid { get; set; }
+
+        [Display(Name = "供应商名称")]
+        [StringLength(500, ErrorMessage = "{0}必须小于{1}个字符")]
+        public string suppliername { get; set; }
     }
 }

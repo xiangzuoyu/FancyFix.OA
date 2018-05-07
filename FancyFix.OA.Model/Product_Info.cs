@@ -67,6 +67,7 @@ namespace FancyFix.OA.Model
 		private string _InvoiceName;
 		private string _Attachment;
 		private string _Videos;
+		private string _SupplierName;
 		/// <summary>
 		/// 自增Id
 		/// </summary>
@@ -559,6 +560,18 @@ namespace FancyFix.OA.Model
 				this._Videos=value;
 			}
 		}
+		/// <summary>
+		/// 
+		/// </summary>
+		public string SupplierName
+		{
+			get{ return _SupplierName; }
+			set
+			{
+				this.OnPropertyValueChange(_.SupplierName,_SupplierName,value);
+				this._SupplierName=value;
+			}
+		}
 		#endregion
 
 		#region Method
@@ -623,7 +636,8 @@ namespace FancyFix.OA.Model
 				_.SupplierId,
 				_.InvoiceName,
 				_.Attachment,
-				_.Videos};
+				_.Videos,
+				_.SupplierName};
 		}
 		/// <summary>
 		/// 获取值信息
@@ -671,7 +685,8 @@ namespace FancyFix.OA.Model
 				this._SupplierId,
 				this._InvoiceName,
 				this._Attachment,
-				this._Videos};
+				this._Videos,
+				this._SupplierName};
 		}
 		#endregion
 
@@ -849,6 +864,10 @@ namespace FancyFix.OA.Model
 			/// 
 			/// </summary>
 			public readonly static Field Videos = new Field("Videos","Product_Info","Videos");
+			/// <summary>
+			/// 
+			/// </summary>
+			public readonly static Field SupplierName = new Field("SupplierName","Product_Info","SupplierName");
 		}
 		#endregion
 

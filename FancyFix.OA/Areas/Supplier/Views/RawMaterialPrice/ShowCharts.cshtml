@@ -2,9 +2,18 @@
 @{
     ViewBag.Title = "ShowCharts";
     Layout = "~/Views/Shared/_Layout_In.cshtml";
+
+    string ids = ViewBag.ids;
 }
- 
+
 <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+<div style="text-align:center;" class="echartsBtn">
+    <span style="margin-left:50px;color:#1E9FFF;" class="btn btn-default" data-val="1">按月显示</span>
+    <span style="margin-left:10px;color:#5FB878;" class="btn btn-default" data-val="2">按季度显示</span>
+    <span style="margin-left:10px;color:#FF5722;" class="btn btn-default" data-val="3">按年显示</span>
+</div>
+<br /><br />
+<input type="hidden" value="" />
 <div id="main" style="width:100%;height:500px;"></div>
 
 @section Js{
@@ -29,21 +38,84 @@
                         saveAsImage: { show: true }
                     }
                 },
+                grid: {
+                    bottom:100
+                },
                 legend: {
-                    data: [@Html.Raw(ViewBag.legend)]
+                    data: []
                 },
                 xAxis: {
-                    data: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"]
+                    axisLabel: {
+                        rotate: 990,
+                        interval: 0
+                    },
+                    data: []
                 },
                 yAxis: {},
-                series: [@Html.Raw(ViewBag.seriesData)]
+                series: [
+                    {
+                        name: "直接访问",
+                        type: "bar",
+                        data: [0]
+                    }
+                ]
             };
             // 使用刚指定的配置项和数据显示图表。
             myChart.setOption(option);
-        })
 
+            var fun = {
+                //图表类型，1：按月显示；2：按季度显示；3：按年显示
+                chartType: 1,
+                ids:"@Html.Raw(ViewBag.ids)",
+                startdate: "@ViewBag.startdate",
+                enddate: "@ViewBag.enddate",
+                xAxis:[],
+                chartLegend:[],
+                chartData:[] ,
+                init: function () {
+                    fun.ajax();
+                },
+                ajax: function () {
+                    var url = "/supplier/rawmaterialprice/getchartsdata?chartType=" + fun.chartType + "&id=" + fun.ids +
+                        "&startdate=" + fun.startdate + "&enddate=" + fun.enddate
 
+                    $.ajaxSetup({
+                        async: false
+                    });
 
+                    $.get(url, function (data) {
+                        fun.chartLegend = data.legend.split(",");
+                        fun.xAxis = data.xAxis.split(",");
+                        fun.chartData = JSON.parse(data.seriesData);
+                    })
+
+                    fun.setOption();
+                    $.ajaxSetup({
+                        async: false
+                    });
+                },
+                //重新渲染图表
+                setOption: function () {
+                    myChart.setOption({
+                        legend: {
+                            data: fun.chartLegend
+                        },
+                        xAxis: {
+                            data: fun.xAxis
+                        },
+                        series: fun.chartData
+                    })
+                }
+            }
+            fun.init();
+            //fun.setOption();
+
+            $(".echartsBtn>span").bind("click", function () {
+                var type = $(this).data().val;
+                fun.chartType = type;
+                fun.ajax()
+            })
+        });
 
     </script>
 }

@@ -14,7 +14,8 @@ namespace FancyFix.OA.Bll
             return new BllSupplier_RawMaterialPrice();
         }
 
-        public static IEnumerable<Supplier_RawMaterialPrice> PageList(int page, int pageSize, out long records, string file, string key, int years, int priceFrequency)
+        public static IEnumerable<Supplier_RawMaterialPrice> PageList(int page, int pageSize, out long records, string file, string key, int priceFrequency
+            , List<int> ids = null)
         {
             var where = new Where<Supplier_RawMaterialPrice>();
             if (!string.IsNullOrEmpty(file) && !string.IsNullOrEmpty(key))
@@ -23,8 +24,9 @@ namespace FancyFix.OA.Bll
                 key = CheckSqlKeyword(key);
                 where.And(string.Format(" {0} like '%{1}%' ", ("SupplierCode,SupplierName".Contains(file) ? file.Replace("Supplier", "") : file), key));
             }
+            if (ids != null)
+                where.And(string.Format(" Supplier_RawMaterialPrice.id in ({0}) ", string.Join(",", ids)));
 
-            where.And(string.Format(" Years={0} ", years));
             if (priceFrequency > 0)
                 where.And(string.Format(" PriceFrequency={0} ", priceFrequency));
 
@@ -41,18 +43,8 @@ namespace FancyFix.OA.Bll
                     c.Name,
                     b.Currency,
                     a.PriceFrequency,
-                    a.Month1,
-                    a.Month2,
-                    a.Month3,
-                    a.Month4,
-                    a.Month5,
-                    a.Month6,
-                    a.Month7,
-                    a.Month8,
-                    a.Month9,
-                    a.Month10,
-                    a.Month11,
-                    a.Month12
+                    a.VendorId,
+                    a.RawMaterialId
                 })
                 .InnerJoin<Supplier_RawMaterial>((a, b) => a.RawMaterialId == b.SAPCode && a.Display != 2 && b.Display != 2)
                 .InnerJoin<Supplier_List>((b, c) => b.VendorId == c.Code && c.Display != 2)
@@ -62,7 +54,7 @@ namespace FancyFix.OA.Bll
             return p.Page(pageSize, page).OrderByDescending(o => o.Id).ToList();
         }
 
-        public static DataTable GetList(string file, string key, int years, int priceFrequency)
+        public static DataTable GetList(string file, string key, int priceFrequency)
         {
             var where = new Where<Supplier_RawMaterialPrice>();
             file = CheckSqlValue(file);
@@ -71,13 +63,14 @@ namespace FancyFix.OA.Bll
             if (!string.IsNullOrEmpty(file) && !string.IsNullOrEmpty(key))
                 where.And(string.Format(" {0} like '%{1}%' ", ("SupplierCode,SupplierName".Contains(file) ? file.Replace("Supplier", "") : file), key));
 
-            where.And(string.Format(" Years={0} ", years));
+            //where.And(string.Format(" Years={0} ", years));
             if (priceFrequency > 0)
                 where.And(string.Format(" PriceFrequency={0} ", priceFrequency));
 
             var p = Db.Context.From<Supplier_RawMaterialPrice>()
                 .Select<Supplier_RawMaterial, Supplier_List>((a, b, c) => new
                 {
+                    a.Id,
                     b.BU,
                     b.SAPCode,
                     b.Description,
@@ -85,20 +78,8 @@ namespace FancyFix.OA.Bll
                     b.LeadBuyer,
                     c.Code,
                     c.Name,
-                    b.Currency,
                     a.PriceFrequency,
-                    a.Month1,
-                    a.Month2,
-                    a.Month3,
-                    a.Month4,
-                    a.Month5,
-                    a.Month6,
-                    a.Month7,
-                    a.Month8,
-                    a.Month9,
-                    a.Month10,
-                    a.Month11,
-                    a.Month12
+                    b.Currency
                 })
                 .InnerJoin<Supplier_RawMaterial>((a, b) => a.RawMaterialId == b.SAPCode && a.Display != 2 && b.Display != 2)
                 .InnerJoin<Supplier_List>((b, c) => b.VendorId == c.Code && c.Display != 2)
@@ -124,19 +105,6 @@ namespace FancyFix.OA.Bll
                     c.Name,
                     b.Currency,
                     a.PriceFrequency,
-                    a.Years,
-                    a.Month1,
-                    a.Month2,
-                    a.Month3,
-                    a.Month4,
-                    a.Month5,
-                    a.Month6,
-                    a.Month7,
-                    a.Month8,
-                    a.Month9,
-                    a.Month10,
-                    a.Month11,
-                    a.Month12
                 })
                 .InnerJoin<Supplier_RawMaterial>((a, b) => a.RawMaterialId == b.SAPCode && a.Display != 2 && b.Display != 2)
                 .InnerJoin<Supplier_List>((b, c) => b.VendorId == c.Code && c.Display != 2)
@@ -150,7 +118,7 @@ namespace FancyFix.OA.Bll
                 return new List<Supplier_RawMaterialPrice>();
 
             string where = "display!=2 and id in(" + string.Join(",", arr) + ")";
-            var list = GetSelectList(0, "", where, "");
+            var list = GetSelectList(0, "Id,RawMaterialId,VendorId,PriceFrequency", where, "");
 
             return list;
         }
@@ -163,6 +131,10 @@ namespace FancyFix.OA.Bll
             model.Display = 2;
             model.LastDate = DateTime.Now;
             model.LastUserId = myuserId;
+
+            //将关联的价格状态修改为不可用
+            Db.Context.Update<Supplier_Price>(Supplier_Price._.Display, "2", Supplier_Price._.RawMaterialPriceId == model.Id);
+
             return Update(model);
         }
 

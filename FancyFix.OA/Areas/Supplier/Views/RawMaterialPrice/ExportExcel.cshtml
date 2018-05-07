@@ -7,10 +7,14 @@
 
     int year = ViewBag.years;
     List<Supplier_RawMaterialPrice> prices = ViewBag.pricesList;
+
+    string Starttime = ViewBag.Starttime;
+    string Endtime = ViewBag.Endtime;
 }
 
 @section Css{
     <link href="/Content/js/plugins/iCheck/flat/_all.css" rel="stylesheet" />
+    <link id="layuicss-laydate" href="~/Content/js/plugins/laydate/theme/default/laydate.css" rel="stylesheet" type="text/css" media="all" />
 }
 <form action="ExportExcel" method="post">
     <div class="layui-form layui-form-pane">
@@ -28,7 +32,7 @@
         <br />
         <br />
         <div class="layui-inline">
-            <label class="layui-form-label">按字段</label>
+            <label class="layui-form-label">字段</label>
             <div class="layui-input-inline">
                 <select id="files" name="files" lay-filter="files">
                     <option value="">全部</option>
@@ -46,7 +50,7 @@
             </div>
         </div>
         <div class="layui-inline">
-            <label class="layui-form-label">按价格频次</label>
+            <label class="layui-form-label">价格频次</label>
             <div class="layui-input-inline">
                 <select id="priceFrequency" name="priceFrequency" lay-filter="priceFrequency">
                     <option value="0">全部</option>
@@ -55,33 +59,44 @@
             </div>
         </div>
         <div class="layui-inline">
-            <label class="layui-form-label">按年份</label>
+            <label class="layui-form-label">年份</label>
             <div class="layui-input-inline">
-                <select id="years" name="years" lay-filter="years">
-                    @foreach (var item in prices)
-                    {
-                        <option value="@item.Years" @(item.Years == year ? "selected" : "")>@item.Years 年</option>
-                    }
-                </select>
+                @Html.TextBox("startMonth", Starttime, new { type = "text", @class = "layui-input", placeholder = "开始月份" })
+            </div> -
+            <div class="layui-input-inline">
+                @Html.TextBox("endMonth", Endtime, new { type = "text", @class = "layui-input", placeholder = "结束月份" })
             </div>
         </div>
-
+        <br />
         <div class="layui-inline pull-right">
             <button id="btnSearch" class="btn bg-orange" lay-submit>导出</button>
         </div>
     </div>
 </form>
-
+<script src="/Content/js/plugins/laydate/laydate.js"></script>
 @section Js{
     <script src="/Content/js/plugins/iCheck/icheck.min.js"></script>
     <script src="/Content/js/plugins/jqvalidate/jquery.validator.min.js"></script>
     <script src="/Content/js/plugins/jqvalidate/messages_cn.js"></script>
     <script src="/Content/js/common/tools.js"></script>
-    
+
     <script>
         layui.use(['layer', 'form'], function () {
             var layer = layui.layer;
             var form = layui.form();
-        }); 
+        });
+
+        //加载数据
+        $(function () {
+            //年月选择器
+            laydate.render({
+                elem: '#startMonth',
+                type: 'month'
+            });
+            laydate.render({
+                elem: '#endMonth',
+                type: 'month'
+            });
+        });
     </script>
 }

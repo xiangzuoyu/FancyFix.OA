@@ -14,19 +14,19 @@ namespace FancyFix.OA.Bll
             return new BllSupplier_List();
         }
 
-        public static IEnumerable<Supplier_List> PageList(int page, int pageSize, out long records, int labelId,string file, string key)
+        public static IEnumerable<Supplier_List> PageList(int page, int pageSize, out long records, int labelId, string file, string key)
         {
             var where = new Where<Supplier_List>();
             where.And(o => o.Display != 2);
             if (labelId > 0)
                 where.And(o => o.LabelId == labelId);
 
-           
+
             if (!string.IsNullOrEmpty(file) && !string.IsNullOrEmpty(key))
             {
                 file = CheckSqlValue(file);
                 key = CheckSqlKeyword(key);
-                where.And(string.Format(" {0} like '%{1}%' ",file, key));
+                where.And(string.Format(" {0} like '%{1}%' ", file, key));
             }
 
             var p = Db.Context.From<Supplier_List>()
@@ -94,8 +94,19 @@ namespace FancyFix.OA.Bll
 
         public static IEnumerable<Supplier_List> GetList(int top, string cols, string where, string orderBy, string files, string key)
         {
-
             return GetSelectList(top, cols, where, orderBy);
+        }
+
+        public static Supplier_List SupplierIsRepeat(string code, string name)
+        {
+            var where = new Where<Supplier_List>();
+            if (!string.IsNullOrEmpty(code))
+                where.And(o => o.Code == code);
+            if (!string.IsNullOrEmpty(name))
+                where.And(o => o.Name == name);
+
+            return Db.Context.From<Supplier_List>()
+                .Where(where).First();
         }
 
     }

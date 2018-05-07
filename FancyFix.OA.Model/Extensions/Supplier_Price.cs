@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FancyFix.OA.Model
 {
-    public partial class Supplier_RawMaterialPrice
+    public partial class Supplier_Price
     {
         public string BU { get; set; }
         public string SAPCode { get; set; }
@@ -17,18 +17,5 @@ namespace FancyFix.OA.Model
         public string Code { get; set; }
         public string Name { get; set; }
         public string Currency { get; set; }
-        public int? Years { get; set; }
-        public decimal? Month1;
-        public decimal? Month2;
-        public decimal? Month3;
-        public decimal? Month4;
-        public decimal? Month5;
-        public decimal? Month6;
-        public decimal? Month7;
-        public decimal? Month8;
-        public decimal? Month9;
-        public decimal? Month10;
-        public decimal? Month11;
-        public decimal? Month12;
     }
 }

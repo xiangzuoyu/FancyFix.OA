@@ -27,6 +27,7 @@
                             <div class="form-group">
                                 @Html.TextBox("Code", (Model?.Code ?? ""), new { @class = "form-control", required = "required", style = "width:250px;" })
                             </div>
+                            <div style="display:none;" class="error displayCode">供应商代码重复，请重新输入</div>
                         </td>
                     </tr>
                     <tr>
@@ -35,6 +36,7 @@
                             <div class="form-group">
                                 @Html.TextBox("Name", (Model?.Name ?? ""), new { @class = "form-control", required = "required", style = "width:250px;" })
                             </div>
+                            <div style="display:none;" class="error displayName">供应商名称重复，请重新输入</div>
                         </td>
                     </tr>
                     <tr>
@@ -178,5 +180,25 @@
             });
         })
 
+        fun = {
+            init: function () {
+                fun.supplierIsRepeat("Code");
+                fun.supplierIsRepeat("Name");
+            },
+            supplierIsRepeat: function (file) {
+                $("#" + file).blur(function () {
+                    if ($(this).val() == "") return;
+                    var req = file + "=" + $(this).val()
+                    $.get("/supplier/suppliermanager/supplierisrepeat?" + req, function (data) {
+                        //字段是否重复
+                        if (data == "true")
+                            $(".display" + file).show();
+                        else
+                            $(".display" + file).hide();
+                    })
+                });
+            }
+        };
+        //fun.init();
     </script>
 }

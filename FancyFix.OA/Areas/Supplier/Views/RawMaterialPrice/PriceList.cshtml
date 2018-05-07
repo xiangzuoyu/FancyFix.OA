@@ -1,0 +1,117 @@
+﻿@using FancyFix.OA.Model
+@{
+    ViewBag.Title = "PriceList";
+    Layout = "~/Views/Shared/_Layout_In.cshtml";
+    string ids = ViewBag.ids;
+    string Starttime = ViewBag.Starttime;
+    string Endtime = ViewBag.Endtime;
+}
+
+@section Css{
+    <link href="/Content/js/plugins/datatables/bootstrap-table.min.css" rel="stylesheet" />
+    <link id="layuicss-laydate" href="~/Content/js/plugins/laydate/theme/default/laydate.css" rel="stylesheet" type="text/css" media="all" />
+}
+
+<div class="row">
+    <div class="col-xs-12">
+
+        <div class="box">
+            <div class="box-body">
+                <section class="panel">
+                    <div class="layui-form layui-form-pane">
+                        <div class="layui-input-inline">
+                            <label class="layui-form-label">按年份</label>
+                            <div class="layui-input-inline">
+                                @Html.TextBox("startMonth", Starttime, new { type = "text", @class = "layui-input", placeholder = "开始月份" })
+                            </div> -
+                            <div class="layui-input-inline">
+                                @Html.TextBox("endMonth", Endtime, new { type = "text", @class = "layui-input", placeholder = "结束月份" })
+                            </div>
+                        </div>
+
+                        <div class="layui-input-inline">
+                            &nbsp;<button id="btnSearch" class="btn bg-blue" lay-submit lay-filter="formSearch">查询</button>
+                        </div>
+                        <form id="excelForm" action="list" method="post" enctype="multipart/form-data">
+                            <input id="fileEle" name="file" type="file" style="display:none" />
+                        </form>
+                    </div>
+                </section>
+
+                <div class="bootstrap-table">
+                    <div id="toolbar" class="btn-group">
+                        <button id="btn_charts" type="button" class="btn btn-default">
+                            <span class="glyphicon glyphicon-signal" aria-hidden="true"></span> 生成图表
+                        </button>
+                        @*当前显示的采购id*@
+                        <input type="hidden" id="ids" value="@ids">
+                    </div>
+                </div>
+                <div class="box" style="border-top:0px;box-shadow:none;border-top:0px;box-shadow:none;overflow-x: scroll;">
+                    @Html.Raw(ViewBag.pricelist)
+                </div>
+
+                <div class="box-footer clearfix">
+                    <div class="no-margin pull-right">
+                        @Html.Raw(ViewBag.pageStr)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/Content/js/plugins/laydate/laydate.js"></script>
+@section Js{
+    <script src="/Content/js/plugins/datatables/bootstrap-table.min.js"></script>
+    <script src="/Content/js/plugins/datatables/bootstrap-table-zh-CN.js"></script>
+    <script src="/Content/js/common/tools.js"></script>
+    <script>
+        var fun = null;
+
+        layui.use(['layer', 'form'], function () {
+            var layer = layui.layer; 
+
+            //生成图表
+            $("#btn_charts").on('click', function () {
+                var ids = $("#ids").val();
+                var startdate = $("#startMonth").val();
+                var enddate = $("#endMonth").val();
+                OpenWin("数据图表", "/supplier/rawmaterialprice/showcharts?" + ids + "&startdate=" + startdate + "&enddate=" + enddate, '90%', '90%');
+            })
+
+            //加载数据
+            $(function () {
+                fun.init();
+
+                //年月选择器
+                laydate.render({
+                    elem: '#startMonth',
+                    type: 'month'
+                });
+                laydate.render({
+                    elem: '#endMonth',
+                    type: 'month'
+                });
+            });
+
+        })
+
+        //查询
+        $("#btnSearch").click(function () {
+            PostWhere();
+        })
+
+        function PostWhere() {
+            var where = "";
+            var ids = $("#ids").val();
+            where += ids;
+            var startMonth = $("#startMonth").val();
+            if (startMonth != "")
+                where += "&starttime=" + startMonth;
+            var endtime = $("#endMonth").val();
+            if (endtime != "")
+                where += "&endtime=" + endtime;
+            window.location.href = window.location.pathname + "?" + where;
+        }
+    </script>
+}

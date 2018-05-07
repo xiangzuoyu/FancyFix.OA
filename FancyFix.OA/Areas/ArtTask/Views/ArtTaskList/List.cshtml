@@ -188,7 +188,7 @@
                                     {
                                         if (r.SubmitterId == @ViewBag.CurrentId && r.Score == null && r.Comment == null)
                                             ele += "<a data-id=\"" + r.Id + "\" class=\"btnDaCall btn btn-md btn-primary\">打分</a> ";
-                                        if (r.AssigneeId == @ViewBag.CurrentId && r.AssigneeScore == null && r.Score == null)
+                                        if (r.AssigneeId == @ViewBag.CurrentId && r.AssigneeScore == null && r.Score == null && r.AssigneeId != r.SubmitterId)
                                             ele += "<a data-id=\"" + r.Id + "\" class=\"btnDaCall btn btn-md btn-primary\">打分</a> ";
                                     }
 

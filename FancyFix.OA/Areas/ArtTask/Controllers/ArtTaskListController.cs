@@ -10,7 +10,7 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
     public class ArtTaskListController : BaseAdminController
     {
         //获取设计部分配任务权限ID
-        List<int> arrIds = Bll.BllDesign_ArtTaskList.DesignIds(DesignDepartId, 0); 
+        List<int> arrIds = Bll.BllDesign_ArtTaskList.DesignIds(DesignDepartId, 0);
         List<int> adminIds = Bll.BllDesign_ArtTaskList.DesignIds(DesignDepartId, 1);
 
         // GET: ArtTask/ArtTaskList
@@ -287,8 +287,9 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
                 model.Comment = comment;
             }
 
-            //只有当总监和客户全部打完分状态才会改成已完成
-            if (model.Score != null && model.Comment != null && model.AssigneeScore != null && model.AssigneeComment != null)
+            // 当总监和客户全部打完分状态或是总监发布的任务才会改成已完成
+            if ((model.Score != null && model.Comment != null && model.AssigneeScore != null && model.AssigneeComment != null)
+                || model.SubmitterId == model.AssigneeId)
                 model.Display = 5;
             string msg = Bll.BllDesign_ArtTaskList.Update(model) > 0 ? "成功" : "失败";
             return LayerMsgSuccessAndRefresh("打分" + msg);

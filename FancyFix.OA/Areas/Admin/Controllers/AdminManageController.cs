@@ -129,7 +129,7 @@ namespace FancyFix.OA.Areas.Admin.Controllers
                     return LayerAlertErrorAndReturn("请填写密码！");
             }
             if (!string.IsNullOrEmpty(model.password))
-                mod.Password = Tools.Common.Common.Md5(model.password, 32);
+                mod.Password = Tools.Security.Md5Helper.GetMd5Hash(model.password);
             if (model.departid == 0)
             {
                 if (showlayout)

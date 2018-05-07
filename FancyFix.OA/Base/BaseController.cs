@@ -13,6 +13,7 @@ namespace FancyFix.OA.Base
         public static string cssVersion = DateTime.Now.ToString("yyMMddhhss"); //样式版本
         public static string domain = Tools.Special.Common.GetDomain();
         public static string webUrl = Tools.Special.Common.GetWebUrl();
+        public static string imgUrl = Tools.Special.Common.GetImgUrl();
 
         public bool IsAjax
         {
@@ -643,6 +644,109 @@ namespace FancyFix.OA.Base
         {
             string script = "<script type=\"text/javascript\">var w = parent.layer.getFrameIndex(window.name);parent.layer.close(w);parent.layer.alert('" + message.Replace("'", @"\'") + "',parent." + callback + ");</script>";
             return Content(script);
+        }
+
+        #endregion
+
+        #region Url管理
+
+        protected string GetProductUrl(string url, int pid)
+        {
+            if (string.IsNullOrEmpty(url))
+                return webUrl + "/products/";
+            return webUrl + $"/product/{url}-pid{pid}.html";
+        }
+
+        protected string GetCategoryUrl(string url = "", int cid = 0)
+        {
+            if (string.IsNullOrEmpty(url) || cid == 0)
+                return webUrl + "/products/";
+            return webUrl + $"/products/{url}-cid{cid}/";
+        }
+        protected string GetBlogUrl(string url)
+        {
+            if (string.IsNullOrEmpty(url))
+                return "/blog/";
+            return $"/blog/{url}.html";
+        }
+
+        protected string GetBlogClassUrl(string url)
+        {
+            if (string.IsNullOrEmpty(url))
+                return "/blog/";
+            return $"/blog/{url}/";
+        }
+
+        protected string GetAboutUrl(string url = "")
+        {
+            if (string.IsNullOrEmpty(url))
+                return "/about-us/";
+            return $"/about-us/{url}/ ";
+        }
+
+        protected string GetSupportUrl(string url = "")
+        {
+            if (string.IsNullOrEmpty(url))
+                return "/support/";
+            return $"/support/{url}/ ";
+        }
+
+        /// <summary>
+        /// 获取分类名称以及url
+        /// </summary>
+        /// <param name="cid"></param>
+        /// <returns></returns>
+        public string GetCategoryUrl(int cid)
+        {
+            var model = Bll.BllProduct_Class.FirstSelect(o => o.Id == cid, o => new { o.UrlPath, o.ClassName });
+            if (model == null)
+                return "";
+            return GetCategoryUrl(cid, model.UrlPath, model.ClassName, false);
+        }
+
+        /// <summary>
+        /// 获取分类名称以及url
+        /// </summary>
+        /// <param name="cid"></param>
+        /// <returns></returns>
+        public string GetCategoryUrl(int cid, bool isLast)
+        {
+            var model = Bll.BllProduct_Class.FirstSelect(o => o.Id == cid, o => new { o.UrlPath, o.ClassName });
+            if (model == null)
+                return "";
+            return GetCategoryUrl(cid, model.UrlPath, model.ClassName, isLast);
+        }
+
+        /// <summary>
+        /// 获取分类名称以及url
+        /// </summary>
+        /// <param name="cid"></param>
+        /// <returns></returns>
+        public string GetCategoryUrl(int cid, string urlPath, string className, bool isLast)
+        {
+            return string.Format((isLast ? "" : "<li>> </li>") + " <li><a href='{0}'>{1}</a></li>", GetCategoryUrl(urlPath, cid), className);
+        }
+
+        /// <summary>
+        /// 获取面包屑菜单链接
+        /// </summary>
+        /// <param name="cid"></param>
+        /// <returns></returns>
+        public string GetMenuUrl(string parPath, bool AddH1)
+        {
+            string result = "<li><a href='/'>Home</a></li>";
+            if (parPath == "")
+                result += "<li>> </li><li><a href='" + GetCategoryUrl() + "'>All Products</a></li>";
+            else
+                result += "<li>> </li><li><a href='" + GetCategoryUrl() + "'>Products</a></li>";
+            string[] tmp = parPath.TrimEnd(',').Split(',');
+            if (tmp.Length > 0 && tmp[0] != "")
+                result += string.Format("{0}", tmp.Length == 1 && AddH1 ? "<h1>" + GetCategoryUrl(int.Parse(tmp[0]), true) + "</h1>" : GetCategoryUrl(int.Parse(tmp[0])));
+            if (tmp.Length > 1 && tmp[1] != "")
+                result += string.Format("{0}", tmp.Length == 2 && AddH1 ? "<h1>" + GetCategoryUrl(int.Parse(tmp[1]), true) + "</h1>" : GetCategoryUrl(int.Parse(tmp[1])));
+            if (tmp.Length > 2 && tmp[2] != "")
+                result += string.Format("{0}", tmp.Length == 3 && AddH1 ? "<h1>" + GetCategoryUrl(int.Parse(tmp[2]), true) + "</h1>" : GetCategoryUrl(int.Parse(tmp[2])));
+            return result;
         }
 
         #endregion

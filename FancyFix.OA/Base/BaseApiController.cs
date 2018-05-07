@@ -16,6 +16,7 @@ namespace FancyFix.OA.Base
         public static string cssVersion = DateTime.Now.ToString("yyMMddhhss"); //样式版本
         public static string domain = Tools.Special.Common.GetDomain();
         public static string webUrl = Tools.Special.Common.GetWebUrl();
+        public static string imgUrl = Tools.Special.Common.GetImgUrl();
 
         public static string SitePreName
         {

@@ -71,6 +71,18 @@ namespace FancyFix.Tools.Config
         /// <summary>
         /// 是否生成小图
         /// </summary>
+        [ConfigurationProperty("createMinPic", IsRequired = false)]
+        public bool CreateMinPic
+        {
+            get
+            {
+                return bool.Parse(this["createMinPic"].ToString());
+            }
+        }
+
+        /// <summary>
+        /// 是否生成小图
+        /// </summary>
         [ConfigurationProperty("createSmallPic", IsRequired = true)]
         public bool CreateSmallPic
         {
@@ -175,7 +187,30 @@ namespace FancyFix.Tools.Config
             }
         }
 
-         
+        /// <summary>
+        /// 生成缩略图的宽
+        /// </summary>
+        [ConfigurationProperty("minWidth", IsRequired = false)]
+        public int MinWidth
+        {
+            get
+            {
+                return int.Parse(this["minWidth"].ToString());
+            }
+        }
+
+        /// <summary>
+        /// 生成缩略图的高
+        /// </summary>
+        [ConfigurationProperty("minHeight", IsRequired = false)]
+        public int MinHeight
+        {
+            get
+            {
+                return int.Parse(this["minHeight"].ToString());
+            }
+        }
+
         /// <summary>
         /// 上传图片最大宽度
         /// </summary>

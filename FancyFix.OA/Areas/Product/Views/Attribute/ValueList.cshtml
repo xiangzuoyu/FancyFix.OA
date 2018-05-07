@@ -1,0 +1,134 @@
+﻿@using FancyFix.OA.Model
+@{
+    Layout = "~/Views/Shared/_Layout_In.cshtml";
+    List<Product_AttributeSelect> list = ViewBag.list;
+    Product_Attribute modAttr = ViewBag.modAttr;
+}
+@section Css{
+    <style>
+        .table th {
+            text-align: center;
+            vertical-align: middle !important;
+        }
+
+        .cname {
+            font-weight: bold;
+        }
+
+        a:hover {
+            color: #f56954;
+        }
+    </style>
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box-header">
+            <h3 class="box-title">@modAttr.AttributeName 属性值管理</h3>
+            <a id="btn_add" href="javascript:void(0)" class="btn btn-default pull-right" onclick="OpenWin('添加属性值', '/product/attribute/valueedit?attrid=@ViewBag.attrId', '600px', '300px')">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
+            </a>
+            <a id="btn_clear" href="/product/attribute/cleardefault?attrid=@ViewBag.attrId" class="btn btn-default pull-right">
+                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>清除默认值
+            </a>
+        </div>
+        <div class="box">
+            <div class="box-body">
+                <div class="table-responsive">
+                    <table id="table" class="table table-bordered table-hover no-margin">
+                        <thead>
+                            <tr>
+                                <th>编号</th>
+                                <th>选项名称</th>
+                                <th>排序</th>
+                                <th>默认值</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (list != null && list.Count > 0)
+                            {
+                                foreach (var item in list)
+                                {
+                                    <tr>
+                                        <td align="center">
+                                            @item.Id
+                                        </td>
+                                        <td align="center">
+                                            @item.ItemName
+                                        </td>
+                                        <td align="center">
+                                            @Html.Raw(item.actStr)
+                                        </td>
+                                        <td align="center">
+                                            @if (item.ItemName == modAttr.DefaultValue)
+                                            {
+                                                <a href="/product/attribute/setdefault?id=@item.Id&attrId=@item.AttributeId" class="btn btn-success btn-circle btn-lg btn-xs" type="button">
+                                                    <i class="fa fa-check"></i>
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a href="/product/attribute/setdefault?id=@item.Id&attrId=@item.AttributeId" class="btn btn-danger btn-circle btn-lg btn-xs" type="button">
+                                                    <i class="fa fa-times"></i>
+                                                </a>
+                                            }
+                                        </td>
+                                        <td align="center">
+                                            <a class="btnEdit btn btn-primary btn-md" data-id="@item.Id" data-attrid="@item.AttributeId" href="javascript:void(0)">编辑</a>
+                                            <a class="btnDelete btn btn-danger btn-md" data-id="@item.Id" href="javascript:void(0)">删除</a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr><td height=25 colspan="5">此属性下暂且没有值...</td></tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Js{
+    <script src="/Content/js/common/tools.js"></script>
+    <script>
+        layui.use('form', function () {
+            var form = layui.form();
+            //监听提交
+            form.on('submit(formAdd),submit(formUpdate)', function (data) {
+                return false;
+            });
+
+            //编辑属性
+            $("#table").on('click', '.btnEdit', function () {
+                var id = $(this).data("id");
+                var attrid = $(this).data("attrid");
+                OpenWin("编辑属性值", "/product/attribute/valueedit?id=" + id + "&attrid=" + attrid, "600px", "300px");
+            });
+
+            //删除属性
+            $("#table").on('click', '.btnDelete', function () {
+                var id = $(this).data("id");
+                layer.confirm('确定删除该值吗？', {
+                    btn: ['确定', '取消']
+                }, function (index, layero) {
+                    $.post('/product/attribute/valuedelete/' + id, function (data) {
+                        if (data > 0) {
+                            ShowSuccess("删除成功！");
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 500);
+                        }
+                        else
+                            ShowError("删除失败！");
+                    });
+                    layer.close(index);
+                }, function (index) {
+                    layer.close(index);
+                });
+            });
+        });
+    </script>
+}

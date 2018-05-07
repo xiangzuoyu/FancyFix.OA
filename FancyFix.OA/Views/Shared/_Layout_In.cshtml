@@ -11,21 +11,7 @@
     <link rel="stylesheet" href="/Content/css/adminlte/AdminLTE.min.css">
     @RenderSection("Css", false)
     <script src="/Content/js/plugins/jQuery/jquery-2.2.3.min.js"></script>
-    <script type="text/javascript">
-        //全局配置
-        window.domain = '@domain';
-        window.webUrl = '@webUrl';
-        //全局ajax错误监听
-        $.ajaxSetup({
-            error: function (xhr, status, e) {
-                if (xhr.status == '401')
-                    ShowError('您没有该操作权限！');
-                else
-                    ShowError('服务器发生错误，请重试！');
-            },
-            cache: false
-        });
-    </script>
+    @Html.Partial("_baseconfig")
     <!--[if lt IE 9]>
     <script src="/Content/js/customer/html5shiv.min.js"></script>
     <script src="/Content/js/customer/respond.min.js"></script>

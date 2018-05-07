@@ -46,7 +46,7 @@ namespace FancyFix.Tools.Tool
         }
 
         /// <summary>
-        /// (mvc)流形式直接导出Excelm(不推荐)
+        /// (mvc)流形式直接导出Excel(不推荐)
         /// </summary>
         /// <param name="dt"></param>
         /// <param name="fileName"></param>

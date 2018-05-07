@@ -1,0 +1,74 @@
+﻿@using FancyFix.OA.Model
+@model Product_AttributeSelect
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout_In.cshtml";
+    Product_Attribute modAttr = ViewBag.modAttr;
+    bool isString = ViewBag.isString;
+}
+@section Css{
+    <link href="/Content/js/plugins/iCheck/flat/_all.css" rel="stylesheet" />
+    <style>
+        .form-group {
+            margin-bottom: 0;
+        }
+    </style>
+}
+<div class="row">
+    <div class="col-md-12">
+        <form id="mainform" action="/product/attribute/valuesave" method="post">
+            <table class="layui-table">
+                <!--列宽度-->
+                <colgroup>
+                    <col class="col-lg-1">
+                    <col class="col-lg-11">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td align="right"><label for="ItemName" class="control-label">选项值：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @if (isString)
+                                {
+                                    <input type="text" class="form-control" id="ItemName" name="ItemName" placeholder="选项值" value="@modAttr.DefaultValue" style="width:100%;" required="required" autocomplete="off">
+                                }
+                                else
+                                {
+                                    <input type="text" class="form-control" id="ItemName" name="ItemName" placeholder="选项值" value="@(Model!=null?Model.ItemName:"")" style="width:100%;" required="required" autocomplete="off">
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"></td>
+                        <td>
+                            <input type="hidden" id="attrId" name="attrId" value="@ViewBag.attrId">
+                            <input type="hidden" id="id" name="id" value="@(Model?.Id ?? 0)">
+                            <button type="submit" id="submit" class="btn btn-primary">提交</button>
+                            <button type="button" id="cancel" class="btn btn-default" onclick="CloseWin()">取消</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+@section Js{
+    <script src="/Content/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/jquery.validator.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/messages_cn.js"></script>
+    <script src="/Content/js/common/tools.js"></script>
+    <script>
+        layui.use(['layer'], function () {
+            var layer = layui.layer;
+
+            //iCheck初始化
+            $('input[type="checkbox"]').iCheck({
+                checkboxClass: 'icheckbox_flat-blue',
+            });
+
+            //表单验证
+            $("#mainform").validate();
+        })
+    </script>
+}

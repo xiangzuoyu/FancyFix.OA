@@ -97,7 +97,7 @@ namespace FancyFix.OA.Bll
             try
             {
                 Mng_User modMng_User = null;
-                int result = CheckLogin(userName, Tools.Common.Common.Md5(password, 32));
+                int result = CheckLogin(userName, Tools.Security.Md5Helper.GetMd5Hash(password));
                 if (result > 0)
                 {
                     //登录成功，保存登录信息

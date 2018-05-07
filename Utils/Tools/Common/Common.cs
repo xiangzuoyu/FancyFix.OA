@@ -113,29 +113,5 @@ namespace FancyFix.Tools.Common
         }
 
         #endregion
-
-        /// <summary>
-        /// 获取MD5加密字符串
-        /// </summary>
-        /// <param name="str"></param>
-        /// <param name="code">16 or 32</param>
-        /// <returns></returns>
-        public static string Md5(string str, int code)
-        {
-            if (code == 16) //16位MD5加密（取32位加密的9~25字符）  
-            {
-#pragma warning disable CS0618 // “FormsAuthentication.HashPasswordForStoringInConfigFile(string, string)”已过时:“The recommended alternative is to use the Membership APIs, such as Membership.CreateUser. For more information, see http://go.microsoft.com/fwlink/?LinkId=252463.”
-                return System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(str, "MD5").ToLower().Substring(8, 16);
-#pragma warning restore CS0618 // “FormsAuthentication.HashPasswordForStoringInConfigFile(string, string)”已过时:“The recommended alternative is to use the Membership APIs, such as Membership.CreateUser. For more information, see http://go.microsoft.com/fwlink/?LinkId=252463.”
-            }
-            if (code == 32) //32位加密  
-            {
-#pragma warning disable CS0618 // “FormsAuthentication.HashPasswordForStoringInConfigFile(string, string)”已过时:“The recommended alternative is to use the Membership APIs, such as Membership.CreateUser. For more information, see http://go.microsoft.com/fwlink/?LinkId=252463.”
-                return System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(str, "MD5").ToLower();
-#pragma warning restore CS0618 // “FormsAuthentication.HashPasswordForStoringInConfigFile(string, string)”已过时:“The recommended alternative is to use the Membership APIs, such as Membership.CreateUser. For more information, see http://go.microsoft.com/fwlink/?LinkId=252463.”
-            }
-            return "00000000000000000000000000000000";
-        }
-
     }
 }

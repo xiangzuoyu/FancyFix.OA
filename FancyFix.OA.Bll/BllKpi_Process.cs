@@ -45,7 +45,7 @@ namespace FancyFix.OA.Bll
                 }
                 //进程生成
                 process.IsCreated = true;
-                count = Db.Context.Update(process);
+                count = trans.Update(process);
                 if (count == 0)
                 {
                     trans.Rollback();

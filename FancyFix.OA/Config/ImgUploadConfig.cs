@@ -12,7 +12,10 @@ namespace FancyFix.OA.Config
         private string _FileExt = "gif,jpg,jpeg,bmp,png";
         private int _MaxSize = 5 * 1024 * 1024;
         private int _UploadNum = 10;
+        private string _UploadName = "pic";
         private string _Uptype = "web";
+        private string _Domain = "local";
+        private bool _IsProduct = false;
 
         //加密字段
         private static int random = new Random().Next(1000, 9999); 
@@ -29,6 +32,9 @@ namespace FancyFix.OA.Config
         public string Title { get; set; }
         public string Pics { get; set; }
         public string ElementId { get; set; }
-        public string Domain { get; set; }
+        public string Domain { get { return _Domain; } set { _Domain = value; } }
+        public string WidthHeight { get; set; }
+        public bool IsProduct { get { return _IsProduct; } set { _IsProduct = value; } }
+        public string UploadName { get { return _UploadName; } set { _UploadName = value; } }
     }
 }

@@ -200,7 +200,7 @@ namespace FancyFix.Tools.Utility
         {
             //生成验证字符串cookie
             string authStr = userId + "^" + userName + "^" + DateTime.Now.AddDays(2);
-            authStr = Tools.Tool.EncryptionHelper.Des3_Encrypt(authStr);
+            authStr = Tools.Security.EncryptionHelper.Des3_Encrypt(authStr);
             //添加Cookie
             Tools.Utility.CookieHelper.SetObj("Auth", authStr);
             //SetMemberSession(userId, userName);
@@ -231,7 +231,7 @@ namespace FancyFix.Tools.Utility
         public static bool CheckAuthInfo(string authStr, ref int userId, ref string userName)
         {
             //解密验证字符串
-            string decrypt = Tools.Tool.EncryptionHelper.Des3_Decrypt(authStr);
+            string decrypt = Tools.Security.EncryptionHelper.Des3_Decrypt(authStr);
             if (string.IsNullOrEmpty(decrypt))
                 return false;
 
@@ -303,58 +303,5 @@ namespace FancyFix.Tools.Utility
             return System.Web.HttpContext.Current.Session["OutLoginId"].ToString().ToInt32();
             //System.Web.HttpContext.Current.Session["OutLoginId"] = outId;
         }
-
-        /// <summary>
-        /// 添加浏览记录
-        /// 默认保存20条浏览记录 按照浏览时间，浏览次数 排序
-        /// by:willian date:xxxx-xx-xx
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="title"></param>
-        /// <param name="pic"></param>
-        public static void AddViewRecord(int id, string title, string pic, byte protype)
-        {
-            string listRecord = Tools.Utility.CookieHelper.GetValue("ViewRecord");
-            List<Tools.Json.ViewRecord> list = null;
-            if (listRecord != "")
-                list = Tools.Tool.JsonHelper.Deserialize<Tools.Json.ViewRecord>(listRecord);
-            if (list == null)
-            {
-                list = new List<Json.ViewRecord>();
-                list.Add(new Json.ViewRecord() { id = id, title = title, pic = pic, date = DateTime.Now, cnt = 0, protype = protype });
-            }
-            else
-            {
-                //查找已存在记录 并更新
-                int index = list.FindIndex(s => s.id == id);
-                if (index > -1)
-                {
-                    list[index].cnt = list[index].cnt + 1;
-                    list[index].date = DateTime.Now;
-                }
-                else
-                {
-                    //添加新纪录
-                    list.Add(new Json.ViewRecord() { id = id, title = title, pic = pic, date = DateTime.Now, cnt = 0, protype = protype });
-                }
-            }
-
-            list = list.OrderByDescending(x => x.date).Skip(0).Take(6).ToList<Json.ViewRecord>();
-            Tools.Utility.CookieHelper.SetObj("ViewRecord", Tools.Tool.JsonHelper.Serialize(list));
-        }
-
-        /// <summary>
-        /// 获取浏览记录
-        /// </summary>
-        /// <returns></returns>
-        public static List<Tools.Json.ViewRecord> GetViewRecord()
-        {
-            string listRecord = Tools.Utility.CookieHelper.GetValue("ViewRecord");
-            List<Tools.Json.ViewRecord> list = new List<Json.ViewRecord>();
-            if (listRecord != "")
-                list = Tools.Tool.JsonHelper.Deserialize<Tools.Json.ViewRecord>(listRecord).OrderByDescending(w => w.date).ToList();
-            return list;
-        }
-
     }
 }

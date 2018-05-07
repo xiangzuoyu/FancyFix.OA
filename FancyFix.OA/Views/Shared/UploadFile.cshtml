@@ -3,41 +3,7 @@
     int random = Math.Abs(Guid.NewGuid().GetHashCode());
 }
 <link href="/Content/js/plugins/webuploader/dist/webuploader.css" type="text/css" rel="stylesheet" />
-<style type="text/css">
-    .imgdiv {
-        position: relative;
-        margin: 5px;
-        padding: 5px;
-        width: 128px;
-        height: 98px;
-        border: 4px solid #ebe8e8;
-        background-color: #ebe8e8;
-        border-radius: 5px;
-    }
-
-    span.filename {
-        position: absolute;
-        vertical-align: middle;
-        text-align: center;
-        width: 110px;
-        color: #444;
-        word-wrap: break-word;
-    }
-
-    .btnImgDelete {
-        position: absolute;
-        bottom: 0;
-        right: 0;
-    }
-
-    .imgdiv .progress {
-        position: absolute;
-        height: 4px;
-        background-color: #3c8dbc;
-        width: 0;
-    }
-</style>
-
+<link href="/Content/css/uploader/uploaderfile.css" type="text/css" rel="stylesheet" />
 <div id="imgDiv@(random)" class="form-group form-inline">
     <div id="imgList@(random)" class="form-group">
     </div>
@@ -65,9 +31,9 @@
             $.each(array, function (i, v) {
                 if (v && v != '') {
                     img += '<div class="form-group imgdiv">' +
-                    '<p class="progress"></p>' +
-                    '<span  class="filename">'+ v +'</span>' +
-                    '<input type="hidden" name="pic" value="' + v + '">' +
+                        '<p class="progress"></p>' +
+                        '<a target="_blank" href="' + v + '" class="filename">' + v.substring(v.lastIndexOf('/') + 1) + '</a>' +
+                    '<input type="hidden" name="@Model.UploadName" value="' + v + '">' +
                     '<div class="btnImgDelete"><a href="javascript:void(0)" class="btn btn-xs btn-danger">删除</a></div>' +
                     '</div>'
                 }
@@ -79,21 +45,17 @@
         $("#imgDiv@(random)").on('click', '.btnImgDelete', function () {
             var parent = $(this).parent();
             var id = parent.attr("id");
-            if (id && uploader@(random)) uploader@(random).removeFile(id, true);
+            if (id && uploader@(random))
+                uploader@(random).removeFile(id, true);
             parent.remove();
         });
-
-        //初始化控件
-        InitUploader();
 
         //拖动排序
         var list = document.getElementById("imgList@(random)");
         Sortable.create(list, { group: "imgdiv" });
-    });
 
-    //初始化控件
-    var uploader@(random);
-    function InitUploader() {
+        //初始化控件
+        var uploader@(random);
         //已存在则销毁
         if (uploader@(random))
             uploader@(random).destroy();
@@ -170,7 +132,9 @@
                 Key: '@(Model.Key)',
                 MaxSize: maxSize,
                 UploadNum: uploadNum,
-                Title: ''
+                Title: '',
+                Domain: '@(Model.Domain)',
+                IsProduct : '@(Model.IsProduct)'
             },
 
             method: 'POST',
@@ -186,8 +150,8 @@
             var $div = $(
                     '<div id=' + file.id + ' class="form-group imgdiv">' +
                         '<p class="progress"></p>' +
-                        '<a href="javascript:void(0)" class="filename"></a>' +
-                        '<input type="hidden" name="pic">' +
+                        '<a href="javascript:void(0)" target="_blank" class="filename"></a>' +
+                        '<input type="hidden" name="@Model.UploadName">' +
                         '<input type="hidden" name="picname">' +
                         '<div class="btnImgDelete"><a href="javascript:void(0)" class="btn btn-xs btn-danger">删除</a></div>' +
                     '</div>'
@@ -231,7 +195,7 @@
                     //$div.find("img").attr("src", window.imgurl + response.url);
                     //$div.find("img").parent("a").attr("href", window.imgurl + response.url);
                     $div.find("a.filename").text(response.name).attr("href", response.url);
-                    $div.find("input[name='pic']").val(response.url);
+                    $div.find("input[name='@Model.UploadName']").val(response.url);
                     $div.find("input[name='picname']").val(response.name);
                     $div.find('.progress').remove();
                 } else if (response.code == 0) {
@@ -282,5 +246,5 @@
         uploader@(random).on('uploadComplete', function (file) {
             $('#' + file.id).find('.progress').remove();
         });
-    }
+    });
 </script>

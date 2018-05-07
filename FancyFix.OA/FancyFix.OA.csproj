@@ -55,9 +55,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Utils\Doc.ORM\DataAccess\bin\Debug\Dos.ORM.dll</HintPath>
     </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a" />
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
@@ -175,6 +172,7 @@
     <Compile Include="api\Filter\AuthFilterAttribute .cs" />
     <Compile Include="api\MenuController.cs" />
     <Compile Include="api\UploadController.cs" />
+    <Compile Include="api\ProductController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -194,6 +192,11 @@
     <Compile Include="Areas\Point\Controllers\PointController.cs" />
     <Compile Include="Areas\Point\Controllers\PointListController.cs" />
     <Compile Include="Areas\Point\PointAreaRegistration.cs" />
+    <Compile Include="Areas\Product\Controllers\AttributeController.cs" />
+    <Compile Include="Areas\Product\Controllers\ClassController.cs" />
+    <Compile Include="Areas\Product\Controllers\PatternController.cs" />
+    <Compile Include="Areas\Product\Controllers\ProductController.cs" />
+    <Compile Include="Areas\Product\ProductAreaRegistration.cs" />
     <Compile Include="Areas\Questionnaire\Controllers\AnswererController.cs" />
     <Compile Include="Areas\Questionnaire\Controllers\InfoController.cs" />
     <Compile Include="Areas\Questionnaire\Controllers\DISCController.cs" />
@@ -297,6 +300,8 @@
     <Content Include="Content\css\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\css\fonts\ionicons.min.css" />
     <Content Include="Content\css\starability\starability-all.min.css" />
+    <Content Include="Content\css\uploader\uploader.css" />
+    <Content Include="Content\css\uploader\uploaderfile.css" />
     <Content Include="Content\img\adminlte\img\avatar.png" />
     <Content Include="Content\img\adminlte\img\avatar04.png" />
     <Content Include="Content\img\adminlte\img\avatar2.png" />
@@ -1543,6 +1548,8 @@
     <Folder Include="Areas\Kpi\Views\Shared\" />
     <Folder Include="Areas\Point\Models\" />
     <Folder Include="Areas\Point\Views\Shared\" />
+    <Folder Include="Areas\Product\Models\" />
+    <Folder Include="Areas\Product\Views\Shared\" />
     <Folder Include="Areas\Questionnaire\Models\" />
     <Folder Include="Areas\Questionnaire\Views\Shared\" />
     <Folder Include="Areas\Rank\Models\" />
@@ -1891,8 +1898,20 @@
     <Content Include="Areas\Supplier\Views\RawMaterialPrice\ShowCharts.cshtml" />
     <Content Include="Areas\ArtTask\Views\ArtTaskRank\Index.cshtml" />
     <Content Include="Areas\Kpi\Views\Kpi\SelfApprove.cshtml" />
+    <Content Include="Areas\Product\Views\web.config" />
+    <Content Include="Areas\Product\Views\Attribute\Edit.cshtml" />
+    <Content Include="Areas\Product\Views\Attribute\List.cshtml" />
+    <Content Include="Areas\Product\Views\Attribute\ValueEdit.cshtml" />
+    <Content Include="Areas\Product\Views\Attribute\ValueList.cshtml" />
+    <Content Include="Areas\Product\Views\Class\Edit.cshtml" />
+    <Content Include="Areas\Product\Views\Class\List.cshtml" />
+    <Content Include="Areas\Product\Views\Product\Edit.cshtml" />
+    <Content Include="Areas\Product\Views\Product\List.cshtml" />
+    <Content Include="Areas\Product\Views\Pattern\List.cshtml" />
+    <Content Include="Areas\Product\Views\Pattern\Edit.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Common\GetAdminTree.cshtml" />
+    <Content Include="Views\Shared\_baseconfig.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

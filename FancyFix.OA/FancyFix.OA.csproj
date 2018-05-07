@@ -1896,9 +1896,9 @@
     <Content Include="Areas\Supplier\Views\RawMaterial\List.cshtml" />
     <Content Include="Areas\Supplier\Views\RawMaterial\Save.cshtml" />
     <Content Include="Areas\Supplier\Views\RawMaterialPrice\ShowCharts.cshtml" />
+    <Content Include="Areas\Supplier\Views\RawMaterialPrice\PriceList.cshtml" />
     <Content Include="Areas\ArtTask\Views\ArtTaskRank\Index.cshtml" />
     <Content Include="Areas\Kpi\Views\Kpi\SelfApprove.cshtml" />
-<<<<<<< HEAD
     <Content Include="Areas\Product\Views\web.config" />
     <Content Include="Areas\Product\Views\Attribute\Edit.cshtml" />
     <Content Include="Areas\Product\Views\Attribute\List.cshtml" />
@@ -1910,9 +1910,6 @@
     <Content Include="Areas\Product\Views\Product\List.cshtml" />
     <Content Include="Areas\Product\Views\Pattern\List.cshtml" />
     <Content Include="Areas\Product\Views\Pattern\Edit.cshtml" />
-=======
-    <Content Include="Areas\Supplier\Views\RawMaterialPrice\PriceList.cshtml" />
->>>>>>> d4ca6e9fd447ee069d110684a51a9d05ea4311fb
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Common\GetAdminTree.cshtml" />
     <Content Include="Views\Shared\_baseconfig.cshtml" />

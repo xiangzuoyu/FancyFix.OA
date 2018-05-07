@@ -84,8 +84,6 @@
                     });
 
                     $.get(url, function (data) {
-                        console.log(data)
-
                         fun.chartLegend = data.legend.split(",");
                         fun.xAxis = data.xAxis.split(",");
                         fun.chartData = JSON.parse(data.seriesData);

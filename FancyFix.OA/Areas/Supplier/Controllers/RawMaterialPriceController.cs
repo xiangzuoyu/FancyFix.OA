@@ -199,10 +199,6 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
                 var sheet = Tools.Tool.ExcelHelper.ReadExcel(filePath);
                 string msg = ExcelToList(sheet, 2);
 
-                //if (modelList == null || modelList.Count < 1)
-                //    return MessageBoxAndJump("数据为空，导入失败！", "list");
-                //string msg = Bll.BllSupplier_RawMaterial.Add(modelList);
-
                 if (msg != "0")
                     return MessageBoxAndJump("导入失败," + GetMsg(msg), "list");
             }
@@ -277,7 +273,7 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
                     AddPrice(row, headRow, id, cellTotal, logDate);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return "-1";
             }
@@ -306,19 +302,6 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
                 SupplierName = row.GetCell(6)?.ToString(),
                 PriceFrequency = Tools.Enums.Tools.GetValueByName(typeof(Models.PriceFrequency), row.GetCell(7)?.ToString()),
                 Currency = row.GetCell(8)?.ToString(),
-                //Years = year,
-                //Month1 = row.GetCell(9)?.ToString().ToDecimal(),
-                //Month2 = row.GetCell(10)?.ToString().ToDecimal(),
-                //Month3 = row.GetCell(11)?.ToString().ToDecimal(),
-                //Month4 = row.GetCell(12)?.ToString().ToDecimal(),
-                //Month5 = row.GetCell(13)?.ToString().ToDecimal(),
-                //Month6 = row.GetCell(14)?.ToString().ToDecimal(),
-                //Month7 = row.GetCell(15)?.ToString().ToDecimal(),
-                //Month8 = row.GetCell(16)?.ToString().ToDecimal(),
-                //Month9 = row.GetCell(17)?.ToString().ToDecimal(),
-                //Month10 = row.GetCell(18)?.ToString().ToDecimal(),
-                //Month11 = row.GetCell(19)?.ToString().ToDecimal(),
-                //Month12 = row.GetCell(20)?.ToString().ToDecimal(),
                 AddDate = logDate,
                 AddUserId = MyInfo.Id,
                 LastDate = logDate,
@@ -420,15 +403,18 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             return MessageBoxAndClose("导出成功");
         }
 
+        //填充表头
         private DataTable NewExportDt(string[] arr, ref string cols, DateTime startMonth, DateTime endMonth)
         {
             DataTable dt = new DataTable();
             DataRow rows = dt.NewRow();
             int rowIndex = 0;
 
+            //临时字段，后面做查询条件用
             NewDtHead(ref dt, ref rows, rowIndex, "PriceId", "PriceId");
             cols += ",PriceId";
             rowIndex++;
+
             foreach (var item in arr)
             {
                 switch (item)
@@ -469,7 +455,6 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
                 string columns = string.Format("'{0}/{1}", startMonth.Year.ToString(), startMonth.Month.ToString());
                 dt.Columns.Add(columns, typeof(String));
                 rows[rowIndex] = string.Format("'{0}-{1}", startMonth.Year.ToString(), startMonth.Month.ToString());
-                //cols += ",Month" + startMonth.Month.ToString();
                 startMonth = startMonth.AddMonths(1);
                 rowIndex++;
             }
@@ -478,6 +463,7 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             return dt;
         }
 
+        //填充数据
         public void ToExcel(DataTable list, List<Supplier_Price> pricelist, DataTable excelDt, string cols, DateTime startMonth, DateTime endMonth)
         {
             if (list == null || list.Rows.Count < 1)
@@ -518,8 +504,6 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
                     //循环价格
                     while (starttiem <= endtime)
                     {
-                        //string columns = string.Format("'{0}/{1}", startMonth.Year.ToString(), startMonth.Month.ToString());
-                        //dt.Columns.Add(columns, typeof(String));
                         var price = pricelist.Where(o => o.RawMaterialPriceId.ToString() == row[0].ToString() && o.Years == (starttiem.Year)
                             && o.Month == starttiem.Month).Select(o => o.Price).FirstOrDefault().GetValueOrDefault();
 
@@ -530,10 +514,10 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
 
                     dt.Rows.Add(row);
                 }
-
+                //删除临时添加的字段
                 dt.Columns.Remove("PriceId");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
 
@@ -740,8 +724,6 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
                     //循环价格
                     while (start <= end)
                     {
-
-
                         switch (start.Month)
                         {
                             case 1:
@@ -754,6 +736,7 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
                                     && o.Month >= 1 && o.Month <= 3).Select(o => o.Price).FirstOrDefault().GetValueOrDefault();
 
                                 prices.Add(price.ToString("f2"));
+                                //这个季度已完成
                                 start = start.AddMonths(3 - start.Month);
                                 break;
                             case 4:

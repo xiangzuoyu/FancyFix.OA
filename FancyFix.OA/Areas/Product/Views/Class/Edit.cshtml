@@ -1,0 +1,98 @@
+﻿@using FancyFix.OA.Model;
+@model Product_Class
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout_In.cshtml";
+    int parId = ViewBag.parId;
+}
+@section Css{
+    <link href="/Content/js/plugins/iCheck/flat/_all.css" rel="stylesheet" />
+    <style>
+        .form-group {
+            margin-bottom: 0;
+        }
+    </style>
+}
+<div class="row">
+    <div class="col-md-12">
+        <form id="mainform" action="/product/class/@(Model != null && Model.Id > 0 ? "update":"add")" method="post">
+            <table class="layui-table">
+                <!--列宽度-->
+                <colgroup>
+                    <col class="col-lg-2">
+                    <col class="col-lg-10">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td align="right"><label for="username" class="control-label">分类名：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="classname" name="classname" placeholder="分类名" value="@(Model?.ClassName ?? "")" style="width:200px;" required="required" autocomplete="off">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="keywords" class="control-label">编码：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="code" name="code" placeholder="编码" value="@(Model?.Code ?? "")" style="width:80px;" required="required" autocomplete="off">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="keywords" class="control-label">描述：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <textarea class="form-control" id="description" name="description" placeholder="描述信息" required="required" style="height:60px;">@(Model?.Description ??"")</textarea>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label class="control-label">封面图：</label></td>
+                        <td>
+                            @Html.Partial("UploadImg", new FancyFix.OA.Config.ImgUploadConfig { Pics = Model?.Pics ?? "", Uptype = "proclass", FileExt = "gif,png,jpg,jpeg", UploadNum = 3, MaxSize = 5 * 1024 * 1024 })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label class="control-label">是否显示：</label></td>
+                        <td>
+                            <input type="checkbox" class="form-control" name="belock" @(Model?.BeLock ?? false ? "" : "checked=\"checked\"") value="true">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"></td>
+                        <td>
+                            <input type="hidden" id="id" name="id" value="@(Model?.Id ?? 0)">
+                            <input type="hidden" id="parId" name="parId" value="@ViewBag.parId">
+                            <button type="submit" id="submit" class="btn btn-primary">提交</button>
+                            <button type="button" id="cancel" class="btn btn-default" onclick="CloseWin()">取消</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+@section Js{
+    <script src="/Content/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/jquery.validator.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/messages_cn.js"></script>
+    <script src="/Content/js/common/tools.js"></script>
+    <script>
+        layui.use(['layer'], function () {
+            var layer = layui.layer;
+
+            //iCheck初始化
+            $('input[type="checkbox"],input[type="radio"]').iCheck({
+                checkboxClass: 'icheckbox_flat-blue',
+                radioClass: 'iradio_flat-blue'
+            });
+
+            //表单验证
+            var $form = $("#mainform");
+            $form.validate();
+
+        })
+    </script>
+}
+

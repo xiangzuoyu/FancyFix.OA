@@ -57,6 +57,10 @@
     <Compile Include="Extensions\Design_ArtTaskList.cs" />
     <Compile Include="Extensions\Point_Records.cs" />
     <Compile Include="Extensions\Point_Class.cs" />
+    <Compile Include="Extensions\Product_Attribute.cs" />
+    <Compile Include="Extensions\Product_AttributeSelect.cs" />
+    <Compile Include="Extensions\Product_Class.cs" />
+    <Compile Include="Extensions\Product_Info.cs" />
     <Compile Include="Extensions\Questionnaire_DISC.cs" />
     <Compile Include="Extensions\Questionnaire_Info.cs" />
     <Compile Include="Extensions\Questionnaire_Subject.cs" />
@@ -85,6 +89,14 @@
     <Compile Include="Point_Class.cs" />
     <Compile Include="Point_List.cs" />
     <Compile Include="Point_Records.cs" />
+    <Compile Include="Product_Attribute.cs" />
+    <Compile Include="Product_AttributeSelect.cs" />
+    <Compile Include="Product_AttributeSet.cs" />
+    <Compile Include="Product_Class.cs" />
+    <Compile Include="Product_Files.cs" />
+    <Compile Include="Product_Image.cs" />
+    <Compile Include="Product_Info.cs" />
+    <Compile Include="Product_Pattern.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Questionnaire_Answerer.cs" />
     <Compile Include="Questionnaire_DISC.cs" />

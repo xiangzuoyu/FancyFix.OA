@@ -20,7 +20,9 @@ namespace FancyFix.OA.api
             string key = HttpContext.Current.Request["key"].Trim2();  // 验证权限
             string id = HttpContext.Current.Request["id"].Trim2();        //文件Id
             string name = HttpContext.Current.Request["name"].Trim2();    //源文件名
+            string domain = HttpContext.Current.Request["domain"].Trim2();    //文件域
             string title = HttpContext.Current.Request["title"].Trim2();    //文件标题
+            bool isproduct = HttpContext.Current.Request["Isproduct"].ToBool();//是否是产品图片
 
             string status = "success";
 
@@ -42,6 +44,15 @@ namespace FancyFix.OA.api
                 }
                 else
                 {
+                    //读取当前部门网站上传配置
+                    SiteOption option = config.SiteOptions[domain];
+                    if (option == null)
+                    {
+                        status = "没有找到当前网站配置!";
+                        goto result;
+
+                    }
+
                     //读取图片类型配置
                     Setting setting = config.Settings[uptype];
                     if (setting == null)
@@ -103,18 +114,60 @@ namespace FancyFix.OA.api
                             }
                         }
 
+                        //判断是否是文件类型
+                        bool isFile = true;
+                        if (fileExt == ".jpg" || fileExt == ".gif" || fileExt == ".jpeg" || fileExt == ".bmp" || fileExt == ".png")
+                        {
+                            isFile = false;
+                        }
+
+                        //数据库md5检测
+                        string md5 = Tools.Security.Md5Helper.GetMd5HashFromFile(fileUpload.InputStream);
+                        if (isproduct && !string.IsNullOrEmpty(md5))
+                        {
+                            string url = string.Empty;
+                            //判断数据库记录是否存在
+                            bool isExist = isFile ?
+                                Bll.BllProduct_Files.GetFileUrlByMd5(md5, ref url) :
+                                Bll.BllProduct_Image.GetImageUrlByMd5(md5, ref url);
+                            if (isExist)
+                            {
+                                //判断真实文件是否存在
+                                string filePath = option.Folder.TrimEnd('\\') + url.Replace(option.Url, "").Replace("/", "\\");
+                                if (File.Exists(filePath))
+                                {
+                                    return Json(new FileResult() { code = 1, id = id, name = name, url = url, msg = status });
+                                }
+                            }
+                        }
+
                         string saveDoc = DateTime.Now.ToString(@"yy\\MM\\");
                         string rndFileName = Tools.Usual.Common.GetDataShortRandom();
 
                         //如果文件需要标题，则在路径中添加标题
-                        if (!string.IsNullOrEmpty(title))
-                        {
-                            rndFileName = Tools.Usual.Utils.ConverUrl(Tools.Common.StringProcess.CutString(title, 50)).TrimEnd('-') + "-" + rndFileName;
-                        }
+                        //if (!string.IsNullOrEmpty(title))
+                        //{
+                        //    rndFileName = Tools.Usual.Utils.ConverUrl(Tools.Common.StringProcess.CutString(title, 50)).TrimEnd('-') + "-" + rndFileName;
+                        //}
+
+                        #region 文件名处理
+                        //文件名
+                        string fileName = Tools.Usual.Utils.GetFileName(name);
+
+                        //文件名有中文则强制转拼音
+                        if (Tools.Chinese.HasChinese(fileName))
+                            fileName = Tools.Usual.Hz2Py.Convert(fileName);
+
+                        //字数限制
+                        if (fileName.Length > 60)
+                            fileName = Tools.Usual.Common.CutString(fileName, 60);
+
+                        rndFileName = Tools.Usual.Utils.ConverUrl(fileName).Replace("_", "-").TrimEnd('-') + "-" + rndFileName;
+
+                        #endregion
 
                         //获取绝对路径
-                        string dirPath = setting.FilePath;
-
+                        string dirPath = option.Folder.TrimEnd('\\') + setting.FilePath;
                         string newFileName = saveDoc + rndFileName + fileExt;
                         string newSmallFileName = saveDoc + rndFileName + "s" + fileExt;
                         if (status == "success")
@@ -125,12 +178,11 @@ namespace FancyFix.OA.api
                             {
                                 Directory.CreateDirectory(dirPath + saveDoc);
                             }
-
                             // 文件上传 
                             fileUpload.SaveAs(dirPath + newFileName);
 
                             //如果上传图片，则执行图片配置选项.
-                            if (fileExt == ".jpg" || fileExt == ".gif" || fileExt == ".jpeg" || fileExt == ".bmp" || fileExt == ".png")
+                            if (!isFile)
                             {
                                 // 限制图片大小
                                 Tools.Tool.ImageTools.SetImgSize(dirPath + newFileName, setting.MaxWidth, setting.MaxHeight);
@@ -139,6 +191,13 @@ namespace FancyFix.OA.api
 
                                 string newMiddleFileName = saveDoc + rndFileName + "m" + fileExt;
 
+                                string newMinFileName = saveDoc + rndFileName + "xs" + fileExt;
+
+                                //生成缩略图
+                                if (setting.CreateMinPic)
+                                {
+                                    ImageTools.CreateSmallImage(dirPath + newFileName, dirPath + newMinFileName, setting.MinWidth, setting.MinHeight);
+                                }
                                 //生成小图
                                 if (setting.CreateSmallPic)
                                 {
@@ -170,7 +229,8 @@ namespace FancyFix.OA.api
                                         waterMarkImgOrTxt = setting.WaterMarkImgOrTxt;
                                     }
 
-                                    Tools.Tool.ImageTools.AddWaterMark(dirPath + newFileName, dirPath + newFileName, waterMarkImgOrTxt, wmtype, WaterMarkPosition.Right_Bottom, setting.Transparency);
+                                    //原图和大图打水印
+                                    //Tools.Tool.ImageTools.AddWaterMark(dirPath + newFileName, dirPath + newFileName, waterMarkImgOrTxt, wmtype, WaterMarkPosition.Right_Bottom, setting.Transparency);
                                     Tools.Tool.ImageTools.AddWaterMark(dirPath + newBigFileName, dirPath + newBigFileName, waterMarkImgOrTxt, wmtype, WaterMarkPosition.Right_Bottom, setting.Transparency);
                                 }
                             }
@@ -180,8 +240,41 @@ namespace FancyFix.OA.api
                         // 返回url
                         string urlRealm = setting.UrlFilePath;
                         string urlFile = urlRealm + newFileName.Replace(@"\", @"/"); //相对路径
-                        string urlComplete = urlFile; //完整路径
+                        string urlComplete = option.Url + urlFile; //完整路径
 
+                        //文件记录到数据库
+                        if (isproduct && !string.IsNullOrEmpty(md5))
+                        {
+                            if (isFile)
+                            {
+                                Bll.BllProduct_Files.Insert(new Model.Product_Files()
+                                {
+                                    FileSize = fileUpload.ContentLength,
+                                    FilePath = urlComplete,
+                                    FileExt = fileExt.TrimStart('.'),
+                                    FileName = name,
+                                    Md5 = md5
+                                });
+                            }
+                            else
+                            {
+                                Bll.BllProduct_Image.Insert(new Model.Product_Image()
+                                {
+                                    FileSize = fileUpload.ContentLength,
+                                    ImagePath = urlComplete,
+                                    ImageExt = fileExt.TrimStart('.'),
+                                    BigWidth = setting.BigWidth,
+                                    BigHeight = setting.BigHeight,
+                                    MiddleWidth = setting.MiddleWidth,
+                                    MiddleHeight = setting.MiddleHeight,
+                                    SmallWidth = setting.Width,
+                                    SmailHeight = setting.Height,
+                                    MinWidth = setting.MinWidth,
+                                    MinHeight = setting.MinHeight,
+                                    Md5 = md5
+                                });
+                            }
+                        }
                         return Json(new FileResult() { code = 1, id = id, name = name, url = urlComplete, msg = status });
                     }
                 }

@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using System.Data;
 using System.IO;
 using System.Configuration;
+using System.Text.RegularExpressions;
 
 namespace FancyFix.OA.Base
 {
@@ -149,6 +150,363 @@ namespace FancyFix.OA.Base
 
         #endregion
 
+        #region 产品属性
+
+        /// <summary>
+        /// 获取分类下属性列表HTML
+        /// </summary>
+        /// <param name="classId"></param>
+        /// <param name="list"></param>
+        /// <param name="listCustom"></param>
+        /// <param name="jsObj"></param>
+        /// <returns></returns>
+        protected string GetAttrStr(int classId, List<AttrJson> list, List<AttrJson> listCustom, string jsObj = "sku")
+        {
+            StringBuilder html = new StringBuilder();
+            string classStr = "class='form-control'";//框架样式
+            //分类属性部分
+            if (classId > 0)
+            {
+                //获取该分类下所有属性集合
+                List<Attr> listAttr = new List<Attr>();
+                Bll.BllProduct_Attribute.LisAttr(classId, listAttr);
+                int i = 0;
+                foreach (var item in listAttr)
+                {
+                    //根据属性名匹配出产品中已保存的属性值
+                    var itemMatchValue = list?.Find(o => o.n == item.name)?.v ?? "";
+
+                    string isRequired = item.isrequired ? classStr + " required='required'" : classStr; //判断是否必填
+                    html.Append("<tr><th align='right' width='150px'>");
+                    html.Append(item.name);
+                    html.Append($"<input type='hidden' name='attrId' value='{i}'>");
+                    html.Append($"<input type='hidden' name='attrName{i}' value='{item.name}'>");
+                    html.Append($"<input type='hidden' name='attrType{i}' value='{item.inputtype}'>");
+                    html.Append($"<input type='hidden' name='isSort{i}' value='{item.issort}'>");
+                    html.Append($"</th><td><div class='form-inline'>");
+                    if (item.inputtype == (byte)Tools.Enums.ESite.AttrType.Text) //文本框
+                    {
+                        html.Append($"<input type='text' style='width:150px' name='attrValue{i}' value='{itemMatchValue}' {isRequired}>");
+                    }
+                    else if (item.inputtype == (byte)Tools.Enums.ESite.AttrType.Dropdownlist)  //下拉框
+                    {
+                        if (item.attrlist != null && item.attrlist.Count > 0)
+                        {
+                            //如果是自定义值
+                            bool isOther = itemMatchValue != "" && item.attrlist.FindIndex(o => o.value == itemMatchValue) < 0;
+                            //<select>
+                            html.Append($"<select name='attrValue{i}' onchange='{jsObj}.SelectChange(this);return false;' {isRequired} style=\"width:200px\">");
+                            //<option>
+                            html.Append($"<option value=''>请选择选项值(默认为空)</option>");
+                            foreach (var attrvalue in item.attrlist)
+                            {
+                                string selected = string.Empty;
+                                if (attrvalue.id > 0)
+                                {
+                                    selected = itemMatchValue == attrvalue.value ? "selected" : "";  //是否选中
+                                    html.Append($"<option value='{attrvalue.id}' {selected}>{attrvalue.value}</option>");
+                                }
+                                else
+                                {
+                                    selected = isOther ? "selected" : "";  //是否选中
+                                    html.Append($"<option value='{attrvalue.id}' {selected}>{attrvalue.value}</option>");
+                                }
+                            }
+                            //</select>
+                            html.Append($"</select>");
+                            //<other>
+                            html.Append($"<span style='width:150px;{(isOther ? "" : "display:none")}' class='layui-word-aux'><input type='text' name='attrValueOther{i}' value='{(isOther ? itemMatchValue : "")}' class='form-control' style=\"width:150px\"/></span>");
+                        }
+                    }
+                    else if (item.inputtype == (byte)Tools.Enums.ESite.AttrType.CheckBox) //多选框
+                    {
+                        if (item.attrlist != null && item.attrlist.Count > 0)
+                        {
+                            //<checkbox>
+                            foreach (var attrvalue in item.attrlist)
+                            {
+                                if (attrvalue.id > 0)
+                                {
+                                    var values = itemMatchValue.Trim(',').Split(',');
+                                    string ischecked = values.Contains(attrvalue.value) ? "checked=checked" : "";  //是否选中
+                                    html.Append($"<input type='checkbox' name='attrValue{i}' value='{attrvalue.id}' onchange='{jsObj}.SelectChange(this);return false;' {ischecked} {isRequired} />{attrvalue.value}");
+                                }
+                            }
+                        }
+                    }
+                    if (item.issort) html.Append("<span class='layui-word-aux'>[可筛选属性]</span>");
+                    html.Append("</div></td></tr>");
+                    i++;
+                }
+            }
+            //自定义属性
+            if (listCustom != null && listCustom.Count > 0)
+            {
+                int i = 0;
+                foreach (var item in listCustom)
+                {
+                    html.Append($"<tr><th align='right' width='150px'>");
+                    html.Append($"<input type='hidden' name='myAttrId' value='{i}'>");
+                    html.Append($"<input type='text' style='width:150px' name='myAttrName{i}' value='{item.n}' {classStr}>");
+                    html.Append($"</th><td><div class='form-inline'>");
+                    html.Append($"<input type='text' style='width:150px' name='myAttrValue{i}' value='{item.v}' {classStr}>");
+                    html.Append($"<input type=\"button\" value=\"↑\" class=\"btn btn-default\" onclick='{jsObj}.Up(this)'>");
+                    html.Append($"<input type=\"button\" value=\"↓\" class=\"btn btn-default\" onclick='{jsObj}.Down(this)'>");
+                    html.Append($"<a href='javascript:void(0)' onclick='{jsObj}.DelSku(this)' class='btn btn-danger btn-sm'>删 除</a>");
+                    html.Append($"</div></td></tr>");
+                    i++;
+                }
+            }
+            html.Append("<tr id='addsku'><th width='150px'></th><td><a href='javascript:void(0)' class='btn btn-default' onclick='" + jsObj + ".AddSku(this)'><i class=\"fa fa-plus\"></i> 添加</a></td></tr>");
+            return html.ToString();
+        }
+
+        /// <summary>
+        /// 获取属性列表HTML（纯文本编辑）
+        /// </summary>
+        /// <param name="list">属性列表</param>
+        /// <param name="listCustom">自定义属性列表</param>
+        /// <param name="jsObj">js初始化对象名，默认：sku</param>
+        /// <returns></returns>
+        protected string GetAttrStr(List<AttrJson> list, List<AttrJson> listCustom, string jsObj = "sku")
+        {
+            StringBuilder html = new StringBuilder();
+            if (list != null && list.Count > 0)
+            {
+                string classStr = "class='form-control' required='required'";
+                bool hasCustom = listCustom != null && listCustom.Count > 0;
+                int i = 0;
+                foreach (var item in list)
+                {
+                    html.Append("<tr><th align='right' width='150px'>");
+                    if (hasCustom && listCustom.FindIndex(o => o.n == item.n) >= 0)
+                    {
+                        html.Append("<input type='hidden' name='myAttrId' value='" + i + "'>");
+                        html.Append("<input type='text' style='width:150px' name='myAttrName" + i + "' value='" + item.n + "' " + classStr + ">");
+                        html.Append("</th><td><div class='form-inline'>");
+                        html.Append("<input type='text' style='width:150px' name='myAttrValue" + i + "' value='" + item.v + "' " + classStr + ">");
+                        html.Append(" <input type=\"button\" value=\"↑\" class=\"btn btn-default\" onclick='" + jsObj + ".Up(this)'>");
+                        html.Append(" <input type=\"button\" value=\"↓\" class=\"btn btn-default\" onclick='" + jsObj + ".Down(this)'>");
+                        html.Append(" <a href='javascript:void(0)' onclick='" + jsObj + ".DelSku(this)' class='btn btn-danger btn-sm'>删 除</a>");
+                    }
+                    else
+                    {
+                        html.Append(item.n);
+                        html.Append("<input type='hidden' name='attrId' value='" + i + "'>");
+                        html.Append("<input type='hidden' name='attrName" + i + "' value='" + item.n + "'>");
+                        html.Append("</th><td><div class='form-inline'>");
+                        html.Append("<input type='text' style='width:150px' name='attrValue" + i + "' value='" + item.v + "' " + classStr + ">");
+                    }
+                    html.Append("</div></td></tr>");
+                    i++;
+                }
+            }
+            html.Append("<tr id='addsku'><th width='150px'></th><td><a href='javascript:void(0)' class='btn btn-default' onclick='" + jsObj + ".AddSku(this)'><i class=\"fa fa-plus\"></i> 添加</a></td></tr>");
+            return html.ToString();
+        }
+
+        /// <summary>
+        /// 获取属性集合
+        /// </summary>
+        /// <param name="getIds">获取所有<属性id>的参数名，默认：attrId</param>
+        /// <param name="getName">获取所有<属性名>的参数名前缀，默认：attrName</param>
+        /// <param name="getValue">获取所有<属性值>的参数名前缀，默认：attrValue</param>
+        /// <param name="getOther">获取所有<属性自定义值>的参数名前缀，默认：attrValueOther</param>
+        /// <param name="getType">获取所有<属性类型>的参数名前缀，默认：attrType</param>
+        /// <returns></returns>
+        protected List<AttrJson> GetAttrList(int classId, ref List<Product_AttributeSet> attrsetlist, string getIds = "attrId", string getName = "attrName", string getValue = "attrValue", string getOther = "attrValueOther", string getType = "attrType")
+        {
+            //获取该分类下的属性集合
+            List<Attr> listAttr = new List<Attr>();
+            if (classId > 0)
+                Bll.BllProduct_Attribute.LisAttr(classId, listAttr);
+            //验证Id集合
+            List<string> idList = RequestString(getIds).Split(',').ToList();
+            if (idList == null || idList.Count == 0) return null;
+
+            List<AttrJson> listAttrJson = new List<AttrJson>();
+            string attrName = string.Empty;
+            string attrValue = string.Empty;
+            byte attrType = 0;
+            int attrId = 0;
+            foreach (string tmp in idList)
+            {
+                if (int.TryParse(tmp, out attrId))
+                {
+                    attrName = RequestString(getName + attrId);
+                    attrValue = RequestString(getValue + attrId);
+                    attrType = RequestByte(getType + attrId);
+                    //从属性集合找出对应模型
+                    var model = listAttr?.Find(o => o.name == attrName);
+                    if (model != null && attrValue != "")
+                    {
+                        if (attrType == (byte)Tools.Enums.ESite.AttrType.Dropdownlist)
+                        {
+                            int attrValueId = attrValue.ToInt32();
+                            if (attrValueId > 0 && model.attrlist != null && model.attrlist.Count > 0)
+                            {
+                                var attrValueModel = model.attrlist.Find(o => o.id == attrValueId);
+                                if (attrValueModel != null)
+                                {
+                                    attrValue = attrValueModel.value;
+                                    //添加可筛选条件
+                                    if (model.issort)
+                                    {
+                                        attrsetlist.Add(new Product_AttributeSet()
+                                        {
+                                            AttributeId = model.id,
+                                            AttributeValueId = attrValueModel.id,
+                                            AttributeValue = attrValueModel.value
+                                        });
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                //自定义值
+                                attrValue = RequestString(getOther + attrId);
+                            }
+                        }
+                        else if (attrType == (byte)Tools.Enums.ESite.AttrType.CheckBox)
+                        {
+                            List<string> attrValueIdList = attrValue.Split(',').ToList();
+                            if (attrValueIdList != null && attrValueIdList.Count > 0)
+                            {
+                                string value = string.Empty;
+                                foreach (var attrValueId in attrValueIdList)
+                                {
+                                    int attrValueId_Temp = attrValueId.ToInt32();
+                                    if (attrValueId_Temp > 0 && model.attrlist != null && model.attrlist.Count > 0)
+                                    {
+                                        var attrValueModel = model.attrlist.Find(o => o.id == attrValueId_Temp);
+                                        value += attrValueModel.value + ",";
+                                        //添加可筛选条件
+                                        if (model.issort)
+                                        {
+                                            attrsetlist.Add(new Product_AttributeSet()
+                                            {
+                                                AttributeId = model.id,
+                                                AttributeValueId = attrValueModel.id,
+                                                AttributeValue = attrValueModel.value
+                                            });
+                                        }
+                                    }
+                                }
+                                attrValue = value.TrimEnd(',');
+                            }
+                        }
+                        listAttrJson.Add(new AttrJson() { n = attrName, v = attrValue });
+                    }
+                }
+            }
+            return listAttrJson;
+        }
+
+        /// <summary>
+        /// 获取自定义属性集合
+        /// </summary>
+        /// <param name="getIds">获取所有<属性id>的参数名，默认：myAttrId</param>
+        /// <param name="getName">获取所有<属性名>的参数名前缀，默认：myAttrName</param>
+        /// <param name="getValue">获取所有<属性值>的参数名前缀，默认：myAttrValue</param>
+        /// <returns></returns>
+        protected List<AttrJson> GetCustomAttrList(string getIds = "myAttrId", string getName = "myAttrName", string getValue = "myAttrValue")
+        {
+            //验证
+            List<string> idList = RequestString(getIds).Split(',').ToList();
+            if (idList == null || idList.Count == 0) return null;
+
+            List<AttrJson> listAttr = new List<AttrJson>();
+            string attrName = string.Empty;
+            string attrValue = string.Empty;
+            int attrId = 0;
+            foreach (string tmp in idList)
+            {
+                if (int.TryParse(tmp, out attrId))
+                {
+                    attrName = RequestString(getName + attrId);
+                    attrValue = RequestString(getValue + attrId);
+                    listAttr.Add(new AttrJson() { n = attrName, v = attrValue });
+                }
+            }
+            return listAttr;
+        }
+
+        /// <summary>
+        /// 获取服务属性集合
+        /// </summary>
+        /// <param name="getIds"></param>
+        /// <param name="getName"></param>
+        /// <param name="getValue"></param>
+        /// <returns></returns>
+        protected List<AttrJson> GetServiceAttrList(string getIds = "myAttrServiceId", string getName = "myAttrServiceName", string getValue = "myAttrServiceValue")
+        {
+            return GetCustomAttrList(getIds, getName, getValue);
+        }
+
+        /// <summary>
+        /// 获取自定义属性列表Html
+        /// </summary>
+        /// <param name="list">属性列表</param>
+        /// <param name="jsObj">js初始化对象名，默认：sku</param>
+        /// <returns></returns>
+        protected string GetCustomAttrStr(List<AttrJson> list, string jsObj = "sku")
+        {
+            StringBuilder html = new StringBuilder();
+            if (list != null && list.Count > 0)
+            {
+                string classStr = "class='form-control' required='required'";
+                int i = 0;
+                foreach (var item in list)
+                {
+                    html.Append("<tr><th align='right' width='150px'>");
+                    html.Append("<input type='hidden' name='myAttrId' value='" + i + "'>");
+                    html.Append("<input type='text' style='width:150px' name='myAttrName" + i + "' value='" + item.n + "' " + classStr + ">");
+                    html.Append("</th><td><div class='form-inline'>");
+                    html.Append("<input type='text' style='width:150px' name='myAttrValue" + i + "' value='" + item.v + "' " + classStr + ">");
+                    html.Append(" <input type=\"button\" value=\"↑\" class=\"btn btn-default\" onclick='" + jsObj + ".Up(this)'>");
+                    html.Append(" <input type=\"button\" value=\"↓\" class=\"btn btn-default\" onclick='" + jsObj + ".Down(this)'>");
+                    html.Append(" <a href='javascript:void(0)' onclick='" + jsObj + ".DelSku(this)' class='btn btn-danger btn-sm'>删 除</a>");
+                    html.Append("</div></td></tr>");
+                    i++;
+                }
+            }
+            html.Append("<tr id='addsku'><th width='150px'></th><td><a href='javascript:void(0)' class='btn btn-default' onclick='" + jsObj + ".AddSku(this)'><i class=\"fa fa-plus\"></i> 添加</a></td></tr>");
+            return html.ToString();
+        }
+
+        /// <summary>
+        /// 获取服务属性列表Html
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="jsObj"></param>
+        /// <returns></returns>
+        protected string GetServiceAttrStr(List<AttrJson> list, string jsObj = "sku_s")
+        {
+            StringBuilder html = new StringBuilder();
+            if (list != null && list.Count > 0)
+            {
+                string classStr = "class='form-control' required='required'";
+                int i = 0;
+                foreach (var item in list)
+                {
+                    html.Append("<tr><th align='right' width='150px'>");
+                    html.Append("<input type='hidden' name='myAttrServiceId' value='" + i + "'>");
+                    html.Append("<input type='text' style='width:150px' name='myAttrServiceName" + i + "' value='" + item.n + "' " + classStr + ">");
+                    html.Append("</th><td><div class='form-inline'>");
+                    html.Append("<input type='text' style='width:150px' name='myAttrServiceValue" + i + "' value='" + item.v + "' " + classStr + ">");
+                    html.Append(" <input type=\"button\" value=\"↑\" class=\"btn btn-default\" onclick='" + jsObj + ".Up(this)'>");
+                    html.Append(" <input type=\"button\" value=\"↓\" class=\"btn btn-default\" onclick='" + jsObj + ".Down(this)'>");
+                    html.Append(" <a href='javascript:void(0)' onclick='" + jsObj + ".DelSku(this)' class='btn btn-danger btn-sm'>删 除</a>");
+                    html.Append("</div></td></tr>");
+                    i++;
+                }
+            }
+            html.Append("<tr id='addsku'><th width='150px'></th><td><a href='javascript:void(0)' class='btn btn-default' onclick='" + jsObj + ".AddSku(this)'><i class=\"fa fa-plus\"></i> 添加</a></td></tr>");
+            return html.ToString();
+        }
+
+        #endregion
+
         #region 获取图片
         /// <summary>
         /// 获取图片
@@ -178,6 +536,60 @@ namespace FancyFix.OA.Base
         {
             string pics = RequestString(getPics).TrimEnd(',');
             return pics.Split(',')[0];
+        }
+
+        /// <summary>
+        /// 获取文件
+        /// </summary>
+        /// <param name="getFiles"></param>
+        /// <returns></returns>
+        protected string GetFile(string getFiles = "file")
+        {
+            string files = RequestString(getFiles).TrimEnd(',');
+            return files.Split(',')[0];
+        }
+        #endregion
+
+        #region 富文本内容处理
+        /// <summary>
+        /// 完整图片路径转换成相对路径
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        protected string TransferImgToLocal(string content)
+        {
+            //<div><img src="http://www.xxx.com/Content/images/cpa.png"></div>
+            if (!string.IsNullOrEmpty(content))
+            {
+                var imgList = GetImageUrlListFromHtml(content);
+                foreach (var img in imgList)
+                    if (img.Contains(webUrl))
+                        content = content.Replace(img, img.Replace(webUrl, ""));
+            }
+            return content;
+        }
+
+        /// <summary>
+        /// 相对路径转换成完整图片路径
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        protected string TransferImgFromLocal(string content)
+        {
+            //<div><img src="/Content/images/cpa.png"></div>
+            if (!string.IsNullOrEmpty(content))
+            {
+                var imgList = GetImageUrlListFromHtml(content).Distinct();
+                foreach (var img in imgList)
+                    if (!img.Contains("http://") && !img.Contains("https://"))
+                        content = content.Replace(img, webUrl + img);
+            }
+            return content;
+        }
+
+        protected string EscapeSpace(string str)
+        {
+            return Regex.Replace(str, @"&nbsp;", " ");
         }
         #endregion
 

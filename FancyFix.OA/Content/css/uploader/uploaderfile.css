@@ -1,0 +1,32 @@
+﻿.imgdiv {
+    position: relative;
+    margin: 5px;
+    width: 108px;
+    height: 108px;
+    border: 4px solid #ebe8e8;
+    background-color: #ebe8e8;
+    border-radius: 5px;
+    text-align: center;
+}
+
+span.filename {
+    position: absolute;
+    vertical-align: middle;
+    text-align: center;
+    width: 110px;
+    color: #444;
+    word-wrap: break-word;
+}
+
+.btnImgDelete {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.imgdiv .progress {
+    position: absolute;
+    height: 4px;
+    background-color: #3c8dbc;
+    width: 0;
+}

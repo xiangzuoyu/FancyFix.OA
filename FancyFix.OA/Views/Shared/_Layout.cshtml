@@ -40,38 +40,7 @@
     </style>
     @RenderSection("Css", false)
     <script src="/Content/js/plugins/jQuery/jquery-2.2.3.min.js"></script>
-    <script type="text/javascript">
-        //全局配置
-        window.domain = '@domain';
-        window.webUrl = '@webUrl';
-        //全局ajax错误监听
-        $.ajaxSetup({
-            error: function (xhr, status, e) {
-                if (xhr.status == '401')
-                    ShowError('您没有该操作权限！');
-                else
-                    ShowError('服务器发生错误，请重试！');
-            },
-            cache: false
-        });
-        //设置cookie
-        function setCookie(name, value) {
-            var Days = 30;
-            var exp = new Date();
-            exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
-            document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString();
-        }
-        $(function () {
-            //保存菜单收缩状态
-            $(".sidebar-toggle").click(function () {
-                if ($("body").hasClass("sidebar-collapse")) {
-                    setCookie("menu_status", 0);
-                } else {
-                    setCookie("menu_status", 1);
-                }
-            })
-        })
-    </script>
+    @Html.Partial("_baseconfig")
     <!--[if lt IE 9]>
     <script src="/Content/js/customer/html5shiv.min.js"></script>
     <script src="/Content/js/customer/respond.min.js"></script>

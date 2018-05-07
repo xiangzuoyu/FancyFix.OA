@@ -1,0 +1,202 @@
+﻿@using FancyFix.OA.Model;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Product_Attribute> list = ViewBag.list;
+}
+@section Css{
+    <style>
+        .table th {
+            text-align: center;
+            vertical-align: middle !important;
+        }
+
+        .cname {
+            font-weight: bold;
+        }
+
+        a:hover {
+            color: #f56954;
+        }
+    </style>
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box-header">
+            <h3 class="box-title"><a href="/product/class/list?parId=@ViewBag.classId">@ViewBag.className</a> 属性管理</h3>
+            <a href="/product/class/list" class="btn btn-default pull-right">返回</a>
+            <button id="btn_add" type="button" class="btn btn-default pull-right" onclick="OpenWin('添加属性', '/product/attribute/edit?classId=@ViewBag.classId', '600px', '450px')">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增属性
+            </button>
+        </div>
+        @*<ol class="breadcrumb">
+                <li>
+                    <a href="/product/class/list">一级分类</a>
+                </li>
+                @Html.Raw(ViewBag.breadcrumb)
+            </ol>*@
+        <div class="box">
+            <div class="box-body">
+                <div class="table-responsive">
+                    <table id="table" class="table table-bordered table-hover no-margin">
+                        <thead>
+                            <tr>
+                                <th>编号</th>
+                                <th>分类名称(子分类数) </th>
+                                <th>输入框类型</th>
+                                <th>备注</th>
+                                <th>默认内容</th>
+                                <th>排序</th>
+                                <th>必填</th>
+                                <th>主要</th>
+                                <th>可筛选</th>
+                                <th>显示</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (list != null && list.Count > 0)
+                            {
+                                foreach (var item in list)
+                                {
+                                    <tr>
+                                        <td align="center">
+                                            @item.Id
+                                        </td>
+                                        <td align="left">
+                                            @item.AttributeName
+                                        </td>
+                                        <td align="center">
+                                            @item.inputTypeStr
+                                        </td>
+                                        <td align="center" width="300px">
+                                            @item.Remark
+                                        </td>
+                                        <td align="center">
+                                            <div class="form-inline">
+                                                <button type="button" data-id="@item.Id" class="btnSetting btn btn-default">设置</button>
+                                                @Html.Raw(item.defaultValueStr)
+                                            </div>
+                                        </td>
+                                        <td align="center">
+                                            @Html.Raw(item.actStr ?? "")
+                                        </td>
+                                        <td align="center">
+                                            @if (item.IsRequired.HasValue && (bool)item.IsRequired)
+                                            {
+                                                <a href="/product/attribute/setrequired?id=@item.Id&classId=@item.ClassId" class="btn btn-success btn-circle btn-lg btn-xs" type="button">
+                                                    <i class="fa fa-check"></i>
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a href="/product/attribute/setrequired?id=@item.Id&classId=@item.ClassId" class="btn btn-danger btn-circle btn-lg btn-xs" type="button">
+                                                    <i class="fa fa-times"></i>
+                                                </a>
+                                            }
+                                        </td>
+                                        <td align="center">
+                                            @if (item.IsSpecial.HasValue && (bool)item.IsSpecial)
+                                            {
+                                                <a href="/product/attribute/setspecial?id=@item.Id&classId=@item.ClassId" class="btn btn-success btn-circle btn-lg btn-xs" type="button">
+                                                    <i class="fa fa-check"></i>
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a href="/product/attribute/setspecial?id=@item.Id&classId=@item.ClassId" class="btn btn-danger btn-circle btn-lg btn-xs" type="button">
+                                                    <i class="fa fa-times"></i>
+                                                </a>
+                                            }
+                                        </td>
+                                        <td align="center">
+                                            @if (item.IsSort.HasValue && (bool)item.IsSort)
+                                            {
+                                                <a href="/product/attribute/setsort?id=@item.Id&classId=@item.ClassId" class="btn btn-success btn-circle btn-lg btn-xs" type="button">
+                                                    <i class="fa fa-check"></i>
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a href="/product/attribute/setsort?id=@item.Id&classId=@item.ClassId" class="btn btn-danger btn-circle btn-lg btn-xs" type="button">
+                                                    <i class="fa fa-times"></i>
+                                                </a>
+                                            }
+                                        </td>
+                                        <td align="center">
+                                            @if (item.IsShow.HasValue && (bool)item.IsShow)
+                                            {
+                                                <a href="/product/attribute/setbelock?id=@item.Id&classId=@item.ClassId" class="btn btn-success btn-circle btn-lg btn-xs" type="button">
+                                                    <i class="fa fa-check"></i>
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a href="/product/attribute/setbelock?id=@item.Id&classId=@item.ClassId" class="btn btn-danger btn-circle btn-lg btn-xs" type="button">
+                                                    <i class="fa fa-times"></i>
+                                                </a>
+                                            }
+                                        </td>
+                                        <td align="center">
+                                            <a class="btnEdit btn btn-primary btn-md" data-id="@item.Id" data-classid="@item.ClassId" href="javascript:void(0)">编辑</a>
+                                            <a class="btnDelete btn btn-danger btn-md" data-id="@item.Id" href="javascript:void(0)">删除</a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr><td height=25 colspan="11">此分类下暂且没有属性...</td></tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Js{
+    <script src="/Content/js/common/tools.js"></script>
+    <script>
+        layui.use('form', function () {
+            var form = layui.form();
+            //监听提交
+            form.on('submit(formAdd),submit(formUpdate)', function (data) {
+                return false;
+            });
+
+            //编辑属性
+            $("#table").on('click', '.btnEdit', function () {
+                var id = $(this).data("id");
+                var classId = $(this).data("classid");
+                OpenWin("编辑属性", "/product/attribute/edit?id=" + id + "&classId=" + classId, "600px", "450px");
+            });
+
+            //设置默认值
+            $("#table").on('click', '.btnSetting', function () {
+                var id = $(this).data("id");
+                OpenWin("属性默认值管理", "/product/attribute/valuelist?attrid=" + id, "60%", "80%");
+            });
+
+            //删除属性
+            $("#table").on('click', '.btnDelete', function () {
+                var id = $(this).data("id");
+                layer.confirm('确定删除该属性吗？', {
+                    btn: ['确定', '取消']
+                }, function (index, layero) {
+                    $.post('/product/attribute/delete/' + id, function (data) {
+                        if (data > 0) {
+                            ShowSuccess("删除成功！");
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 500);
+                        }
+                        else
+                            ShowError("删除失败！");
+                    })
+                }, function (index) {
+                    layer.close(index);
+                });
+            });
+        });
+    </script>
+}

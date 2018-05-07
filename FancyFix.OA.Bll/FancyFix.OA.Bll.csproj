@@ -53,6 +53,13 @@
     <Compile Include="BllPoint_Records.cs" />
     <Compile Include="BllPoint_List.cs" />
     <Compile Include="BllConfig_Process.cs" />
+    <Compile Include="BllProduct_Attribute.cs" />
+    <Compile Include="BllProduct_AttributeSelect.cs" />
+    <Compile Include="BllProduct_AttributeSet.cs" />
+    <Compile Include="BllProduct_Class.cs" />
+    <Compile Include="BllProduct_Files.cs" />
+    <Compile Include="BllProduct_Image.cs" />
+    <Compile Include="BllProduct_Info.cs" />
     <Compile Include="BllQuestionnaire_Result.cs" />
     <Compile Include="BllQuestionnaire_Answerer.cs" />
     <Compile Include="BllQuestionnaire_DISC.cs" />
@@ -66,12 +73,12 @@
     <Compile Include="BllPoint_Class.cs" />
     <Compile Include="BllRank_Class.cs" />
     <Compile Include="BllKpi_Records.cs" />
+    <Compile Include="BllProduct_Pattern.cs" />
     <Compile Include="BllValuable_Sample.cs" />
     <Compile Include="BllValuable_Records.cs" />
     <Compile Include="BllValuable_List.cs" />
     <Compile Include="BllValuable_Class.cs" />
     <Compile Include="BllSys_MenuClass.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceBase.cs" />
   </ItemGroup>

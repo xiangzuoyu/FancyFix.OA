@@ -292,7 +292,7 @@ namespace FancyFix.Tools.Utility
         /// <returns></returns>
         public static string EnCryptFileName(int fileId)
         {
-            return Tool.EncryptionHelper.Des3_Encrypt(fileId.ToString());
+            return Security.EncryptionHelper.Des3_Encrypt(fileId.ToString());
         }
 
         /// <summary>
@@ -302,7 +302,7 @@ namespace FancyFix.Tools.Utility
         /// <returns></returns>
         public static int DeCryptFileName(string cryptStr)
         {
-            string str = Tool.EncryptionHelper.Des3_Decrypt(cryptStr);
+            string str = Security.EncryptionHelper.Des3_Decrypt(cryptStr);
             if (!string.IsNullOrEmpty(str))
                 return str.ToInt32();
             return 0;

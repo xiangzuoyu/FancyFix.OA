@@ -1,0 +1,366 @@
+﻿@using FancyFix.OA.Model;
+@model Product_Info
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout_In.cshtml";
+    string[] features = Model?.Features?.Split('|') ?? null;
+}
+@section Css{
+    <link href="/Content/js/plugins/iCheck/flat/_all.css" rel="stylesheet" />
+}
+<div class="row">
+    <div class="col-md-12">
+        <form id="mainform" action="/product/product/save" method="post">
+            <table class="layui-table">
+                <!--列宽度-->
+                <colgroup>
+                    <col class="col-lg-2">
+                    <col class="col-lg-10">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td align="right"><label for="classid" class="control-label">产品分类：</label></td>
+                        <td>
+                            <div class="form-group form-inline">
+                                <select class="form-control" id="classid" name="classid" loadattr="true" style="width:250px" required="required">
+                                    <option value="">请选择一个分类</option>
+                                    @Html.Raw(ViewBag.classHtml)
+                                </select>
+                                <span id="classPathStr" class="layui-word-aux"></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">产品标题：</label></td>
+                        <td>
+                            <div class="form-group form-inline">
+                                <input type="text" class="form-control" id="title" name="title" placeholder="产品标题" value="@(Model?.Title ?? "")" style="width:500px;" required="required" maxlength="200">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="prono" class="control-label">SPU编号：</label></td>
+                        <td>
+                            <div class="form-group form-inline">
+                                <input type="text" class="form-control" id="spu" name="spu" placeholder="SPU编号" value="@(Model?.Spu ?? "")" style="width:200px;" required="required" maxlength="50">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="prono" class="control-label">SKU编号：</label></td>
+                        <td>
+                            <div class="form-group form-inline">
+                                <input type="text" class="form-control" id="sku" name="sku" placeholder="SKU编号" value="@(Model?.Sku ?? "")" style="width:200px;" required="required" maxlength="50">
+                                <span class="layui-word-aux" style="color: red;"></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="classid" class="control-label">产品图案：</label></td>
+                        <td>
+                            <div class="form-group form-inline">
+                                <select class="form-control" id="patternid" name="patternid" loadattr="true" style="width:200px" required="required">
+                                    <option value="">请选择一种图案</option>
+                                    @Html.Raw(ViewBag.patternOptions)
+                                </select>
+                                <span id="classPathStr" class="layui-word-aux"></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="port" class="control-label">产品颜色：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="color" name="color" placeholder="产品颜色" value="@(Model?.Color ?? "")" style="width:200px;" maxlength="20">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="port" class="control-label">产品厚度：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="thickness" name="thickness" placeholder="产品厚度" value="@(Model?.Thickness ?? "")" style="width:200px;" maxlength="50">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="port" class="control-label">产品规格：</label></td>
+                        <td>
+                            <div class="form-group form-inline">
+                                <input type="text" class="form-control" id="specification" name="specification" placeholder="产品规格" value="@(Model?.Specification ?? "")" style="width:500px;" maxlength="255">
+                                <span class="layui-word-aux">(多个用英文逗号隔开)</span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="port" class="control-label">产品重量：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="weight" name="weight" placeholder="产品重量" value="@(Model?.Weight ?? "")" style="width:200px;" maxlength="50">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">适用法律法规：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <textarea class="form-control" id="regulation" name="regulation" type="text/plain" placeholder="法律法规" style="height:60px;" maxlength="500">@(Model?.Regulation ?? "")</textarea>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">产品描述：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <textarea class="form-control" id="description" name="description" type="text/plain" placeholder="产品描述" style="height:60px;">@(Model?.Description ?? "")</textarea>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="tb_sku" class="control-label">产品属性：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <table id="tb_sku" cellpadding="0" cellspacing="1" class="layui-table">
+                                    @Html.Raw(ViewBag.attrHtml)
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="tb_feature" class="control-label">产品特性：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <table id="tb_feature" cellpadding="0" cellspacing="1" class="layui-table">
+                                    <tbody>
+                                        @for (int i = 0; i < 5; i++)
+                                        {
+                                            string f = features != null && features.Length > i ? features[i] : "";
+                                            <tr>
+                                                <td>
+                                                    <div class="form-inline">
+                                                        <input type="text" style="width:400px" name="feature@(i)" value="@f" class="form-control">
+                                                        <input type="button" value="↑" class="btn btn-default btn-up">
+                                                        <input type="button" value="↓" class="btn btn-default btn-down">
+                                                        <a href="javascript:void(0)" class="btn btn-danger btn-sm">清空</a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="port" class="control-label">库存：</label></td>
+                        <td>
+                            <div class="form-group form-inline">
+                                <input type="text" class="form-control" id="stock" name="stock" placeholder="库存量" style="width:100px;" value="@(Model?.Stock ?? 0)" min="0" integer="true" required="required">
+                                <input type="text" class="form-control" id="quantityunit" name="quantityunit" placeholder="计量单位" value="@(Model?.QuantityUnit ?? "")" style="width:120px;" maxlength="50">
+                                <span class="layui-word-aux">(计量单位，如：roll,pcs)</span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="moq" class="control-label">最小起订量：</label></td>
+                        <td>
+                            <div class="form-group form-inline">
+                                <input type="text" class="form-control" id="moq" name="moq" placeholder="最小起订量，默认1" value="@(Model?.Moq ?? 1)" style="width:100px;" integer="true">
+                                <input type="text" class="form-control" id="moqunit" name="moqunit" placeholder="单位描述" value="@(Model?.MoqUnit ?? "")" style="width:120px;" maxlength="50">
+                                <span class="layui-word-aux">(单位描述，如：50m/roll)</span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="price" class="control-label">价格设置：</label></td>
+                        <td>
+                            <div class="form-group ">
+                                <div class="form-group form-inline">
+                                    不含税价：
+                                    <input type="text" class="form-control" id="price" name="price" placeholder="不含税价" value="@(Model?.Price ?? 0)" style="width:100px;" min="0" number="true" required="required">
+                                </div>
+                                <div class="form-group form-inline">
+                                    含税价：
+                                    <input type="text" class="form-control" id="taxprice" name="taxprice" placeholder="含税价" value="@(Model?.TaxPrice ?? 0)" style="width:100px;" min="0" number="true">
+                                    <span class="layui-word-aux">(没有可以不填)</span>
+                                </div>
+                                <div class="form-group form-inline">
+                                    价格单位：
+                                    <input type="text" class="form-control" id="priceunit" name="priceunit" placeholder="价格单位" value="@(Model?.PriceUnit ?? "$")" style="width:80px;" maxlength="50">
+                                    <span class="layui-word-aux">(如：$,￥)</span>
+                                </div>
+                                <div class="form-group form-inline">
+                                    货币单位：
+                                    <input type="text" class="form-control" id="currency" name="currency" placeholder="货币单位" value="@(Model?.Currency ?? "USD")" style="width:80px;" maxlength="50">
+                                    <span class="layui-word-aux">(如：USD,RMB)</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="port" class="control-label">产品成本：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="cost" name="cost" placeholder="产品成本" value="@(Model?.Cost ?? "")" st style="width:200px;" maxlength="50">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="port" class="control-label">HS编码：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="hs_code" name="hs_code" placeholder="HS编码" value="@(Model?.HS_Code ?? "")" style="width:200px;" maxlength="50">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="port" class="control-label">开票名：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="invoicename" name="invoicename" placeholder="开票名" value="@(Model?.InvoiceName ?? "")" style="width:200px;" maxlength="200">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label class="control-label">产品图片：</label></td>
+                        <td>
+                            @Html.Partial("UploadImg", new FancyFix.OA.Config.ImgUploadConfig { Pics = Model?.Pics ?? "", Uptype = "product", FileExt = "gif,png,jpg,jpeg", UploadNum = 10, MaxSize = 10 * 1024 * 1024, WidthHeight = "正方形", IsProduct = true })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label class="control-label">视频：</label></td>
+                        <td>
+                            @Html.Partial("UploadFile", new FancyFix.OA.Config.FileUploadConfig { Files = Model?.Videos ?? "", Uptype = "video", FileExt = "avi,rmvb,mp4,mov,flv,3gp,mpg,mpeg,wmv,rar,zip", UploadNum = 1, MaxSize = 300 * 1024 * 1024, IsProduct = true, UploadName = "video" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label class="control-label">附件：</label></td>
+                        <td>
+                            @Html.Partial("UploadFile", new FancyFix.OA.Config.FileUploadConfig { Files = Model?.Attachment ?? "", UploadNum = 1, MaxSize = 100 * 1024 * 1024, IsProduct = true, UploadName = "attachment" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="content" class="control-label">产品详细：</label></td>
+                        <td>
+                            <div class="form-group" style="max-height:300px;max-width:1067px;">
+                                <textarea class="form-control" id="content" name="content" type="text/plain" style="width: 1067px; height: 300px;">@(TransferImgFromLocal(Model?.Content ?? ""))</textarea>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="isshow" class="control-label">是否显示：</label></td>
+                        <td>
+                            <input type="checkbox" class="form-control" name="isshow" @(Model?.IsShow ?? true ? "checked=\"checked\"" : "") value="true">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"></td>
+                        <td>
+                            <input type="hidden" id="id" name="id" value="@(Model?.Id ?? 0)">
+                            <button type="submit" id="btnPass" class="btn btn-primary">保存</button>
+                            <button type="button" id="cancel" class="btn btn-default" onclick="CloseWin()">取消</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+@section Js{
+    <script src="/Content/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/jquery.validator.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/messages_cn.js"></script>
+    <script src="/Content/js/common/tools.js"></script>
+    <script src="/Content/js/common/skuatter.js"></script>
+    <script type="text/javascript">
+        var skuObj;
+        layui.use(['layer'], function () {
+            var layer = layui.layer;
+
+            //加载属性控件
+            skuObj = new SkuAttrer("tb_sku", "skuObj", "attrId", "attrName", "attrValue", "attrType", function () {
+                //iCheck初始化
+                $('input[type="checkbox"],input[type="radio"]').iCheck({
+                    checkboxClass: 'icheckbox_flat-blue',
+                    radioClass: 'iradio_flat-blue'
+                });
+            });
+            skuObj.BindSelect("classid", "classPathStr");
+
+            //产品特性
+            $("#tb_feature").on("click", ".btn-up", function () {
+                var objParentTR = $(this).parents("tr").eq(0);
+                var prevTR = objParentTR.prev();
+                if (prevTR.length > 0) {
+                    prevTR.insertAfter(objParentTR);
+                    ReSortFeature();
+                }
+            }).on("click", ".btn-down", function () {
+                var objParentTR = $(this).parents("tr").eq(0);
+                var nextTR = objParentTR.next();
+                if (nextTR.length > 0) {
+                    nextTR.insertBefore(objParentTR);
+                    ReSortFeature();
+                }
+            }).on("click", ".btn-danger", function () {
+                $(this).parents("tr").eq(0).find("input:text").val("");
+            });
+
+            //产品特性顺序重排
+            function ReSortFeature() {
+                var $features = $("#tb_feature").find("input[name^=feature]");
+                if ($features.size() == 5) {
+                    $.each($features, function (i, v) {
+                        $(this).attr("name", "feature" + i);
+                    })
+                }
+            }
+
+            //iCheck初始化
+            $('input[type="checkbox"],input[type="radio"]').iCheck({
+                checkboxClass: 'icheckbox_flat-blue',
+                radioClass: 'iradio_flat-blue'
+            });
+
+            //表单验证
+            var $form = $("#mainform");
+            $form.validate();
+
+            //通过
+            $("#btnPass").click(function () {
+                $form.valid();
+            });
+
+            //验证产品编号
+            $("#sku").blur(function () {
+                var $this = $(this);
+                var prono = $this.val();
+                var id = $("#id").val();
+                if (id == 0 && prono != "") {
+                    $.post('/api/product/checksku', { '': prono }, function (data) {
+                        if (!data) {
+                            $this.parent().find("span").text('该sku编号已存在');
+                        } else {
+                            $this.parent().find("span").text('');
+                        }
+                    })
+                }
+            });
+
+            //分类下拉框监视事件
+            $("#classid").change(function () {
+                var $this = $(this);
+                var $thisSelect = $this.find("option:selected");
+                var value = $thisSelect.val();
+                var id = $("#id").val();
+                var childNum = parseInt($thisSelect.attr("child"));
+                if (id == 0 && value != '' && parseInt(value) > 0 && childNum == 0) {
+                    $.post('/api/product/getclasscode', { '': parseInt(value) }, function (data) {
+                        $("#spu").val(data);
+                    })
+                }
+            });
+        })
+    </script>
+    @Html.Partial("WangEditor", new FancyFix.OA.Config.ImgUploadConfig() { ElementId = "content", Uptype = "prodetail" })
+}

@@ -4,9 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 
-namespace FancyFix.OA.Controllers
+namespace FancyFix.OA.api
 {
-
     public class MenuController : BaseApiController
     {
         List<Mng_MenuClass> list = null;

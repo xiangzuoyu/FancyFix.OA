@@ -1,0 +1,146 @@
+﻿@using FancyFix.OA.Model;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Product_Class> list = ViewBag.list;
+    Product_Class mod = ViewBag.model;
+    int id = ViewBag.id;
+    int parId = ViewBag.parId;
+    string path = ViewBag.path;
+}
+@section Css{
+    <style>
+        .table th {
+            text-align: center;
+            vertical-align: middle !important;
+        }
+
+        .cname {
+            font-weight: bold;
+        }
+
+        a:hover {
+            color: #f56954;
+        }
+    </style>
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box-header">
+            <h3 class="box-title">@(ViewBag.title)分类管理</h3>
+        </div>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@path/list">一级分类</a>
+            </li>
+            @Html.Raw(ViewBag.breadcrumb)
+        </ol>
+        <div class="box">
+            @if (id > 0)
+            {
+                <div class="box-body">
+                    <form class="layui-form" method="post" action="@path/update">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <input type="text" name="className" placeholder="添加同级分类" lay-verify="required" required="required" class="form-control pull-left" value="@(mod!=null?mod.ClassName:"")">
+                            </div>
+                            <div class="form-group">
+                                <input type="hidden" name="id" value="@id">
+                                <input type="hidden" name="parId" value="@parId">
+                                <button type="submit" class="btn btn-sm btn-primary btn-flat pull-left" lay-submit lay-filter="formUpdate">修改</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            }
+            <div class="box-body">
+                <section class="panel">
+                    <div class="layui-form layui-form-pane">
+                        <div class="layui-inline">
+                            <button id="btnAdd" type="button" class="btn btn-default">
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
+                            </button>
+                        </div>
+                    </div>
+                </section>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover no-margin">
+                        <thead>
+                            <tr>
+                                <th>分类名称(子分类数) </th>
+                                <th>编码</th>
+                                <th>排序</th>
+                                <th>显示</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (list != null && list.Count > 0)
+                            {
+                                foreach (var item in list)
+                                {
+                                    <tr>
+                                        <td align="left">
+                                            <a class="cname" href="@path/list?parId=@item.Id">@item.ClassName</a>(@item.ChildNum)
+                                            <a class="btn btn-default btn-xs" href="/product/attribute/list?classId=@item.Id">查看属性</a>
+                                        </td>
+                                        <td align="center">
+                                            @item.Code
+                                        </td>
+                                        <td align="center">
+                                            @Html.Raw(item.actStr ?? "")
+                                        </td>
+                                        <td align="center">
+                                            @if ((bool)item.BeLock)
+                                            {
+                                                <a href="@path/setbelock?id=@item.Id&parId=@parId" class="btn btn-danger btn-circle btn-lg btn-xs" type="button">
+                                                    <i class="fa fa-times"></i>
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a href="@path/setbelock?id=@item.Id&parId=@parId" class="btn btn-success btn-circle btn-lg btn-xs" type="button">
+                                                    <i class="fa fa-check"></i>
+                                                </a>
+                                            }
+                                        </td>
+                                        <td align="center">
+                                            <a class="btn btn-primary btn-md btn-edit" data-id="@item.Id" href="javascript:void(0)">编辑</a>
+                                            <a class="btn btn-danger btn-md" href="@path/delete?id=@item.Id&parId=@parId">删除</a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr><td height=25 colspan="6">此分类下暂且没有分类...</td></tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Js{
+    <script src="/Content/js/common/tools.js"></script>
+    <script>
+        layui.use('form', function () {
+            var form = layui.form();
+            //监听提交
+            form.on('submit(formAdd),submit(formUpdate)', function (data) {
+                return false;
+            });
+
+              //添加
+            $("#btnAdd").click(function () {
+                OpenWin("新增分类", "/product/class/edit?parId=@parId","60%","550px");
+            });
+
+            //编辑
+            $(".btn-edit").click(function () {
+                var id = $(this).data("id");
+                OpenWin("编辑分类", "/product/class/edit?id=" + id + "&parId=@parId", "60%", "550px");
+            });
+        });
+    </script>
+}

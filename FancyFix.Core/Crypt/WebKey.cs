@@ -39,12 +39,12 @@ namespace FancyFix.Core.Crypt
         /// <returns></returns>
         public string KeyCheckCode(int id)
         {
-            return Tools.Common.Common.Md5(siteKeyCode + id, 32).Substring(0, 8);
+            return Tools.Security.Md5Helper.GetMd5Hash(siteKeyCode + id).Substring(0, 8);
         }
 
         public static string KeyCheckCode2(int id)
         {
-            return Tools.Common.Common.Md5(siteKeyCode + id, 32).Substring(0, 8);
+            return Tools.Security.Md5Helper.GetMd5Hash(siteKeyCode + id).Substring(0, 8);
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace FancyFix.Core.Crypt
             {
                 return false;
             }
-            if (Tools.Common.Common.Md5(siteKeyCode + id, 32).Substring(0, 8) == checkCode)
+            if (Tools.Security.Md5Helper.GetMd5Hash(siteKeyCode + id).Substring(0, 8) == checkCode)
             {
                 return true;
             }
@@ -121,7 +121,7 @@ namespace FancyFix.Core.Crypt
                 return false;
             }
 
-            if (Tools.Common.Common.Md5(siteKeyCode + id, 32).Substring(0, 8) == checkCode)
+            if (Tools.Security.Md5Helper.GetMd5Hash(siteKeyCode + id).Substring(0, 8) == checkCode)
             {
                 return true;
             }
@@ -157,7 +157,7 @@ namespace FancyFix.Core.Crypt
                 return false;
             }
 
-            if (Tools.Common.Common.Md5(siteKeyCode + id, 32).Substring(0, 8) == checkCode)
+            if (Tools.Security.Md5Helper.GetMd5Hash(siteKeyCode + id).Substring(0, 8) == checkCode)
             {
                 return true;
             }

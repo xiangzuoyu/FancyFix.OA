@@ -26,6 +26,7 @@ namespace FancyFix.OA.Base
         public static string cssVersion = DateTime.Now.ToString("yyMMddhhss"); //样式版本
         public static string domain = Tools.Special.Common.GetDomain();
         public static string webUrl = Tools.Special.Common.GetWebUrl();
+        public static string imgUrl = Tools.Special.Common.GetImgUrl();
 
         private Mng_User myInfo = null; //当前管理员对象 
 
@@ -432,6 +433,44 @@ namespace FancyFix.OA.Base
         public static string[] GetLinkUrlListFromHtml(string htmlText)
         {
             return Tools.Usual.Utils.GetLinkUrlListFromHtml(htmlText);
+        }
+        #endregion
+
+        #region 富文本内容处理
+        /// <summary>
+        /// 完整图片路径转换成相对路径
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        protected string TransferImgToLocal(string content)
+        {
+            //<div><img src="http://www.xxx.com/Content/images/cpa.png"></div>
+            if (!string.IsNullOrEmpty(content))
+            {
+                var imgList = GetImageUrlListFromHtml(content);
+                foreach (var img in imgList)
+                    if (img.Contains(webUrl))
+                        content = content.Replace(img, img.Replace(webUrl, ""));
+            }
+            return content;
+        }
+
+        /// <summary>
+        /// 相对路径转换成完整图片路径
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        protected string TransferImgFromLocal(string content)
+        {
+            //<div><img src="/Content/images/cpa.png"></div>
+            if (!string.IsNullOrEmpty(content))
+            {
+                var imgList = GetImageUrlListFromHtml(content).Distinct();
+                foreach (var img in imgList)
+                    if (!img.Contains("http://") && !img.Contains("https://"))
+                        content = content.Replace(img, webUrl + img);
+            }
+            return content;
         }
         #endregion
 

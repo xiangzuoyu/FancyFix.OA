@@ -11,6 +11,9 @@ var $table = $("#table");
 function Reload() {
     $table.bootstrapTable('refresh');
 }
+function ReloadTable($$table) {
+    $$table.bootstrapTable('refresh');
+}
 function ReloadPage() {
     setTimeout(function () {
         window.location.reload();
@@ -158,6 +161,28 @@ function CloseWinByIndex(index) {
     } catch (ex) {
         console.log(ex);
     }
+}
+
+//===============获取图片方法===============//
+function GetMinPic(v) {
+    if (!v || v == '') return '';
+    var index = v.lastIndexOf('.');
+    return v.substring(0, index) + 'xs' + v.substring(index);
+}
+function GetSmallPic(v) {
+    if (!v || v == '') return '';
+    var index = v.lastIndexOf('.');
+    return v.substring(0, index) + 's' + v.substring(index);
+}
+function GetMiddlePic(v) {
+    if (!v || v == '') return '';
+    var index = v.lastIndexOf('.');
+    return v.substring(0, index) + 'm' + v.substring(index);
+}
+function GetBigPic(v) {
+    if (!v || v == '') return '';
+    var index = v.lastIndexOf('.');
+    return v.substring(0, index) + 'b' + v.substring(index);
 }
 
 

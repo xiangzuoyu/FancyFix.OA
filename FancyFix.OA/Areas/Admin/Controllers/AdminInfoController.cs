@@ -25,7 +25,7 @@ namespace FancyFix.OA.Areas.Admin.Controllers
             {
                 if (password != rPassword)
                     return MessageBoxAndReturn("两次输入密码不同！");
-                MyInfo.Password = Tools.Common.Common.Md5(password, 32);
+                MyInfo.Password = Tools.Security.Md5Helper.GetMd5Hash(password);
             }
             MyInfo.Pic = pic;
             MyInfo.RealName = realname;

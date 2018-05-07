@@ -44,11 +44,6 @@ namespace FancyFix.OA.Bll
             return Db.Context.FromSql(string.Format("select Top 1 Id from {0} where BeLock = cast(0 as bit) order by Sequence", tableName)).ToScalar()?.ToString().ToInt32() ?? 0;
         }
 
-        public virtual int GetDefaultId(int departId)
-        {
-            return Db.Context.FromSql(string.Format("select Top 1 Id from {0} where BeLock = cast(0 as bit) and DepartId={1} order by Sequence", tableName, departId)).ToScalar()?.ToString().ToInt32() ?? 0;
-        }
-
         /// <summary>
         /// 获取所有子类包括本身的ID组 (3,4,5,6...)
         /// </summary>
@@ -58,17 +53,6 @@ namespace FancyFix.OA.Bll
         public virtual string GetIdsByParentId(int parentId, bool includeLock)
         {
             List<Sys_Class> list = Mapping(GetListByParentId(parentId, includeLock));
-            string val = parentId.ToString();
-            foreach (Sys_Class model in list)
-            {
-                val += "," + model.Id.ToString();
-            }
-            return val;
-        }
-
-        public virtual string GetIdsByParentId(int parentId, int departId, bool includeLock)
-        {
-            List<Sys_Class> list = Mapping(GetListByParentId(parentId, departId, includeLock));
             string val = parentId.ToString();
             foreach (Sys_Class model in list)
             {
@@ -136,16 +120,6 @@ namespace FancyFix.OA.Bll
             return strShowClass.ToString();
         }
 
-        public virtual string ShowClass(int parentId, int SelectedValue, int departId, bool includeLock)
-        {
-            List<Sys_Class> list = Mapping(GetListByParentId(parentId, departId, includeLock));
-            StringBuilder strShowClass = new StringBuilder();
-
-            GetListByParId(list, parentId, departId, strShowClass, SelectedValue);
-
-            return strShowClass.ToString();
-        }
-
         /// <summary>
         /// 递归遍历
         /// </summary>
@@ -189,42 +163,6 @@ namespace FancyFix.OA.Bll
             }
         }
 
-        private void GetListByParId(IEnumerable<Sys_Class> list, int parId, int departId, StringBuilder strShowClass, int SelectedValue)
-        {
-            IEnumerable<Sys_Class> childlist = list.Where(o => o.ParId == parId && o.DepartId == departId);
-            if (childlist != null && childlist.Count() > 0)
-            {
-                foreach (var item in childlist)
-                {
-                    strShowClass.AppendFormat("<option value=\"{0}\" ", item.Id.ToString());
-                    if (SelectedValue == item.Id)
-                    {
-                        strShowClass.Append(" selected ");
-                    }
-                    strShowClass.AppendFormat("attr=\"{0}\"", ShowClassPath(item.Id, departId));
-                    strShowClass.AppendFormat("child=\"{0}\"", item.ChildNum);
-                    strShowClass.Append(" >");
-
-                    if (item.Depth == 0)
-                    {
-                        strShowClass.Append("├");
-                    }
-                    else
-                    {
-                        for (int j = 0; j < item.Depth; j++)
-                        {
-                            strShowClass.Append(" │");
-                        }
-                        strShowClass.Append(" ├");
-                    }
-                    strShowClass.Append(item.ClassName.ToString());
-                    strShowClass.Append(" </option>");
-
-                    GetListByParId(list, item.Id, departId, strShowClass, SelectedValue);
-                }
-            }
-        }
-
         /// <summary>
         /// 分类菜单显示
         /// </summary>
@@ -264,40 +202,7 @@ namespace FancyFix.OA.Bll
             }
             return strShowClass.ToString();
         }
-
-        public virtual string ShowClassPath(int parentId, string selectPath, int departId, bool includeLock)
-        {
-            List<Sys_Class> list = Mapping(GetListByParentId(parentId, departId, includeLock));
-            StringBuilder strShowClass = new StringBuilder();
-            if (list != null && list.Count > 0)
-            {
-                for (int i = 0; i < list.Count; i++)
-                {
-                    strShowClass.AppendFormat("<option value=\"{0}\" ", list[i].ParPath.ToString());
-                    if (selectPath == list[i].ParPath.ToString())
-                    {
-                        strShowClass.Append(" selected ");
-                    }
-                    strShowClass.Append(" >");
-                    if (list[i].Depth == 0)
-                    {
-                        strShowClass.Append("├");
-                    }
-                    else
-                    {
-                        for (int j = 0; j < list[i].Depth; j++)
-                        {
-                            strShowClass.Append(" │");
-                        }
-                        strShowClass.Append(" ├");
-                    }
-                    strShowClass.Append(list[i].ClassName.ToString());
-                    strShowClass.Append(" </option>");
-                }
-            }
-            return strShowClass.ToString();
-        }
-
+     
         /// <summary>
         /// 设置是否菜单项 ,如果本来是，则设置否，如果本来否，则设置是
         /// </summary>
@@ -344,30 +249,7 @@ namespace FancyFix.OA.Bll
             }
             return path;
         }
-
-        public virtual string ShowClassPath(int childClassId, int departId)
-        {
-            string path = "";
-            Sys_Class mod_Sys_Class = GetModelByCache(childClassId, departId);
-            if (mod_Sys_Class == null)
-            {
-                return "";
-            }
-            else
-            {
-                path = string.Format("{0}", mod_Sys_Class.ClassName);
-                if (mod_Sys_Class.ParId > 0)
-                {
-                    path = ShowClassPath((int)mod_Sys_Class.ParId, departId) + " > " + path;
-                }
-                else if (mod_Sys_Class.ParId == 0)
-                {
-                    path = "<span>" + path + "</span>";
-                }
-            }
-            return path;
-        }
-
+       
         /// <summary>
         /// 根据底层的ClassID 获取Class路径（路由模版）
         /// </summary>
@@ -388,25 +270,6 @@ namespace FancyFix.OA.Bll
                 if (model.ParId > 0)
                 {
                     path = ShowClassPath((int)model.ParId, urlFormat) + path;
-                }
-            }
-            return path;
-        }
-
-        public virtual string ShowClassPath(int childClassId, int departId, string urlFormat)
-        {
-            string path = "";
-            Sys_Class model = GetModelByCache(childClassId, departId);
-            if (model == null)
-            {
-                return "";
-            }
-            else
-            {
-                path = string.Format(urlFormat, model.Id.ToString(), model.ClassName);
-                if (model.ParId > 0)
-                {
-                    path = ShowClassPath((int)model.ParId, departId, urlFormat) + path;
                 }
             }
             return path;
@@ -437,25 +300,6 @@ namespace FancyFix.OA.Bll
             return path;
         }
 
-        public virtual string ShowClassPath2(int childClassId, int departId)
-        {
-            string path = "";
-            Sys_Class mod_Sys_Class = GetModelByCache(childClassId, departId);
-            if (mod_Sys_Class == null)
-            {
-                return "";
-            }
-            else
-            {
-                path = mod_Sys_Class.ClassName;
-                if (mod_Sys_Class.ParId > 0)
-                {
-                    path += "###" + ShowClassPath((int)mod_Sys_Class.ParId, departId);
-                }
-            }
-            return path;
-        }
-
         /// <summary>
         /// 根据父ID获取一级子类列表
         /// </summary>
@@ -465,23 +309,6 @@ namespace FancyFix.OA.Bll
         public virtual IEnumerable<T> GetChildrenList(int parentId, bool includeLock)
         {
             string where = string.Format("parId = {0}", parentId.ToString());
-            if (!includeLock)
-            {
-                where += " and belock = cast(0 as bit)";
-            }
-            try
-            {
-                return GetSelectList(0, "*", where, "sequence");
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
-        public virtual IEnumerable<T> GetChildrenList(int parentId, int departId, bool includeLock)
-        {
-            string where = string.Format("parId = {0} and departId={1}", parentId.ToString(), departId);
             if (!includeLock)
             {
                 where += " and belock = cast(0 as bit)";
@@ -538,41 +365,6 @@ namespace FancyFix.OA.Bll
             return strShowClass.ToString();
         }
 
-        public virtual string ShowClassByParId(int parId, int SelectedValue, int departId, bool includeLock)
-        {
-            List<Sys_Class> list = Mapping(GetChildrenList(parId, departId, includeLock));
-            StringBuilder strShowClass = new StringBuilder();
-            if (list != null && list.Count > 0)
-            {
-                for (int i = 0; i < list.Count; i++)
-                {
-                    strShowClass.AppendFormat("<option value=\"{0}\" ", list[i].Id.ToString());
-                    if (SelectedValue == list[i].Id)
-                    {
-                        strShowClass.Append(" selected ");
-                    }
-                    strShowClass.AppendFormat("attr=\"{0}\"", ShowClassPath(list[i].Id, departId));
-                    strShowClass.AppendFormat("child=\"{0}\"", list[i].ChildNum);
-                    strShowClass.Append(" >");
-                    if (list[i].Depth == 0)
-                    {
-                        strShowClass.Append("├");
-                    }
-                    else
-                    {
-                        for (int j = 0; j < list[i].Depth; j++)
-                        {
-                            strShowClass.Append(" │");
-                        }
-                        strShowClass.Append(" ├");
-                    }
-                    strShowClass.Append(list[i].ClassName.ToString());
-                    strShowClass.Append(" </option>");
-                }
-            }
-            return strShowClass.ToString();
-        }
-
         /// <summary>
         /// 根据父ID获取一级子类列表
         /// </summary>
@@ -583,23 +375,6 @@ namespace FancyFix.OA.Bll
         public virtual IEnumerable<T> GetChildrenList(int top, int parentId, int thisid, bool includeLock)
         {
             string where = string.Format("parId = {0}", parentId.ToString());
-            if (!includeLock)
-            {
-                where += " and belock = cast(0 as bit) and id<>" + thisid;
-            }
-            try
-            {
-                return GetSelectList(top, "*", where, "sequence");
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
-        public virtual IEnumerable<T> GetChildrenList(int top, int parentId, int thisid, int departId, bool includeLock)
-        {
-            string where = string.Format("parId = {0} and departId={1}", parentId.ToString(), departId);
             if (!includeLock)
             {
                 where += " and belock = cast(0 as bit) and id<>" + thisid;
@@ -631,26 +406,6 @@ namespace FancyFix.OA.Bll
             {
                 //先获取父类信息;
                 Sys_Class modParentClassInfo = GetModel(parentId);
-                if (modParentClassInfo == null)
-                {
-                    return null;
-                }
-                where += string.Format(" and  parpath like '{0}%'", modParentClassInfo.ParPath);
-            }
-            return GetSelectList(0, "*", where, "sequence");
-        }
-
-        public virtual IEnumerable<T> GetListByParentId(int parentId, int departId, bool includeLock)
-        {
-            string where = "departId=" + departId;
-            if (!includeLock)
-            {
-                where += " and belock = cast(0 as bit)";
-            }
-            if (parentId > 0)
-            {
-                //先获取父类信息;
-                Sys_Class modParentClassInfo = GetModel(parentId, departId);
                 if (modParentClassInfo == null)
                 {
                     return null;
@@ -709,21 +464,6 @@ namespace FancyFix.OA.Bll
             return false;
         }
 
-        public virtual bool Delete(int id, int departId)
-        {
-            string flag = "Flag";
-            var proc = Db.Context.FromProc("Sys_ClassDelByDepart")
-                 .AddInParameter("TableName", System.Data.DbType.String, tableName)
-                 .AddInParameter("DelId", System.Data.DbType.String, id)
-                 .AddInParameter("DepartId", System.Data.DbType.Int32, departId)
-                 .AddInputOutputParameter(flag, System.Data.DbType.Boolean, false);
-            proc.ExecuteNonQuery();
-            var dic = proc.GetReturnValues();
-            if (dic.ContainsKey(flag))
-                return bool.Parse(dic[flag].ToString());
-            return false;
-        }
-
         /// 上移分类
         /// </summary>
         /// <param name="MoveId">需要上移的分类ID</param>
@@ -732,11 +472,6 @@ namespace FancyFix.OA.Bll
         public new bool Up(int MoveId, int Step)
         {
             return ServiceBase<T>.Up(MoveId, Step);
-        }
-
-        public new bool Up(int MoveId, int Step, int departId)
-        {
-            return ServiceBase<T>.Up(MoveId, Step, departId);
         }
 
         /// 下移分类
@@ -749,11 +484,6 @@ namespace FancyFix.OA.Bll
             return ServiceBase<T>.Down(MoveId, Step);
         }
 
-        public new bool Down(int MoveId, int Step, int departId)
-        {
-            return ServiceBase<T>.Down(MoveId, Step, departId);
-        }
-
         /// <summary>
         /// 上移一级分类
         /// </summary>
@@ -764,11 +494,6 @@ namespace FancyFix.OA.Bll
             return ServiceBase<T>.Prev(MoveId);
         }
 
-        public new bool Prev(int MoveId, int departId)
-        {
-            return ServiceBase<T>.Prev(MoveId, departId);
-        }
-
         /// <summary>
         /// 下移一级分类
         /// </summary>
@@ -777,11 +502,6 @@ namespace FancyFix.OA.Bll
         public new bool Next(int MoveId)
         {
             return ServiceBase<T>.Next(MoveId);
-        }
-
-        public new bool Next(int MoveId, int departId)
-        {
-            return ServiceBase<T>.Next(MoveId, departId);
         }
 
         /// <summary>
@@ -876,28 +596,6 @@ namespace FancyFix.OA.Bll
             return strShowClass.ToString();
         }
 
-        public virtual string ShowClass2(int parentId, int SelectedValue, int departId, bool includeLock)
-        {
-            List<Sys_Class> list = Mapping(GetListByParentId(parentId, departId, includeLock));
-            StringBuilder strShowClass = new StringBuilder();
-            if (list != null && list.Count > 0)
-            {
-                for (int i = 0; i < list.Count; i++)
-                {
-                    strShowClass.AppendFormat("<option value=\"{0}\"", list[i].Id.ToString());
-                    if (SelectedValue == list[i].Id)
-                    {
-                        strShowClass.Append(" selected ");
-                    }
-                    strShowClass.Append(" >");
-
-                    strShowClass.Append(list[i].ClassName.ToString());
-                    strShowClass.Append(" </option>");
-                }
-            }
-            return strShowClass.ToString();
-        }
-
         /// <summary>
         /// 分类菜单显示
         /// </summary>
@@ -919,33 +617,6 @@ namespace FancyFix.OA.Bll
                         strShowClass.Append(" selected ");
                     }
                     strShowClass.AppendFormat("attr=\"{0}\"", ShowClassPath(list[i].Id));
-                    strShowClass.AppendFormat("child=\"{0}\"", list[i].ChildNum);
-                    strShowClass.Append(" >");
-                    if (list[i].Depth == 0)
-                    {
-                        strShowClass.Append("├");
-                    }
-                    strShowClass.Append(list[i].ClassName.ToString());
-                    strShowClass.Append(" </option>");
-                }
-            }
-            return strShowClass.ToString();
-        }
-
-        public virtual string ShowClass3(int parentId, int SelectedValue, int departId, bool includeLock)
-        {
-            List<Sys_Class> list = Mapping(GetChildrenList(parentId, departId, includeLock));
-            System.Text.StringBuilder strShowClass = new StringBuilder();
-            if (list != null && list.Count > 0)
-            {
-                for (int i = 0; i < list.Count; i++)
-                {
-                    strShowClass.AppendFormat("<option value=\"{0}\" ", list[i].Id.ToString());
-                    if (SelectedValue == list[i].Id)
-                    {
-                        strShowClass.Append(" selected ");
-                    }
-                    strShowClass.AppendFormat("attr=\"{0}\"", ShowClassPath(list[i].Id, departId));
                     strShowClass.AppendFormat("child=\"{0}\"", list[i].ChildNum);
                     strShowClass.Append(" >");
                     if (list[i].Depth == 0)
@@ -1015,18 +686,6 @@ namespace FancyFix.OA.Bll
             }
         }
 
-        public void UpdateSequence(int sequence, int departId, bool isAdd)
-        {
-            if (isAdd)
-            {
-                Db.Context.FromSql(string.Format("update {0} set sequence = sequence + 1 where Sequence > {1} and departId={2} ", tableName, sequence, departId)).ExecuteNonQuery();
-            }
-            else
-            {
-                Db.Context.FromSql(string.Format("update {0} set sequence = sequence - 1 where Sequence > {1} and departId={2} ", tableName, sequence, departId)).ExecuteNonQuery();
-            }
-        }
-
         /// <summary>
         /// 获取model
         /// </summary>
@@ -1036,14 +695,6 @@ namespace FancyFix.OA.Bll
         {
             return Db.Context.FromSql("select * from " + tableName + " where Id=@id")
                 .AddInParameter("@id", System.Data.DbType.Int32, id)
-                .ToFirst<T>();
-        }
-
-        public T First(int id, int departId)
-        {
-            return Db.Context.FromSql("select * from " + tableName + " where Id=@id and DepartId=@departId")
-                .AddInParameter("@id", System.Data.DbType.Int32, id)
-                .AddInParameter("@departId", System.Data.DbType.Int32, departId)
                 .ToFirst<T>();
         }
 
@@ -1062,16 +713,6 @@ namespace FancyFix.OA.Bll
                 .ToFirst<T>();
         }
 
-        public T First(int id, int departId, string cols)
-        {
-            if (cols == "") cols = "*";
-            return Db.Context.FromSql("select @cols from " + tableName + " where Id=@id and DepartId=@departId")
-                .AddInParameter("@cols", System.Data.DbType.String, cols)
-                .AddInParameter("@id", System.Data.DbType.Int32, id)
-                .AddInParameter("@departId", System.Data.DbType.Int32, departId)
-                .ToFirst<T>();
-        }
-
         /// <summary>
         /// 从缓存列表从获取记录
         /// </summary>
@@ -1080,11 +721,6 @@ namespace FancyFix.OA.Bll
         public virtual Sys_Class GetModelByCache(System.Int32 id)
         {
             return GetAllSys().FirstOrDefault(o => o.Id == id);
-        }
-
-        public virtual Sys_Class GetModelByCache(System.Int32 id, int departId)
-        {
-            return GetAllSys().FirstOrDefault(o => o.Id == id && o.DepartId == departId);
         }
 
         /// <summary>
@@ -1112,38 +748,6 @@ namespace FancyFix.OA.Bll
                         if (reader["ChildNum"] != System.DBNull.Value) { model.ChildNum = System.Int32.Parse(reader["ChildNum"].ToString()); }
                         model.ParPath = reader["ParPath"].ToString();
                         if (reader["BeLock"] != System.DBNull.Value) { model.BeLock = System.Boolean.Parse(reader["BeLock"].ToString()); }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Tools.Tool.LogHelper.WriteLog(this.GetType(), ex, 0, "");
-                    return null;
-                }
-                return model;
-            }
-        }
-
-        public virtual Sys_Class GetModel(System.Int32 id, int departId)
-        {
-            string sql = string.Format("select * from {0} where Id={1} and DepartId={2}", tableName, id, departId);
-            using (SqlDataReader reader = (SqlDataReader)Db.Context.FromSql(sql).ToDataReader())
-            {
-                Sys_Class model = null;
-                try
-                {
-                    if (reader.Read())
-                    {
-                        model = new Sys_Class();
-
-                        if (reader["Id"] != System.DBNull.Value) { model.Id = System.Int32.Parse(reader["Id"].ToString()); }
-                        if (reader["ParId"] != System.DBNull.Value) { model.ParId = System.Int32.Parse(reader["ParId"].ToString()); }
-                        model.ClassName = reader["ClassName"].ToString();
-                        if (reader["Sequence"] != System.DBNull.Value) { model.Sequence = System.Int32.Parse(reader["Sequence"].ToString()); }
-                        if (reader["Depth"] != System.DBNull.Value) { model.Depth = System.Int32.Parse(reader["Depth"].ToString()); }
-                        if (reader["ChildNum"] != System.DBNull.Value) { model.ChildNum = System.Int32.Parse(reader["ChildNum"].ToString()); }
-                        model.ParPath = reader["ParPath"].ToString();
-                        if (reader["BeLock"] != System.DBNull.Value) { model.BeLock = System.Boolean.Parse(reader["BeLock"].ToString()); }
-                        if (reader["DepartId"] != System.DBNull.Value) { model.DepartId = System.Int32.Parse(reader["DepartId"].ToString()); }
                     }
                 }
                 catch (Exception ex)
@@ -1204,66 +808,6 @@ namespace FancyFix.OA.Bll
                         if (cols.IndexOf(",belock,".ToLower()) >= 0)
                         {
                             if (reader["BeLock"] != System.DBNull.Value) { model.BeLock = System.Boolean.Parse(reader["BeLock"].ToString()); }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Tools.Tool.LogHelper.WriteLog(this.GetType(), ex, 0, "");
-                    return null;
-                }
-                return model;
-            }
-        }
-
-        public virtual Sys_Class GetModel(System.Int32 id, int departId, string cols)
-        {
-            cols = cols.ToLower();
-            string sql = string.Format("select {2} from {0} where Id={1} and DepartId={3}", tableName, id, cols, departId);
-            cols = "," + cols + ",";
-            using (SqlDataReader reader = (SqlDataReader)Db.Context.FromSql(sql).ToDataReader())
-            {
-                Sys_Class model = null;
-                try
-                {
-                    if (reader.Read())
-                    {
-                        model = new Sys_Class();
-                        if (cols.IndexOf(",id,".ToLower()) >= 0)
-                        {
-                            if (reader["Id"] != System.DBNull.Value) { model.Id = System.Int32.Parse(reader["Id"].ToString()); }
-                        }
-                        if (cols.IndexOf(",parid,".ToLower()) >= 0)
-                        {
-                            if (reader["ParId"] != System.DBNull.Value) { model.ParId = System.Int32.Parse(reader["ParId"].ToString()); }
-                        }
-                        if (cols.IndexOf(",classname,".ToLower()) >= 0)
-                        {
-                            model.ClassName = reader["ClassName"].ToString();
-                        }
-                        if (cols.IndexOf(",sequence,".ToLower()) >= 0)
-                        {
-                            if (reader["Sequence"] != System.DBNull.Value) { model.Sequence = System.Int32.Parse(reader["Sequence"].ToString()); }
-                        }
-                        if (cols.IndexOf(",depth,".ToLower()) >= 0)
-                        {
-                            if (reader["Depth"] != System.DBNull.Value) { model.Depth = System.Int32.Parse(reader["Depth"].ToString()); }
-                        }
-                        if (cols.IndexOf(",childnum,".ToLower()) >= 0)
-                        {
-                            if (reader["ChildNum"] != System.DBNull.Value) { model.ChildNum = System.Int32.Parse(reader["ChildNum"].ToString()); }
-                        }
-                        if (cols.IndexOf(",parpath,".ToLower()) >= 0)
-                        {
-                            model.ParPath = reader["ParPath"].ToString();
-                        }
-                        if (cols.IndexOf(",belock,".ToLower()) >= 0)
-                        {
-                            if (reader["BeLock"] != System.DBNull.Value) { model.BeLock = System.Boolean.Parse(reader["BeLock"].ToString()); }
-                        }
-                        if (cols.IndexOf(",departid,".ToLower()) >= 0)
-                        {
-                            if (reader["DepartId"] != System.DBNull.Value) { model.DepartId = System.Int32.Parse(reader["DepartId"].ToString()); }
                         }
                     }
                 }

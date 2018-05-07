@@ -680,12 +680,13 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             List<string> xAxis = new List<string>();
             StringBuilder str = new StringBuilder();
             List<string> prices = new List<string>();
-
+            //按月统计
             if (chartType == 1)
             {
                 foreach (var item in list)
                 {
                     DateTime start = startMonth, end = endMonth;
+                    //填充legend
                     var rawMaterialName = rawMaterialList.Where(o => o.SAPCode == item.RawMaterialId).FirstOrDefault()?.Description;
                     var supplierName = supplierList.Where(o => o.Code == item.VendorId).FirstOrDefault()?.Name;
                     legend.Add($"{ rawMaterialName}_{supplierName}");
@@ -707,10 +708,12 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
                     if (str.Length < 1)
                         str.Append(string.Join(",", xAxis));
                     series.Add("{" + $"\"name\":\"{ rawMaterialName}_{supplierName}\",\"type\":\"bar\",\"data\":[{string.Join(",", prices)}]" + "}");
+
                     prices.Clear();
                 }
 
             }
+            //按季度统计
             else if (chartType == 2)
             {
                 foreach (var item in list)
@@ -736,7 +739,7 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
                                     && o.Month >= 1 && o.Month <= 3).Select(o => o.Price).FirstOrDefault().GetValueOrDefault();
 
                                 prices.Add(price.ToString("f2"));
-                                //这个季度已完成
+                                //结束当前季度
                                 start = start.AddMonths(3 - start.Month);
                                 break;
                             case 4:
@@ -749,6 +752,7 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
                                     && o.Month >= 4 && o.Month <= 6).Select(o => o.Price).FirstOrDefault().GetValueOrDefault();
 
                                 prices.Add(price.ToString("f2"));
+                                //结束当前季度
                                 start = start.AddMonths(6 - start.Month);
                                 break;
                             case 7:
@@ -761,7 +765,7 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
                                     && o.Month >= 7 && o.Month <= 9).Select(o => o.Price).FirstOrDefault().GetValueOrDefault();
 
                                 prices.Add(price.ToString("f2"));
-
+                                //结束当前季度
                                 start = start.AddMonths(9 - start.Month);
                                 break;
                             case 10:
@@ -773,22 +777,23 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
                                 price = pricelist.Where(o => o.RawMaterialPriceId.ToString() == item.Id.ToString() && o.Years == start.Year
                                    && o.Month >= 10 && o.Month <= 12).Select(o => o.Price).FirstOrDefault().GetValueOrDefault();
 
+                                prices.Add(price.ToString("f2"));
+                                //结束当前季度
                                 start = start.AddMonths(12 - start.Month);
                                 break;
-
                         }
 
                         start = start.AddMonths(1);
                     }
 
-
-
                     if (str.Length < 1)
                         str.Append(string.Join(",", xAxis));
                     series.Add("{" + $"\"name\":\"{ rawMaterialName}_{supplierName}\",\"type\":\"bar\",\"data\":[{string.Join(",", prices)}]" + "}");
+
                     prices.Clear();
                 }
             }
+            //按年统计
             else if (chartType == 3)
             {
                 foreach (var item in list)
@@ -815,6 +820,7 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
                     if (str.Length < 1)
                         str.Append(string.Join(",", xAxis));
                     series.Add("{" + $"\"name\":\"{ rawMaterialName}_{supplierName}\",\"type\":\"bar\",\"data\":[{string.Join(",", prices)}]" + "}");
+
                     prices.Clear();
                 }
             }

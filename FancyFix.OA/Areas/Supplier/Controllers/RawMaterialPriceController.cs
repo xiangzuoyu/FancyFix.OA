@@ -177,11 +177,13 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
         public ActionResult List(HttpPostedFileBase file)
         {
             if (file == null)
-                Redirect("List");
+                return Redirect("List");
 
             try
             {
-                string filePath = UploadProvice.Instance().Settings["file"].FilePath + DateTime.Now.ToString("yyyyMMddHHmmss")
+                Tools.Config.UploadConfig config = UploadProvice.Instance();
+                SiteOption option = config.SiteOptions["local"];
+                string filePath = option.Folder + config.Settings["file"].FilePath + DateTime.Now.ToString("yyyyMMddHHmmss")
                         + (file.FileName.IndexOf(".xlsx") > 0 ? ".xlsx" : ".xls");
                 var size = file.ContentLength;
                 int maxFileSize = UploadProvice.Instance().Settings["file"].MaxFileSize;

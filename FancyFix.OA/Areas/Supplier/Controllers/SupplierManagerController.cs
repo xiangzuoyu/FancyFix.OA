@@ -44,11 +44,13 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
         public ActionResult List(HttpPostedFileBase file)
         {
             if (file == null)
-                Redirect("List");
+                return Redirect("List");
 
             try
             {
-                string filePath = UploadProvice.Instance().Settings["file"].FilePath + DateTime.Now.ToString("yyyyMMddHHmmss")
+                Tools.Config.UploadConfig config = UploadProvice.Instance();
+                SiteOption option = config.SiteOptions["local"];
+                string filePath = option.Folder + config.Settings["file"].FilePath + DateTime.Now.ToString("yyyyMMddHHmmss")
                         + (file.FileName.IndexOf(".xlsx") > 0 ? ".xlsx" : ".xls");
                 var size = file.ContentLength;
                 var type = file.ContentType;
@@ -154,7 +156,7 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             string cols = RequestString("cols");
             var arr = cols.Split(',');
             if (!CheckSqlField(arr))
-                MessageBox("选择字段异常");
+                return MessageBox("选择字段异常");
 
             if (arr.Length < 1)
                 return LayerMsgErrorAndReturn("导出失败，请先勾选字段");

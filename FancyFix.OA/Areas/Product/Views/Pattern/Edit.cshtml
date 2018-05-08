@@ -26,9 +26,17 @@
                         </td>
                     </tr>
                     <tr>
+                        <td align="right"><label for="title" class="control-label">图案编码：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="patterncode" name="patterncode" placeholder="图案编码" value="@(Model?.PatternCode ?? "")" style="width:200px;" required="required" maxlength="50">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
                         <td align="right"><label class="control-label">图案图片：</label></td>
                         <td>
-                            @Html.Partial("UploadImg", new FancyFix.OA.Config.ImgUploadConfig { Pics = Model?.Pics ?? "", Uptype = "web", FileExt = "gif,png,jpg,jpeg", UploadNum = 5, MaxSize = 10 * 1024 * 1024, WidthHeight = "正方形" })
+                            @Html.Partial("UploadImg", new FancyFix.OA.Config.ImgUploadConfig { Pics = Model?.Pics ?? "", Uptype = "web", FileExt = "gif,png,jpg,jpeg", UploadNum = 5, MaxSize = 10 * 1024 * 1024, WidthHeight = "正方形", Domain = "files" })
                         </td>
                     </tr>
                     <tr>

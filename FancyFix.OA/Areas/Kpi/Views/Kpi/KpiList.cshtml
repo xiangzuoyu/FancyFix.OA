@@ -33,14 +33,15 @@
             </select>
         </div>
         <div class="box-body">
-            @if (DateTime.Now < GetKpiCreateEndDay(year, month))
+            <a href="/kpi/kpi/kpiadd?year=@year&month=@month&pid=@Model.Id" id="addnew" class="btn btn-default pull-left">新建指标</a>
+            @*@if (DateTime.Now < GetKpiCreateEndDay(year, month))
             {
                 <a href="/kpi/kpi/kpiadd?year=@year&month=@month&pid=@Model.Id" id="addnew" class="btn btn-default pull-left">新建指标</a>
             }
             else
             {
                 <a href="javascript:void(0)" class="btn btn-default pull-left btnTimeout" disabled="disabled">新建指标</a>
-            }
+            }*@
             <a href="/kpi/kpi/index" class="btn btn-default pull-right">返回</a>
         </div>
         <div class="box">
@@ -93,7 +94,8 @@
                                             }
                                         </td>
                                         <td align="center">
-                                            @if ((bool)item.IsApprove || (bool)Model.IsCreated || DateTime.Now >= GetKpiCreateEndDay(year, month))
+                                            @*|| DateTime.Now >= GetKpiCreateEndDay(year, month)*@
+                                            @if ((bool)item.IsApprove || (bool)Model.IsCreated)
                                             {
                                                 <a href="/kpi/kpi/kpiinfo/@item.Id" class="btn btn-warning">查看</a>
                                                 <!--当前时间小于截止日期，则还能对上月的任务进行自评-->
@@ -125,8 +127,9 @@
                                     <div class="pull-left">
                                         @Html.Raw((Model.IsCreated ?? false) ? "<span class=\"badge bg-green\">该进程已生成</span>" : "<span class=\"badge bg-red\">该进程未生成</span>")
                                     </div>
+                                    @*&& DateTime.Now < GetKpiCreateEndDay(year, month)*@
                                     <!--当前进程未生成且当前时间小于该月生成截止日期，则可以生成该月进程-->
-                                    @if (!(Model.IsCreated ?? false) && DateTime.Now < GetKpiCreateEndDay(year, month))
+                                    @if (!(Model.IsCreated ?? false))
                                     {
                                         <div class="pull-right">
                                             <button type="button" id="btnPass" class="btn btn-primary">生成进程</button>

@@ -7,6 +7,7 @@
     int startyear = ViewBag.StartYear;
     int year = ViewBag.year;
     int month = ViewBag.month;
+    int inJob = ViewBag.inJob;
 }
 <div class="row">
     <div class="col-xs-12">
@@ -23,6 +24,10 @@
                 {
                     <option value="@i" @(month == i ? "selected" : "")>@i 月</option>
                 }
+            </select>
+            <select id="injob" name="injob" class="layui-select" style="max-width:150px;">
+                <option value="1" @(inJob == 1 ? "selected" : "")>在职</option>
+                <option value="0" @(inJob == 0 ? "selected" : "")>离职</option>
             </select>
             <a href="/kpi/kpi/index" class="btn btn-default pull-right">返回</a>
         </div>
@@ -65,22 +70,18 @@
         layui.use(['layer'], function () {
             var layer = layui.layer;
 
-            $("#year").change(function () {
-                var year = $(this).val();
-                var month = $("#month").val();
-                PostWhere(year, month);
+            $("#year,#month,#injob").change(function () {
+                PostWhere();
             })
 
-            $("#month").change(function () {
-                var month = $(this).val();
+            function PostWhere() {
                 var year = $("#year").val();
-                PostWhere(year, month);
-            })
-
-            function PostWhere(year, month) {
+                var month = $("#month").val();
+                var injob = $("#injob").val();
                 var where = "year=" + parseInt(year);
                 if (month > 0)
                     where += "&month=" + parseInt(month);
+                where += "&injob=" + parseInt(injob);
                 window.location.href = window.location.pathname + "?" + where;
             }
         })

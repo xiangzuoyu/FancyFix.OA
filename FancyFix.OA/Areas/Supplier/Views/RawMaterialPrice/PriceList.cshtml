@@ -66,8 +66,6 @@
     <script src="/Content/js/plugins/datatables/bootstrap-table-zh-CN.js"></script>
     <script src="/Content/js/common/tools.js"></script>
     <script>
-        var fun = null;
-
         layui.use(['layer', 'form'], function () {
             var layer = layui.layer; 
 
@@ -76,13 +74,11 @@
                 var ids = $("#ids").val();
                 var startdate = $("#startMonth").val();
                 var enddate = $("#endMonth").val();
-                OpenWin("数据图表", "/supplier/rawmaterialprice/showcharts?" + ids + "&startdate=" + startdate + "&enddate=" + enddate, '90%', '90%');
+                OpenWin("数据图表", "/supplier/rawmaterialprice/showcharts?" + ids + "&startdate=" + startdate + "&enddate=" + enddate, '90%', '100%');
             })
 
             //加载数据
             $(function () {
-                fun.init();
-
                 //年月选择器
                 laydate.render({
                     elem: '#startMonth',

@@ -125,9 +125,9 @@ namespace FancyFix.OA.Bll
         /// <param name="year"></param>
         /// <param name="month"></param>
         /// <returns></returns>
-        public static DataTable GetUnApproveList(int year, int month)
+        public static DataTable GetUnApproveList(int year, int month, bool inJob)
         {
-            return Db.Context.FromSql($"select UserName,ParUserName from Kpi_Records where IsCreated=1 and IsApprove=0 and year={year} and month={month} group by ParUserName,UserName").ToDataTable();
+            return Db.Context.FromSql($"select b.RealName as UserName,ParUserName from Kpi_Records a inner join Mng_User b on a.UserId =b.Id where IsCreated=1 and IsApprove=0 and year={year} and month={month} and b.InJob={(inJob ? 1 : 0)} group by ParUserName,b.RealName").ToDataTable();
         }
 
         /// <summary>

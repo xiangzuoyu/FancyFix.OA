@@ -212,12 +212,12 @@ namespace FancyFix.OA.Areas.Admin.Controllers
             return View();
         }
 
-        private void GetTreeHtml(IEnumerable<Mng_DepartmentClass> depart, int parId, IEnumerable<Mng_User> adminlist, StringBuilder strShowClass, int userId)
+        private void GetTreeHtml(IEnumerable<Mng_DepartmentClass> depart, int parId, List<Mng_User> adminlist, StringBuilder strShowClass, int userId)
         {
             var childlist = depart.Where(o => o.ParId == parId);
             foreach (var item in childlist)
             {
-                var list = adminlist.Where(o => o.DepartId == item.Id);
+                var list = adminlist.FindAll(o => o.DepartId == item.Id);
                 if (item.ChildNum > 0)
                 {
                     strShowClass.Append("<li><i class=\"layui-icon layui-tree-spread\">&#xe623;</i>");
@@ -243,7 +243,7 @@ namespace FancyFix.OA.Areas.Admin.Controllers
             }
         }
 
-        private void GetAdminHtml(IEnumerable<Mng_User> adminlist, StringBuilder strShowClass, int userId)
+        private void GetAdminHtml(List<Mng_User> adminlist, StringBuilder strShowClass, int userId)
         {
             foreach (var admin in adminlist)
             {

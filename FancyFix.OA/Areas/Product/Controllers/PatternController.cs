@@ -52,6 +52,7 @@ namespace FancyFix.OA.Areas.Product.Controllers
         public ActionResult Save(Product_Pattern model)
         {
             string patternName = RequestString("patternname");
+            string patternCode = RequestString("patterncode");
             string firstPic = string.Empty;
             string pics = GetPics("pic", ref firstPic);
 
@@ -67,6 +68,7 @@ namespace FancyFix.OA.Areas.Product.Controllers
 
             model.IsShow = RequestBool("isshow");
             model.PatternName = patternName;
+            model.PatternCode = patternCode;
             model.FirstPic = firstPic;
             model.Pics = pics;
             model.AddTime = DateTime.Now;

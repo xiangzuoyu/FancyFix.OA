@@ -6,7 +6,7 @@
     string[] features = Model?.Features?.Split('|') ?? null;
 }
 @section Css{
-    <link href="/Content/js/plugins/iCheck/flat/_all.css" rel="stylesheet" />
+<link href="/Content/js/plugins/iCheck/flat/_all.css" rel="stylesheet" />
 }
 <div class="row">
     <div class="col-md-12">
@@ -142,17 +142,17 @@
                                     <tbody>
                                         @for (int i = 0; i < 5; i++)
                                         {
-                                            string f = features != null && features.Length > i ? features[i] : "";
-                                            <tr>
-                                                <td>
-                                                    <div class="form-inline">
-                                                        <input type="text" style="width:400px" name="feature@(i)" value="@f" class="form-control">
-                                                        <input type="button" value="↑" class="btn btn-default btn-up">
-                                                        <input type="button" value="↓" class="btn btn-default btn-down">
-                                                        <a href="javascript:void(0)" class="btn btn-danger btn-sm">清空</a>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                        string f = features != null && features.Length > i ? features[i] : "";
+                                        <tr>
+                                            <td>
+                                                <div class="form-inline">
+                                                    <input type="text" style="width:400px" name="feature@(i)" value="@f" class="form-control">
+                                                    <input type="button" value="↑" class="btn btn-default btn-up">
+                                                    <input type="button" value="↓" class="btn btn-default btn-down">
+                                                    <a href="javascript:void(0)" class="btn btn-danger btn-sm">清空</a>
+                                                </div>
+                                            </td>
+                                        </tr>
                                         }
                                     </tbody>
                                 </table>
@@ -232,19 +232,19 @@
                     <tr>
                         <td align="right"><label class="control-label">产品图片：</label></td>
                         <td>
-                            @Html.Partial("UploadImg", new FancyFix.OA.Config.ImgUploadConfig { Pics = Model?.Pics ?? "", Uptype = "product", FileExt = "gif,png,jpg,jpeg", UploadNum = 10, MaxSize = 10 * 1024 * 1024, WidthHeight = "正方形", IsProduct = true })
+                            @Html.Partial("UploadImg", new FancyFix.OA.Config.ImgUploadConfig { Pics = Model?.Pics ?? "", Uptype = "product", FileExt = "gif,png,jpg,jpeg", UploadNum = 10, MaxSize = 10 * 1024 * 1024, WidthHeight = "正方形", IsProduct = true, Domain = "files" })
                         </td>
                     </tr>
                     <tr>
                         <td align="right"><label class="control-label">视频：</label></td>
                         <td>
-                            @Html.Partial("UploadFile", new FancyFix.OA.Config.FileUploadConfig { Files = Model?.Videos ?? "", Uptype = "video", FileExt = "avi,rmvb,mp4,mov,flv,3gp,mpg,mpeg,wmv,rar,zip", UploadNum = 1, MaxSize = 300 * 1024 * 1024, IsProduct = true, UploadName = "video" })
+                            @Html.Partial("UploadFile", new FancyFix.OA.Config.FileUploadConfig { Files = Model?.Videos ?? "", Uptype = "video", FileExt = "avi,rmvb,mp4,mov,flv,3gp,mpg,mpeg,wmv,rar,zip", UploadNum = 1, MaxSize = 300 * 1024 * 1024, IsProduct = true, UploadName = "video", Domain = "files" })
                         </td>
                     </tr>
                     <tr>
                         <td align="right"><label class="control-label">附件：</label></td>
                         <td>
-                            @Html.Partial("UploadFile", new FancyFix.OA.Config.FileUploadConfig { Files = Model?.Attachment ?? "", UploadNum = 1, MaxSize = 100 * 1024 * 1024, IsProduct = true, UploadName = "attachment" })
+                            @Html.Partial("UploadFile", new FancyFix.OA.Config.FileUploadConfig { Files = Model?.Attachment ?? "", UploadNum = 1, MaxSize = 100 * 1024 * 1024, IsProduct = true, UploadName = "attachment", Domain = "files" })
                         </td>
                     </tr>
                     <tr>
@@ -258,7 +258,7 @@
                     <tr>
                         <td align="right"><label for="isshow" class="control-label">是否显示：</label></td>
                         <td>
-                            <input type="checkbox" class="form-control" name="isshow" @(Model?.IsShow ?? true ? "checked=\"checked\"" : "") value="true">
+                            <input type="checkbox" class="form-control" name="isshow" @(Model?.IsShow ?? true ? "checked=\"checked\"" : "" ) value="true">
                         </td>
                     </tr>
                     <tr>
@@ -275,100 +275,100 @@
     </div>
 </div>
 @section Js{
-    <script src="/Content/js/plugins/iCheck/icheck.min.js"></script>
-    <script src="/Content/js/plugins/jqvalidate/jquery.validator.min.js"></script>
-    <script src="/Content/js/plugins/jqvalidate/messages_cn.js"></script>
-    <script src="/Content/js/common/tools.js"></script>
-    <script src="/Content/js/common/skuatter.js"></script>
-    <script type="text/javascript">
-        var skuObj;
-        layui.use(['layer'], function () {
-            var layer = layui.layer;
+<script src="/Content/js/plugins/iCheck/icheck.min.js"></script>
+<script src="/Content/js/plugins/jqvalidate/jquery.validator.min.js"></script>
+<script src="/Content/js/plugins/jqvalidate/messages_cn.js"></script>
+<script src="/Content/js/common/tools.js"></script>
+<script src="/Content/js/common/skuatter.js"></script>
+<script type="text/javascript">
+    var skuObj;
+    layui.use(['layer'], function () {
+        var layer = layui.layer;
 
-            //加载属性控件
-            skuObj = new SkuAttrer("tb_sku", "skuObj", "attrId", "attrName", "attrValue", "attrType", function () {
-                //iCheck初始化
-                $('input[type="checkbox"],input[type="radio"]').iCheck({
-                    checkboxClass: 'icheckbox_flat-blue',
-                    radioClass: 'iradio_flat-blue'
-                });
-            });
-            skuObj.BindSelect("classid", "classPathStr");
-
-            //产品特性
-            $("#tb_feature").on("click", ".btn-up", function () {
-                var objParentTR = $(this).parents("tr").eq(0);
-                var prevTR = objParentTR.prev();
-                if (prevTR.length > 0) {
-                    prevTR.insertAfter(objParentTR);
-                    ReSortFeature();
-                }
-            }).on("click", ".btn-down", function () {
-                var objParentTR = $(this).parents("tr").eq(0);
-                var nextTR = objParentTR.next();
-                if (nextTR.length > 0) {
-                    nextTR.insertBefore(objParentTR);
-                    ReSortFeature();
-                }
-            }).on("click", ".btn-danger", function () {
-                $(this).parents("tr").eq(0).find("input:text").val("");
-            });
-
-            //产品特性顺序重排
-            function ReSortFeature() {
-                var $features = $("#tb_feature").find("input[name^=feature]");
-                if ($features.size() == 5) {
-                    $.each($features, function (i, v) {
-                        $(this).attr("name", "feature" + i);
-                    })
-                }
-            }
-
+        //加载属性控件
+        skuObj = new SkuAttrer("tb_sku", "skuObj", "attrId", "attrName", "attrValue", "attrType", function () {
             //iCheck初始化
             $('input[type="checkbox"],input[type="radio"]').iCheck({
                 checkboxClass: 'icheckbox_flat-blue',
                 radioClass: 'iradio_flat-blue'
             });
+        });
+        skuObj.BindSelect("classid", "classPathStr");
 
-            //表单验证
-            var $form = $("#mainform");
-            $form.validate();
+        //产品特性
+        $("#tb_feature").on("click", ".btn-up", function () {
+            var objParentTR = $(this).parents("tr").eq(0);
+            var prevTR = objParentTR.prev();
+            if (prevTR.length > 0) {
+                prevTR.insertAfter(objParentTR);
+                ReSortFeature();
+            }
+        }).on("click", ".btn-down", function () {
+            var objParentTR = $(this).parents("tr").eq(0);
+            var nextTR = objParentTR.next();
+            if (nextTR.length > 0) {
+                nextTR.insertBefore(objParentTR);
+                ReSortFeature();
+            }
+        }).on("click", ".btn-danger", function () {
+            $(this).parents("tr").eq(0).find("input:text").val("");
+        });
 
-            //通过
-            $("#btnPass").click(function () {
-                $form.valid();
-            });
+        //产品特性顺序重排
+        function ReSortFeature() {
+            var $features = $("#tb_feature").find("input[name^=feature]");
+            if ($features.size() == 5) {
+                $.each($features, function (i, v) {
+                    $(this).attr("name", "feature" + i);
+                })
+            }
+        }
 
-            //验证产品编号
-            $("#sku").blur(function () {
-                var $this = $(this);
-                var prono = $this.val();
-                var id = $("#id").val();
-                if (id == 0 && prono != "") {
-                    $.post('/api/product/checksku', { '': prono }, function (data) {
-                        if (!data) {
-                            $this.parent().find("span").text('该sku编号已存在');
-                        } else {
-                            $this.parent().find("span").text('');
-                        }
-                    })
-                }
-            });
+        //iCheck初始化
+        $('input[type="checkbox"],input[type="radio"]').iCheck({
+            checkboxClass: 'icheckbox_flat-blue',
+            radioClass: 'iradio_flat-blue'
+        });
 
-            //分类下拉框监视事件
-            $("#classid").change(function () {
-                var $this = $(this);
-                var $thisSelect = $this.find("option:selected");
-                var value = $thisSelect.val();
-                var id = $("#id").val();
-                var childNum = parseInt($thisSelect.attr("child"));
-                if (id == 0 && value != '' && parseInt(value) > 0 && childNum == 0) {
-                    $.post('/api/product/getclasscode', { '': parseInt(value) }, function (data) {
-                        $("#spu").val(data);
-                    })
-                }
-            });
-        })
-    </script>
+        //表单验证
+        var $form = $("#mainform");
+        $form.validate();
+
+        //通过
+        $("#btnPass").click(function () {
+            $form.valid();
+        });
+
+        //验证产品编号
+        $("#sku").blur(function () {
+            var $this = $(this);
+            var prono = $this.val();
+            var id = $("#id").val();
+            if (id == 0 && prono != "") {
+                $.post('/api/product/checksku', { '': prono }, function (data) {
+                    if (!data) {
+                        $this.parent().find("span").text('该sku编号已存在');
+                    } else {
+                        $this.parent().find("span").text('');
+                    }
+                })
+            }
+        });
+
+        //分类下拉框监视事件
+        $("#classid").change(function () {
+            var $this = $(this);
+            var $thisSelect = $this.find("option:selected");
+            var value = $thisSelect.val();
+            var id = $("#id").val();
+            var childNum = parseInt($thisSelect.attr("child"));
+            if (id == 0 && value != '' && parseInt(value) > 0 && childNum == 0) {
+                $.post('/api/product/getclasscode', { '': parseInt(value) }, function (data) {
+                    $("#spu").val(data);
+                })
+            }
+        });
+    })
+</script>
     @Html.Partial("WangEditor", new FancyFix.OA.Config.ImgUploadConfig() { ElementId = "content", Uptype = "prodetail" })
 }

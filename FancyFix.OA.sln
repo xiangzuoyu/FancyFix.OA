@@ -30,6 +30,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FancyFix.ThirdPartyPlatform
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FancyFix.OA.Task", "FancyFix.OA.Task\FancyFix.OA.Task.csproj", "{B81FE3D8-EF3E-4565-89F5-8FB9E92AAA2C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FancyFix.OA.Files", "FancyFix.OA.Files\FancyFix.OA.Files.csproj", "{F9C7282D-C93F-4D3F-B11C-BF5F3BC64763}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -84,6 +86,10 @@ Global
 		{B81FE3D8-EF3E-4565-89F5-8FB9E92AAA2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B81FE3D8-EF3E-4565-89F5-8FB9E92AAA2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B81FE3D8-EF3E-4565-89F5-8FB9E92AAA2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9C7282D-C93F-4D3F-B11C-BF5F3BC64763}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9C7282D-C93F-4D3F-B11C-BF5F3BC64763}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9C7282D-C93F-4D3F-B11C-BF5F3BC64763}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9C7282D-C93F-4D3F-B11C-BF5F3BC64763}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

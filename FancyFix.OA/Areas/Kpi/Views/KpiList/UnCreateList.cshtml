@@ -7,6 +7,7 @@
     int startyear = ViewBag.StartYear;
     int year = ViewBag.year;
     int month = ViewBag.month;
+    int inJob = ViewBag.inJob;
 }
 <div class="row">
     <div class="col-xs-12">
@@ -27,6 +28,10 @@
             <select id="depart" name="depart" class="layui-select" style="max-width:150px;">
                 <option value="0">├所有部门</option>
                 @Html.Raw(ViewBag.departHtml)
+            </select>
+            <select id="injob" name="injob" class="layui-select" style="max-width:150px;">
+                <option value="1" @(inJob == 1 ? "selected" : "")>在职</option>
+                <option value="0" @(inJob == 0 ? "selected" : "")>离职</option>
             </select>
             <a href="/kpi/kpi/index" class="btn btn-default pull-right">返回</a>
         </div>
@@ -71,32 +76,20 @@
         layui.use(['layer'], function () {
             var layer = layui.layer;
 
-            $("#year").change(function () {
-                var year = $(this).val();
+            $("#year,#month,#depart,#injob").change(function () {
+                PostWhere();
+            })
+
+            function PostWhere() {
+                var year = $("#year").val();
                 var month = $("#month").val();
                 var depart = $("#depart").val();
-                PostWhere(year, month, depart);
-            })
-
-            $("#month").change(function () {
-                var month = $(this).val();
-                var year = $("#year").val();
-                var depart = $("#depart").val();
-                PostWhere(year, month, depart);
-            })
-
-            $("#depart").change(function () {
-                var depart = $(this).val();
-                var month = $("#month").val();
-                var year = $("#year").val();
-                PostWhere(year, month, depart);
-            })
-
-            function PostWhere(year, month, depart) {
+                var injob = $("#injob").val();
                 var where = "year=" + parseInt(year);
                 if (month > 0)
                     where += "&month=" + parseInt(month);
                 where += "&departId=" + parseInt(depart);
+                where += "&injob=" + parseInt(injob);
                 window.location.href = window.location.pathname + "?" + where;
             }
         })

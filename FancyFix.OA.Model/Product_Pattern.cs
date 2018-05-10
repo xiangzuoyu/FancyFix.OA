@@ -33,6 +33,7 @@ namespace FancyFix.OA.Model
 		private int? _AdminId;
 		private DateTime? _AddTime;
 		private bool? _IsShow;
+		private string _PatternCode;
 		/// <summary>
 		/// 
 		/// </summary>
@@ -117,6 +118,18 @@ namespace FancyFix.OA.Model
 				this._IsShow=value;
 			}
 		}
+		/// <summary>
+		/// 
+		/// </summary>
+		public string PatternCode
+		{
+			get{ return _PatternCode; }
+			set
+			{
+				this.OnPropertyValueChange(_.PatternCode,_PatternCode,value);
+				this._PatternCode=value;
+			}
+		}
 		#endregion
 
 		#region Method
@@ -147,7 +160,8 @@ namespace FancyFix.OA.Model
 				_.FirstPic,
 				_.AdminId,
 				_.AddTime,
-				_.IsShow};
+				_.IsShow,
+				_.PatternCode};
 		}
 		/// <summary>
 		/// 获取值信息
@@ -161,7 +175,8 @@ namespace FancyFix.OA.Model
 				this._FirstPic,
 				this._AdminId,
 				this._AddTime,
-				this._IsShow};
+				this._IsShow,
+				this._PatternCode};
 		}
 		#endregion
 
@@ -203,6 +218,10 @@ namespace FancyFix.OA.Model
 			/// 
 			/// </summary>
 			public readonly static Field IsShow = new Field("IsShow","Product_Pattern","IsShow");
+			/// <summary>
+			/// 
+			/// </summary>
+			public readonly static Field PatternCode = new Field("PatternCode","Product_Pattern","PatternCode");
 		}
 		#endregion
 

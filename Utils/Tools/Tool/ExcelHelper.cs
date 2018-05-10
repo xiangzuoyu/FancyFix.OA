@@ -301,7 +301,7 @@ namespace FancyFix.Tools.Tool
                                     ((arrColWidth[column.Ordinal] + 1) * 256)); //宽度10000可自定义
                             }
                             ExcelrowIndex++;
-                            
+
                         }
                     }
                     #endregion
@@ -456,7 +456,7 @@ namespace FancyFix.Tools.Tool
                 //取第一个工作表
                 sheet = workbook.GetSheetAt(sheetIndex);
             }
-            catch
+            catch (Exception ex)
             {
                 return sheet;
             }

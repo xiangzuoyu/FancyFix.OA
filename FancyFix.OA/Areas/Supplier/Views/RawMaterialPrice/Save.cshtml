@@ -94,7 +94,7 @@
                         <td align="right"><label for="Name" class="control-label">供应商名称：</label></td>
                         <td>
                             <div class="form-group">
-                                @Html.TextBox("Name", (Model?.Name ?? ""), new { @class = "form-control", @readonly = "readonly", style = "width:250px;" })
+                                @Html.TextBox("Name", (Model?.Name ?? ""), new { @class = "form-control", required = "required", @readonly = "readonly", style = "width:250px;" })
                             </div>
                         </td>
                     </tr>
@@ -112,7 +112,7 @@
                         <td align="right"><label for="Currency" class="control-label">价格单位：</label></td>
                         <td>
                             <div class="form-group">
-                                @Html.TextBox("Currency", (Model?.Currency ?? ""), new { @class = "form-control", @readonly = "readonly", required = "required", style = "width:250px;" })
+                                @Html.TextBox("Currency", (Model?.Currency ?? ""), new { @class = "form-control", required = "required", @readonly = "readonly", style = "width:250px;" })
                             </div>
                         </td>
                     </tr>
@@ -132,7 +132,7 @@
                         <td>
                             <div class="form-group">
                                 @Html.TextBox("addYears", null, new { @class = "form-control layui-input-inline", placeholder = "请输入年份", required = "required", style = "width:150px;" })
-                                <button class="btn" id="btnUpdateYear" style="@(ViewBag.SelectList==null?"display:none;":"")" type="button">修改年份</button>
+                                <button class="btn" id="btnUpdateYear" style="@(ViewBag.SelectList==null?"display:none;":"")" type="button">取消</button>
                             </div>
                         </td>
                     </tr>
@@ -155,8 +155,8 @@
                         <td align="right"></td>
                         <td>
                             @Html.Hidden("Id", (Model?.Id ?? 0))
-                            @Html.Hidden("Action", "update")
-                            @Html.Hidden("Years", "update")
+                            @Html.Hidden("Action", ViewBag.SelectList != null ? "update" : "add")
+                            @Html.Hidden("Years", "0")
                             <button type="submit" id="btnPass" class="btn btn-primary">保存</button>
                             <button type="button" id="cancel" class="btn btn-default" onclick="CloseWin()">取消</button>
                         </td>
@@ -172,7 +172,6 @@
     <script src="/Content/js/plugins/iCheck/icheck.min.js"></script>
     <script src="/Content/js/plugins/jqvalidate/jquery.validator.min.js"></script>
     <script src="/Content/js/plugins/jqvalidate/messages_cn.js"></script>
-    @*<script src="/Content/js/plugins/layui/laydate/laydate.js"></script>*@
     <script src="/Content/js/common/tools.js"></script>
     <script>
         layui.use(['layer', 'laydate'], function () {
@@ -199,6 +198,30 @@
                         $("#addYearTr").hide()
                         $("#updateYearTr").show()
                         $("#Action").val("update");
+                    })
+                    //失去焦点是触发
+                    $("#SAPCode").blur(function () {
+                        fun.SAPCodeAjax("sapcode", $(this).val());
+                    })
+                    //失去焦点是触发
+                    $("#Code").blur(function () {
+                        fun.SAPCodeAjax("code", $(this).val());
+                    })
+                },
+                SAPCodeAjax: function (fields, val) {
+                    $.get("/supplier/rawmaterialprice/getinfobyfields", { fields: fields, value: val }, function (data) {
+                        if (data.Result == "0") {
+                            ShowError("您输入的" + fields == "sapcode" ? "原材料" : "供应商" + "代码不存在，请重新输入");
+                            return;
+                        }
+                        if (fields == "sapcode") {
+                            $("#Description").val(data.Name);
+                            $("#Currency").val(data.currency);
+                        }
+                        else if (fields == "code") {
+                            $("#Name").val(data.Name);
+                        }
+
                     })
                 }
             }

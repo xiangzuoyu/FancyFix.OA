@@ -66,8 +66,6 @@
     <script src="/Content/js/plugins/datatables/bootstrap-table-zh-CN.js"></script>
     <script src="/Content/js/common/tools.js"></script>
     <script>
-        var fun = null;
-
         layui.use(['layer', 'form'], function () {
             var layer = layui.layer; 
 
@@ -81,8 +79,6 @@
 
             //加载数据
             $(function () {
-                fun.init();
-
                 //年月选择器
                 laydate.render({
                     elem: '#startMonth',

@@ -100,15 +100,6 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
                 var rawMaterial = rawMaterialList.Where(o => o.SAPCode == item.RawMaterialId).FirstOrDefault() ?? new Supplier_RawMaterial();
                 var supplier = supplierList.Where(o => o.Code == item.VendorId).FirstOrDefault() ?? new Supplier_List();
 
-                //item.BU = rawMaterial.BU;
-                //item.SAPCode = rawMaterial.SAPCode;
-                //item.Description = rawMaterial.Description;
-                //item.Category = rawMaterial.Category;
-                //item.LeadBuyer = rawMaterial.LeadBuyer;
-                //item.Currency = rawMaterial.Currency;
-                //item.Code = supplier.Code;
-                //item.Name = supplier.Name;
-
                 table.AddCol(supplier.Code);
                 table.AddCol(supplier.Name);
                 table.AddCol(rawMaterial.SAPCode);
@@ -569,7 +560,7 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
         }
 
         [HttpPost]
-        public ActionResult Save(Supplier_RawMaterialPrice rawmaterialPrice, int Years = 0, string Action = "")
+        public ActionResult Save(Supplier_RawMaterialPrice rawmaterialPrice, int Years = 0)
         {
             Supplier_RawMaterialPrice model = Bll.BllSupplier_RawMaterialPrice.First(o => o.Id == rawmaterialPrice.Id && o.Display != 2) ?? new Supplier_RawMaterialPrice();
 
@@ -581,6 +572,7 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             var supplierModel = Bll.BllSupplier_List.First(o => o.Code == rawmaterialPrice.Code && o.Display != 2 && o.Id > 0);
             if (supplierModel == null)
                 return LayerAlertErrorAndReturn("供应商代码不存在，请重新输入");
+
             //保存价格
             model.RawMaterialId = rawMaterialModel.SAPCode;
             model.VendorId = supplierModel.Code;
@@ -591,6 +583,29 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             bool isok = false;
 
             DateTime datetime = DateTime.Now;
+
+            //编辑报价表
+            if (rawmaterialPrice.Id < 1)
+            {
+                //相同的原材料和相同的供应商不能重复添加
+                var rawmaterialPriceModel = Bll.BllSupplier_RawMaterialPrice.First(o => o.VendorId == model.VendorId && o.RawMaterialId == model.RawMaterialId
+                && o.Display != 2);
+                if (rawmaterialPriceModel != null)
+                    return LayerAlertErrorAndReturn("该原材料对应的供应商已存在，请选择修改操作");
+
+                model.AddDate = model.LastDate;
+                model.AddUserId = model.LastUserId;
+                model.Id = Bll.BllSupplier_RawMaterialPrice.Insert(model);
+                if (model.Id < 1)
+                    return LayerAlertErrorAndReturn("添加失败，请联系管理员");
+            }
+            else
+            {
+                isok = Bll.BllSupplier_RawMaterialPrice.Update(model) > 0;
+                if (!isok)
+                    return LayerAlertErrorAndReturn("修改失败，请联系管理员");
+            }
+
             List<Supplier_Price> prices = new List<Supplier_Price>();
             for (int i = 1; i < 13; i++)
             {
@@ -609,21 +624,31 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
                 });
             }
 
-            //编辑报价表
-            if (rawmaterialPrice.Id < 1)
-            {
-                model.AddDate = model.LastDate;
-                model.AddUserId = model.LastUserId;
-                isok = Bll.BllSupplier_RawMaterialPrice.Insert(model) > 0;
-            }
-            else
-            {
-                isok = Bll.BllSupplier_RawMaterialPrice.Update(model) > 0;
-            }
             //编辑价格表
             isok = Bll.BllSupplier_Price.InsertPrice(Years, model.Id, prices);
 
-            return LayerAlert("保存" + (isok ? "成功" : "失败"));
+            return isok ? LayerAlertSuccessAndRefresh("保存成功") : LayerAlertErrorAndReturn("保存失败");
+        }
+
+        [HttpGet]
+        public JsonResult GetInfoByFields(string fields = "", string value = "")
+        {
+            object result = new { Result = "0" };
+            if (fields == "sapcode")
+            {
+                var rawMaterial = Bll.BllSupplier_RawMaterial.First(o => o.SAPCode == value);
+
+                if (rawMaterial != null)
+                    result = new { Result = "1", Name = rawMaterial.Description, currency = rawMaterial.Currency };
+            }
+            else if (fields == "code")
+            {
+                var supplier = Bll.BllSupplier_List.First(o => o.Code == value);
+                if (supplier != null)
+                    result = new { Result = "1", Name = supplier.Name };
+            }
+
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         //拼接Select下拉框

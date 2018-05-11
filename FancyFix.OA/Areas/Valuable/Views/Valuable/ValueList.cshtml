@@ -46,16 +46,16 @@
                                         }
                                         else
                                         {
+                                            @*<a href="/valuable/valuable/valuerecord/@item.Id?year=@ViewBag.currentYear&month=@ViewBag.currentMonth" class="btn btn-warning">自评</a>*@
+                                        int nextWorkmonth = GetNextWorkerMonth(year, month);
+                                        if (DateTime.Now <= (year + "-" + nextWorkmonth + "-" + (CreateEndDay + 1)).ToDateTime())
+                                        {
                                             <a href="/valuable/valuable/valuerecord/@item.Id?year=@ViewBag.currentYear&month=@ViewBag.currentMonth" class="btn btn-warning">自评</a>
-                                            @*int nextWorkmonth = GetNextWorkerMonth(year, month);
-                                            if (DateTime.Now <= (year + "-" + nextWorkmonth + "-" + (CreateEndDay + 1)).ToDateTime())
-                                            {
-                                                <a href="/valuable/valuable/valuerecord/@item.Id?year=@ViewBag.currentYear&month=@ViewBag.currentMonth" class="btn btn-warning">自评</a>
                                             }
                                             else
                                             {
                                                 <span>自评已截止</span>
-                                            }*@
+                                            }
                                         }
                                     </td>
                                 </tr>

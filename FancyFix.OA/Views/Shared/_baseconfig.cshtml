@@ -3,16 +3,6 @@
         window.domain = '@domain';
         window.webUrl = '@webUrl';
         window.imgUrl = '@imgUrl';
-        //全局ajax错误监听
-        $.ajaxSetup({
-            error: function (xhr, status, e) {
-                if (xhr.status == '401')
-                    ShowError('您没有该操作权限！');
-                else
-                    ShowError('服务器发生错误，请重试！');
-            },
-            cache: false
-        });
         //设置cookie
         function setCookie(name, value) {
             var Days = 30;
@@ -21,6 +11,16 @@
             document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString();
         }
         $(function () {
+            //全局ajax错误监听
+            $.ajaxSetup({
+                error: function (xhr, status, e) {
+                    if (xhr.status == '401')
+                        ShowError('您没有该操作权限！');
+                    else
+                        ShowError('服务器发生错误，请重试！');
+                },
+                cache: false
+            });
             //保存菜单收缩状态
             $(".sidebar-toggle").click(function () {
                 if ($("body").hasClass("sidebar-collapse")) {

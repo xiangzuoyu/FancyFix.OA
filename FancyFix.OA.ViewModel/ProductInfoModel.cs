@@ -11,19 +11,19 @@ namespace FancyFix.OA.ViewModel
         [Required(AllowEmptyStrings = false, ErrorMessage = "产品参数有误！")]
         public int id { get; set; }
 
-        [Display(Name = "产品标题")]
+        [Display(Name = "产品名称")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "请填写{0}！")]
         [StringLength(200, MinimumLength = 3, ErrorMessage = "{0}长度必须在{2}至{1}之间")]
         public string title { get; set; }
 
+        [Display(Name = "英文名称")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "请填写{0}！")]
+        [StringLength(200, MinimumLength = 3, ErrorMessage = "{0}长度必须在{2}至{1}之间")]
+        public string title_en { get; set; }
+
         [Display(Name = "产品分类")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "请选择{0}！")]
         public int classid { get; set; }
-
-        [Display(Name = "SKU编号")]
-        [StringLength(50, ErrorMessage = "{0}必须小于{1}个字符")]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "请填写{0}！")]
-        public string sku { get; set; }
 
         [Display(Name = "SPU编号")]
         [StringLength(50, ErrorMessage = "{0}必须小于{1}个字符")]
@@ -76,6 +76,10 @@ namespace FancyFix.OA.ViewModel
         [Display(Name = "价格单位")]
         [StringLength(50, ErrorMessage = "{0}必须小于{1}个字符")]
         public string priceunit { get; set; }
+
+        [Display(Name = "价格备注")]
+        [StringLength(100, ErrorMessage = "{0}必须小于{1}个字符")]
+        public string priceremark { get; set; }
 
         [Display(Name = "是否显示")]
         public bool isshow { get; set; }
@@ -130,5 +134,10 @@ namespace FancyFix.OA.ViewModel
         [Display(Name = "供应商名称")]
         [StringLength(500, ErrorMessage = "{0}必须小于{1}个字符")]
         public string suppliername { get; set; }
+
+        [Display(Name = "供应商产品代码")]
+        [StringLength(30, ErrorMessage = "{0}必须小于{1}个字符")]
+        public string supplierproductcode { get; set; }
+
     }
 }

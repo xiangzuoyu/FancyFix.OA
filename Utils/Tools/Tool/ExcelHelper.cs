@@ -124,7 +124,7 @@ namespace FancyFix.Tools.Tool
         /// </summary>
         /// <param name="dtSource">源DataTable</param>
         /// <param name="strHeaderText">表头文本</param>
-        /// <param name="strFileName">保存位置和文件名(例 E:/Test.xls)</param>
+        /// <param name="pathAndFileName">保存位置和文件名(例 E:/Test.xls)</param>
         public static void ToExcelClient(DataTable dtSource, string strHeaderText, string pathAndFileName)
         {
             using (MemoryStream ms = DataTableToExcel(dtSource, strHeaderText))
@@ -456,7 +456,7 @@ namespace FancyFix.Tools.Tool
                 //取第一个工作表
                 sheet = workbook.GetSheetAt(sheetIndex);
             }
-            catch (Exception ex)
+            catch
             {
                 return sheet;
             }

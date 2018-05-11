@@ -1,4 +1,5 @@
 ﻿using FancyFix.OA.Base;
+using FancyFix.OA.Filter;
 using FancyFix.OA.Model;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Web.Mvc;
 
 namespace FancyFix.OA.Areas.Valuable.Controllers
 {
+    [CheckLogin]
     public class ValuableController : BaseAdminController
     {
         //进程列表

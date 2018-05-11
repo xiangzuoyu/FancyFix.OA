@@ -1,0 +1,124 @@
+﻿@using FancyFix.OA.Model;
+@model Product_Image
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout_In.cshtml";
+    List<Product_ImageTag> taglist = ViewBag.taglist;
+    List<string> tagArray = Model.Tag.Split(',').ToList();
+}
+@section Css{
+    <link href="/Content/js/plugins/iCheck/flat/_all.css" rel="stylesheet" />
+    <style>
+        .layui-input-inline {
+            margin-right: 10px;
+            padding: 5px;
+        }
+    </style>
+}
+<div class="row">
+    <div class="col-md-12">
+        <form id="mainform" action="/product/image/save" method="post">
+            <table class="layui-table">
+                <!--列宽度-->
+                <colgroup>
+                    <col class="col-lg-2" style="width:100px;">
+                    <col class="col-lg-10">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td align="right"><label for="prono" class="control-label">图片：</label></td>
+                        <td>
+                            <div class="form-group form-inline">
+                                <a href="@Model.ImagePath" target="_blank"><img src="@Model.ImagePath" style="max-height:200px;max-width:200px;"></a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="prono" class="control-label">标签：</label></td>
+                        <td>
+                            <div id="taggroup" class="form-group form-inline">
+                                @if (taglist != null && taglist.Count > 0)
+                                {
+                                    foreach (var tag in taglist)
+                                    {
+                                        <div class="layui-input-inline">
+                                            <input type="checkbox" class="form-control" name="tag" value="@tag.Tag" @(tagArray.Contains(tag.Tag) ? "checked=checked" : "")>@tag.Tag
+                                        </div>
+                                    }
+                                }
+                            </div>
+                            <div class="form-group form-inline">
+                                <input type="text" id="newtag" class="form-control" maxlength="50" style="width:100px;">
+                                <button type="button" id="addtag" class="btn btn-default">添加标签</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"></td>
+                        <td>
+                            <input type="hidden" id="id" name="id" value="@(Model?.Id ?? 0)">
+                            <button type="submit" id="btnPass" class="btn btn-primary">保存</button>
+                            <button type="button" id="cancel" class="btn btn-default" onclick="CloseWin()">取消</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+@section Js{
+    <script src="/Content/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/jquery.validator.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/messages_cn.js"></script>
+    <script src="/Content/js/common/tools.js"></script>
+    <script src="/Content/js/common/skuatter.js"></script>
+    <script type="text/javascript">
+        layui.use(['layer'], function () {
+            var layer = layui.layer;
+
+            //iCheck初始化
+            $('input[type="checkbox"],input[type="radio"]').iCheck({
+                checkboxClass: 'icheckbox_flat-blue',
+                radioClass: 'iradio_flat-blue'
+            });
+
+            //表单验证
+            var $form = $("#mainform");
+            $form.validate();
+
+            //通过
+            $("#btnPass").click(function () {
+                $form.valid();
+            });
+
+            //添加标签
+            $("#addtag").click(function () {
+                var tag = $("#newtag").val();
+                if (tag && tag != "") {
+                    $.post("/product/tag/addtag", { "tag": tag }, function (data) {
+                        if (data.status) {
+                            var html = "<div class=\"layui-input-inline\">";
+                            html += " <input type=\"checkbox\" class=\"form-control\" name=\"tag\" value=\"" + data.tag + "\" checked=\"checked\" />" + data.tag;
+                            html += "</div>";
+                            $("#taggroup").append(html);
+                            //iCheck初始化
+                            $('input[type="checkbox"],input[type="radio"]').iCheck({
+                                checkboxClass: 'icheckbox_flat-blue',
+                                radioClass: 'iradio_flat-blue'
+                            });
+                        } else {
+                            if (data.tag != "") {
+                                layer.msg("标签已存在！");
+                            } else {
+                                layer.msg("添加失败！");
+                            }
+                        }
+                        $("#newtag").val('');
+                    });
+                } else {
+                    $("#newtag").focus();
+                }
+            })
+        })
+    </script>
+}

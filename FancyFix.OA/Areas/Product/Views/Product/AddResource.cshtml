@@ -1,0 +1,100 @@
+﻿@using FancyFix.OA.Model;
+@model Product_Info
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout_In.cshtml";
+}
+<div class="row">
+    <div class="col-md-12">
+        <form id="mainform" action="/product/product/saveresource" method="post">
+            <table class="layui-table">
+                <!--列宽度-->
+                <colgroup>
+                    <col class="col-lg-2">
+                    <col class="col-lg-10">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">产品标题：</label></td>
+                        <td>
+                            <div class="form-group form-inline">
+                                @Model.Title
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">产品分类：</label></td>
+                        <td>
+                            <div class="form-group form-inline">
+                                @ViewBag.className
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">SPU编号：</label></td>
+                        <td>
+                            <div class="form-group form-inline">
+                                @Model.Spu
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label class="control-label">封面图：</label></td>
+                        <td>
+                            @Html.Partial("UploadImg", new FancyFix.OA.Config.ImgUploadConfig { Pics = Model?.Pics ?? "", Uptype = "product", FileExt = "gif,png,jpg,jpeg", UploadNum = 1, MaxSize = 10 * 1024 * 1024, WidthHeight = "正方形", IsProduct = true, Domain = "files", ProId = Model.Id })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label class="control-label">AI文件：</label></td>
+                        <td>
+                            @Html.Partial("UploadFile", new FancyFix.OA.Config.FileUploadConfig { Files = Model?.AIFile ?? "", Uptype = "file", FileExt = "rar,zip,ai,psd", UploadNum = 10, MaxSize = 100 * 1024 * 1024, IsProduct = true, UploadName = "aifile", Domain = "files", ProId = Model.Id })
+                            <span class="layui-word-aux">(超出数量限制，请考虑用压缩包形式上传)</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label class="control-label">视频：</label></td>
+                        <td>
+                            @Html.Partial("UploadFile", new FancyFix.OA.Config.FileUploadConfig { Files = Model?.Videos ?? "", Uptype = "video", FileExt = "avi,rmvb,mp4,mov,flv,3gp,mpg,mpeg,wmv,rar,zip", UploadNum = 3, MaxSize = 300 * 1024 * 1024, IsProduct = true, UploadName = "video", Domain = "files" , ProId = Model.Id })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="content" class="control-label">产品详细：</label></td>
+                        <td>
+                            <div class="form-group" style="max-height:300px;max-width:1067px;">
+                                <textarea class="form-control" id="content" name="content" type="text/plain" style="width: 1067px; height: 300px;">@(TransferImgFromLocal(Model?.Content ?? ""))</textarea>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"></td>
+                        <td>
+                            <input type="hidden" id="id" name="id" value="@(Model?.Id ?? 0)">
+                            <button type="submit" id="btnPass" class="btn btn-primary">保存</button>
+                            <button type="button" id="cancel" class="btn btn-default" onclick="CloseWin()">取消</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+@section Js{
+    <script src="/Content/js/plugins/jqvalidate/jquery.validator.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/messages_cn.js"></script>
+    <script src="/Content/js/common/tools.js"></script>
+    <script type="text/javascript">
+        layui.use(['layer'], function () {
+            var layer = layui.layer;
+
+            //表单验证
+            var $form = $("#mainform");
+            $form.validate();
+
+            //通过
+            $("#btnPass").click(function () {
+                $form.valid();
+            });
+        })
+    </script>
+    @Html.Partial("WangEditor", new FancyFix.OA.Config.ImgUploadConfig() { ElementId = "content", Uptype = "prodetail" })
+}

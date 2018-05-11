@@ -32,6 +32,9 @@ namespace FancyFix.OA.Model
 		private int _FileSize;
 		private string _Md5;
 		private string _FileName;
+		private DateTime? _AddTime;
+		private int? _ProId;
+		private string _Tag;
 		/// <summary>
 		/// 自增Id
 		/// </summary>
@@ -104,6 +107,42 @@ namespace FancyFix.OA.Model
 				this._FileName=value;
 			}
 		}
+		/// <summary>
+		/// 
+		/// </summary>
+		public DateTime? AddTime
+		{
+			get{ return _AddTime; }
+			set
+			{
+				this.OnPropertyValueChange(_.AddTime,_AddTime,value);
+				this._AddTime=value;
+			}
+		}
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? ProId
+		{
+			get{ return _ProId; }
+			set
+			{
+				this.OnPropertyValueChange(_.ProId,_ProId,value);
+				this._ProId=value;
+			}
+		}
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Tag
+		{
+			get{ return _Tag; }
+			set
+			{
+				this.OnPropertyValueChange(_.Tag,_Tag,value);
+				this._Tag=value;
+			}
+		}
 		#endregion
 
 		#region Method
@@ -133,7 +172,10 @@ namespace FancyFix.OA.Model
 				_.FileExt,
 				_.FileSize,
 				_.Md5,
-				_.FileName};
+				_.FileName,
+				_.AddTime,
+				_.ProId,
+				_.Tag};
 		}
 		/// <summary>
 		/// 获取值信息
@@ -146,7 +188,10 @@ namespace FancyFix.OA.Model
 				this._FileExt,
 				this._FileSize,
 				this._Md5,
-				this._FileName};
+				this._FileName,
+				this._AddTime,
+				this._ProId,
+				this._Tag};
 		}
 		#endregion
 
@@ -184,6 +229,18 @@ namespace FancyFix.OA.Model
 			/// 
 			/// </summary>
 			public readonly static Field FileName = new Field("FileName","Product_Files","FileName");
+			/// <summary>
+			/// 
+			/// </summary>
+			public readonly static Field AddTime = new Field("AddTime","Product_Files","AddTime");
+			/// <summary>
+			/// 
+			/// </summary>
+			public readonly static Field ProId = new Field("ProId","Product_Files","ProId");
+			/// <summary>
+			/// 
+			/// </summary>
+			public readonly static Field Tag = new Field("Tag","Product_Files","Tag");
 		}
 		#endregion
 

@@ -135,6 +135,9 @@ namespace FancyFix.OA.Areas.Product.Controllers
 
             parId = RequestInt("parId");
 
+            if (Bll.BllProduct_Class.CheckCode(code, parId))
+                return LayerAlertErrorAndReturn("编码重复！");
+
             Product_Class mod_ProClass = new Product_Class();
             mod_ProClass.ClassName = className;
             mod_ProClass.ParId = parId;
@@ -187,6 +190,9 @@ namespace FancyFix.OA.Areas.Product.Controllers
             }
             else
             {
+                if (mod_ProClass.Code != code && Bll.BllProduct_Class.CheckCode(code, parId))
+                    return LayerAlertErrorAndReturn("编码重复！");
+
                 string firstPic = string.Empty;
                 mod_ProClass.ClassName = className;
                 mod_ProClass.Description = EscapeSpace(description);

@@ -1,4 +1,5 @@
 ﻿using FancyFix.OA.Base;
+using FancyFix.OA.Filter;
 using FancyFix.OA.Model;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace FancyFix.OA.Areas.Point.Controllers
             return View();
         }
 
+        [PermissionFilter("/point/pointlist/list")]
         public JsonResult PageList()
         {
             long records = 0;
@@ -144,6 +146,7 @@ namespace FancyFix.OA.Areas.Point.Controllers
             return Json(new { result = Bll.BllPoint_List.Delete(o => o.Id == id) > 0 });
         }
 
+        //[PermissionFilter("/point/pointlist/delete")]
         [HttpPost]
         public JsonResult DeleteBatch(List<Point_List> list)
         {
@@ -151,6 +154,7 @@ namespace FancyFix.OA.Areas.Point.Controllers
             return Json(new { result = Bll.BllPoint_List.Delete(list) > 0 });
         }
 
+        //[PermissionFilter("/point/pointlist/edit")]
         [HttpPost]
         [ValidateInput(false)]
         public ActionResult Save()

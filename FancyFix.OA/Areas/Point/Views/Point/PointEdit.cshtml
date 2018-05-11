@@ -154,7 +154,7 @@
                             <td align="right"><label for="eventtime" class="control-label">事发时间：</label></td>
                             <td>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="eventtime" id="eventtime" value="@(Model != null ? Model.EventTime.Value.ToString("yyyy-MM-dd") : DateTime.Now.ToString("yyyy-MM-dd"))" style="width:100px;" required="required" readonly="readonly">
+                                    <input type="text" class="form-control" name="eventtime" id="eventtime" value="@(Model != null ? Model.EventTime.Value.ToString("yyyy-MM-dd") : "")" style="width:100px;" required="required" readonly="readonly">
                                 </div>
                             </td>
                         </tr>

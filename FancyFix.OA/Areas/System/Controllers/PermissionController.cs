@@ -1,5 +1,6 @@
 ﻿using FancyFix.Core;
 using FancyFix.OA.Areas.Controllers;
+using FancyFix.OA.Filter;
 using FancyFix.OA.Model;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace FancyFix.OA.Areas.System.Controllers
         /// 查看部门列表
         /// </summary>
         /// <returns></returns>
-        //[PermissionFilter("/system/permission/list")]
+        [CheckLogin]
         public ActionResult GetDepartList()
         {
             departId = RequestInt("departId");
@@ -227,6 +228,8 @@ namespace FancyFix.OA.Areas.System.Controllers
         #endregion
 
         #region 权限设置
+
+        [CheckLogin]
         public ActionResult GroupSetTree()
         {
             int groupId = RequestInt("id");
@@ -284,7 +287,7 @@ namespace FancyFix.OA.Areas.System.Controllers
             }
         }
 
-        //[PermissionFilter("/admin/adminpermission/groupsettree")]
+        [CheckLogin]
         [HttpPost]
         public ActionResult SavePermission()
         {

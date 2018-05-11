@@ -20,14 +20,15 @@ namespace FancyFix.OA.Bll
         /// <param name="list"></param>
         /// <param name="proId"></param>
         /// <returns></returns>
-        public static bool Add(List<Product_AttributeSet> list, int proId)
+        public static bool Add(List<Product_AttributeSet> list, int proId, bool isSpu)
         {
             using (var trans = Db.Context.BeginTransaction())
             {
-                trans.Delete<Product_AttributeSet>(o => o.ProductId == proId);
+                trans.Delete<Product_AttributeSet>(o => o.ProductId == proId && o.IsSpu == isSpu);
                 foreach (var item in list)
                 {
                     item.ProductId = proId;
+                    item.IsSpu = isSpu;
                 }
                 int rows = trans.Insert(list);
                 if (rows == 0)

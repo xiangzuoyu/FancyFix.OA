@@ -93,9 +93,12 @@
     <Compile Include="Product_AttributeSelect.cs" />
     <Compile Include="Product_AttributeSet.cs" />
     <Compile Include="Product_Class.cs" />
+    <Compile Include="Product_CodeSequence.cs" />
     <Compile Include="Product_Files.cs" />
     <Compile Include="Product_Image.cs" />
+    <Compile Include="Product_ImageTag.cs" />
     <Compile Include="Product_Info.cs" />
+    <Compile Include="Product_InfoSku.cs" />
     <Compile Include="Product_Pattern.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Questionnaire_Answerer.cs" />

@@ -1,4 +1,5 @@
 ﻿using FancyFix.OA.Base;
+using FancyFix.OA.Filter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,7 @@ using System.Web.Mvc;
 
 namespace FancyFix.OA.Areas.Questionnaire.Controllers
 {
+    [CheckLogin]
     public class AnswererController : BaseAdminController
     {
         public ActionResult DISCAnswererList()

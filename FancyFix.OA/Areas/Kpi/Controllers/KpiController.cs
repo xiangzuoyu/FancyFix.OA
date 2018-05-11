@@ -1,4 +1,5 @@
 ﻿using FancyFix.OA.Base;
+using FancyFix.OA.Filter;
 using FancyFix.OA.Model;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Web.Mvc;
 
 namespace FancyFix.OA.Areas.Kpi.Controllers
 {
+    [CheckLogin]
     public class KpiController : BaseAdminController
     {
         public ActionResult Index()

@@ -62,7 +62,7 @@ namespace FancyFix.OA.Controllers
                 Response.Cookies[sitePreName + "AdminName"].Value = userName;
                 Response.Cookies[sitePreName + "AdminName"].Expires = DateTime.Now.AddDays(30);
 
-                //更新最近一次登录部门Id
+                //设置Session信息
                 Tools.Utility.Admin.SetSession(model.Id, model);
 
                 //清除权限缓存

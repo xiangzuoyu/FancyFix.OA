@@ -36,7 +36,7 @@
                     <tr>
                         <td align="right"><label class="control-label">图案图片：</label></td>
                         <td>
-                            @Html.Partial("UploadImg", new FancyFix.OA.Config.ImgUploadConfig { Pics = Model?.Pics ?? "", Uptype = "web", FileExt = "gif,png,jpg,jpeg", UploadNum = 5, MaxSize = 10 * 1024 * 1024, WidthHeight = "正方形", Domain = "files" })
+                            @Html.Partial("UploadImg", new FancyFix.OA.Config.ImgUploadConfig { Pics = Model?.Pics ?? "", Uptype = "web", FileExt = "gif,png,jpg,jpeg", UploadNum = 10, MaxSize = 10 * 1024 * 1024, WidthHeight = "正方形", Domain = "files" })
                         </td>
                     </tr>
                     <tr>

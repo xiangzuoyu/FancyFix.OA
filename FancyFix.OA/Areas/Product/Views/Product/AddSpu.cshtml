@@ -1,0 +1,99 @@
+﻿@using FancyFix.OA.Model;
+@{
+    ViewBag.Title = "AddSpu";
+    Layout = "~/Views/Shared/_Layout_In.cshtml";
+}
+<div class="row">
+    <div class="col-md-12">
+        <form id="mainform" action="/product/product/savespu" method="post">
+            <table class="layui-table">
+                <!--列宽度-->
+                <colgroup>
+                    <col class="col-lg-2">
+                    <col class="col-lg-10">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td align="right"><label for="classid" class="control-label">产品分类：</label></td>
+                        <td>
+                            <div class="form-group form-inline">
+                                <select class="form-control" id="classid" name="classid" loadattr="true" style="width:250px" required="required">
+                                    <option value="">请选择一个分类</option>
+                                    @Html.Raw(ViewBag.classHtml)
+                                </select>
+                                <span id="classPathStr" class="layui-word-aux"></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="prono" class="control-label">SPU编号：</label></td>
+                        <td>
+                            <div class="form-group form-inline">
+                                <input type="text" class="form-control" id="spu" name="spu" placeholder="SPU编号" style="width:200px;" required="required" maxlength="50" readonly="readonly">
+                                <span class="layui-word-aux" style="color: red;"></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"></td>
+                        <td>
+                            <button type="submit" id="btnPass" class="btn btn-primary">保存</button>
+                            <button type="button" id="cancel" class="btn btn-default" onclick="CloseWin()">取消</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+@section Js{
+<script src="/Content/js/plugins/jqvalidate/jquery.validator.min.js"></script>
+<script src="/Content/js/plugins/jqvalidate/messages_cn.js"></script>
+<script src="/Content/js/common/tools.js"></script>
+<script type="text/javascript">
+    layui.use(['layer'], function () {
+        var layer = layui.layer;
+
+        //表单验证
+        var $form = $("#mainform");
+        $form.validate();
+
+        //通过
+        $("#btnPass").click(function () {
+            $form.valid();
+        });
+
+        //验证产品编号
+        $("#spu").blur(function () {
+            var $this = $(this);
+            var spu = $this.val();
+            if (spu != "") {
+                $.post('/api/product/checkspu', { '': spu }, function (data) {
+                    if (!data) {
+                        $this.parent().find("span").text('该spu编号已存在');
+                        $("#btnPass").attr("disabled", "disabled");
+                    } else {
+                        $this.parent().find("span").text('');
+                        $("#btnPass").removeAttr("disabled");
+                    }
+                })
+            }
+        });
+
+        //分类下拉框监视事件
+        $("#classid").change(function () {
+            var $this = $(this);
+            var $thisSelect = $this.find("option:selected");
+            var value = $thisSelect.val();
+            var childNum = parseInt($thisSelect.attr("child"));
+            if (value != '' && parseInt(value) > 0 && childNum == 0) {
+                $.post('/api/product/getclasscode', { '': parseInt(value) }, function (data) {
+                    $("#spu").val(data);
+                })
+            } else {
+                $("#spu").val('');
+            }
+        });
+    })
+</script>
+}

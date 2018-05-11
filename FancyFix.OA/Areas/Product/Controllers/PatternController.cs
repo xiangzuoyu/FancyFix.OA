@@ -21,8 +21,9 @@ namespace FancyFix.OA.Areas.Product.Controllers
         {
             long records = 0;
             string name = RequestString("name");
+            string code = RequestString("code");
 
-            var list = Bll.BllProduct_Pattern.PageList(name, page, pagesize, out records);
+            var list = Bll.BllProduct_Pattern.PageList(name, code, page, pagesize, out records);
             return BspTableJson(list, records);
         }
 
@@ -65,6 +66,9 @@ namespace FancyFix.OA.Areas.Product.Controllers
             {
                 model = new Product_Pattern();
             }
+
+            if ((model.Id == 0 || model.PatternCode != patternCode) && Bll.BllProduct_Pattern.CheckCode(patternCode))
+                return LayerAlertErrorAndReturn("编码重复！");
 
             model.IsShow = RequestBool("isshow");
             model.PatternName = patternName;

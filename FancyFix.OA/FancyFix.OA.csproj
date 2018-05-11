@@ -194,7 +194,10 @@
     <Compile Include="Areas\Point\PointAreaRegistration.cs" />
     <Compile Include="Areas\Product\Controllers\AttributeController.cs" />
     <Compile Include="Areas\Product\Controllers\ClassController.cs" />
+    <Compile Include="Areas\Product\Controllers\TagController.cs" />
     <Compile Include="Areas\Product\Controllers\PatternController.cs" />
+    <Compile Include="Areas\Product\Controllers\ImageController.cs" />
+    <Compile Include="Areas\Product\Controllers\ProductSkuController.cs" />
     <Compile Include="Areas\Product\Controllers\ProductController.cs" />
     <Compile Include="Areas\Product\ProductAreaRegistration.cs" />
     <Compile Include="Areas\Questionnaire\Controllers\AnswererController.cs" />
@@ -1910,6 +1913,15 @@
     <Content Include="Areas\Product\Views\Product\List.cshtml" />
     <Content Include="Areas\Product\Views\Pattern\List.cshtml" />
     <Content Include="Areas\Product\Views\Pattern\Edit.cshtml" />
+    <Content Include="Areas\Product\Views\Product\AddSpu.cshtml" />
+    <Content Include="Areas\Product\Views\ProductSku\Edit.cshtml" />
+    <Content Include="Areas\Product\Views\ProductSku\List.cshtml" />
+    <Content Include="Areas\Product\Views\Product\AddResource.cshtml" />
+    <Content Include="Areas\Product\Views\Image\List.cshtml" />
+    <Content Include="Areas\Product\Views\Image\Add.cshtml" />
+    <Content Include="Areas\Product\Views\Image\Edit.cshtml" />
+    <Content Include="Areas\Product\Views\Tag\Edit.cshtml" />
+    <Content Include="Areas\Product\Views\Tag\List.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Common\GetAdminTree.cshtml" />
     <Content Include="Views\Shared\_baseconfig.cshtml" />

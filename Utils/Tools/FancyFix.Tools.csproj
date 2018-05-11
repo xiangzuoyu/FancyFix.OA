@@ -161,6 +161,7 @@
     <Compile Include="Special\ImageCreate.cs" />
     <Compile Include="Special\RecProduct.cs" />
     <Compile Include="Tool\CheckFilesRealFormat.cs" />
+    <Compile Include="Tool\CompressHelper.cs" />
     <Compile Include="Tool\DataTableHelper.cs" />
     <Compile Include="Tool\ExcelHelper.cs" />
     <Compile Include="Tool\FileHelper.cs" />

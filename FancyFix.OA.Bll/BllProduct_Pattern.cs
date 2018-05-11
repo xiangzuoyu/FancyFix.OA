@@ -12,14 +12,16 @@ namespace FancyFix.OA.Bll
             return new BllProduct_Pattern();
         }
 
-        public static List<Product_Pattern> PageList(string name, int page, int pageSize, out long records)
+        public static List<Product_Pattern> PageList(string name, string code, int page, int pageSize, out long records)
         {
             var where = new Where<Product_Pattern>();
             if (!string.IsNullOrEmpty(name))
                 where.And(Product_Pattern._.PatternName.Like(name));
+            if (!string.IsNullOrEmpty(code))
+                where.And(Product_Pattern._.PatternCode.BeginWith(code));
 
             var p = Db.Context.From<Product_Pattern>()
-                 .Select(o => new { o.Id, o.PatternName, o.FirstPic, o.AddTime, o.IsShow })
+                 .Select(o => new { o.Id, o.PatternName, o.PatternCode, o.FirstPic, o.AddTime, o.IsShow })
                  .Where(where);
 
             records = p.Count();
@@ -69,6 +71,17 @@ namespace FancyFix.OA.Bll
         public static string GetPatternName(int id)
         {
             return FirstSelect(o => o.Id == id, o => o.PatternName)?.PatternName ?? "";
+        }
+
+        /// <summary>
+        /// 判断同分类下是否存在相同Code
+        /// </summary>
+        /// <param name="code"></param>
+        /// <param name="parId"></param>
+        /// <returns></returns>
+        public static bool CheckCode(string code)
+        {
+            return Any(o => o.PatternCode == code);
         }
     }
 }

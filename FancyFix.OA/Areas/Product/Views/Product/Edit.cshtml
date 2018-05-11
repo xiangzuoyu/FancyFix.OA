@@ -6,7 +6,7 @@
     string[] features = Model?.Features?.Split('|') ?? null;
 }
 @section Css{
-<link href="/Content/js/plugins/iCheck/flat/_all.css" rel="stylesheet" />
+    <link href="/Content/js/plugins/iCheck/flat/_all.css" rel="stylesheet" />
 }
 <div class="row">
     <div class="col-md-12">
@@ -31,10 +31,18 @@
                         </td>
                     </tr>
                     <tr>
-                        <td align="right"><label for="title" class="control-label">产品标题：</label></td>
+                        <td align="right"><label for="title" class="control-label">产品中文名称：</label></td>
                         <td>
                             <div class="form-group form-inline">
-                                <input type="text" class="form-control" id="title" name="title" placeholder="产品标题" value="@(Model?.Title ?? "")" style="width:500px;" required="required" maxlength="200">
+                                <input type="text" class="form-control" id="title" name="title" placeholder="产品名称" value="@(Model?.Title ?? "")" style="width:500px;" required="required" maxlength="200">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">产品英文名称：</label></td>
+                        <td>
+                            <div class="form-group form-inline">
+                                <input type="text" class="form-control" id="title_en" name="title_en" placeholder="英文名称" value="@(Model?.Title_En ?? "")" style="width:500px;" required="required" maxlength="200">
                             </div>
                         </td>
                     </tr>
@@ -42,16 +50,16 @@
                         <td align="right"><label for="prono" class="control-label">SPU编号：</label></td>
                         <td>
                             <div class="form-group form-inline">
-                                <input type="text" class="form-control" id="spu" name="spu" placeholder="SPU编号" value="@(Model?.Spu ?? "")" style="width:200px;" required="required" maxlength="50">
+                                <input type="text" class="form-control" id="spu" name="spu" data-old="@(Model?.Spu ?? "")" placeholder="SPU编号" value="@(Model?.Spu ?? "")" style="width:200px;" required="required" maxlength="50" readonly="readonly">
+                                <span class="layui-word-aux" style="color: red;"></span>
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <td align="right"><label for="prono" class="control-label">SKU编号：</label></td>
+                        <td align="right"><label for="port" class="control-label">供应商产品代码：</label></td>
                         <td>
-                            <div class="form-group form-inline">
-                                <input type="text" class="form-control" id="sku" name="sku" placeholder="SKU编号" value="@(Model?.Sku ?? "")" style="width:200px;" required="required" maxlength="50">
-                                <span class="layui-word-aux" style="color: red;"></span>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="supplierproductcode" name="supplierproductcode" placeholder="供应商产品代码" value="@(Model?.SupplierProductCode ?? "")" style="width:150px;" maxlength="30">
                             </div>
                         </td>
                     </tr>
@@ -142,17 +150,17 @@
                                     <tbody>
                                         @for (int i = 0; i < 5; i++)
                                         {
-                                        string f = features != null && features.Length > i ? features[i] : "";
-                                        <tr>
-                                            <td>
-                                                <div class="form-inline">
-                                                    <input type="text" style="width:400px" name="feature@(i)" value="@f" class="form-control">
-                                                    <input type="button" value="↑" class="btn btn-default btn-up">
-                                                    <input type="button" value="↓" class="btn btn-default btn-down">
-                                                    <a href="javascript:void(0)" class="btn btn-danger btn-sm">清空</a>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                            string f = features != null && features.Length > i ? features[i] : "";
+                                            <tr>
+                                                <td>
+                                                    <div class="form-inline">
+                                                        <input type="text" style="width:400px" name="feature@(i)" value="@f" class="form-control">
+                                                        <input type="button" value="↑" class="btn btn-default btn-up">
+                                                        <input type="button" value="↓" class="btn btn-default btn-down">
+                                                        <a href="javascript:void(0)" class="btn btn-danger btn-sm">清空</a>
+                                                    </div>
+                                                </td>
+                                            </tr>
                                         }
                                     </tbody>
                                 </table>
@@ -202,6 +210,10 @@
                                     <input type="text" class="form-control" id="currency" name="currency" placeholder="货币单位" value="@(Model?.Currency ?? "USD")" style="width:80px;" maxlength="50">
                                     <span class="layui-word-aux">(如：USD,RMB)</span>
                                 </div>
+                                <div class="form-group form-inline">
+                                    价格备注：
+                                    <textarea class="form-control" id="priceremark" name="priceremark" type="text/plain" placeholder="价格备注" style="height:60px;width:300px;" maxlength="100">@(Model?.PriceRemark ?? "")</textarea>
+                                </div>
                             </div>
                         </td>
                     </tr>
@@ -230,33 +242,13 @@
                         </td>
                     </tr>
                     <tr>
-                        <td align="right"><label class="control-label">产品图片：</label></td>
-                        <td>
-                            @Html.Partial("UploadImg", new FancyFix.OA.Config.ImgUploadConfig { Pics = Model?.Pics ?? "", Uptype = "product", FileExt = "gif,png,jpg,jpeg", UploadNum = 10, MaxSize = 10 * 1024 * 1024, WidthHeight = "正方形", IsProduct = true, Domain = "files" })
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="right"><label class="control-label">视频：</label></td>
-                        <td>
-                            @Html.Partial("UploadFile", new FancyFix.OA.Config.FileUploadConfig { Files = Model?.Videos ?? "", Uptype = "video", FileExt = "avi,rmvb,mp4,mov,flv,3gp,mpg,mpeg,wmv,rar,zip", UploadNum = 1, MaxSize = 300 * 1024 * 1024, IsProduct = true, UploadName = "video", Domain = "files" })
-                        </td>
-                    </tr>
-                    <tr>
                         <td align="right"><label class="control-label">附件：</label></td>
                         <td>
-                            @Html.Partial("UploadFile", new FancyFix.OA.Config.FileUploadConfig { Files = Model?.Attachment ?? "", UploadNum = 1, MaxSize = 100 * 1024 * 1024, IsProduct = true, UploadName = "attachment", Domain = "files" })
+                            @Html.Partial("UploadFile", new FancyFix.OA.Config.FileUploadConfig { Files = Model?.Attachment ?? "", UploadNum = 3, MaxSize = 100 * 1024 * 1024, IsProduct = true, UploadName = "attachment", Domain = "files" })
                         </td>
                     </tr>
                     <tr>
-                        <td align="right"><label for="content" class="control-label">产品详细：</label></td>
-                        <td>
-                            <div class="form-group" style="max-height:300px;max-width:1067px;">
-                                <textarea class="form-control" id="content" name="content" type="text/plain" style="width: 1067px; height: 300px;">@(TransferImgFromLocal(Model?.Content ?? ""))</textarea>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="right"><label for="isshow" class="control-label">是否显示：</label></td>
+                        <td align="right"><label for="isshow" class="control-label">是否有效：</label></td>
                         <td>
                             <input type="checkbox" class="form-control" name="isshow" @(Model?.IsShow ?? true ? "checked=\"checked\"" : "" ) value="true">
                         </td>
@@ -275,100 +267,105 @@
     </div>
 </div>
 @section Js{
-<script src="/Content/js/plugins/iCheck/icheck.min.js"></script>
-<script src="/Content/js/plugins/jqvalidate/jquery.validator.min.js"></script>
-<script src="/Content/js/plugins/jqvalidate/messages_cn.js"></script>
-<script src="/Content/js/common/tools.js"></script>
-<script src="/Content/js/common/skuatter.js"></script>
-<script type="text/javascript">
-    var skuObj;
-    layui.use(['layer'], function () {
-        var layer = layui.layer;
+    <script src="/Content/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/jquery.validator.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/messages_cn.js"></script>
+    <script src="/Content/js/common/tools.js"></script>
+    <script src="/Content/js/common/skuatter.js"></script>
+    <script type="text/javascript">
+        var skuObj;
+        layui.use(['layer'], function () {
+            var layer = layui.layer;
 
-        //加载属性控件
-        skuObj = new SkuAttrer("tb_sku", "skuObj", "attrId", "attrName", "attrValue", "attrType", function () {
+            //加载属性控件
+            skuObj = new SkuAttrer("tb_sku", "skuObj", "attrId", "attrName", "attrValue", "attrType", function () {
+                //iCheck初始化
+                $('input[type="checkbox"],input[type="radio"]').iCheck({
+                    checkboxClass: 'icheckbox_flat-blue',
+                    radioClass: 'iradio_flat-blue'
+                });
+            });
+            skuObj.BindSelect("classid", "classPathStr");
+
+            //产品特性
+            $("#tb_feature").on("click", ".btn-up", function () {
+                var objParentTR = $(this).parents("tr").eq(0);
+                var prevTR = objParentTR.prev();
+                if (prevTR.length > 0) {
+                    prevTR.insertAfter(objParentTR);
+                    ReSortFeature();
+                }
+            }).on("click", ".btn-down", function () {
+                var objParentTR = $(this).parents("tr").eq(0);
+                var nextTR = objParentTR.next();
+                if (nextTR.length > 0) {
+                    nextTR.insertBefore(objParentTR);
+                    ReSortFeature();
+                }
+            }).on("click", ".btn-danger", function () {
+                $(this).parents("tr").eq(0).find("input:text").val("");
+            });
+
+            //产品特性顺序重排
+            function ReSortFeature() {
+                var $features = $("#tb_feature").find("input[name^=feature]");
+                if ($features.size() == 5) {
+                    $.each($features, function (i, v) {
+                        $(this).attr("name", "feature" + i);
+                    })
+                }
+            }
+
             //iCheck初始化
             $('input[type="checkbox"],input[type="radio"]').iCheck({
                 checkboxClass: 'icheckbox_flat-blue',
                 radioClass: 'iradio_flat-blue'
             });
-        });
-        skuObj.BindSelect("classid", "classPathStr");
 
-        //产品特性
-        $("#tb_feature").on("click", ".btn-up", function () {
-            var objParentTR = $(this).parents("tr").eq(0);
-            var prevTR = objParentTR.prev();
-            if (prevTR.length > 0) {
-                prevTR.insertAfter(objParentTR);
-                ReSortFeature();
-            }
-        }).on("click", ".btn-down", function () {
-            var objParentTR = $(this).parents("tr").eq(0);
-            var nextTR = objParentTR.next();
-            if (nextTR.length > 0) {
-                nextTR.insertBefore(objParentTR);
-                ReSortFeature();
-            }
-        }).on("click", ".btn-danger", function () {
-            $(this).parents("tr").eq(0).find("input:text").val("");
-        });
+            //表单验证
+            var $form = $("#mainform");
+            $form.validate();
 
-        //产品特性顺序重排
-        function ReSortFeature() {
-            var $features = $("#tb_feature").find("input[name^=feature]");
-            if ($features.size() == 5) {
-                $.each($features, function (i, v) {
-                    $(this).attr("name", "feature" + i);
-                })
-            }
-        }
+            //通过
+            $("#btnPass").click(function () {
+                $form.valid();
+            });
 
-        //iCheck初始化
-        $('input[type="checkbox"],input[type="radio"]').iCheck({
-            checkboxClass: 'icheckbox_flat-blue',
-            radioClass: 'iradio_flat-blue'
-        });
+            //验证产品spu
+            $("#spu").blur(function () {
+                var $this = $(this);
+                var spu = $this.val();
+                var oldspu = $this.data("old");
+                var id = $("#id").val();
+                if ((id == 0 && spu != "") || (id > 0 && oldspu != spu)) {
+                    $.post('/api/product/checkspu', { '': spu }, function (data) {
+                        if (!data) {
+                            $this.parent().find("span").text('该spu编号已存在');
+                        } else {
+                            $this.parent().find("span").text('');
+                        }
+                    })
+                }
+                if (oldspu == spu) {
+                    $this.parent().find("span").text('');
+                }
+            });
 
-        //表单验证
-        var $form = $("#mainform");
-        $form.validate();
-
-        //通过
-        $("#btnPass").click(function () {
-            $form.valid();
-        });
-
-        //验证产品编号
-        $("#sku").blur(function () {
-            var $this = $(this);
-            var prono = $this.val();
-            var id = $("#id").val();
-            if (id == 0 && prono != "") {
-                $.post('/api/product/checksku', { '': prono }, function (data) {
-                    if (!data) {
-                        $this.parent().find("span").text('该sku编号已存在');
-                    } else {
-                        $this.parent().find("span").text('');
-                    }
-                })
-            }
-        });
-
-        //分类下拉框监视事件
-        $("#classid").change(function () {
-            var $this = $(this);
-            var $thisSelect = $this.find("option:selected");
-            var value = $thisSelect.val();
-            var id = $("#id").val();
-            var childNum = parseInt($thisSelect.attr("child"));
-            if (id == 0 && value != '' && parseInt(value) > 0 && childNum == 0) {
-                $.post('/api/product/getclasscode', { '': parseInt(value) }, function (data) {
-                    $("#spu").val(data);
-                })
-            }
-        });
-    })
-</script>
-    @Html.Partial("WangEditor", new FancyFix.OA.Config.ImgUploadConfig() { ElementId = "content", Uptype = "prodetail" })
+            //分类下拉框监视事件
+            $("#classid").change(function () {
+                var $this = $(this);
+                var $thisSelect = $this.find("option:selected");
+                var value = $thisSelect.val();
+                var id = $("#id").val();
+                var childNum = parseInt($thisSelect.attr("child"));
+                if (value != '' && parseInt(value) > 0 && childNum == 0) {
+                    $.post('/api/product/getclasscode', { '': parseInt(value) }, function (data) {
+                        $("#spu").val(data);
+                    })
+                } else {
+                    $("#spu").val('');
+                }
+            });
+        })
+    </script>
 }

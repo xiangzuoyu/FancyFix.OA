@@ -22,7 +22,7 @@ namespace FancyFix.OA.Areas.Admin.Controllers
             return View();
         }
 
-        //[PermissionFilter("/admin/adminmanage/list")]
+        [PermissionFilter("/admin/adminmanage/list")]
         public JsonResult PageList()
         {
             long records = 0;
@@ -51,6 +51,7 @@ namespace FancyFix.OA.Areas.Admin.Controllers
             return BspTableJson(list, records);
         }
 
+        [PermissionFilter("/admin/adminmanage/list")]
         [HttpPost]
         public JsonResult GetGroup(int id)
         {
@@ -63,6 +64,7 @@ namespace FancyFix.OA.Areas.Admin.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [PermissionFilter("/admin/adminmanage/list")]
         [HttpPost]
         public int SetJob(int id)
         {
@@ -82,6 +84,7 @@ namespace FancyFix.OA.Areas.Admin.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [PermissionFilter("/admin/adminmanage/list")]
         [HttpPost]
         public int Delete(int id)
         {
@@ -201,6 +204,7 @@ namespace FancyFix.OA.Areas.Admin.Controllers
 
         #region 部门人员树结构
 
+        [CheckLogin]
         public ActionResult GetAdminTree()
         {
             int userId = RequestInt("userid");

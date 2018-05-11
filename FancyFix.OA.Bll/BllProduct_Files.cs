@@ -18,7 +18,7 @@ namespace FancyFix.OA.Bll
         /// <returns></returns>
         public static bool GetFileUrlByMd5(string md5, ref string url)
         {
-            var model = FirstSelect(o => o.Md5 == md5, o => o.FilePath);
+            var model = FirstSelect(o => o.Md5 == md5, o => o.FilePath, o => o.Id, "desc");
             if (model != null && !string.IsNullOrEmpty(model.FilePath))
             {
                 url = model.FilePath;

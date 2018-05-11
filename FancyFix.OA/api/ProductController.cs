@@ -45,7 +45,20 @@ namespace FancyFix.OA.api
         [HttpPost]
         public bool CheckSku([FromBody]string sku)
         {
-            return !Bll.BllProduct_Info.Any(o => o.Sku == sku.Trim());
+            if (string.IsNullOrEmpty(sku)) return false;
+            return !Bll.BllProduct_InfoSku.Any(o => o.Sku == sku.Trim());
+        }
+
+        /// <summary>
+        /// 验证产品spu是否存在
+        /// </summary>
+        /// <param name="prono"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public bool CheckSpu([FromBody]string spu)
+        {
+            if (string.IsNullOrEmpty(spu)) return false;
+            return !Bll.BllProduct_Info.Any(o => o.Spu == spu.Trim());
         }
 
         /// <summary>
@@ -68,7 +81,7 @@ namespace FancyFix.OA.api
         [HttpPost]
         public string GetClassCode([FromBody]int classId)
         {
-            return Bll.BllProduct_Class.GetCode(classId) + "xxx";
+            return Bll.BllProduct_Class.GetCode(classId) + Bll.BllProduct_CodeSequence.GetMaxId(classId);
         }
     }
 }

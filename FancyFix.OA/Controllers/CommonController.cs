@@ -8,6 +8,7 @@ using System.Linq;
 
 namespace FancyFix.OA.Controllers
 {
+    [CheckLogin]
     public class CommonController : BaseAdminController
     {
         #region 部门人员树结构

@@ -1,0 +1,50 @@
+﻿@using FancyFix.OA.Model;
+@model Product_Info
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout_In.cshtml";
+}
+<div class="row">
+    <div class="col-md-12">
+        <form id="mainform" method="post">
+            <table class="layui-table">
+                <!--列宽度-->
+                <colgroup>
+                    <col class="col-lg-2">
+                    <col class="col-lg-10">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td align="right"><label class="control-label">图片：</label></td>
+                        <td>
+                            @Html.Partial("UploadImg", new FancyFix.OA.Config.ImgUploadConfig { Pics = "", Uptype = "product", FileExt = "gif,png,jpg,jpeg", UploadNum = 10, MaxSize = 10 * 1024 * 1024, WidthHeight = "正方形", IsProduct = true, Domain = "files", ProId = Model.Id })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"></td>
+                        <td>
+                            <input type="hidden" id="id" name="id" value="@Model.Id">
+                            <button type="button" id="btnPass" class="btn btn-primary" onclick="Ok()">确定</button>
+                            <button type="button" id="cancel" class="btn btn-default" onclick="CloseWin()">取消</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+@section Js{
+    <script src="/Content/js/plugins/jqvalidate/jquery.validator.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/messages_cn.js"></script>
+    <script src="/Content/js/common/tools.js"></script>
+    <script type="text/javascript">
+        function Ok() {
+            CloseWin();
+            parent.Reload();
+        }
+        layui.use(['layer'], function () {
+            var layer = layui.layer;
+     
+        })
+    </script>
+}

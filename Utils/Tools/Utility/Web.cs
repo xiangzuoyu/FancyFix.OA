@@ -149,78 +149,7 @@ namespace FancyFix.Tools.Utility
         }
 
         /// <summary>
-        /// 获取Title 或者 Description 针对详细页内容
-        /// by:willian date:2016-4-29
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="TOrD"></param>
-        /// <returns></returns>
-        public static string GetTitleAndDes4DetailHtml(int id, bool TOrD, string title, string className = "", string proNo = "")
-        {
-            string[] arrTitle = new string[] {
-                "Wholesale {title} {classname} from China {prono} - Welfulloutdoors.com",
-                "{title} {classname} Wholesaling from Hangzhou, China {prono} - Welfull Outdoors",
-                "Wholesaling {title} {classname} made in China {prono} - Welfull Outdoors",
-                "Purchasing {title} {classname} at an Affordable Price {prono} - Welfull Outdoors",
-                "{title} {classname} Purchasing at a Reasonable Price {prono} - Welfull Outdoors ",
-                "{title} {classname} Wholesale and Purchasing with a Reliable Quality {prono} - Welfull Outdoors" };
-            string[] arrDes = new string[] {
-                "Wholesale {title} at Welfulloutdoors.com with a lower price and better quality.",
-                "Wholesale {title} at reasonable prices, buy {title} at Welfulloutdoors.com now.",
-                "{title} from Welfull Outdoors deserve outdoor camping buyers having a large volume purchasing and wholesaling",
-                "{title} wholesales and procurement from Welfull Outdoor served with highly competitive price and reliable quality",
-                "{title} and wholesaling served by Welfull Outdoors are different in pricing, quality and quantity standards",
-                "Purchasing and Wholesaling {title} from Wefull Outdoors guaranteed with an affordable price and reliable quality.",
-                "Seek a {title} wholesaling and purchasing partnership in China? Welfull Outdoors is your first choice.",
-                "Hard to find a satisfying {title} wholesaling and purchasing supplier? Welfull Outdoors at your service"
-            };
-            if (TOrD)
-            {
-                int index = id % arrTitle.Length;
-                return arrTitle[index].Replace("{title}", title.Replace("Wholesale ", "").Replace("Wholesale", "")).Replace("{classname}", className).Replace("{prono}", proNo);
-            }
-            else
-            {
-                int index = id % arrDes.Length;
-                return arrDes[index].Replace("{title}", title.Replace("Wholesale ", "").Replace("Wholesale", "")).Replace("{classname}", className).Replace("{prono}", proNo);
-
-            }
-        }
-
-        public static string GetTitleAndDes4ListHtml(int cid, bool TOrD, string title, string className = "", string proNo = "")
-        {
-            string[] arrTitle = new string[] {
-                "Wholesale {title} {classname} from China {prono} - Welfulloutdoors.com",
-                "{title} {classname} Wholesaling from Hangzhou, China {prono} - Welfull Outdoors",
-                "Wholesaling {title} {classname} made in China {prono} - Welfull Outdoors",
-                "Purchasing {title} {classname} at an Affordable Price {prono} - Welfull Outdoors",
-                "{title} {classname} Purchasing at a Reasonable Price {prono} - Welfull Outdoors ",
-                "{title} {classname} Wholesale and Purchasing with a Reliable Quality {prono} - Welfull Outdoors" };
-            string[] arrDes = new string[] {
-                "Welfulloutdoors offers quality and affordable {classname} in low price. Reliable and professional China wholesaler where you can buy {classname} and drop-ship them anywhere in the world.",
-                "Looking for high quality {classname} affordable prices? check out our {classname} and shop one today to start saving big!",
-                "Find quality {classname} here with us. We do our best to make sure that all our {classname} are the best you can ever come across online or offline. Shop one today and start discovering your {classname} with a little bit of our help!",
-                "Wholesale {classname}, we provide the {classname} of OEM / ODM, you can buy the best {classname} from China at the lowest price on Welfulloutdoors.com",
-                "{classname} wholesales and purchasing, welfull outdoors serve you a series of {classname} to meet different needs of clients - Welfull Outdoors",
-                "Different {classname} Wholesaling and Purchasing from Different Outdoor Demands, Welfull Outdoors at Your Service !",
-                "Higher Quality and Lower Price! {classname} Wholesales and Purchasing from China Deserve Your Attention, Welfull Outdoors at Your Service"
-            };
-            if (TOrD)
-            {
-                int index = cid % arrTitle.Length;
-                return arrTitle[index].Replace("{title}", title.Replace("Wholesale ", "").Replace("Wholesale", "")).Replace("{classname}", className).Replace("{prono}", proNo);
-            }
-            else
-            {
-                int index = cid % arrDes.Length;
-                return arrDes[index].Replace("{classname}", className);
-
-            }
-        }
-
-        /// <summary>
         /// 详细图片展示Alt 和title
-        /// by:willian date:2016-9-11
         /// </summary>
         /// <param name="detail"></param>
         /// <param name="alt"></param>

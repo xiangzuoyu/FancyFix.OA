@@ -1,4 +1,5 @@
 ﻿using FancyFix.OA.Base;
+using FancyFix.OA.Filter;
 using FancyFix.OA.Model;
 using FancyFix.Tools.Enums;
 using System;
@@ -10,6 +11,7 @@ using System.Web.Mvc;
 
 namespace FancyFix.OA.Areas.Questionnaire.Controllers
 {
+    [CheckLogin]
     public class InfoController : BaseAdminController
     {
         public ActionResult List(int id)

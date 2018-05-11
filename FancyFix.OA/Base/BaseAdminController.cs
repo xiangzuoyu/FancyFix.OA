@@ -548,6 +548,17 @@ namespace FancyFix.OA.Base
             string files = RequestString(getFiles).TrimEnd(',');
             return files.Split(',')[0];
         }
+
+        /// <summary>
+        /// 获取多个文件
+        /// </summary>
+        /// <param name="getPics"></param>
+        /// <returns></returns>
+        protected string GetFiles(string getPics)
+        {
+            string files = RequestString(getPics).TrimEnd(',');
+            return files;
+        }
         #endregion
 
         #region 富文本内容处理

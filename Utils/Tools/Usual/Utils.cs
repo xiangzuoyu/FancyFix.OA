@@ -1187,9 +1187,7 @@ namespace FancyFix.Tools.Usual
             {
                 return Path.GetFileName(dirPath).Substring(Path.GetFileName(dirPath).IndexOf('.') - 1, 1).ToLower() == "s";
             }
-#pragma warning disable CS0168 // 声明了变量“ee”，但从未使用过
-            catch (Exception ee)
-#pragma warning restore CS0168 // 声明了变量“ee”，但从未使用过
+            catch
             {
                 return false;
             }
@@ -1207,9 +1205,7 @@ namespace FancyFix.Tools.Usual
             {
                 return Path.GetFileName(dirPath).Substring(Path.GetFileName(dirPath).IndexOf('.') - 1, 1).ToLower().ToString().IsInt();
             }
-#pragma warning disable CS0168 // 声明了变量“ee”，但从未使用过
-            catch (Exception ee)
-#pragma warning restore CS0168 // 声明了变量“ee”，但从未使用过
+            catch
             {
                 return false;
             }

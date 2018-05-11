@@ -1,4 +1,5 @@
-﻿using FancyFix.OA.Model;
+﻿using FancyFix.OA.Filter;
+using FancyFix.OA.Model;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +7,7 @@ using System.Web.Mvc;
 
 namespace FancyFix.OA.Areas.Admin.Controllers
 {
+    [CheckLogin]
     public class AdminPermissionController : OA.Base.BaseAdminController
     {
         public ActionResult GroupSetTree()
@@ -65,7 +67,6 @@ namespace FancyFix.OA.Areas.Admin.Controllers
             }
         }
 
-        //[PermissionFilter("/admin/adminpermission/groupsettree")]
         [HttpPost]
         public ActionResult SavePermission()
         {

@@ -10,7 +10,8 @@ using System.Web.Mvc;
 namespace FancyFix.OA.Filter
 {
     /// <summary>
-    /// 权限验证全局过滤器
+    /// 权限验证全局过滤器【严格模式】
+    /// 没有加权限标签的controller或action,都会被全局过滤器先验证
     /// </summary>
     public class PermissionFilter : IAuthorizationFilter
     {
@@ -24,7 +25,7 @@ namespace FancyFix.OA.Filter
             if (filterContext == null) throw new ArgumentNullException("filterContext");
             if (filterContext.HttpContext.Request.Url == null) throw new ArgumentNullException("filterContext");
 
-            //判断action,controller上是否存在AllowAnonymous标签
+            //判断action,controller上是否存在AllowAnonymous标签，任何用户都可以访问
             var actionAnonymous = filterContext.ActionDescriptor.GetCustomAttributes(typeof(AllowAnonymousAttribute), true) as IEnumerable<AllowAnonymousAttribute>;
             var controllerAnonymous = filterContext.Controller.GetType().GetCustomAttributes(typeof(AllowAnonymousAttribute), true) as IEnumerable<AllowAnonymousAttribute>;
             if ((actionAnonymous != null && actionAnonymous.Any()) || (controllerAnonymous != null && controllerAnonymous.Any()))
@@ -68,18 +69,16 @@ namespace FancyFix.OA.Filter
                     }
                     else
                     {
+                        //直接JS跳回上页，并提示
                         var content = new ContentResult()
                         {
                             Content = "<script type=\"text/javascript\">" +
-                            "var w = parent.layer.getFrameIndex(window.name);" +
-                            "var tab = parent.document.getElementsByClassName('layui-this')[0].getAttribute('lay-id');" +
-                            "if(w){parent.layer.close(w);}" + //弹窗：关闭弹窗，并提示
-                            "else if(tab.toLowerCase().indexOf('" + url.ToLower() + "')>=0){}" + //弹出新tab页，不做任何处理，只提示
-                            "else{window.history.go(-1);};" + //直接跳转：跳会上页，并提示
-                            "parent.layer.msg('您没有该操作权限！', {icon: 5});" +
+                            "window.history.go(-1);" + 
+                            "alert('您没有该操作权限！');" +
                             "</script>"
                         };
-                        filterContext.Result = content;// new RedirectResult("/Home/UnAuthorized");
+                        //或者直接跳转页面
+                        filterContext.Result = new RedirectResult("/Home/UnAuthorized");//content
                     }
                 }
                 return;

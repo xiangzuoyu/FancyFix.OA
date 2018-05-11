@@ -33,7 +33,6 @@ namespace FancyFix.OA.Model
 		private string _ClassParPath;
 		private string _Title;
 		private string _Spu;
-		private string _Sku;
 		private string _FirstPic;
 		private string _Pics;
 		private string _Description;
@@ -68,6 +67,10 @@ namespace FancyFix.OA.Model
 		private string _Attachment;
 		private string _Videos;
 		private string _SupplierName;
+		private string _SupplierProductCode;
+		private string _PriceRemark;
+		private string _AIFile;
+		private string _Title_En;
 		/// <summary>
 		/// 自增Id
 		/// </summary>
@@ -150,18 +153,6 @@ namespace FancyFix.OA.Model
 			{
 				this.OnPropertyValueChange(_.Spu,_Spu,value);
 				this._Spu=value;
-			}
-		}
-		/// <summary>
-		/// SKU编号
-		/// </summary>
-		public string Sku
-		{
-			get{ return _Sku; }
-			set
-			{
-				this.OnPropertyValueChange(_.Sku,_Sku,value);
-				this._Sku=value;
 			}
 		}
 		/// <summary>
@@ -572,6 +563,54 @@ namespace FancyFix.OA.Model
 				this._SupplierName=value;
 			}
 		}
+		/// <summary>
+		/// 
+		/// </summary>
+		public string SupplierProductCode
+		{
+			get{ return _SupplierProductCode; }
+			set
+			{
+				this.OnPropertyValueChange(_.SupplierProductCode,_SupplierProductCode,value);
+				this._SupplierProductCode=value;
+			}
+		}
+		/// <summary>
+		/// 
+		/// </summary>
+		public string PriceRemark
+		{
+			get{ return _PriceRemark; }
+			set
+			{
+				this.OnPropertyValueChange(_.PriceRemark,_PriceRemark,value);
+				this._PriceRemark=value;
+			}
+		}
+		/// <summary>
+		/// 
+		/// </summary>
+		public string AIFile
+		{
+			get{ return _AIFile; }
+			set
+			{
+				this.OnPropertyValueChange(_.AIFile,_AIFile,value);
+				this._AIFile=value;
+			}
+		}
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Title_En
+		{
+			get{ return _Title_En; }
+			set
+			{
+				this.OnPropertyValueChange(_.Title_En,_Title_En,value);
+				this._Title_En=value;
+			}
+		}
 		#endregion
 
 		#region Method
@@ -603,7 +642,6 @@ namespace FancyFix.OA.Model
 				_.ClassParPath,
 				_.Title,
 				_.Spu,
-				_.Sku,
 				_.FirstPic,
 				_.Pics,
 				_.Description,
@@ -637,7 +675,11 @@ namespace FancyFix.OA.Model
 				_.InvoiceName,
 				_.Attachment,
 				_.Videos,
-				_.SupplierName};
+				_.SupplierName,
+				_.SupplierProductCode,
+				_.PriceRemark,
+				_.AIFile,
+				_.Title_En};
 		}
 		/// <summary>
 		/// 获取值信息
@@ -652,7 +694,6 @@ namespace FancyFix.OA.Model
 				this._ClassParPath,
 				this._Title,
 				this._Spu,
-				this._Sku,
 				this._FirstPic,
 				this._Pics,
 				this._Description,
@@ -686,7 +727,11 @@ namespace FancyFix.OA.Model
 				this._InvoiceName,
 				this._Attachment,
 				this._Videos,
-				this._SupplierName};
+				this._SupplierName,
+				this._SupplierProductCode,
+				this._PriceRemark,
+				this._AIFile,
+				this._Title_En};
 		}
 		#endregion
 
@@ -728,10 +773,6 @@ namespace FancyFix.OA.Model
 			/// SPU编号
 			/// </summary>
 			public readonly static Field Spu = new Field("Spu","Product_Info","SPU编号");
-			/// <summary>
-			/// SKU编号
-			/// </summary>
-			public readonly static Field Sku = new Field("Sku","Product_Info","SKU编号");
 			/// <summary>
 			/// 封面图
 			/// </summary>
@@ -868,6 +909,22 @@ namespace FancyFix.OA.Model
 			/// 
 			/// </summary>
 			public readonly static Field SupplierName = new Field("SupplierName","Product_Info","SupplierName");
+			/// <summary>
+			/// 
+			/// </summary>
+			public readonly static Field SupplierProductCode = new Field("SupplierProductCode","Product_Info","SupplierProductCode");
+			/// <summary>
+			/// 
+			/// </summary>
+			public readonly static Field PriceRemark = new Field("PriceRemark","Product_Info","PriceRemark");
+			/// <summary>
+			/// 
+			/// </summary>
+			public readonly static Field AIFile = new Field("AIFile","Product_Info","AIFile");
+			/// <summary>
+			/// 
+			/// </summary>
+			public readonly static Field Title_En = new Field("Title_En","Product_Info","Title_En");
 		}
 		#endregion
 

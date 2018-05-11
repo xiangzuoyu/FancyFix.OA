@@ -6,9 +6,11 @@ using System.Web.Mvc;
 using FancyFix.OA.Base;
 using FancyFix.OA.Model;
 using System.Data;
+using FancyFix.OA.Filter;
 
 namespace FancyFix.OA.Areas.Kpi.Controllers
 {
+    [CheckLogin]
     public class KpiListController : BaseAdminController
     {
         public ActionResult UnApproveList(int year = 0, int month = 0, int inJob = 1)

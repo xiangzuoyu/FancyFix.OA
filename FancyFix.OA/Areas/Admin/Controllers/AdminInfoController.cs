@@ -1,7 +1,9 @@
-﻿using System.Web.Mvc;
+﻿using FancyFix.OA.Filter;
+using System.Web.Mvc;
 
 namespace FancyFix.OA.Areas.Admin.Controllers
 {
+    [CheckLogin]
     public class AdminInfoController : Base.BaseAdminController
     {
         public ActionResult Edit()
@@ -10,7 +12,6 @@ namespace FancyFix.OA.Areas.Admin.Controllers
             return View(user);
         }
 
-        //[PermissionFilter("/admin/admininfo/edit")]
         public ActionResult Save()
         {
             string password = RequestString("password").Trim();

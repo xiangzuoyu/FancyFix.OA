@@ -6,9 +6,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Data;
+using FancyFix.OA.Filter;
 
 namespace FancyFix.OA.Areas.Rank.Controllers
 {
+    [CheckLogin]
     public class KpiController : BaseAdminController
     {
         public ActionResult Index(int year = 0, int fromMonth = 0, int toMonth = 0, int departId = 0)

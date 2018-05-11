@@ -24,9 +24,9 @@
                             </div>
                         </div>
                         <div class="layui-inline">
-                            <label class="layui-form-label">SKU编号</label>
+                            <label class="layui-form-label">SPU编号</label>
                             <div class="layui-input-inline">
-                                <input type="text" id="sku" placeholder="SKU编号" class="layui-input" style="width:120px;">
+                                <input type="text" id="spu" placeholder="SPU编号" class="layui-input" style="width:120px;">
                             </div>
                         </div>
                         <div class="layui-inline">
@@ -35,18 +35,34 @@
                                 <input type="text" id="title" placeholder="产品标题" class="layui-input" style="width:250px;">
                             </div>
                         </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">状态</label>
+                            <div class="layui-input-inline">
+                                <select class="layui-selecct" id="isshow" name="isshow">
+                                    <option value="-1">所有</option>
+                                    <option value="1">有效</option>
+                                    <option value="0">无效</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="layui-inline pull-right">
                             <button id="btnSearch" class="btn bg-orange" lay-submit lay-filter="formSearch">查询</button>
                         </div>
                     </div>
                 </section>
                 <div id="toolbar" class="btn-group">
+                    <button id="btn_addspu" type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增Spu
+                    </button>
                     <button id="btn_add" type="button" class="btn btn-default">
-                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增产品
                     </button>
-                    <button id="btn_delete" type="button" class="btn btn-default">
-                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
-                    </button>
+                    @if (IsSuperAdmin)
+                    {
+                        <button id="btn_delete" type="button" class="btn btn-default">
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
+                        </button>
+                    }
                 </div>
                 <table id="table" class="table table-bordered table-hover"></table>
             </div>
@@ -100,6 +116,11 @@
                         columns: [{
                             checkbox: true
                         }, {
+                            field: 'Spu',
+                            title: 'SPU编号',
+                            align: 'center',
+                            width: 80,
+                        }, {
                             field: 'FirstPic',
                             title: '图片',
                             align: 'center',
@@ -109,30 +130,33 @@
                             field: 'Title',
                             title: '产品名称',
                             //align: 'center',
-                            width: 500,
+                            width: 400,
                             formatter: function (v, r, i) {
+                                if (v == null)
+                                    return "暂无";
                                 return "<a target=\"_blank\" href=\"" + r.Url + "\">" + v + "</a>"
                             }
-                        }, {
-                            field: 'Spu',
-                            title: 'SPU编号',
-                            align: 'center'
-                        }, {
-                            field: 'Sku',
-                            title: 'SKU编号',
-                            align: 'center'
                         }, {
                             field: 'Stock',
                             title: '库存量',
                             align: 'center',
                             formatter: function (v, r, i) {
-                                return r.Stock + ' ' + r.QuantityUnit
+                                return (r.Stock == null ? "0" : r.Stock) + ' ' + (r.QuantityUnit == null ? "" : r.QuantityUnit)
                             }
+                        }, {
+                            field: 'IsShow',
+                            title: '有效',
+                            align: 'center',
+                            formatter: setShowFormatter
+                        },{
+                            field: 'CreateDate',
+                            title: '创建时间',
+                            align: 'center'
                         }, {
                             title: '操作',
                             align: 'center',
                             formatter: function (v, r, i) {
-                                var html = "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnEdit btn btn-md btn-primary\">编辑</a> <a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnDel btn btn-md btn-danger\">删除</a>";
+                                var html = "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnEdit btn btn-md btn-primary\">编辑内容</a> <a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnAddRes btn btn-md btn-primary\">上传资源</a> <a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnAddImg btn btn-md btn-primary\">图片列表</a>";
                                 return html;
                             }
                         }]
@@ -151,7 +175,8 @@
                         //自定义参数
                         title: $("#title").val(),
                         classparpath: $("#classparpath").val(),
-                        sku: $("#sku").val()
+                        spu: $("#spu").val(),
+                        isshow: $("#isshow").val()
                     };
                     return temp;
                 };
@@ -164,18 +189,55 @@
             function imgFormatter(v, r, i) {
                 if (v == null || v == "")
                     v = "/Content/img/adminlte/img/default-50x50.gif";
-                return "<img src=\"" + GetMinPic(v) + "\" height=\"60\" width=\"70\" />"
+                else
+                    v = GetMinPic(v);
+                return "<img src=\"" + v + "\" height=\"70\" width=\"70\" />"
             }
 
             //查看产品
             $("#table").on('click', '.btnEdit', function () {
-                var id = $(this).attr("data-id");
-                OpenWin("产品编辑", "/product/product/Edit/" + id, "85%", "100%");
+                var id = $(this).data("id");
+                OpenWin("产品编辑", "/product/product/Edit/" + id, "80%", "100%");
+            });
+
+            //上传资源
+            $("#table").on('click', '.btnAddRes', function () {
+                var id = $(this).data("id");
+                OpenWin("上传资源", "/product/product/addresource/" + id, "80%", "100%");
+            });
+
+            //图片列表
+            $("#table").on('click', '.btnAddImg', function () {
+                var id = $(this).data("id");
+                OpenWin("图片列表", "/product/image/list/" + id, "80%", "100%");
             });
 
             //新增产品
             $("#btn_add").on('click', function () {
-                OpenWin("产品添加", "/product/product/Edit", "85%", "100%");
+                OpenWin("产品添加", "/product/product/Edit", "80%", "100%");
+            });
+
+            //新增Spu
+            $("#btn_addspu").on('click', function () {
+                OpenWin("新增Spu", "/product/product/addspu", "550px", "350px");
+            });
+          
+            function setShowFormatter(v, r, i) {
+                if (v > 0)
+                    return "<a href=\"javascript:;\" data-id=\"" + r.Id + "\"  class=\"btnSetShow btn btn-success btn-circle btn-lg btn-xs\" type=\"button\"> <i class=\"fa fa-check\"></i></a>";
+                else
+                    return "<a href=\"javascript:;\" data-id=\"" + r.Id + "\"  class=\"btnSetShow btn btn-danger btn-circle btn-lg btn-xs\" type=\"button\"> <i class=\"fa fa-times\"></i></a>";
+            }
+
+            //设置显隐
+            $("#table").on('click', '.btnSetShow', function () {
+                var id = $(this).data("id");
+                $.post('/product/product/setshow/' + id, function (data) {
+                    if (data)
+                        Reload();
+                    else
+                        ShowError('修改失败！');
+                })
             });
 
             //批量删除

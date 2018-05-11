@@ -31,6 +31,7 @@ namespace FancyFix.OA.Model
 		private int? _AttributeId;
 		private int? _AttributeValueId;
 		private string _AttributeValue;
+		private bool? _IsSpu;
 		/// <summary>
 		/// 自增Id
 		/// </summary>
@@ -91,6 +92,18 @@ namespace FancyFix.OA.Model
 				this._AttributeValue=value;
 			}
 		}
+		/// <summary>
+		/// 
+		/// </summary>
+		public bool? IsSpu
+		{
+			get{ return _IsSpu; }
+			set
+			{
+				this.OnPropertyValueChange(_.IsSpu,_IsSpu,value);
+				this._IsSpu=value;
+			}
+		}
 		#endregion
 
 		#region Method
@@ -119,7 +132,8 @@ namespace FancyFix.OA.Model
 				_.ProductId,
 				_.AttributeId,
 				_.AttributeValueId,
-				_.AttributeValue};
+				_.AttributeValue,
+				_.IsSpu};
 		}
 		/// <summary>
 		/// 获取值信息
@@ -131,7 +145,8 @@ namespace FancyFix.OA.Model
 				this._ProductId,
 				this._AttributeId,
 				this._AttributeValueId,
-				this._AttributeValue};
+				this._AttributeValue,
+				this._IsSpu};
 		}
 		#endregion
 
@@ -165,6 +180,10 @@ namespace FancyFix.OA.Model
 			/// 属性值
 			/// </summary>
 			public readonly static Field AttributeValue = new Field("AttributeValue","Product_AttributeSet","属性值");
+			/// <summary>
+			/// 
+			/// </summary>
+			public readonly static Field IsSpu = new Field("IsSpu","Product_AttributeSet","IsSpu");
 		}
 		#endregion
 

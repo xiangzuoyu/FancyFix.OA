@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using NPOI.SS.UserModel;
 using System.Data;
+using FancyFix.OA.Filter;
 
 namespace FancyFix.OA.Areas.Supplier.Controllers
 {
@@ -20,6 +21,7 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             return View();
         }
 
+        [PermissionFilter("/supplier/suppliermanager/showcharts")]
         public JsonResult PageList(int page = 0, int pagesize = 0, int selectLabelid = 0, string files = "", string key = "")
         {
             long records = 0;
@@ -266,6 +268,7 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             return Json(new { result = Bll.BllSupplier_List.HideModel(id, MyInfo.Id) > 0 });
         }
 
+        [PermissionFilter("/supplier/suppliermanager/delete")]
         [HttpPost]
         public JsonResult DeleteBatch(List<Supplier_List> list)
         {

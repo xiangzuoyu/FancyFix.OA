@@ -23,6 +23,7 @@ namespace FancyFix.OA.api
             string domain = HttpContext.Current.Request["domain"].Trim2();    //文件域
             string title = HttpContext.Current.Request["title"].Trim2();    //文件标题
             bool isproduct = HttpContext.Current.Request["Isproduct"].ToBool();//是否是产品图片
+            int proid = HttpContext.Current.Request["proid"].ToInt32();//是否是产品Id
 
             string status = "success";
 
@@ -44,7 +45,7 @@ namespace FancyFix.OA.api
                 }
                 else
                 {
-                    //读取当前部门网站上传配置
+                    //读取当前网站上传配置
                     SiteOption option = config.SiteOptions[domain];
                     if (option == null)
                     {
@@ -52,7 +53,6 @@ namespace FancyFix.OA.api
                         goto result;
 
                     }
-
                     //读取图片类型配置
                     Setting setting = config.Settings[uptype];
                     if (setting == null)
@@ -63,9 +63,9 @@ namespace FancyFix.OA.api
                     else
                     {
                         //检测上传限制
-                        string allowUploadExts = setting.AllowUpload.Replace(".", "");
-
                         HttpPostedFile fileUpload = HttpContext.Current.Request.Files[0];
+
+                        #region 文件格式大小检测
                         if (fileUpload == null)
                         {
                             status = "请选择上传文件!";
@@ -120,7 +120,9 @@ namespace FancyFix.OA.api
                         {
                             isFile = false;
                         }
+                        #endregion
 
+                        #region MD5对比
                         //数据库md5检测
                         string md5 = Tools.Security.Md5Helper.GetMd5HashFromFile(fileUpload.InputStream);
                         if (isproduct && !string.IsNullOrEmpty(md5))
@@ -140,6 +142,7 @@ namespace FancyFix.OA.api
                                 }
                             }
                         }
+                        #endregion
 
                         string saveDoc = DateTime.Now.ToString(@"yy\\MM\\");
                         string rndFileName = Tools.Usual.Common.GetDataShortRandom();
@@ -169,7 +172,6 @@ namespace FancyFix.OA.api
                         //获取绝对路径
                         string dirPath = option.Folder.TrimEnd('\\') + setting.FilePath;
                         string newFileName = saveDoc + rndFileName + fileExt;
-                        string newSmallFileName = saveDoc + rndFileName + "s" + fileExt;
                         if (status == "success")
                         {
                             #region 保存文件
@@ -187,11 +189,11 @@ namespace FancyFix.OA.api
                                 // 限制图片大小
                                 Tools.Tool.ImageTools.SetImgSize(dirPath + newFileName, setting.MaxWidth, setting.MaxHeight);
 
+                                //不同大小的图片名
                                 string newBigFileName = saveDoc + rndFileName + "b" + fileExt;
-
                                 string newMiddleFileName = saveDoc + rndFileName + "m" + fileExt;
-
                                 string newMinFileName = saveDoc + rndFileName + "xs" + fileExt;
+                                string newSmallFileName = saveDoc + rndFileName + "s" + fileExt;
 
                                 //生成缩略图
                                 if (setting.CreateMinPic)
@@ -242,6 +244,7 @@ namespace FancyFix.OA.api
                         string urlFile = urlRealm + newFileName.Replace(@"\", @"/"); //相对路径
                         string urlComplete = option.Url + urlFile; //完整路径
 
+                        #region 保存到数据库
                         //文件记录到数据库
                         if (isproduct && !string.IsNullOrEmpty(md5))
                         {
@@ -253,7 +256,9 @@ namespace FancyFix.OA.api
                                     FilePath = urlComplete,
                                     FileExt = fileExt.TrimStart('.'),
                                     FileName = name,
-                                    Md5 = md5
+                                    Md5 = md5,
+                                    AddTime = DateTime.Now,
+                                    ProId = proid
                                 });
                             }
                             else
@@ -271,10 +276,14 @@ namespace FancyFix.OA.api
                                     SmailHeight = setting.Height,
                                     MinWidth = setting.MinWidth,
                                     MinHeight = setting.MinHeight,
-                                    Md5 = md5
+                                    Md5 = md5,
+                                    AddTime = DateTime.Now,
+                                    ProId = proid
                                 });
                             }
                         }
+                        #endregion
+
                         return Json(new FileResult() { code = 1, id = id, name = name, url = urlComplete, msg = status });
                     }
                 }

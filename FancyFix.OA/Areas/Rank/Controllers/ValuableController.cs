@@ -1,4 +1,5 @@
 ﻿using FancyFix.OA.Base;
+using FancyFix.OA.Filter;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -8,6 +9,7 @@ using System.Web.Mvc;
 
 namespace FancyFix.OA.Areas.Rank.Controllers
 {
+    [CheckLogin]
     public class ValuableController : BaseAdminController
     {
         public ActionResult Index()
@@ -138,7 +140,7 @@ namespace FancyFix.OA.Areas.Rank.Controllers
                     row["部门"] = item.DepartMentName;
                     row["岗位"] = item.GroupName;
                     row["得分"] = item.Score;
-                    row["得分"] = item.Count;
+                    row["统计次数"] = item.Count;
                     dt.Rows.Add(row);
                 }
                 string fileName = "进程：" + year + "年" + fromMonth + (toMonth > fromMonth ? "至" + toMonth : "") + "月" + "价值观" + (top > 0 ? "前" + top + "%" : "") + "排名";

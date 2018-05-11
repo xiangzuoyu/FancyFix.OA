@@ -32,6 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -56,9 +57,12 @@
     <Compile Include="BllProduct_Attribute.cs" />
     <Compile Include="BllProduct_AttributeSelect.cs" />
     <Compile Include="BllProduct_AttributeSet.cs" />
+    <Compile Include="BllProduct_ImageTag.cs" />
+    <Compile Include="BllProduct_CodeSequence.cs" />
     <Compile Include="BllProduct_Class.cs" />
     <Compile Include="BllProduct_Files.cs" />
     <Compile Include="BllProduct_Image.cs" />
+    <Compile Include="BllProduct_InfoSku.cs" />
     <Compile Include="BllProduct_Info.cs" />
     <Compile Include="BllQuestionnaire_Result.cs" />
     <Compile Include="BllQuestionnaire_Answerer.cs" />

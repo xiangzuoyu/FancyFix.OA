@@ -42,18 +42,7 @@
 @section Js{
     <script type="text/javascript">
         function CloseCurrent() {
-            //是否是弹窗
-            var w = parent.layer.getFrameIndex(window.name);
-            var tab = parent.document.getElementsByClassName("layui-this")[0].getAttribute("lay-id");
-            var reffer = document.referrer;
-            if (w) {
-                parent.layer.close(w);
-            } else if (tab.toLowerCase().indexOf(reffer.toLowerCase()) >= 0) {
-                parent.closeTab(tab.toLowerCase());
-            } else {
-                window.history.go(-1);
-            }
-            parent.layer.msg('您没有该操作权限！', { icon: 5 });
+            window.history.go(-1);
         }
     </script>
 }

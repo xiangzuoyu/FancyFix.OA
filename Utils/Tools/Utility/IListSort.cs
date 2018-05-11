@@ -147,9 +147,6 @@ namespace FancyFix.Tools.Utility
                     {
                         return int1.CompareTo(int2);
                     }
-#pragma warning disable CS0162 // 检测到无法访问的代码
-                    break;
-#pragma warning restore CS0162 // 检测到无法访问的代码
                 case "System.Double":
                     double double1 = 0;
                     double double2 = 0;
@@ -169,9 +166,6 @@ namespace FancyFix.Tools.Utility
                     {
                         return double1.CompareTo(double2);
                     }
-#pragma warning disable CS0162 // 检测到无法访问的代码
-                    break;
-#pragma warning restore CS0162 // 检测到无法访问的代码
                 case "System.String":
                     string string1 = string.Empty;
                     string string2 = string.Empty;
@@ -191,9 +185,6 @@ namespace FancyFix.Tools.Utility
                     {
                         return string1.CompareTo(string2);
                     }
-#pragma warning disable CS0162 // 检测到无法访问的代码
-                    break;
-#pragma warning restore CS0162 // 检测到无法访问的代码
                 case "System.DateTime":
                     DateTime DateTime1 = DateTime.Now;
                     DateTime DateTime2 = DateTime.Now;
@@ -213,9 +204,6 @@ namespace FancyFix.Tools.Utility
                     {
                         return DateTime1.CompareTo(DateTime2);
                     }
-#pragma warning disable CS0162 // 检测到无法访问的代码
-                    break;
-#pragma warning restore CS0162 // 检测到无法访问的代码
             }
             return 0;
         }

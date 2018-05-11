@@ -16,7 +16,6 @@ namespace FancyFix.OA.Controllers
         public ActionResult Default()
         {
             var adminInfo = Bll.BllMng_User.First(o => o.Id == MyInfo.Id);
-            //ViewBag.role = string.Join(",", Bll.BllMng_PermissionGroup.GetGruopNames(adminInfo.GroupManage, MyDepartId););
             return View(adminInfo);
         }
 

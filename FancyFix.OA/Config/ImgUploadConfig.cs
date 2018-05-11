@@ -18,7 +18,7 @@ namespace FancyFix.OA.Config
         private bool _IsProduct = false;
 
         //加密字段
-        private static int random = new Random().Next(1000, 9999); 
+        private static int random = new Random().Next(1000, 9999);
         private string _Key = Core.Crypt.WebKey.KeyGet2(random);
         private string _CheckCode = Core.Crypt.WebKey.KeyCheckCode2(random);
 
@@ -36,5 +36,6 @@ namespace FancyFix.OA.Config
         public string WidthHeight { get; set; }
         public bool IsProduct { get { return _IsProduct; } set { _IsProduct = value; } }
         public string UploadName { get { return _UploadName; } set { _UploadName = value; } }
+        public int ProId { get; set; }
     }
 }

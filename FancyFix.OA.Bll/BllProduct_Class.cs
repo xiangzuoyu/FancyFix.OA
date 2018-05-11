@@ -25,6 +25,7 @@ namespace FancyFix.OA.Bll
         /// <returns></returns>
         public static string GetCode(int classId)
         {
+            if (classId == 0) return "";
             string code = string.Empty;
             var classModel = First(o => o.Id == classId);
             string[] pars = classModel?.ParPath.TrimEnd(',').Split(',');
@@ -39,6 +40,77 @@ namespace FancyFix.OA.Bll
                 }
             }
             return code;
+        }
+
+        /// <summary>
+        /// 判断同分类下是否存在相同Code
+        /// </summary>
+        /// <param name="code"></param>
+        /// <param name="parId"></param>
+        /// <returns></returns>
+        public static bool CheckCode(string code, int parId)
+        {
+            return Any(o => o.ParId == parId && o.Code == code);
+        }
+
+        /// <summary>
+        /// 分类菜单显示
+        /// </summary>
+        /// <param name="parentId">父ID</param>
+        /// <param name="SelectedValue">选中的值</param>
+        /// <param name="includeLock">是否包含锁定项</param>
+        /// <returns></returns>
+        public override string ShowClass(int parentId, int SelectedValue, bool includeLock)
+        {
+            List<Product_Class> list = GetListByParentId(parentId, includeLock).ToList();
+            StringBuilder strShowClass = new StringBuilder();
+
+            GetListByParId(list, parentId, strShowClass, SelectedValue);
+
+            return strShowClass.ToString();
+        }
+
+        /// <summary>
+        /// 递归遍历
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="parId"></param>
+        /// <param name="strShowClass"></param>
+        /// <param name="SelectedValue"></param>
+        private void GetListByParId(List<Product_Class> list, int parId, StringBuilder strShowClass, int SelectedValue)
+        {
+            List<Product_Class> childlist = list.FindAll(o => o.ParId == parId);
+            if (childlist != null && childlist.Count() > 0)
+            {
+                foreach (var item in childlist)
+                {
+                    strShowClass.AppendFormat("<option value=\"{0}\" ", item.Id.ToString());
+                    if (SelectedValue == item.Id)
+                    {
+                        strShowClass.Append(" selected ");
+                    }
+                    strShowClass.AppendFormat("attr=\"{0}\"", ShowClassPath(item.Id));
+                    strShowClass.AppendFormat("child=\"{0}\"", item.ChildNum);
+                    strShowClass.Append(" >");
+
+                    if (item.Depth == 0)
+                    {
+                        strShowClass.Append("├");
+                    }
+                    else
+                    {
+                        for (int j = 0; j < item.Depth; j++)
+                        {
+                            strShowClass.Append(" │");
+                        }
+                        strShowClass.Append(" ├");
+                    }
+                    strShowClass.Append(item.ClassName.ToString() + " ( " + item.Code + " )");
+                    strShowClass.Append(" </option>");
+
+                    GetListByParId(list, item.Id, strShowClass, SelectedValue);
+                }
+            }
         }
 
         #endregion

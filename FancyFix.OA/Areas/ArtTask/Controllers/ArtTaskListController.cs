@@ -4,9 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
 using System.Configuration;
+using FancyFix.OA.Filter;
 
 namespace FancyFix.OA.Areas.ArtTask.Controllers
 {
+    [CheckLogin]
     public class ArtTaskListController : BaseAdminController
     {
         //获取设计部分配任务权限ID

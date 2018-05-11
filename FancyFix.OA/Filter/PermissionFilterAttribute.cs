@@ -10,7 +10,8 @@ using System.Web.Mvc;
 namespace FancyFix.OA.Filter
 {
     /// <summary>
-    /// 权限验证过滤器
+    /// 权限验证过滤器【宽松模式】
+    /// 只有加了该标签的controller或action才会被验证权限
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = true)]
     public class PermissionFilterAttribute : AuthorizeAttribute
@@ -66,7 +67,7 @@ namespace FancyFix.OA.Filter
                     return PermissionManager.CheckPermission(MyInfo, PermissionId);
                 else if (!string.IsNullOrEmpty(PermissionUrl))
                 {
-                    var urls = PermissionUrl.TrimEnd(',').Split(',');
+                    var urls = PermissionUrl.TrimEnd(',').ToLower().Split(',');
                     foreach (var url in urls)
                     {
                         //有一个Url允许，则通过
@@ -105,18 +106,16 @@ namespace FancyFix.OA.Filter
                 if (areaName != "")
                     url = "/" + areaName + url;
 
+                //直接JS跳回上页，并提示
                 var content = new ContentResult()
                 {
                     Content = "<script type=\"text/javascript\">" +
-                            "var w = parent.layer.getFrameIndex(window.name);" +
-                            "var tab = parent.document.getElementsByClassName('layui-this')[0].getAttribute('lay-id');" +
-                            "if(w){parent.layer.close(w);}" + //弹窗：关闭弹窗，并提示
-                            "else if(tab.toLowerCase().indexOf('" + url.ToLower() + "')>=0){}" + //弹出新tab页，不做任何处理，只提示
-                            "else{window.history.go(-1);};" + //直接跳转：跳会上页，并提示
-                            "parent.layer.msg('您没有该操作权限！', {icon: 5});" +
-                            "</script>"
+                    "window.history.go(-1);" +
+                    "alert('您没有该操作权限！');" +
+                    "</script>"
                 };
-                filterContext.Result = content;// new RedirectResult("/Home/UnAuthorized");
+                //或者直接跳转页面
+                filterContext.Result = new RedirectResult("/Home/UnAuthorized");//content
             }
             return;
         }

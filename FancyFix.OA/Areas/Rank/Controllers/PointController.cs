@@ -1,4 +1,5 @@
 ﻿using FancyFix.OA.Base;
+using FancyFix.OA.Filter;
 using FancyFix.OA.Model;
 using FancyFix.OA.Model.Business;
 using System;
@@ -10,6 +11,7 @@ using System.Web.Mvc;
 
 namespace FancyFix.OA.Areas.Rank.Controllers
 {
+    [CheckLogin]
     public class PointController : BaseAdminController
     {
         public ActionResult Index(int year = 0, int fromMonth = 0, int toMonth = 0, int departId = 0)

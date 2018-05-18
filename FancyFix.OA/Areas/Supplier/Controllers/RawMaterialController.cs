@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using FancyFix.OA.Model;
+using FancyFix.OA.Filter;
 
 namespace FancyFix.OA.Areas.Supplier.Controllers
 {
@@ -17,6 +18,7 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             return View();
         }
 
+        [PermissionFilter("/supplier/rawmaterial/list")]
         public JsonResult PageList(int page = 0, int pagesize = 0)
         {
             long records = 0;
@@ -26,6 +28,7 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             var list = Bll.BllSupplier_RawMaterial.PageList(page, pagesize, out records, files, key);
             return BspTableJson(list, records);
         }
+        #endregion
 
         #region 编辑
         public ActionResult Save(int id = 0)
@@ -86,6 +89,7 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             return Json(new { result = Bll.BllSupplier_RawMaterial.HideModel(id, MyInfo.Id) > 0 });
         }
 
+        [PermissionFilter("/supplier/rawmaterial/delete")]
         [HttpPost]
         public JsonResult DeleteBatch(List<Supplier_RawMaterial> list)
         {
@@ -94,6 +98,6 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
         }
         #endregion
 
-        #endregion
+        
     }
 }

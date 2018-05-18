@@ -37,6 +37,16 @@ namespace FancyFix.OA.Bll
 
         public static int HideModel(int id, int myuserId)
         {
+            //先隐藏供应商副表
+            var vendorInfo = BllSupplier_VendorInfo.First(o => o.VendorId == id);
+            if (vendorInfo != null)
+            {
+                vendorInfo.Dispaly = 2;
+                vendorInfo.LastDate = DateTime.Now;
+                vendorInfo.LastUserId = myuserId;
+                BllSupplier_VendorInfo.Update(vendorInfo);
+            }
+
             var model = First(o => o.Id == id);
             if (model == null)
                 return 0;
@@ -97,16 +107,72 @@ namespace FancyFix.OA.Bll
             return GetSelectList(top, cols, where, orderBy);
         }
 
-        public static Supplier_List SupplierIsRepeat(string code, string name)
+        public static Supplier_List SupplierIsRepeat(int Id, string code, string name)
         {
             var where = new Where<Supplier_List>();
+
+            if (Id > 0)
+                where.And(o => o.Id != Id);
             if (!string.IsNullOrEmpty(code))
                 where.And(o => o.Code == code);
             if (!string.IsNullOrEmpty(name))
                 where.And(o => o.Name == name);
+            where.And(o => o.Display != 2);
 
             return Db.Context.From<Supplier_List>()
                 .Where(where).First();
+        }
+
+        public static DataTable NewExportDt(string[] arr)
+        {
+            DataTable dt = new DataTable();
+            foreach (var item in arr)
+            {
+                switch (item)
+                {
+                    case "Code":
+                        dt.Columns.Add("供应商代码", typeof(String));
+                        break;
+                    case "Name":
+                        dt.Columns.Add("供应商名称", typeof(String));
+                        break;
+                    case "SupplierAb":
+                        dt.Columns.Add("供应商名称缩写", typeof(String));
+                        break;
+                    case "SupplierType":
+                        dt.Columns.Add("供应商类型（RM/PM/FG/Parts/Convert)", typeof(String));
+                        break;
+                    case "BusinessScope":
+                        dt.Columns.Add("经营范围/供应物料", typeof(String));
+                        break;
+                    case "Contact1":
+                        dt.Columns.Add("联系人（1）/电话/邮箱", typeof(String));
+                        break;
+                    case "Contact2":
+                        dt.Columns.Add("联系人（2）/电话/邮箱", typeof(String));
+                        break;
+                    case "Site":
+                        dt.Columns.Add("网址", typeof(String));
+                        break;
+                    case "Address":
+                        dt.Columns.Add("地址", typeof(String));
+                        break;
+                    case "StartDate":
+                        dt.Columns.Add("合作时间（起止）", typeof(String));
+                        break;
+                    case "LabelId":
+                        dt.Columns.Add("合格/黑名单/潜在", typeof(String));
+                        break;
+                    case "Accountdate":
+                        dt.Columns.Add("账期", typeof(String));
+                        break;
+                    case "Note":
+                        dt.Columns.Add("备注", typeof(String));
+                        break;
+                }
+            }
+
+            return dt;
         }
 
     }

@@ -19,7 +19,7 @@ namespace FancyFix.OA.Areas.Product.Controllers
             return View();
         }
 
-        [PermissionFilter("/product/tag/list")]
+        //[PermissionFilter("/product/tag/list")]
         [ValidateInput(false)]
         public JsonResult PageList(int page, int pagesize)
         {
@@ -47,7 +47,7 @@ namespace FancyFix.OA.Areas.Product.Controllers
         /// </summary>
         /// <param name="list"></param>
         /// <returns></returns>
-        [PermissionFilter("/product/tag/delete")]
+        //[PermissionFilter("/product/tag/delete")]
         [HttpPost]
         public JsonResult DeleteBatch(List<Product_ImageTag> list)
         {
@@ -71,7 +71,7 @@ namespace FancyFix.OA.Areas.Product.Controllers
             return View(model);
         }
 
-        [PermissionFilter("/product/tag/edit")]
+        //[PermissionFilter("/product/tag/edit")]
         [HttpPost]
         [ValidateInput(false)]
         public ActionResult Save()
@@ -131,9 +131,9 @@ namespace FancyFix.OA.Areas.Product.Controllers
                         AddTime = DateTime.Now
                     });
                     if (id > 0)
+                    {
                         return Json(new { status = true, tag = tag });
-                    else
-                        return Json(new { status = false, tag = "" });
+                    }
                 }
             }
             return Json(new { status = false, tag = "" });

@@ -28,7 +28,7 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             return View();
         }
 
-        [PermissionFilter("/supplier/rawmaterialprice/list")]
+        //[PermissionFilter("/supplier/rawmaterialprice/list")]
         public JsonResult PageList(int page = 0, int pagesize = 0, int priceFrequency = 0, string files = "", string key = "")
         {
             long records = 0;
@@ -673,7 +673,7 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             return Json(new { result = Bll.BllSupplier_RawMaterialPrice.HideModel(id, MyInfo.Id) > 0 });
         }
 
-        [PermissionFilter("/supplier/rawmaterialprice/delete")]
+        //[PermissionFilter("/supplier/rawmaterialprice/delete")]
         [HttpPost]
         public JsonResult DeleteBatch(List<Supplier_RawMaterialPrice> list)
         {
@@ -695,7 +695,7 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             return View();
         }
 
-        [PermissionFilter("/supplier/rawmaterialprice/showcharts")]
+        //[PermissionFilter("/supplier/rawmaterialprice/showcharts")]
         public JsonResult GetChartsData(int[] id = null, string startdate = "", string enddate = "", int chartType = 1)
         {
             DateTime startMonth, endMonth;

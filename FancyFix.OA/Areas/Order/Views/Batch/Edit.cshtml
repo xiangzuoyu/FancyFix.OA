@@ -1,0 +1,123 @@
+﻿@using FancyFix.OA.Model;
+@model Order_Batch
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout_In.cshtml";
+}
+@section Css{
+    <link href="/Content/js/plugins/iCheck/flat/_all.css" rel="stylesheet" />
+}
+<div class="row">
+    <div class="col-md-12">
+        <form id="mainform" action="/order/batch/save" method="post">
+            <table class="layui-table">
+                <!--列宽度-->
+                <colgroup>
+                    <col class="col-lg-4">
+                    <col class="col-lg-8">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">批次：</label></td>
+                        <td>
+                            <div class="form-group">
+                                批次@(Model.Batch)
+                                <input type="hidden" class="form-control" id="batch" name="batch" value="@(Model?.Batch ?? 1)">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">物流费用：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="totalcost" name="totalcost" placeholder="物流费用" value="@(Model?.TotalCost ?? 0)" style="width:100px;" required="required">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">称量类型：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <select id="unittype" name="unittype" class="form-control" required="required" style="width:200px;" >
+                                    <option value="1" @(Model.UnitType == 1 ? "selected" : "")>体积</option>
+                                    <option value="2" @(Model.UnitType == 2 ? "selected" : "")>重量</option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">总体积/重量：</label></td>
+                        <td>
+                            <div class="form-group form-inline">
+                                <input type="text" class="form-control" id="unitvalue" name="unitvalue" placeholder="总体积/重量" value="@(Model?.UnitValue ?? 0)" style="width:100px;" required="required">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">单位：</label></td>
+                        <td>
+                            <div class="form-group form-inline">
+                                <input type="text" class="form-control" id="unit" name="unit" placeholder="单位" value="@(Model?.Unit ?? "m3")" style="width:100px;" required="required" maxlength="10" readonly="readonly">
+                                <span class="layui-word-aux">(m3/kg)</span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">数量：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="quantity" name="quantity" placeholder="数量" value="@(Model?.Quantity ?? 0)" style="width:100px;" required="required">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"></td>
+                        <td>
+                            <input type="hidden" id="id" name="id" value="@(Model?.Id ?? 0)">
+                            <input type="hidden" id="contractid" name="contractid" value="@ViewBag.contractId">
+                            <button type="submit" id="btnPass" class="btn btn-primary">保存</button>
+                            <button type="button" id="cancel" class="btn btn-default" onclick="CloseWin()">取消</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+@section Js{
+    <script src="/Content/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/jquery.validator.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/messages_cn.js"></script>
+    <script src="/Content/js/common/tools.js"></script>
+    <script src="/Content/js/common/skuatter.js"></script>
+    <script type="text/javascript">
+        layui.use(['layer'], function () {
+            var layer = layui.layer;
+
+            //iCheck初始化
+            $('input[type="checkbox"],input[type="radio"]').iCheck({
+                checkboxClass: 'icheckbox_flat-blue',
+                radioClass: 'iradio_flat-blue'
+            });
+
+            //表单验证
+            var $form = $("#mainform");
+            $form.validate();
+
+            //通过
+            $("#btnPass").click(function () {
+                $form.valid();
+            });
+
+            $("#unittype").change(function () {
+                var $this = $(this);
+                var val = $this.val();
+                if (val == 1) {
+                    $("#unit").val("m3");
+                } else {
+                    $("#unit").val("kg");
+                }
+            })
+        })
+    </script>
+}

@@ -39,7 +39,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td align="right"><label for="title" class="control-label">产品英文名称：</label></td>
+                        <td align="right"><label for="title_en" class="control-label">产品英文名称：</label></td>
                         <td>
                             <div class="form-group form-inline">
                                 <input type="text" class="form-control" id="title_en" name="title_en" placeholder="英文名称" value="@(Model?.Title_En ?? "")" style="width:500px;" required="required" maxlength="200">
@@ -47,7 +47,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td align="right"><label for="prono" class="control-label">SPU编号：</label></td>
+                        <td align="right"><label for="spu" class="control-label">SPU编号：</label></td>
                         <td>
                             <div class="form-group form-inline">
                                 <input type="text" class="form-control" id="spu" name="spu" data-old="@(Model?.Spu ?? "")" placeholder="SPU编号" value="@(Model?.Spu ?? "")" style="width:200px;" required="required" maxlength="50" readonly="readonly">
@@ -56,7 +56,15 @@
                         </td>
                     </tr>
                     <tr>
-                        <td align="right"><label for="port" class="control-label">供应商产品代码：</label></td>
+                        <td align="right"><label for="old_spu" class="control-label">老SPU编号：</label></td>
+                        <td>
+                            <div class="form-group form-inline">
+                                <input type="text" class="form-control" id="old_spu" name="old_spu" placeholder="老SPU编号" value="@(Model?.Old_Spu ?? "")" style="width:200px;" maxlength="50">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="supplierproductcode" class="control-label">供应商产品代码：</label></td>
                         <td>
                             <div class="form-group">
                                 <input type="text" class="form-control" id="supplierproductcode" name="supplierproductcode" placeholder="供应商产品代码" value="@(Model?.SupplierProductCode ?? "")" style="width:150px;" maxlength="30">
@@ -64,7 +72,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td align="right"><label for="port" class="control-label">供应商名称：</label></td>
+                        <td align="right"><label for="suppliername" class="control-label">供应商名称：</label></td>
                         <td>
                             <div class="form-group">
                                 <input type="text" class="form-control" id="suppliername" name="suppliername" placeholder="供应商名称" value="@(Model?.SupplierName ?? "")" style="width:500px;" maxlength="500">
@@ -72,10 +80,10 @@
                         </td>
                     </tr>
                     <tr>
-                        <td align="right"><label for="classid" class="control-label">产品图案：</label></td>
+                        <td align="right"><label for="patternid" class="control-label">产品图案：</label></td>
                         <td>
                             <div class="form-group form-inline">
-                                <select class="form-control" id="patternid" name="patternid" loadattr="true" style="width:200px" required="required">
+                                <select class="form-control" id="patternid" name="patternid" loadattr="true" style="width:200px">
                                     <option value="">请选择一种图案</option>
                                     @Html.Raw(ViewBag.patternOptions)
                                 </select>
@@ -84,7 +92,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td align="right"><label for="port" class="control-label">产品颜色：</label></td>
+                        <td align="right"><label for="color" class="control-label">产品颜色：</label></td>
                         <td>
                             <div class="form-group">
                                 <input type="text" class="form-control" id="color" name="color" placeholder="产品颜色" value="@(Model?.Color ?? "")" style="width:200px;" maxlength="20">
@@ -92,7 +100,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td align="right"><label for="port" class="control-label">产品厚度：</label></td>
+                        <td align="right"><label for="thickness" class="control-label">产品厚度：</label></td>
                         <td>
                             <div class="form-group">
                                 <input type="text" class="form-control" id="thickness" name="thickness" placeholder="产品厚度" value="@(Model?.Thickness ?? "")" style="width:200px;" maxlength="50">
@@ -100,7 +108,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td align="right"><label for="port" class="control-label">产品规格：</label></td>
+                        <td align="right"><label for="specification" class="control-label">产品规格：</label></td>
                         <td>
                             <div class="form-group form-inline">
                                 <input type="text" class="form-control" id="specification" name="specification" placeholder="产品规格" value="@(Model?.Specification ?? "")" style="width:500px;" maxlength="255">
@@ -109,7 +117,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td align="right"><label for="port" class="control-label">产品重量：</label></td>
+                        <td align="right"><label for="weight" class="control-label">产品重量：</label></td>
                         <td>
                             <div class="form-group">
                                 <input type="text" class="form-control" id="weight" name="weight" placeholder="产品重量" value="@(Model?.Weight ?? "")" style="width:200px;" maxlength="50">
@@ -117,7 +125,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td align="right"><label for="title" class="control-label">适用法律法规：</label></td>
+                        <td align="right"><label for="regulation" class="control-label">适用法律法规：</label></td>
                         <td>
                             <div class="form-group">
                                 <textarea class="form-control" id="regulation" name="regulation" type="text/plain" placeholder="法律法规" style="height:60px;" maxlength="500">@(Model?.Regulation ?? "")</textarea>
@@ -125,7 +133,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td align="right"><label for="title" class="control-label">产品描述：</label></td>
+                        <td align="right"><label for="description" class="control-label">产品描述：</label></td>
                         <td>
                             <div class="form-group">
                                 <textarea class="form-control" id="description" name="description" type="text/plain" placeholder="产品描述" style="height:60px;">@(Model?.Description ?? "")</textarea>
@@ -168,7 +176,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td align="right"><label for="port" class="control-label">库存：</label></td>
+                        <td align="right"><label for="stock" class="control-label">库存：</label></td>
                         <td>
                             <div class="form-group form-inline">
                                 <input type="text" class="form-control" id="stock" name="stock" placeholder="库存量" style="width:100px;" value="@(Model?.Stock ?? 0)" min="0" integer="true" required="required">
@@ -218,7 +226,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td align="right"><label for="port" class="control-label">产品成本：</label></td>
+                        <td align="right"><label for="cost" class="control-label">产品成本：</label></td>
                         <td>
                             <div class="form-group">
                                 <input type="text" class="form-control" id="cost" name="cost" placeholder="产品成本" value="@(Model?.Cost ?? "")" st style="width:200px;" maxlength="50">
@@ -226,7 +234,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td align="right"><label for="port" class="control-label">HS编码：</label></td>
+                        <td align="right"><label for="hs_code" class="control-label">HS编码：</label></td>
                         <td>
                             <div class="form-group">
                                 <input type="text" class="form-control" id="hs_code" name="hs_code" placeholder="HS编码" value="@(Model?.HS_Code ?? "")" style="width:200px;" maxlength="50">
@@ -234,11 +242,17 @@
                         </td>
                     </tr>
                     <tr>
-                        <td align="right"><label for="port" class="control-label">开票名：</label></td>
+                        <td align="right"><label for="invoicename" class="control-label">开票名：</label></td>
                         <td>
                             <div class="form-group">
                                 <input type="text" class="form-control" id="invoicename" name="invoicename" placeholder="开票名" value="@(Model?.InvoiceName ?? "")" style="width:200px;" maxlength="200">
                             </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label class="control-label">封面图：</label></td>
+                        <td>
+                            @Html.Partial("UploadImg", new FancyFix.OA.Config.ImgUploadConfig { Pics = Model?.FirstPic ?? "", Uptype = "product", FileExt = "gif,png,jpg,jpeg", UploadNum = 1, MaxSize = 10 * 1024 * 1024, WidthHeight = "正方形", IsProduct = true, Domain = "files", ProId = Model.Id })
                         </td>
                     </tr>
                     <tr>

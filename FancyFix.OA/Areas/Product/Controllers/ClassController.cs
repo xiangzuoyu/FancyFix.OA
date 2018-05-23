@@ -122,7 +122,7 @@ namespace FancyFix.OA.Areas.Product.Controllers
             return View(model);
         }
 
-        [PermissionFilter("/product/class/edit")]
+        //[PermissionFilter("/product/class/edit")]
         [ValidateInput(false)]
         public override ActionResult Add()
         {
@@ -163,7 +163,7 @@ namespace FancyFix.OA.Areas.Product.Controllers
             }
         }
 
-        [PermissionFilter("/product/class/edit")]
+        //[PermissionFilter("/product/class/edit")]
         [ValidateInput(false)]
         public override ActionResult Update()
         {

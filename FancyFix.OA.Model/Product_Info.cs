@@ -71,6 +71,7 @@ namespace FancyFix.OA.Model
 		private string _PriceRemark;
 		private string _AIFile;
 		private string _Title_En;
+		private string _Old_Spu;
 		/// <summary>
 		/// 自增Id
 		/// </summary>
@@ -611,6 +612,18 @@ namespace FancyFix.OA.Model
 				this._Title_En=value;
 			}
 		}
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Old_Spu
+		{
+			get{ return _Old_Spu; }
+			set
+			{
+				this.OnPropertyValueChange(_.Old_Spu,_Old_Spu,value);
+				this._Old_Spu=value;
+			}
+		}
 		#endregion
 
 		#region Method
@@ -679,7 +692,8 @@ namespace FancyFix.OA.Model
 				_.SupplierProductCode,
 				_.PriceRemark,
 				_.AIFile,
-				_.Title_En};
+				_.Title_En,
+				_.Old_Spu};
 		}
 		/// <summary>
 		/// 获取值信息
@@ -731,7 +745,8 @@ namespace FancyFix.OA.Model
 				this._SupplierProductCode,
 				this._PriceRemark,
 				this._AIFile,
-				this._Title_En};
+				this._Title_En,
+				this._Old_Spu};
 		}
 		#endregion
 
@@ -925,6 +940,10 @@ namespace FancyFix.OA.Model
 			/// 
 			/// </summary>
 			public readonly static Field Title_En = new Field("Title_En","Product_Info","Title_En");
+			/// <summary>
+			/// 
+			/// </summary>
+			public readonly static Field Old_Spu = new Field("Old_Spu","Product_Info","Old_Spu");
 		}
 		#endregion
 

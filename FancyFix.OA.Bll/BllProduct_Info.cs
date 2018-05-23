@@ -104,7 +104,6 @@ namespace FancyFix.OA.Bll
                 return false;
             }
         }
-
         #endregion
     }
 }

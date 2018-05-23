@@ -46,6 +46,17 @@ namespace FancyFix.Tools.Enums
         }
 
         /// <summary>
+        /// 图片类型
+        /// </summary>
+        public enum ImageType : byte
+        {
+            [Description("主图")]
+            Main = 1,
+            [Description("详细图")]
+            Detail = 2
+        }
+
+        /// <summary>
         /// 客户来源
         /// </summary>
         public enum MBComeFrom : byte

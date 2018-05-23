@@ -342,7 +342,7 @@ namespace FancyFix.OA.Areas.Kpi.Controllers
             foreach (var item in userlist)
             {
                 item.IsApproved = Bll.BllKpi_Records.GetUserListUnApproveCount(item.Id, MyInfo.Id, year, month) == 0;
-                item.Score = Bll.BllKpi_Process.First(o => o.UserId == item.Id && o.Year == year && o.Month == month)?.Score ?? 0;
+                item.Score = (int)(Bll.BllKpi_Process.First(o => o.UserId == item.Id && o.Year == year && o.Month == month)?.Score ?? 0);
             }
 
             ViewBag.userlist = userlist;
@@ -392,7 +392,7 @@ namespace FancyFix.OA.Areas.Kpi.Controllers
 
             record.IsApprove = true;
             record.ApproveTime = DateTime.Now;
-            record.FinishScore = (parscore * record.Score.Value) / 100;
+            record.FinishScore = (decimal)(parscore * record.Score * 1.0F / 100);
             record.ParScore = parscore;
             record.Remark = RequestString("remark");
 

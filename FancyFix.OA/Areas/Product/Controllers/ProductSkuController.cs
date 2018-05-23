@@ -23,7 +23,7 @@ namespace FancyFix.OA.Areas.Product.Controllers
             return View();
         }
 
-        [PermissionFilter("/product/productsku/list")]
+        //[PermissionFilter("/product/productsku/list")]
         [ValidateInput(false)]
         public JsonResult PageList(int page, int pagesize)
         {
@@ -78,7 +78,7 @@ namespace FancyFix.OA.Areas.Product.Controllers
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        [PermissionFilter("/product/productsku/edit")]
+        //[PermissionFilter("/product/productsku/edit")]
         [HttpPost]
         [ValidateInput(false)]
         [ModelValidFilter]
@@ -221,7 +221,7 @@ namespace FancyFix.OA.Areas.Product.Controllers
         /// </summary>
         /// <param name="list"></param>
         /// <returns></returns>
-        [PermissionFilter("/product/productsku/delete")]
+        //[PermissionFilter("/product/productsku/delete")]
         [HttpPost]
         public JsonResult DeleteBatch(List<Product_Info> list)
         {

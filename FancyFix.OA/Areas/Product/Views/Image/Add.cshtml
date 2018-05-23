@@ -17,7 +17,7 @@
                     <tr>
                         <td align="right"><label class="control-label">图片：</label></td>
                         <td>
-                            @Html.Partial("UploadImg", new FancyFix.OA.Config.ImgUploadConfig { Pics = "", Uptype = "product", FileExt = "gif,png,jpg,jpeg", UploadNum = 10, MaxSize = 10 * 1024 * 1024, WidthHeight = "正方形", IsProduct = true, Domain = "files", ProId = Model.Id })
+                            @Html.Partial("UploadImg", new FancyFix.OA.Config.ImgUploadConfig { Pics = "", Uptype = "product", FileExt = "gif,png,jpg,jpeg", UploadNum = 10, MaxSize = 10 * 1024 * 1024, WidthHeight = "正方形", IsProduct = true, Domain = "files", ProId = Model.Id, Type = ViewBag.type })
                         </td>
                     </tr>
                     <tr>
@@ -44,7 +44,7 @@
         }
         layui.use(['layer'], function () {
             var layer = layui.layer;
-     
+
         })
     </script>
 }

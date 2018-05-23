@@ -39,12 +39,6 @@
                         </td>
                     </tr>
                     <tr>
-                        <td align="right"><label class="control-label">封面图：</label></td>
-                        <td>
-                            @Html.Partial("UploadImg", new FancyFix.OA.Config.ImgUploadConfig { Pics = Model?.Pics ?? "", Uptype = "product", FileExt = "gif,png,jpg,jpeg", UploadNum = 1, MaxSize = 10 * 1024 * 1024, WidthHeight = "正方形", IsProduct = true, Domain = "files", ProId = Model.Id })
-                        </td>
-                    </tr>
-                    <tr>
                         <td align="right"><label class="control-label">AI文件：</label></td>
                         <td>
                             @Html.Partial("UploadFile", new FancyFix.OA.Config.FileUploadConfig { Files = Model?.AIFile ?? "", Uptype = "file", FileExt = "rar,zip,ai,psd", UploadNum = 10, MaxSize = 100 * 1024 * 1024, IsProduct = true, UploadName = "aifile", Domain = "files", ProId = Model.Id })

@@ -12,6 +12,7 @@ using FancyFix.Tools.Config;
 
 namespace FancyFix.OA.Areas.Product.Controllers
 {
+    [AllowAnonymous]
     public class ProductController : Base.BaseAdminController
     {
         /// <summary>
@@ -24,7 +25,7 @@ namespace FancyFix.OA.Areas.Product.Controllers
             return View();
         }
 
-        [PermissionFilter("/product/product/list")]
+        //[PermissionFilter("/product/product/list")]
         [ValidateInput(false)]
         public JsonResult PageList(int page, int pagesize)
         {
@@ -55,7 +56,28 @@ namespace FancyFix.OA.Areas.Product.Controllers
             string parColor = string.Empty;
             if (id == 0)
             {
-                model = new Product_Info();
+                int similarId = RequestInt("similarId");
+                if (similarId > 0)
+                {
+                    model = Bll.BllProduct_Info.First(o => o.Id == similarId);
+                    if (model != null)
+                    {
+                        model.Id = 0;
+                        model.ClassId = 0;
+                        model.ClassId_1 = 0;
+                        model.ClassId_2 = 0;
+                        model.ClassName = "";
+                        model.ClassParPath = "";
+                        model.Spu = "";
+                        model.Old_Spu = "";
+                        model.PatternId = 0;
+                        model.Pattern = "";
+                    }
+                }
+                if (model == null)
+                {
+                    model = new Product_Info();
+                }
             }
             else
             {
@@ -79,7 +101,7 @@ namespace FancyFix.OA.Areas.Product.Controllers
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        [PermissionFilter("/product/product/edit")]
+        //[PermissionFilter("/product/product/edit")]
         [HttpPost]
         [ValidateInput(false)]
         [ModelValidFilter]
@@ -187,6 +209,7 @@ namespace FancyFix.OA.Areas.Product.Controllers
             modPro.Attribute = Tools.Tool.JsonHelper.Serialize(listAttr);
             modPro.AttributeCustom = Tools.Tool.JsonHelper.Serialize(listAttrCustom);
             modPro.Attachment = GetFiles("attachment");
+            modPro.FirstPic = GetPic("pic");
             return modPro;
         }
 
@@ -204,7 +227,7 @@ namespace FancyFix.OA.Areas.Product.Controllers
         /// 保存Spu
         /// </summary>
         /// <returns></returns>
-        [PermissionFilter("/product/product/addspu")]
+        //[PermissionFilter("/product/product/addspu")]
         [HttpPost]
         [ValidateInput(false)]
         public ActionResult SaveSpu()
@@ -235,6 +258,7 @@ namespace FancyFix.OA.Areas.Product.Controllers
                 return LayerAlertErrorAndReturn("该SPU编号已存在，请修改！");
 
             modPro.Spu = spu;
+            modPro.IsShow = false;
             modPro.CreateDate = DateTime.Now;
             modPro.AdminId = MyInfo.Id;
             int proId = Bll.BllProduct_Info.Insert(modPro);
@@ -275,7 +299,7 @@ namespace FancyFix.OA.Areas.Product.Controllers
         /// 保存产品资源
         /// </summary>
         /// <returns></returns>
-        [PermissionFilter("/product/product/addresource")]
+        //[PermissionFilter("/product/product/addresource")]
         [HttpPost]
         [ValidateInput(false)]
         public ActionResult SaveResource()
@@ -330,7 +354,10 @@ namespace FancyFix.OA.Areas.Product.Controllers
             int rows = Bll.BllProduct_Info.Delete(o => o.Id == id);
             //删除图片
             if (rows > 0)
+            {
                 Bll.BllProduct_Image.DeletePics(id);
+                Bll.BllProduct_Files.DeleteFiles(id);
+            }
             return Json(new { result = rows > 0 });
         }
 
@@ -339,7 +366,7 @@ namespace FancyFix.OA.Areas.Product.Controllers
         /// </summary>
         /// <param name="list"></param>
         /// <returns></returns>
-        [PermissionFilter("/product/product/delete")]
+        //[PermissionFilter("/product/product/delete")]
         [HttpPost]
         public JsonResult DeleteBatch(List<Product_Info> list)
         {

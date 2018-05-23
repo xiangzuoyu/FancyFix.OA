@@ -4,7 +4,7 @@
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout_In.cshtml";
     List<Product_ImageTag> taglist = ViewBag.taglist;
-    List<string> tagArray = Model.Tag.Split(',').ToList();
+    List<string> tagArray = Model.Tag?.Split(',').ToList() ?? new List<string>();
 }
 @section Css{
     <link href="/Content/js/plugins/iCheck/flat/_all.css" rel="stylesheet" />
@@ -29,7 +29,20 @@
                         <td align="right"><label for="prono" class="control-label">图片：</label></td>
                         <td>
                             <div class="form-group form-inline">
-                                <a href="@Model.ImagePath" target="_blank"><img src="@Model.ImagePath" style="max-height:200px;max-width:200px;"></a>
+                                <a href="@Model.ImagePath" target="_blank">
+                                    <img src="@Model.ImagePath" style="max-height:200px;max-width:200px;">
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="prono" class="control-label">类型：</label></td>
+                        <td>
+                            <div class="form-group form-inline">
+                                <select class="form-control" name="type" required="required">
+                                    <option value="">选择分类</option>
+                                    @Html.Raw(ViewBag.typeHtml)
+                                </select>
                             </div>
                         </td>
                     </tr>

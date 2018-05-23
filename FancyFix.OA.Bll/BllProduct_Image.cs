@@ -21,13 +21,14 @@ namespace FancyFix.OA.Bll
         /// <param name="pageSize"></param>
         /// <param name="records"></param>
         /// <returns></returns>
-        public static List<Product_Image> PageList(int proId, int page, int pageSize, out long records)
+        public static List<Product_Image> PageList(int proId, byte type, int page, int pageSize, out long records)
         {
             var where = new Where<Product_Image>();
             where.And(o => o.ProId == proId);
-
+            if (type > 0)
+                where.And(o => o.Type == type);
             var p = Db.Context.From<Product_Image>()
-                 .Select<Mng_User>((a, b) => new { a.Id, a.ImagePath, a.ImageExt, a.AddTime, a.Tag })
+                 .Select<Mng_User>((a, b) => new { a.Id, a.ImagePath, a.ImageExt, a.AddTime, a.Tag, a.Type })
                  .Where(where);
 
             records = p.Count();
@@ -39,9 +40,9 @@ namespace FancyFix.OA.Bll
         /// </summary>
         /// <param name="md5"></param>
         /// <returns></returns>
-        public static bool GetImageUrlByMd5(string md5, ref string url)
+        public static bool GetImageUrlByMd5(string md5, ref string url, byte type)
         {
-            var model = FirstSelect(o => o.Md5 == md5, o => o.ImagePath, o => o.Id, "desc");
+            var model = FirstSelect(o => o.Md5 == md5 && o.Type == type, o => o.ImagePath, o => o.Id, "desc");
             if (model != null && !string.IsNullOrEmpty(model.ImagePath))
             {
                 url = model.ImagePath;
@@ -58,6 +59,26 @@ namespace FancyFix.OA.Bll
             var imagelist = Query(o => o.ProId == proId);
             if (imagelist != null && imagelist.Count > 0)
                 Delete(imagelist);
+        }
+
+        /// <summary>
+        /// 获取图片列表
+        /// </summary>
+        /// <param name="proId"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static List<Product_Image> GetList(int proId, string tag, byte type)
+        {
+            var where = new Where<Product_Image>();
+            where.And(o => o.ProId == proId);
+            if (type > 0)
+                where.And(o => o.Type == type);
+            if (!string.IsNullOrEmpty(tag))
+                where.And(o => o.Tag.Like(tag));
+            var p = Db.Context.From<Product_Image>()
+                 .Select<Mng_User>((a, b) => new { a.Id, a.ImagePath, a.ImageExt, a.AddTime, a.Tag, a.Type })
+                 .Where(where);
+            return p.OrderByDescending(o => o.Id).ToList();
         }
     }
 }

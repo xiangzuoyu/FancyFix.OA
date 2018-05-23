@@ -16,14 +16,26 @@
             <div class="box-body">
                 <section class="panel">
                     <div class="layui-form layui-form-pane">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">图片类型</label>
+                            <div class="layui-input-inline">
+                                <select id="type" name="type">
+                                    <option value="0">所有分类</option>
+                                    @Html.Raw(ViewBag.typeHtml)
+                                </select>
+                            </div>
+                        </div>
                         <div class="layui-inline pull-right">
-                            <button id="btnSearch" class="btn bg-orange" lay-submit lay-filter="formSearch">刷新</button>
+                            <button id="btnSearch" class="btn bg-orange" lay-submit lay-filter="formSearch">查询</button>
                         </div>
                     </div>
                 </section>
                 <div id="toolbar" class="btn-group">
-                    <button id="btn_addspu" type="button" class="btn btn-default" data-id="@Model.Id">
-                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>添加图片
+                    <button id="btn_addmain" type="button" class="btn btn-default" data-id="@Model.Id">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>添加主图
+                    </button>
+                    <button id="btn_adddetail" type="button" class="btn btn-default" data-id="@Model.Id">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>添加详细图
                     </button>
                 </div>
                 <table id="table" class="table table-bordered table-hover"></table>
@@ -83,6 +95,10 @@
                             align: 'center',
                             width: 150,
                             formatter: imgFormatter
+                        }, {
+                            field: 'typeStr',
+                            title: '类型',
+                            align: 'center'
                         },  {
                             field: 'Tag',
                             title: '标签',
@@ -115,6 +131,7 @@
 
                         //自定义参数
                         proid: '@Model.Id',
+                        type: $("#type").val()
                     };
                     return temp;
                 };
@@ -144,10 +161,16 @@
                 OpenWin("图片编辑", "/product/image/Edit/" + id, "70%", "85%");
             });
 
-            //添加图片
-            $("#btn_addspu").click(function () {
+            //添加主图
+            $("#btn_addmain").click(function () {
                 var id = $(this).data("id");
-                OpenWin("添加图片", "/product/image/Add/" + id, "80%", "60%");
+                OpenWin("添加主图", "/product/image/Add/" + id+"?type=@((byte)FancyFix.Tools.Enums.ESite.ImageType.Main)", "80%", "60%");
+            })
+
+              //添加详细图
+            $("#btn_adddetail").click(function () {
+                var id = $(this).data("id");
+                OpenWin("添加详细图", "/product/image/Add/" + id+"?type=@((byte)FancyFix.Tools.Enums.ESite.ImageType.Detail)", "80%", "60%");
             })
 
             //批量删除
@@ -169,7 +192,7 @@
                     });
                 }
             });
-           
+
             //删除单个
             $("#table").on('click', '.btnDel', function () {
                 var $this = $(this);

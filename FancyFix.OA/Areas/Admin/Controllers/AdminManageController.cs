@@ -22,7 +22,7 @@ namespace FancyFix.OA.Areas.Admin.Controllers
             return View();
         }
 
-        [PermissionFilter("/admin/adminmanage/list")]
+        //[PermissionFilter("/admin/adminmanage/list")]
         public JsonResult PageList()
         {
             long records = 0;
@@ -51,7 +51,7 @@ namespace FancyFix.OA.Areas.Admin.Controllers
             return BspTableJson(list, records);
         }
 
-        [PermissionFilter("/admin/adminmanage/list")]
+        //[PermissionFilter("/admin/adminmanage/list")]
         [HttpPost]
         public JsonResult GetGroup(int id)
         {
@@ -64,7 +64,7 @@ namespace FancyFix.OA.Areas.Admin.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [PermissionFilter("/admin/adminmanage/list")]
+        //[PermissionFilter("/admin/adminmanage/list")]
         [HttpPost]
         public int SetJob(int id)
         {
@@ -84,7 +84,7 @@ namespace FancyFix.OA.Areas.Admin.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [PermissionFilter("/admin/adminmanage/list")]
+        //[PermissionFilter("/admin/adminmanage/list")]
         [HttpPost]
         public int Delete(int id)
         {
@@ -117,7 +117,7 @@ namespace FancyFix.OA.Areas.Admin.Controllers
         }
 
 
-        //[PermissionFilter("/admin/adminmanage/edit,/admin/adminmanage/add")]
+        ////[PermissionFilter("/admin/adminmanage/edit,/admin/adminmanage/add")]
         [HttpPost]
         [ModelValidFilter(IgnoreField = "password")]
         public ActionResult Save(AdminInfoModel model)
@@ -193,7 +193,7 @@ namespace FancyFix.OA.Areas.Admin.Controllers
             }
         }
 
-        //[PermissionFilter("/admin/adminmanage/edit,/admin/adminmanage/add")]
+        ////[PermissionFilter("/admin/adminmanage/edit,/admin/adminmanage/add")]
         [HttpPost]
         public JsonResult GetPermissionGroup(int departId)
         {

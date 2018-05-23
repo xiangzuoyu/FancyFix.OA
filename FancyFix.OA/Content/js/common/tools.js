@@ -32,6 +32,19 @@ function CheckSelections() {
     }
     return true;
 }
+//验证单选
+function CheckSelectionsSingle() {
+    var array = GetSelections();
+    if (array.length == 0) {
+        ShowError('请至少选择一行数据');
+        return false;
+    }
+    if (array.length != 1) {
+        ShowError('最多选择一行数据');
+        return false;
+    }
+    return true;
+}
 
 //隐藏列
 function HideColumns(array, minwidth) {
@@ -56,19 +69,6 @@ function HideColumns(array, minwidth) {
             }
         });
     }
-}
-//验证单选
-function CheckSelectionsSingle() {
-    var array = GetSelections();
-    if (array.length == 0) {
-        ShowError('请至少选择一行数据');
-        return false;
-    }
-    if (array.length != 1) {
-        ShowError('最多选择一行数据');
-        return false;
-    }
-    return true;
 }
 
 //===============Layer消息===============//

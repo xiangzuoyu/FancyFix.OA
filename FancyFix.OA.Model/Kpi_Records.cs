@@ -47,7 +47,7 @@ namespace FancyFix.OA.Model
 		private bool? _IsCreated;
 		private string _TargetRemark;
 		private int? _ParScore;
-		private int? _FinishScore;
+		private decimal? _FinishScore;
 		private int? _SelfScore;
 		private string _SelfRemark;
 		private DateTime? _SelfApproveTime;
@@ -307,7 +307,7 @@ namespace FancyFix.OA.Model
 		/// <summary>
 		/// 
 		/// </summary>
-		public int? FinishScore
+		public decimal? FinishScore
 		{
 			get{ return _FinishScore; }
 			set

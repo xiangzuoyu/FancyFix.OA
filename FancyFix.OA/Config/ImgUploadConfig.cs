@@ -37,5 +37,6 @@ namespace FancyFix.OA.Config
         public bool IsProduct { get { return _IsProduct; } set { _IsProduct = value; } }
         public string UploadName { get { return _UploadName; } set { _UploadName = value; } }
         public int ProId { get; set; }
+        public byte Type { get; set; }
     }
 }

@@ -32,7 +32,7 @@ namespace FancyFix.OA.Bll
             var p = Db.Context.From<Supplier_List>()
                 .Where(where);
             records = p.Count();
-            return p.Page(pageSize, page).OrderByDescending(o => o.Id).ToList();
+            return p.Page(pageSize, page).OrderBy(o => o.Code).ToList();
         }
 
         public static int HideModel(int id, int myuserId)

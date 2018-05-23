@@ -12,6 +12,7 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using Tools;
+using Tools.Tool;
 
 namespace FancyFix.OA.Areas.Supplier.Controllers
 {
@@ -169,29 +170,18 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
         [HttpPost]
         public ActionResult List(HttpPostedFileBase file)
         {
-            if (file == null)
-                return Redirect("List");
-
             try
             {
                 Tools.Config.UploadConfig config = UploadProvice.Instance();
                 SiteOption option = config.SiteOptions["local"];
                 string filePath = option.Folder + config.Settings["file"].FilePath + DateTime.Now.ToString("yyyyMMddHHmmss")
                         + (file.FileName.IndexOf(".xlsx") > 0 ? ".xlsx" : ".xls");
-                var size = file.ContentLength;
-                int maxFileSize = UploadProvice.Instance().Settings["file"].MaxFileSize;
 
-                var type = file.ContentType;
-                //判断文件大小和格式
-                if (size > maxFileSize)
-                    return MessageBoxAndJump("上传失败，上传的文件太大", "list");
+                string result = FileHelper.ValicationAndSaveFileToPath(file, filePath);
+                if (result != "0")
+                    return MessageBoxAndJump($"上传失败，{result}", "list");
 
-                if (!Tools.Tool.CheckFilesRealFormat.ValidationFile(file))
-                    return MessageBoxAndJump("上传失败，上传的文件格式不正确", "list");
-
-                file.SaveAs(filePath);
-
-                var sheet = Tools.Tool.ExcelHelper.ReadExcel(filePath);
+                var sheet = ExcelHelper.ReadExcel(filePath);
                 string msg = ExcelToList(sheet, 2);
 
                 if (msg != "0")

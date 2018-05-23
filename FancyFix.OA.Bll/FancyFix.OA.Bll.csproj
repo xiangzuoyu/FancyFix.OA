@@ -76,6 +76,7 @@
     <Compile Include="BllSupplier_Price.cs" />
     <Compile Include="BllSupplier_RawMaterial.cs" />
     <Compile Include="BllSupplier_RawMaterialPrice.cs" />
+    <Compile Include="BllSupplier_VendorInfo.cs" />
     <Compile Include="BllSys_Class.cs" />
     <Compile Include="BllPoint_Class.cs" />
     <Compile Include="BllRank_Class.cs" />

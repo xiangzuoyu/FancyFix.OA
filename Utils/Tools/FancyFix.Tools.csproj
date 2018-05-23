@@ -169,6 +169,7 @@
     <Compile Include="Tool\JsonHelper.cs" />
     <Compile Include="Tool\Log.cs" />
     <Compile Include="Tool\LogHelper.cs" />
+    <Compile Include="Tool\NPOIHelper.cs" />
     <Compile Include="Tool\PathHandle.cs" />
     <Compile Include="Tool\SendMail.cs" />
     <Compile Include="Tool\SpiderHelper.cs" />

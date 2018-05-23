@@ -9,6 +9,12 @@ using System.Web.Mvc;
 using NPOI.SS.UserModel;
 using System.Data;
 using FancyFix.OA.Filter;
+using Tools.Tool;
+using NPOI.HSSF.UserModel;
+using FancyFix.Tools.Tool;
+using FancyFix.OA.Common;
+using FancyFix.OA.Areas.Supplier.Models;
+
 
 namespace FancyFix.OA.Areas.Supplier.Controllers
 {
@@ -29,45 +35,34 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             foreach (var item in list)
             {
                 item.SupplierTypeName = item.SupplierType != null
-                    ? Tools.Enums.Tools.GetEnumDescription(typeof(Models.SupplierType), item.SupplierType.GetValueOrDefault().ToString().ToInt32()).ToString()
+                    ? Tools.Enums.Tools.GetEnumDescription(typeof(SupplierType), item.SupplierType.GetValueOrDefault().ToString().ToInt32()).ToString()
                     : "未分配";
                 item.LabelName = item.LabelId != null
-                    ? Tools.Enums.Tools.GetEnumDescription(typeof(Models.SupplierLabel), item.LabelId.GetValueOrDefault().ToString().ToInt32()).ToString()
+                    ? Tools.Enums.Tools.GetEnumDescription(typeof(SupplierLabel), item.LabelId.GetValueOrDefault().ToString().ToInt32()).ToString()
                     : "未分配";
             }
 
             return BspTableJson(list, records);
         }
-
         #endregion
 
-        #region 导入Excel
+        #region 批量导入Excel
         [HttpPost]
-        public ActionResult List(HttpPostedFileBase file)
+        public ActionResult BatchImportExcel(HttpPostedFileBase file)
         {
-            if (file == null)
-                return Redirect("List");
-
             try
             {
                 Tools.Config.UploadConfig config = UploadProvice.Instance();
                 SiteOption option = config.SiteOptions["local"];
                 string filePath = option.Folder + config.Settings["file"].FilePath + DateTime.Now.ToString("yyyyMMddHHmmss")
                         + (file.FileName.IndexOf(".xlsx") > 0 ? ".xlsx" : ".xls");
-                var size = file.ContentLength;
-                var type = file.ContentType;
-                //判断文件大小和格式
-                int maxFileSize = UploadProvice.Instance().Settings["file"].MaxFileSize;
-                if (size > maxFileSize)
-                    return MessageBoxAndJump("上传失败，上传的文件太大", "list");
 
-                if (!Tools.Tool.CheckFilesRealFormat.ValidationFile(file))
-                    return MessageBoxAndJump("上传失败，上传的文件格式不正确", "list");
+                string result = FileHelper.ValicationAndSaveFileToPath(file, filePath);
+                if (result != "0")
+                    return MessageBoxAndJump($"上传失败，{result}", "list");
 
-                file.SaveAs(filePath);
-
-                var sheet = Tools.Tool.ExcelHelper.ReadExcel(filePath);
-                var modelList = ExcelToList(sheet, 1);
+                var sheet = ExcelHelper.ReadExcel(filePath);
+                var modelList = BatchExcelToList(sheet, 1);
 
                 if (modelList == null || modelList.Count < 1)
                     return MessageBoxAndJump("数据为空，导入失败！", "list");
@@ -83,7 +78,7 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             return Redirect("list");
         }
 
-        private List<Supplier_List> ExcelToList(ISheet sheet, int startRow)
+        private List<Supplier_List> BatchExcelToList(ISheet sheet, int startRow)
         {
             List<Supplier_List> supList = new List<Supplier_List>();
             if (sheet == null)
@@ -92,8 +87,8 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             //第一行为标题
             try
             {
-                IRow headRow = sheet.GetRow(0);
-                int cellCount = headRow.LastCellNum;
+                //IRow headRow = sheet.GetRow(0);
+                //int cellCount = headRow.LastCellNum;
                 int rowCount = sheet.LastRowNum;
 
                 for (int i = startRow; i <= rowCount; i++)
@@ -108,26 +103,24 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
                     if (models != null)
                         continue;
 
-                    var model = new Supplier_List()
-                    {
-                        Code = code,
-                        Name = row.GetCell(1)?.ToString(),
-                        SupplierAb = row.GetCell(2)?.ToString(),
-                        SupplierType = Tools.Enums.Tools.GetValueByName(typeof(Models.SupplierType), row.GetCell(3)?.ToString()),
-                        BusinessScope = row.GetCell(4)?.ToString(),
-                        Contact1 = row.GetCell(5)?.ToString(),
-                        Contact2 = row.GetCell(6)?.ToString(),
-                        Site = row.GetCell(7)?.ToString(),
-                        Address = row.GetCell(8)?.ToString(),
-                        StartDate = row.GetCell(9)?.DateCellValue,
-                        LabelId = Tools.Enums.Tools.GetValueByName(typeof(Models.SupplierLabel), row.GetCell(10)?.ToString()),
-                        AccountDate = row.GetCell(11)?.DateCellValue.ToString("yyyy-MM-dd"),
-                        Note = row.GetCell(12)?.ToString(),
-                        AddDate = DateTime.Now,
-                        AddUserId = MyInfo.Id,
-                        LastDate = DateTime.Now,
-                        LastUserId = MyInfo.Id,
-                    };
+                    Supplier_List model = new Supplier_List();
+                    model.Code = code;
+                    model.Name = row.GetCell(1)?.ToString();
+                    model.SupplierAb = row.GetCell(2)?.ToString();
+                    model.SupplierType = Tools.Enums.Tools.GetValueByName(typeof(SupplierType), row.GetCell(3)?.ToString());
+                    model.BusinessScope = row.GetCell(4)?.ToString();
+                    model.Contact1 = row.GetCell(5)?.ToString();
+                    model.Contact2 = row.GetCell(6)?.ToString();
+                    model.Site = row.GetCell(7)?.ToString();
+                    model.Address = row.GetCell(8)?.ToString();
+                    model.StartDate = row.GetCell(9)?.ToString().ToDateTime();
+                    model.LabelId = Tools.Enums.Tools.GetValueByName(typeof(SupplierLabel), row.GetCell(10)?.ToString());
+                    model.AccountDate = row.GetCell(11)?.ToString();
+                    model.Note = row.GetCell(12)?.ToString();
+                    model.AddDate = DateTime.Now;
+                    model.AddUserId = MyInfo.Id;
+                    model.LastDate = DateTime.Now;
+                    model.LastUserId = MyInfo.Id;
 
                     //如果关键几个字段没有数据，就跳过
                     if (string.IsNullOrEmpty(model.Code) &&
@@ -137,16 +130,17 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
                     supList.Add(model);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return supList;
             }
 
             return supList;
         }
+
         #endregion
 
-        #region 导出Excel
+        #region 批量导出Excel
         public ActionResult ExportExcel()
         {
             return View();
@@ -157,13 +151,13 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
         {
             string cols = RequestString("cols");
             var arr = cols.Split(',');
-            if (!CheckSqlField(arr))
+            if (!Tools.Usual.Utils.CheckSqlField(arr))
                 return MessageBox("选择字段异常");
 
             if (arr.Length < 1)
                 return LayerMsgErrorAndReturn("导出失败，请先勾选字段");
 
-            DataTable dt = NewExportDt(arr);
+            DataTable dt = Bll.BllSupplier_List.NewExportDt(arr);
 
             string where = "Display!=2 ";
             where += selectLabelid > 0 ? " and LabelId=" + selectLabelid : "";
@@ -188,11 +182,11 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
                     {
                         if (list.Columns[i].ToString() == "SupplierType")
                             row[i] = item[i] != null
-                                ? Tools.Enums.Tools.GetEnumDescription(typeof(Models.SupplierType), item[i].ToString().ToInt32()).ToString()
+                                ? Tools.Enums.Tools.GetEnumDescription(typeof(SupplierType), item[i].ToString().ToInt32()).ToString()
                                 : "未分配";
                         else if (list.Columns[i].ToString() == "LabelId")
                             row[i] = item[i] != null
-                                ? Tools.Enums.Tools.GetEnumDescription(typeof(Models.SupplierLabel), item[i].ToString().ToInt32()).ToString()
+                                ? Tools.Enums.Tools.GetEnumDescription(typeof(SupplierLabel), item[i].ToString().ToInt32()).ToString()
                                 : "未分配";
                         else
                             row[i] = item[i]?.ToString();
@@ -205,59 +199,191 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             }
 
             string fileName = "供应商列表" + DateTime.Now.ToString("yyyyMMddHHmmss");
-            Tools.Tool.ExcelHelper.ToExcelWeb(dt, "", fileName + ".xls");
+            ExcelHelper.ToExcelWeb(dt, "", fileName + ".xls");
         }
 
-        private DataTable NewExportDt(string[] arr)
+        #endregion
+
+        #region 单个导入Excel
+        [HttpPost]
+        public ActionResult SingleImportExcel(HttpPostedFileBase file)
         {
-            DataTable dt = new DataTable();
-            foreach (var item in arr)
+            try
             {
-                switch (item)
-                {
-                    case "Code":
-                        dt.Columns.Add("供应商代码", typeof(String));
-                        break;
-                    case "Name":
-                        dt.Columns.Add("供应商名称", typeof(String));
-                        break;
-                    case "SupplierAb":
-                        dt.Columns.Add("供应商名称缩写", typeof(String));
-                        break;
-                    case "SupplierType":
-                        dt.Columns.Add("供应商类型（RM/PM/FG/Parts/Convert)", typeof(String));
-                        break;
-                    case "BusinessScope":
-                        dt.Columns.Add("经营范围/供应物料", typeof(String));
-                        break;
-                    case "Contact1":
-                        dt.Columns.Add("联系人（1）/电话/邮箱", typeof(String));
-                        break;
-                    case "Contact2":
-                        dt.Columns.Add("联系人（2）/电话/邮箱", typeof(String));
-                        break;
-                    case "Site":
-                        dt.Columns.Add("网址", typeof(String));
-                        break;
-                    case "Address":
-                        dt.Columns.Add("地址", typeof(String));
-                        break;
-                    case "StartDate":
-                        dt.Columns.Add("合作时间（起止）", typeof(String));
-                        break;
-                    case "LabelId":
-                        dt.Columns.Add("合格/黑名单/潜在", typeof(String));
-                        break;
-                    case "Accountdate":
-                        dt.Columns.Add("账期", typeof(String));
-                        break;
-                    case "Note":
-                        dt.Columns.Add("备注", typeof(String));
-                        break;
-                }
+                Tools.Config.UploadConfig config = UploadProvice.Instance();
+                SiteOption option = config.SiteOptions["local"];
+                string filePath = option.Folder + config.Settings["file"].FilePath + DateTime.Now.ToString("yyyyMMddHHmmss")
+                        + (file.FileName.IndexOf(".xlsx") > 0 ? ".xlsx" : ".xls");
+
+                string result = FileHelper.ValicationAndSaveFileToPath(file, filePath);
+                if (result != "0")
+                    return MessageBoxAndJump($"上传失败，{result}", "list");
+
+                var sheet = Tools.Tool.ExcelHelper.ReadExcel(filePath);
+                var modelList = SingleExcelToList(sheet, 1, ref result);
+
+                if (modelList == null)
+                    return MessageBoxAndJump($"导入失败，{result}！", "list");
+
+                result = Bll.BllSupplier_VendorInfo.AddVendorInfo(modelList);
+                if (result != "0")
+                    return MessageBoxAndJump("导入失败，" + result, "list");
+            }
+            catch (Exception ex)
+            {
+                return MessageBoxAndJump("导入失败:请联系管理员", "list");
             }
 
-            return dt;
+            return Redirect("list");
+        }
+
+        private Supplier_VendorInfo SingleExcelToList(ISheet sheet, int startRow, ref string msg)
+        {
+            Supplier_VendorInfo vendorInfo = new Supplier_VendorInfo();
+            if (sheet == null || sheet.LastRowNum < 64)
+            {
+                msg = "Excel内容为空！";
+                return null;
+            }
+
+            //第一行为标题
+            try
+            {
+                string code = sheet.GetRow(5)?.GetCell(9)?.ToString().Replace("供应商代码：", "").Trim() ?? "";
+                if (string.IsNullOrWhiteSpace(code))
+                {
+                    msg = "供应商代码不能为空";
+                    return null;
+                }
+                //供应商代码如果已存在，就跳过
+                var models = Bll.BllSupplier_List.First(o => o.Code == code && o.Display != 2);
+                if (models != null)
+                {
+                    msg = "供应商代码已存在";
+                    return null;
+                }
+
+                #region 填充数据  
+
+                vendorInfo.Code = code;
+                vendorInfo.TableNumber = sheet.GetRow(1)?.GetCell(9)?.ToString().Replace("表格编号：", "").Trim() ?? "";
+                IRow row = sheet.GetRow(2);
+                vendorInfo.Owners = row?.GetCell(0)?.ToString().Replace("所有者Owners:", "").Trim() ?? "";
+                vendorInfo.Version = row?.GetCell(9)?.ToString().Replace("版本号：", "").Trim() ?? "";
+                vendorInfo.EffectiveDate = sheet.GetRow(3)?.GetCell(9)?.ToString().Replace("生效日期：", "").Trim().ToDateTime() ?? null;
+                vendorInfo.VersionType = Tools.Enums.Tools.GetValueByName(typeof(GetVersionTypeId), sheet.GetRow(6)?.GetCell(0)?.ToString().Trim());
+                vendorInfo.WriteDate = sheet.GetRow(7)?.GetCell(1)?.ToString().Replace("Date （日期）：", "").Trim().ToDateTime() ?? null;
+
+                vendorInfo.Name = sheet.GetRow(10)?.GetCell(7)?.ToString().Trim() ?? "";
+                vendorInfo.CompanyEnglishName = sheet.GetRow(11)?.GetCell(7)?.ToString().Trim() ?? "";
+                vendorInfo.AddressOfRegisteredOffice = sheet.GetRow(12)?.GetCell(7)?.ToString().Trim() ?? "";
+                vendorInfo.PostCode1 = sheet.GetRow(13)?.GetCell(7)?.ToString().Trim() ?? "";
+                vendorInfo.PurchaseOrderAddressedTo = sheet.GetRow(14)?.GetCell(7)?.ToString().Trim() ?? "";
+                vendorInfo.PostCode2 = sheet.GetRow(15)?.GetCell(7)?.ToString().Trim() ?? "";
+
+                vendorInfo.MainContactor = sheet.GetRow(16)?.GetCell(7)?.ToString().Trim() ?? "";
+                vendorInfo.TelephoneNumber = sheet.GetRow(17)?.GetCell(7)?.ToString().Trim() ?? "";
+                vendorInfo.FaxNumber = sheet.GetRow(18)?.GetCell(7)?.ToString().Trim() ?? "";
+
+                vendorInfo.EmailForPO = sheet.GetRow(19)?.GetCell(7)?.ToString().Trim() ?? "";
+
+                row = sheet.GetRow(20);
+                vendorInfo.FinanceContact = row?.GetCell(7)?.ToString().Trim() ?? "";
+                vendorInfo.FinanceContactPhone = row?.GetCell(8)?.ToString().Trim() ?? "";
+                vendorInfo.FinanceContactEmail = row?.GetCell(9)?.ToString().Trim() ?? "";
+                vendorInfo.TaxNumber = sheet.GetRow(21)?.GetCell(7)?.ToString().Trim() ?? "";
+                vendorInfo.TaxRate = sheet.GetRow(22)?.GetCell(7)?.ToString().Trim() ?? "";
+                vendorInfo.OrderCurrency = sheet.GetRow(23)?.GetCell(4)?.ToString().Trim() ?? "";
+                vendorInfo.PaymentTerms = sheet.GetRow(24)?.GetCell(4)?.ToString().Trim() ?? "";
+                vendorInfo.Incoterms = sheet.GetRow(25)?.GetCell(4)?.ToString().Trim() ?? "";
+                vendorInfo.BankKey = sheet.GetRow(26)?.GetCell(4)?.ToString().Trim() ?? "";
+                vendorInfo.SwiftCode = sheet.GetRow(27)?.GetCell(4)?.ToString().Trim() ?? "";
+                vendorInfo.NameOfBank = sheet.GetRow(28)?.GetCell(4)?.ToString().Trim() ?? "";
+                vendorInfo.ACNo = sheet.GetRow(29)?.GetCell(4)?.ToString().Trim() ?? "";
+                vendorInfo.FormOfBusiness = Tools.Enums.Tools.GetValueByName(typeof(GetFormOfBusinessId), sheet.GetRow(31)?.GetCell(1)?.ToString().Trim());
+                vendorInfo.BusinessRegistrationNumber = sheet.GetRow(32)?.GetCell(7)?.ToString().Trim() ?? "";
+                vendorInfo.RegisteredCapital = sheet.GetRow(33)?.GetCell(7)?.ToString().Trim() ?? "";
+                vendorInfo.CertificateOfCorporation = sheet.GetRow(34)?.GetCell(7)?.ToString().Trim() ?? "";
+                vendorInfo.CompanyWebsiteAddress = sheet.GetRow(35)?.GetCell(7)?.ToString().Trim() ?? "";
+
+                row = sheet.GetRow(36);
+                string[] arr = new string[3];
+                arr = row?.GetCell(7)?.ToString().Trim().Split('/') ?? new string[3];
+                vendorInfo.ProductsOrServiceSales = arr[0]?.Trim() ?? "";
+                vendorInfo.MOQ = arr[1]?.Trim().ToInt32() ?? 0;
+                vendorInfo.LeadTime = arr[2]?.Trim() ?? "";
+
+                row = sheet.GetRow(38);
+                vendorInfo.ManagementMenberName1 = row?.GetCell(5)?.ToString().Trim() ?? "";
+                vendorInfo.ManagementMenberName2 = row?.GetCell(7)?.ToString().Trim() ?? "";
+                vendorInfo.ManagementMenberName3 = row?.GetCell(8)?.ToString().Trim() ?? "";
+                vendorInfo.ManagementMenberName4 = row?.GetCell(9)?.ToString().Trim() ?? "";
+
+                row = sheet.GetRow(39);
+                vendorInfo.ManagementMenberTitle1 = row?.GetCell(5)?.ToString().Trim() ?? "";
+                vendorInfo.ManagementMenberTitle2 = row?.GetCell(7)?.ToString().Trim() ?? "";
+                vendorInfo.ManagementMenberTitle3 = row?.GetCell(8)?.ToString().Trim() ?? "";
+                vendorInfo.ManagementMenberTitle4 = row?.GetCell(9)?.ToString().Trim() ?? "";
+
+                row = sheet.GetRow(42);
+                vendorInfo.ContactPersonsName1 = row?.GetCell(1)?.ToString().Trim() ?? "";
+                vendorInfo.ContactPersonsTitle1 = row?.GetCell(5)?.ToString().Trim() ?? "";
+                vendorInfo.ContactPersonsTel1 = row?.GetCell(7)?.ToString().Trim() ?? "";
+                vendorInfo.ContactPersonsFax1 = row?.GetCell(8)?.ToString().Trim() ?? "";
+                vendorInfo.ContactPersonsEmail1 = row?.GetCell(9)?.ToString().Trim() ?? "";
+
+                row = sheet.GetRow(43);
+                vendorInfo.ContactPersonsName2 = row?.GetCell(1)?.ToString().Trim() ?? "";
+                vendorInfo.ContactPersonsTitle2 = row?.GetCell(5)?.ToString().Trim() ?? "";
+                vendorInfo.ContactPersonsTel2 = row?.GetCell(7)?.ToString().Trim() ?? "";
+                vendorInfo.ContactPersonsFax2 = row?.GetCell(8)?.ToString().Trim() ?? "";
+                vendorInfo.ContactPersonsEmail2 = row?.GetCell(9)?.ToString().Trim() ?? "";
+
+                vendorInfo.AddDate = DateTime.Now;
+                vendorInfo.AddUserId = MyInfo.Id;
+                vendorInfo.LastDate = vendorInfo.AddDate;
+                vendorInfo.LastUserId = vendorInfo.AddUserId;
+                vendorInfo.Dispaly = 1;
+                #endregion
+            }
+            catch (Exception)
+            {
+                msg = "请联系管理员";
+                return null;
+            }
+
+            return vendorInfo;
+        }
+        #endregion
+
+        #region 单个导出Excel
+        [HttpGet]
+        public ActionResult SingleExportExcel(int id = 0)
+        {
+            if (id < 1)
+                return MessageBoxAndReturn("导出失败，请先勾选供应商");
+
+            var supplier = Bll.BllSupplier_List.First(o => o.Id == id && o.Display != 2);
+            if (supplier == null)
+                return MessageBoxAndReturn("导出失败，未找到该供应商信息");
+
+            var vendor = Bll.BllSupplier_VendorInfo.First(o => o.VendorId == supplier.Id && o.Dispaly != 2);
+            if (vendor == null)
+                return MessageBoxAndReturn("导出失败，未找到供应商副表信息");
+
+            ToSingleExcel(supplier, vendor);
+
+            return View();
+        }
+
+        private void ToSingleExcel(Supplier_List supplier, Supplier_VendorInfo vendor)
+        {
+            HSSFWorkbook workbook = CustomExcel.SingleSupperliExport(supplier, vendor);
+            //HSSFSheet sheet = (HSSFSheet)workbook.CreateSheet();
+
+            //导出
+            string fileName = "供应商信息" + DateTime.Now.ToString("yyyyMMddHHmmss");
+            Tools.Tool.ExcelHelper.ToExcelWeb(fileName + ".xls", workbook);
         }
         #endregion
 
@@ -307,7 +433,7 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
         [HttpPost]
         public ActionResult Save(Supplier_List supplierList)
         {
-            Supplier_List model = Bll.BllSupplier_List.First(o => o.Code == supplierList.Code && o.Name == supplierList.Name && o.Display != 2);
+            Supplier_List model = Bll.BllSupplier_List.First(o => o.Id != supplierList.Id && (o.Code == supplierList.Code || o.Name == supplierList.Name) && o.Display != 2);
             if (model != null)
                 return LayerMsgErrorAndReturn("供应商代码或名称重复，请重新输入！");
 
@@ -347,25 +473,16 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
 
         //判断供应商code或name是否重复
         [HttpGet]
-        public JsonResult SupplierIsRepeat(string code = "", string name = "")
+        public JsonResult SupplierIsRepeat(string code = "", string name = "", int id = 0)
         {
-            var model = Bll.BllSupplier_List.SupplierIsRepeat(code, name);
+            var model = Bll.BllSupplier_List.SupplierIsRepeat(id, code, name);
             string result = model == null ? "false" : "true";
             return Json(result, JsonRequestBehavior.AllowGet);
         }
         #endregion
 
         #region 辅助方法
-        private bool CheckSqlField(string[] arr)
-        {
-            foreach (var item in arr)
-            {
-                if (!Tools.Usual.Utils.CheckSqlField(item))
-                    return false;
-            }
 
-            return true;
-        }
         #endregion
     }
 }

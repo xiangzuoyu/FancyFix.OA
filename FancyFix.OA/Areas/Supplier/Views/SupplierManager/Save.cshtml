@@ -43,7 +43,7 @@
                         <td align="right"><label for="SupplierAb" class="control-label">供应商缩写：</label></td>
                         <td>
                             <div class="form-group">
-                                @Html.TextBox("SupplierAb", (Model?.SupplierAb ?? ""), new { @class = "form-control", required = "required", style = "width:250px;" })
+                                @Html.TextBox("SupplierAb", (Model?.SupplierAb ?? ""), new { @class = "form-control", style = "width:250px;" })
                             </div>
                         </td>
                     </tr>
@@ -61,23 +61,23 @@
                         <td align="right"><label for="BusinessScope" class="control-label">经营范围/供应物料：</label></td>
                         <td>
                             <div class="form-group">
-                                @Html.TextBox("BusinessScope", (Model?.BusinessScope ?? ""), new { @class = "form-control", required = "required", style = "width:250px;" })
+                                @Html.TextBox("BusinessScope", (Model?.BusinessScope ?? ""), new { @class = "form-control", style = "width:250px;" })
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <td align="right"><label for="Contact1" class="control-label">联系方式（1）：</label></td>
+                        <td align="right"><label for="Contact1" class="control-label">联系人(1)/电话/邮箱：</label></td>
                         <td>
                             <div class="form-group">
-                                @Html.TextBox("Contact1", (Model?.Contact1 ?? ""), new { @class = "form-control", required = "required", style = "width:250px;" })
+                                @Html.TextBox("Contact1", (Model?.Contact1 ?? ""), new { @class = "form-control", style = "width:250px;" })
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <td align="right"><label for="Contact2" class="control-label">联系方式（2）：</label></td>
+                        <td align="right"><label for="Contact2" class="control-label">联系人(2)/电话/邮箱：</label></td>
                         <td>
                             <div class="form-group">
-                                @Html.TextBox("Contact2", (Model?.Contact2 ?? ""), new { @class = "form-control", required = "required", style = "width:250px;" })
+                                @Html.TextBox("Contact2", (Model?.Contact2 ?? ""), new { @class = "form-control", style = "width:250px;" })
                             </div>
                         </td>
                     </tr>
@@ -85,7 +85,7 @@
                         <td align="right"><label for="Site" class="control-label">网址：</label></td>
                         <td>
                             <div class="form-group">
-                                @Html.TextBox("Site", (Model?.Site ?? ""), new { @class = "form-control", required = "required", style = "width:250px;" })
+                                @Html.TextBox("Site", (Model?.Site ?? ""), new { @class = "form-control", style = "width:250px;" })
                             </div>
                         </td>
                     </tr>
@@ -93,7 +93,7 @@
                         <td align="right"><label for="Address" class="control-label">地址：</label></td>
                         <td>
                             <div class="form-group">
-                                @Html.TextBox("Address", (Model?.Address ?? ""), new { @class = "form-control", required = "required" })
+                                @Html.TextBox("Address", (Model?.Address ?? ""), new { @class = "form-control" })
                             </div>
                         </td>
                     </tr>
@@ -101,7 +101,7 @@
                         <td align="right"><label for="duedate" class="control-label">合作时间：</label></td>
                         <td>
                             <div class="form-group">
-                                @Html.TextBox("StartDate", (Model?.StartDate.Value.ToString("yyyy-MM-dd") ?? ""), new { @class = "form-control", required = "required", style = "width:250px;" })
+                                @Html.TextBox("StartDate", ((Model?.StartDate == null) ? "" : Model.StartDate.GetValueOrDefault().ToString("yyyy-MM-dd")), new { @class = "form-control", required = "required", style = "width:250px;" })
                                 @*<input type="text" class="form-control" id="duedate" name="duedate" required="required" style="width:250px;"
                                     value="@(Model != null ? Model.StartDate.Value.ToString("yyyy-MM-dd") : "")">*@
                             </div>
@@ -121,7 +121,7 @@
                         <td align="right"><label for="AccountDate" class="control-label">账期：</label></td>
                         <td>
                             <div class="form-group">
-                                @Html.TextBox("AccountDate", (Model?.AccountDate ?? ""), new { @class = "form-control", required = "required", style = "width:250px;" })
+                                @Html.TextBox("AccountDate", (Model?.AccountDate ?? ""), new { @class = "form-control", style = "width:250px;" })
                             </div>
                         </td>
                     </tr>
@@ -129,7 +129,7 @@
                         <td align="right"><label for="AccountDate" class="control-label">备注：</label></td>
                         <td>
                             <div class="form-group">
-                                @Html.TextArea("Note", (Model?.Note ?? ""), new { @class = "form-control", required = "required", style = "width:250px;" })
+                                @Html.TextArea("Note", (Model?.Note ?? ""), new { @class = "form-control", style = "width:250px;" })
                             </div>
                         </td>
                     </tr>
@@ -170,35 +170,94 @@
 
             //表单验证
             var $form = $("#mainform");
-            $form.validate();
+            $form.validate({
+                rules: {
+                    Code: {
+                        required: true,
+                        remote: {
+                            url:"/supplier/suppliermanager/supplierisrepeat",
+                            type:"GET",
+                            dataType:"json",
+                            data: {
+                                id: $("#Id").val(),
+                                code: function () {
+                                    return $("#Code").val();
+                                }
+                            },
+                            dataFilter: function (data, type) {
+                                return (data == "\"true\"" ? false : true);
+                            }
+                        }
+                    },
+                    Name: {
+                        required: true,
+                        remote: {
+                            url: "/supplier/suppliermanager/supplierisrepeat",
+                            type: "GET",
+                            dataType: "json",
+                            data: {
+                                id: $("#Id").val(),
+                                name: function () {
+                                    return $("#Name").val();
+                                }
+                            },
+                            dataFilter: function (data, type) {
+                                return (data == "\"true\"" ? false : true);
+                            }
+                        }
+                    }
+                },
+                messages: {
+                    Code: {
+                        required:"供应商代码不能为空",
+                        remote: "供应商代码已存在"
+                    },
+                    Name: {
+                        required: "供应商名称不能为空",
+                        remote: "供应商名称已存在"
+                    }
+                }
+            });
+
+
 
             //通过
             $("#btnPass").click(function () {
+                ////供应商有重复，不可提交
+                //if ($("#IsRepeatCode").val() == "true" || $("#IsRepeatName").val() == "true")
+                //    return;
+
                 $("#demandtypeid").attr("disabled", false);
                 $("#detailtypeid").attr("disabled", false);
+
                 $form.valid();
             });
         })
 
-        fun = {
-            init: function () {
-                fun.supplierIsRepeat("Code");
-                fun.supplierIsRepeat("Name");
-            },
-            supplierIsRepeat: function (file) {
-                $("#" + file).blur(function () {
-                    if ($(this).val() == "") return;
-                    var req = file + "=" + $(this).val()
-                    $.get("/supplier/suppliermanager/supplierisrepeat?" + req, function (data) {
-                        //字段是否重复
-                        if (data == "true")
-                            $(".display" + file).show();
-                        else
-                            $(".display" + file).hide();
-                    })
-                });
-            }
-        };
+        //fun = {
+        //    init: function () {
+        //        fun.supplierIsRepeat("Code");
+        //        fun.supplierIsRepeat("Name");
+        //    },
+        //    supplierIsRepeat: function (file) {
+        //        $("#" + file).blur(function () {
+        //            if ($(this).val() == "") return;
+        //            var id = $("#Id").val();
+        //            var req = file + "=" + $(this).val()
+        //            $.get("/supplier/suppliermanager/supplierisrepeat?id=" + id + "&" + req, function (data) {
+        //                //字段是否重复
+        //                if (data == "true") {
+        //                    $(".display" + file).show();
+        //                    $("#IsRepeat" + file).val("true");
+        //                }
+        //                else {
+        //                    $(".display" + file).hide();
+        //                    $("#IsRepeat" + file).val("false");
+        //                }
+        //            })
+        //        });
+        //    }
+        //};
         //fun.init();
     </script>
 }

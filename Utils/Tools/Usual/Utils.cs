@@ -1058,7 +1058,16 @@ namespace FancyFix.Tools.Usual
             }
         }
 
+        public static bool CheckSqlField(string[] arr)
+        {
+            foreach (var item in arr)
+            {
+                if (!CheckSqlField(item))
+                    return false;
+            }
 
+            return true;
+        }
 
 
 
@@ -1187,7 +1196,9 @@ namespace FancyFix.Tools.Usual
             {
                 return Path.GetFileName(dirPath).Substring(Path.GetFileName(dirPath).IndexOf('.') - 1, 1).ToLower() == "s";
             }
-            catch
+#pragma warning disable CS0168 // 声明了变量“ee”，但从未使用过
+            catch (Exception ee)
+#pragma warning restore CS0168 // 声明了变量“ee”，但从未使用过
             {
                 return false;
             }
@@ -1205,7 +1216,9 @@ namespace FancyFix.Tools.Usual
             {
                 return Path.GetFileName(dirPath).Substring(Path.GetFileName(dirPath).IndexOf('.') - 1, 1).ToLower().ToString().IsInt();
             }
-            catch
+#pragma warning disable CS0168 // 声明了变量“ee”，但从未使用过
+            catch (Exception ee)
+#pragma warning restore CS0168 // 声明了变量“ee”，但从未使用过
             {
                 return false;
             }

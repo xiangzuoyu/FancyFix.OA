@@ -160,6 +160,30 @@ namespace FancyFix.Tools.Tool
             }
         }
 
+        public static void ToExcelWeb(string fileName, HSSFWorkbook workbook)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                workbook.Write(ms);
+                ms.Flush();
+                ms.Position = 0;
+                ms.Dispose();
+                //workbook.Dispose();//一般只用写这一个就OK了，他会遍历并释放所有资源，但当前版本有问题所以只释放sheet
+
+                using (MemoryStream ms2 = ms)
+                {
+                    HttpContext.Current.Response.Clear();
+                    HttpContext.Current.Response.Charset = "UTF-8";
+                    HttpContext.Current.Response.ContentEncoding = Encoding.UTF8;
+                    HttpContext.Current.Response.AppendHeader("Content-Disposition", "attachment;filename=" + HttpUtility.UrlEncode(fileName, Encoding.UTF8).ToString());
+                    HttpContext.Current.Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                    HttpContext.Current.Response.BinaryWrite(ms.ToArray());
+                    HttpContext.Current.Response.Flush();
+                    HttpContext.Current.Response.End();
+                }
+            }
+        }
+
         /// <summary>
         /// DataTable导出到Excel的MemoryStream(.xls)
         /// </summary>
@@ -470,5 +494,7 @@ namespace FancyFix.Tools.Tool
 
             return sheet;
         }
+
+
     }
 }

@@ -28,10 +28,9 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             var list = Bll.BllSupplier_RawMaterial.PageList(page, pagesize, out records, files, key);
             return BspTableJson(list, records);
         }
+        #endregion
 
         #region 编辑
-
-
         public ActionResult Save(int id = 0)
         {
             Supplier_RawMaterial model = null;
@@ -48,7 +47,12 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
         [HttpPost]
         public ActionResult Save(Supplier_RawMaterial supplierRawMaterial)
         {
-            Supplier_RawMaterial model = Bll.BllSupplier_RawMaterial.First(o => o.Id == supplierRawMaterial.Id && o.Display != 2 && o.Id > 0)
+            //数据是否重复
+            Supplier_RawMaterial model = Bll.BllSupplier_RawMaterial.First(o => o.Id != supplierRawMaterial.Id && o.SAPCode == supplierRawMaterial.SAPCode && o.Display != 2);
+            if (model != null)
+                return LayerMsgErrorAndReturn("添加原材料信息失败，原材料代码已存在，请重新输入！");
+
+            model = Bll.BllSupplier_RawMaterial.First(o => o.Id == supplierRawMaterial.Id && o.Display != 2)
                 ?? new Supplier_RawMaterial();
             model.BU = supplierRawMaterial.BU;
             model.SAPCode = supplierRawMaterial.SAPCode;
@@ -66,11 +70,6 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
                 model.AddDate = model.LastDate;
                 model.AddUserId = model.LastUserId;
                 model.Display = 1;
-
-                //防止原材料代码重复
-                var model2 = Bll.BllSupplier_RawMaterial.First(o => o.SAPCode == supplierRawMaterial.SAPCode && o.Display != 2);
-                if (model2 != null)
-                    return LayerAlertErrorAndReturn("添加原材料信息失败，原材料代码已存在，请修改");
 
                 isok = Bll.BllSupplier_RawMaterial.Insert(model) > 0;
             }
@@ -99,6 +98,6 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
         }
         #endregion
 
-        #endregion
+        
     }
 }

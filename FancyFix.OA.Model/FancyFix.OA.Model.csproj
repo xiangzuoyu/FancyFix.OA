@@ -72,6 +72,7 @@
     <Compile Include="Extensions\Supplier_Price.cs" />
     <Compile Include="Extensions\Supplier_RawMaterial.cs" />
     <Compile Include="Extensions\Supplier_RawMaterialPrice.cs" />
+    <Compile Include="Extensions\Supplier_VendorInfo.cs" />
     <Compile Include="Extensions\Valuable_Records.cs" />
     <Compile Include="Extensions\Valuable_List.cs" />
     <Compile Include="Extensions\Valuable_Class.cs" />
@@ -115,6 +116,7 @@
     <Compile Include="Supplier_Price.cs" />
     <Compile Include="Supplier_RawMaterial.cs" />
     <Compile Include="Supplier_RawMaterialPrice.cs" />
+    <Compile Include="Supplier_VendorInfo.cs" />
     <Compile Include="Sys_Class.cs" />
     <Compile Include="Valuable_Class.cs" />
     <Compile Include="Valuable_List.cs" />

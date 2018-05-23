@@ -235,6 +235,7 @@
     <Compile Include="Base\BaseAdminController.cs" />
     <Compile Include="Base\BaseWebViewPage.cs" />
     <Compile Include="Common\AdminData.cs" />
+    <Compile Include="Common\CustomExcel.cs" />
     <Compile Include="Common\GroupData.cs" />
     <Compile Include="Common\DepartmentData.cs" />
     <Compile Include="Common\verifyimage.aspx.cs">

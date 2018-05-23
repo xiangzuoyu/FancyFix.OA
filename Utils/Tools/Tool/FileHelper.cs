@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Web;
+using FancyFix.Tools.Config;
+using FancyFix.Tools.Tool;
 
 namespace Tools.Tool
 {
@@ -826,6 +829,43 @@ namespace Tools.Tool
             }
 
         }
+        #endregion
+
+        #region 验证并保存上传的文件到指定文件夹
+        /// <summary>
+        /// 验证并保存上传的文件到指定文件夹
+        /// </summary>
+        /// <param name="file"></param>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static string ValicationAndSaveFileToPath(HttpPostedFileBase file, string filePath)
+        {
+            if (file == null)
+                return "上传文件为空";
+
+            try
+            {
+                var size = file.ContentLength;
+                int maxFileSize = UploadProvice.Instance().Settings["file"].MaxFileSize;
+                //判断文件大小和格式
+                if (size > maxFileSize)
+                    return "上传的文件太大";
+
+                if (!CheckFilesRealFormat.ValidationFile(file))
+                    return "上传的文件格式不正确";
+
+                file.SaveAs(filePath);
+                return "0";
+            }
+            catch (Exception)
+            {
+                return "上传错误！";
+            }
+
+
+        }
+
+
         #endregion
     }
 }

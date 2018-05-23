@@ -1,0 +1,104 @@
+﻿@using FancyFix.OA.Model;
+@model Order_BatchProduct
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout_In.cshtml";
+    Order_Batch batch = ViewBag.batch;
+}
+@section Css{
+    <link href="/Content/js/plugins/iCheck/flat/_all.css" rel="stylesheet" />
+}
+<div class="row">
+    <div class="col-md-12">
+        <form id="mainform" action="/order/batchproduct/save" method="post">
+            <table class="layui-table">
+                <!--列宽度-->
+                <colgroup>
+                    <col class="col-lg-4">
+                    <col class="col-lg-8">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">批次：</label></td>
+                        <td>
+                            <div class="form-group">
+                                批次@(batch.Batch)
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">产品名称：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="name" name="name" placeholder="产品名称" value="@(Model?.Name ?? "")" style="width:300px;" required="required" maxlength="50">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">产品重量/体积：</label></td>
+                        <td>
+                            <div class="form-group form-inline">
+                                <input type="text" class="form-control" id="unitvalue" name="unitvalue" placeholder="产品名称重量/体积" value="@(Model?.UnitValue ?? 0)" style="width:100px;" required="required"> 
+                                <span class="layui-word-aux">@batch.Unit</span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">数量：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="quantity" name="quantity" placeholder="数量" value="@(Model?.Quantity ?? 0)" style="width:100px;" required="required" max="@batch.Quantity">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"></td>
+                        <td>
+                            <input type="hidden" id="id" name="id" value="@(Model?.Id ?? 0)">
+                            <input type="hidden" id="batchid" name="batchid" value="@batch.Id">
+                            <button type="submit" id="btnPass" class="btn btn-primary">保存</button>
+                            <button type="button" id="cancel" class="btn btn-default" onclick="CloseWin()">取消</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+@section Js{
+    <script src="/Content/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/jquery.validator.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/messages_cn.js"></script>
+    <script src="/Content/js/common/tools.js"></script>
+    <script src="/Content/js/common/skuatter.js"></script>
+    <script type="text/javascript">
+        layui.use(['layer'], function () {
+            var layer = layui.layer;
+
+            //iCheck初始化
+            $('input[type="checkbox"],input[type="radio"]').iCheck({
+                checkboxClass: 'icheckbox_flat-blue',
+                radioClass: 'iradio_flat-blue'
+            });
+
+            //表单验证
+            var $form = $("#mainform");
+            $form.validate();
+
+            //通过
+            $("#btnPass").click(function () {
+                $form.valid();
+            });
+
+            $("#unittype").change(function () {
+                var $this = $(this);
+                var val = $this.val();
+                if (val == 1) {
+                    $("#unit").val("m3");
+                } else {
+                    $("#unit").val("kg");
+                }
+            })
+        })
+    </script>
+}

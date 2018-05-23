@@ -241,7 +241,7 @@ namespace FancyFix.OA.Areas.Product.Controllers
         /// 保存属性
         /// </summary>
         /// <returns></returns>
-        [PermissionFilter("/product/attribute/edit")]
+        //[PermissionFilter("/product/attribute/edit")]
         [HttpPost]
         public ActionResult Save(Product_Attribute model)
         {
@@ -467,7 +467,7 @@ namespace FancyFix.OA.Areas.Product.Controllers
         /// 保存属性
         /// </summary>
         /// <returns></returns>
-        [PermissionFilter("/product/attribute/valueedit")]
+        //[PermissionFilter("/product/attribute/valueedit")]
         [HttpPost]
         public ActionResult ValueSave()
         {

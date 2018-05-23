@@ -17,7 +17,7 @@ namespace FancyFix.OA.Areas.Valuable.Controllers
             return View();
         }
 
-        [PermissionFilter("/valuable/valuablelist/list")]
+        //[PermissionFilter("/valuable/valuablelist/list")]
         public JsonResult PageList()
         {
             long records = 0;
@@ -126,7 +126,7 @@ namespace FancyFix.OA.Areas.Valuable.Controllers
             return Json(new { result = Bll.BllValuable_List.Delete(o => o.Id == id) > 0 });
         }
 
-        //[PermissionFilter("/valuable/valuablelist/delete")]
+        ////[PermissionFilter("/valuable/valuablelist/delete")]
         [HttpPost]
         public JsonResult DeleteBatch(List<Valuable_List> list)
         {
@@ -134,7 +134,7 @@ namespace FancyFix.OA.Areas.Valuable.Controllers
             return Json(new { result = Bll.BllValuable_List.Delete(list) > 0 });
         }
 
-        //[PermissionFilter("/valuable/valuablelist/edit")]
+        ////[PermissionFilter("/valuable/valuablelist/edit")]
         [HttpPost]
         [ValidateInput(false)]
         public ActionResult Save()

@@ -29,6 +29,10 @@ namespace FancyFix.OA.ViewModel
         [StringLength(50, ErrorMessage = "{0}必须小于{1}个字符")]
         public string spu { get; set; }
 
+        [Display(Name = "老SPU编号")]
+        [StringLength(50, ErrorMessage = "{0}必须小于{1}个字符")]
+        public string old_spu { get; set; }
+
         [Display(Name = "产品描述")]
         public string description { get; set; }
 

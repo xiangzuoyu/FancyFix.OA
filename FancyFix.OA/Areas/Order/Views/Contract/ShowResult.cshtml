@@ -1,0 +1,49 @@
+﻿@using FancyFix.OA.Model;
+@using System.Data;
+@model DataTable
+@{
+    ViewBag.Title = "ShowResult";
+    Layout = "~/Views/Shared/_Layout_In.cshtml";
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="box-header">
+            <h3 class="box-title">产品费用计算结果：</h3>
+        </div>
+        <div class="box">
+            <div class="box-body">
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <th style="text-align:center;">产品名称</th>
+                            <th style="text-align:center;">产品总数</th>
+                            <th style="text-align:center;">平均花费</th>
+                            <th style="text-align:center;">总花费</th>
+                        </tr>
+                        @if (Model != null && Model.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in Model.Rows)
+                            {
+                                <tr>
+                                    <td align="center">@dr["Name"]</td>
+                                    <td align="center">@dr["Quantity"]</td>
+                                    <td align="center">@dr["Cost"]</td>
+                                    <td align="center">@dr["TotalCost"]</td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td align="center" colspan="5">暂无数据</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Js{
+    <script src="/Content/js/common/tools.js"></script>
+}

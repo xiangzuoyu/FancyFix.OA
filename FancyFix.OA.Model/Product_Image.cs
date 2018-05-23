@@ -42,6 +42,7 @@ namespace FancyFix.OA.Model
 		private DateTime? _AddTime;
 		private int? _ProId;
 		private string _Tag;
+		private int? _Type;
 		/// <summary>
 		/// 自增Id
 		/// </summary>
@@ -234,6 +235,18 @@ namespace FancyFix.OA.Model
 				this._Tag=value;
 			}
 		}
+		/// <summary>
+		/// 
+		/// </summary>
+		public int? Type
+		{
+			get{ return _Type; }
+			set
+			{
+				this.OnPropertyValueChange(_.Type,_Type,value);
+				this._Type=value;
+			}
+		}
 		#endregion
 
 		#region Method
@@ -273,7 +286,8 @@ namespace FancyFix.OA.Model
 				_.Md5,
 				_.AddTime,
 				_.ProId,
-				_.Tag};
+				_.Tag,
+				_.Type};
 		}
 		/// <summary>
 		/// 获取值信息
@@ -296,7 +310,8 @@ namespace FancyFix.OA.Model
 				this._Md5,
 				this._AddTime,
 				this._ProId,
-				this._Tag};
+				this._Tag,
+				this._Type};
 		}
 		#endregion
 
@@ -374,6 +389,10 @@ namespace FancyFix.OA.Model
 			/// 
 			/// </summary>
 			public readonly static Field Tag = new Field("Tag","Product_Image","Tag");
+			/// <summary>
+			/// 
+			/// </summary>
+			public readonly static Field Type = new Field("Type","Product_Image","Type");
 		}
 		#endregion
 

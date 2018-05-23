@@ -12,6 +12,7 @@ using FancyFix.Tools.Config;
 
 namespace FancyFix.OA.Areas.Product.Controllers
 {
+    [AllowAnonymous]
     public class ImageController : Base.BaseAdminController
     {
         public ActionResult List(int id)
@@ -19,17 +20,24 @@ namespace FancyFix.OA.Areas.Product.Controllers
             if (id == 0) return LayerAlertErrorAndReturn("请选择一个产品！");
             Product_Info model = Bll.BllProduct_Info.First(o => o.Id == id);
             if (model == null) return Response404();
+
+            ViewBag.typeHtml = Tools.Enums.Tools.GetOptionHtml(typeof(Tools.Enums.ESite.ImageType));
             return View(model);
         }
 
-        [PermissionFilter("/product/image/list")]
+        //[PermissionFilter("/product/image/list")]
         [ValidateInput(false)]
         public JsonResult PageList(int page, int pagesize)
         {
             long records = 0;
             int proid = RequestInt("proid");
+            byte type = RequestByte("type");
 
-            var list = Bll.BllProduct_Image.PageList(proid, page, pagesize, out records);
+            var list = Bll.BllProduct_Image.PageList(proid, type, page, pagesize, out records);
+            foreach (var item in list)
+            {
+                item.typeStr = Tools.Enums.Tools.GetEnumDescription(typeof(Tools.Enums.ESite.ImageType), item.Type ?? 0);
+            }
             return BspTableJson(list, records);
         }
 
@@ -50,7 +58,7 @@ namespace FancyFix.OA.Areas.Product.Controllers
         /// </summary>
         /// <param name="list"></param>
         /// <returns></returns>
-        [PermissionFilter("/product/image/delete")]
+        //[PermissionFilter("/product/image/delete")]
         [HttpPost]
         public JsonResult DeleteBatch(List<Product_Image> list)
         {
@@ -67,6 +75,7 @@ namespace FancyFix.OA.Areas.Product.Controllers
             if (id == 0) return LayerAlertErrorAndReturn("请选择一个产品！");
             Product_Info model = Bll.BllProduct_Info.First(o => o.Id == id);
             if (model == null) return Response404();
+            ViewBag.type = RequestByte("type");
             return View(model);
         }
 
@@ -81,23 +90,26 @@ namespace FancyFix.OA.Areas.Product.Controllers
             Product_Image model = Bll.BllProduct_Image.First(o => o.Id == id);
             if (model == null) return Response404();
 
+            ViewBag.typeHtml = Tools.Enums.Tools.GetOptionHtml(typeof(Tools.Enums.ESite.ImageType), (byte)(model.Type ?? 0));
             ViewBag.taglist = Bll.BllProduct_ImageTag.GetAll();
             return View(model);
         }
 
-        [PermissionFilter("/product/image/save")]
+        //[PermissionFilter("/product/image/edit")]
         [HttpPost]
         [ValidateInput(false)]
         public ActionResult Save()
         {
             int id = RequestInt("id");
             string tag = RequestString("tag");
+            byte type = RequestByte("type");
 
             if (id == 0) return LayerAlertErrorAndReturn("请选择一个图片！");
             Product_Image model = Bll.BllProduct_Image.First(o => o.Id == id);
             if (model == null) return Response404();
 
             model.Tag = tag;
+            model.Type = type;
 
             int rows = Bll.BllProduct_Image.Update(model);
             if (rows > 0)

@@ -28,13 +28,13 @@ namespace FancyFix.OA.Model
 		#region Model
 		private int _Id;
 		private int? _UserId;
-		private int? _Score;
+		private decimal? _Score;
 		private int? _Year;
 		private int? _Month;
 		private bool? _IsApprove;
 		private string _Remark;
 		private bool? _IsCreated;
-		private int? _SelfScore;
+		private decimal? _SelfScore;
 		/// <summary>
 		/// 
 		/// </summary>
@@ -62,7 +62,7 @@ namespace FancyFix.OA.Model
 		/// <summary>
 		/// 
 		/// </summary>
-		public int? Score
+		public decimal? Score
 		{
 			get{ return _Score; }
 			set
@@ -134,7 +134,7 @@ namespace FancyFix.OA.Model
 		/// <summary>
 		/// 
 		/// </summary>
-		public int? SelfScore
+		public decimal? SelfScore
 		{
 			get{ return _SelfScore; }
 			set

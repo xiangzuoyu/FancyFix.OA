@@ -15,7 +15,7 @@ namespace FancyFix.OA.Areas.Product.Controllers
             return View();
         }
 
-        [PermissionFilter("/product/pattern/list")]
+        //[PermissionFilter("/product/pattern/list")]
         [ValidateInput(false)]
         public JsonResult PageList(int page, int pagesize)
         {
@@ -42,18 +42,20 @@ namespace FancyFix.OA.Areas.Product.Controllers
             else
             {
                 model = Bll.BllProduct_Pattern.First(o => o.Id == id);
-                if (model == null) return LayerAlertErrorAndClose("产品不存在！");
+                if (model == null) return LayerAlertErrorAndClose("记录不存在！");
             }
             return View(model);
         }
 
-        [PermissionFilter("/product/pattern/edit")]
+        //[PermissionFilter("/product/pattern/edit")]
         [HttpPost]
         [ValidateInput(false)]
         public ActionResult Save(Product_Pattern model)
         {
             string patternName = RequestString("patternname");
             string patternCode = RequestString("patterncode");
+            if (string.IsNullOrEmpty(patternName)) return LayerAlertErrorAndReturn("请填写名称！");
+            if (string.IsNullOrEmpty(patternCode)) return LayerAlertErrorAndReturn("请填写编号！");
             string firstPic = string.Empty;
             string pics = GetPics("pic", ref firstPic);
 

@@ -51,12 +51,15 @@
     <Compile Include="BllMng_PermissionGroup.cs" />
     <Compile Include="BllMng_PermissionGroupSet.cs" />
     <Compile Include="BllMng_PermissionPersonSet.cs" />
+    <Compile Include="BllOrder_BatchProduct.cs" />
+    <Compile Include="BllOrder_Batch.cs" />
     <Compile Include="BllPoint_Records.cs" />
     <Compile Include="BllPoint_List.cs" />
     <Compile Include="BllConfig_Process.cs" />
     <Compile Include="BllProduct_Attribute.cs" />
     <Compile Include="BllProduct_AttributeSelect.cs" />
     <Compile Include="BllProduct_AttributeSet.cs" />
+    <Compile Include="BllOrder_Contract.cs" />
     <Compile Include="BllProduct_ImageTag.cs" />
     <Compile Include="BllProduct_CodeSequence.cs" />
     <Compile Include="BllProduct_Class.cs" />

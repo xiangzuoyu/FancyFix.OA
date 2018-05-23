@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,9 @@ namespace FancyFix.OA.Task
     {
         public void Run()
         {
-            var date = DateTime.Now.AddMonths(-1);
+            //自定义时间
+            var targetDate = ConfigurationManager.AppSettings["TargetDate"].ToString2();
+            var date = Tools.Common.StringCheck.IsDate(targetDate) ? targetDate.ToDateTime() : DateTime.Now.AddMonths(-1);
             Tools.Tool.Log.WritePure($"------------------------------------------------------");
             Tools.Tool.Log.WritePure($"开始统计{date.Year}年{date.Month}月每个员工的的KPI得分");
             Tools.Tool.Log.WritePure($"------------------------------------------------------");
@@ -26,8 +29,8 @@ namespace FancyFix.OA.Task
                     var process = Bll.BllKpi_Process.First(o => o.UserId == user.Id && o.Year == lastYear && o.Month == lastMonth);
                     if (process != null)
                     {
-                        int score = 0;
-                        int selfscore = 0;
+                        float score = 0;
+                        float selfscore = 0;
                         var recordlist = Bll.BllKpi_Records.GetListByUserId(user.Id, lastYear, lastMonth);
                         if (recordlist != null && recordlist.Count > 0)
                         {
@@ -36,12 +39,12 @@ namespace FancyFix.OA.Task
                                 //统计上级评分
                                 if (record.IsApprove.HasValue && record.IsApprove.Value)
                                 {
-                                    score += (int)((record.ParScore * record.Score) / 100);
+                                    score += (float)(record.ParScore * record.Score * 1.0F / 100);
                                 }
                                 //统计自评分
                                 if (record.IsSelfApprove.HasValue && record.IsSelfApprove.Value)
                                 {
-                                    selfscore += (int)((record.SelfScore * record.Score) / 100);
+                                    selfscore += (float)(record.SelfScore * record.Score * 1.0F / 100);
                                 }
                             }
                         }
@@ -52,8 +55,8 @@ namespace FancyFix.OA.Task
                             process.IsApprove = false;
                         }
 
-                        process.Score = score;
-                        process.SelfScore = selfscore;
+                        process.Score = score.ToString("F1").ToDecimal();
+                        process.SelfScore = selfscore.ToString("F1").ToDecimal();
                         int row = Bll.BllKpi_Process.Update(process);
                         Tools.Tool.Log.WritePure($"【统计】{user.RealName}-{date.Year}年{date.Month}月的进程分数{(row > 0 ? "成功" : "失败")}!");
                     }

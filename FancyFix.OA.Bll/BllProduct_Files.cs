@@ -26,5 +26,16 @@ namespace FancyFix.OA.Bll
             }
             return false;
         }
+
+        /// <summary>
+        /// 删除文件
+        /// </summary>
+        /// <param name="proId"></param>
+        public static void DeleteFiles(int proId)
+        {
+            var filelist = Query(o => o.ProId == proId);
+            if (filelist != null && filelist.Count > 0)
+                Delete(filelist);
+        }
     }
 }

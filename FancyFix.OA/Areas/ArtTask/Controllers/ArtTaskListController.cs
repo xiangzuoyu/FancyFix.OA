@@ -88,7 +88,7 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
             artTaskList.SubmittedDate = nowdate;
             artTaskList.Display = 1;
             artTaskList.DepartmentId = MyInfo.DepartId;
-            artTaskList.Uri1 = GetPic();
+            artTaskList.Uri1 = GetFile();
 
             string msg = Bll.BllDesign_ArtTaskList.Insert(artTaskList) > 0 ? "成功" : "失败";
             return LayerMsgSuccessAndRefresh("添加" + msg);
@@ -325,8 +325,8 @@ namespace FancyFix.OA.Areas.ArtTask.Controllers
             if (model.DetailTypeId != null && model.DetailTypeId > 0)
                 model.DetailTypeName = Bll.BllDesign_DetailType.First(o => o.ClassId == model.DetailTypeId)?.Name;
 
-            model.Uri1 = !string.IsNullOrEmpty(model.Uri1) ? weburl + model.Uri1 : "-";
-            model.Uri2 = !string.IsNullOrEmpty(model.Uri2) ? weburl + model.Uri2 : "-";
+            model.Uri1 = !string.IsNullOrEmpty(model.Uri1) ? model.Uri1 : "-";
+            model.Uri2 = !string.IsNullOrEmpty(model.Uri2) ? model.Uri2 : "-";
             return View(model);
         }
 

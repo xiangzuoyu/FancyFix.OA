@@ -156,7 +156,7 @@
                             title: '操作',
                             align: 'center',
                             formatter: function (v, r, i) {
-                                var html = "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnEdit btn btn-md btn-primary\">编辑内容</a> <a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnAddRes btn btn-md btn-primary\">上传资源</a> <a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnAddImg btn btn-md btn-primary\">图片列表</a>";
+                                var html = "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnAddSim btn btn-md btn-warning\">添加相似产品</a> <a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnEdit btn btn-md btn-primary\">编辑内容</a> <a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnAddRes btn btn-md btn-primary\">上传资源</a> <a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnAddImg btn btn-md btn-primary\">图片列表</a>";
                                 return html;
                             }
                         }]
@@ -198,6 +198,12 @@
             $("#table").on('click', '.btnEdit', function () {
                 var id = $(this).data("id");
                 OpenWin("产品编辑", "/product/product/Edit/" + id, "80%", "100%");
+            });
+
+            //添加相似产品
+            $("#table").on('click', '.btnAddSim', function () {
+                var id = $(this).data("id");
+                OpenWin("上传资源", "/product/product/edit?similarId=" + id, "80%", "100%");
             });
 
             //上传资源

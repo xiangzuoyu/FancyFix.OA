@@ -1,0 +1,295 @@
+﻿@using FancyFix.OA.Model;
+@using FancyFix.Tools.Json;
+@model Product_Info
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string tag = ViewBag.tag;
+    string spu = ViewBag.spu;
+    byte type = ViewBag.type;
+    List<Product_ImageTag> taglist = ViewBag.taglist;
+    List<Product_Image> imglist = ViewBag.imglist;
+}
+@section Css{
+    <link href="/Content/js/plugins/iCheck/flat/_all.css" rel="stylesheet" />
+    <style>
+        .imglist td {
+            text-align: center;
+            vertical-align: middle !important;
+        }
+    </style>
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box-header">
+            <h3 class="box-title">产品搜索</h3>
+        </div>
+        <div class="box-header">
+            <div class="pull-left form-group" style="margin-left:5px;">
+                <span class="form-contorl pull-left layui-form-mid">SPU编码</span>
+                <input type="text" name="spu" id="spu" class="layui-input pull-left" value="@spu" style="max-width:180px">
+                <a id="btn-submit" href="javascript:void(0)" class="btn btn-default pull-left" style="margin-left:5px;">确定</a>
+            </div>
+        </div>
+    </div>
+</div>
+@if (Model != null)
+{
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box-header">
+                <h3 class="box-title">图片列表</h3>
+            </div>
+            <div class="box">
+                <div class="box-body">
+                    <section class="panel">
+                        <form id="mainform" method="post">
+                            <div class="layui-form layui-form-pane">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">图片类型</label>
+                                    <div class="layui-input-inline">
+                                        <select id="type" name="type" lay-filter="type">
+                                            <option value="0">所有分类</option>
+                                            @Html.Raw(ViewBag.typeHtml)
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">标签</label>
+                                    <div class="layui-input-inline" style="max-width:1050px;">
+                                        <input type="radio" class="form-contorl" name="tag" value="" title="全部" checked lay-filter="tag">
+                                        @if (taglist != null && taglist.Count > 0)
+                                        {
+                                            foreach (var item in taglist)
+                                            {
+                                                <input type="radio" class="form-contorl" name="tag" value="@item.Tag" title="@item.Tag" @(item.Tag == tag ? "checked" : "") lay-filter="tag">
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                                <div class="layui-inline pull-right">
+                                    <button id="btnDownload" class="btn bg-orange">下载</button>
+                                </div>
+                            </div>
+                        </form>
+                    </section>
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th style="text-align:center;">图片</th>
+                                <th style="text-align:center;">类型</th>
+                                <th style="text-align:center;">标签</th>
+                                <th style="text-align:center;">操作</th>
+                            </tr>
+                            @if (imglist != null && imglist.Count > 0)
+                            {
+                                foreach (var item in imglist)
+                                {
+                                    var tagArr = item.Tag.Split(',');
+                                    <tr class="imglist" data-type="@(item.Type ?? 0)" data-tag="@item.Tag">
+                                        <td align="center" width="400">
+                                            <a target="_blank" href="@item.ImagePath"><img src="@item.ImagePath" class="img-bordered-sm" style="max-width:180px;max-height:180px;"></a>
+                                        </td>
+                                        <td align="center">@FancyFix.Tools.Enums.Tools.GetEnumDescription(typeof(FancyFix.Tools.Enums.ESite.ImageType), item.Type ?? 0)</td>
+                                        <td align="center">
+                                            @foreach (var _tag in tagArr)
+                                            {
+                                                <span class="bg-orange layui-layer-border" style="padding:5px;margin:15px 0;border-radius:5px;">@_tag</span>
+                                            }
+                                        </td>
+                                        <td align="center"><a target="_blank" href="@item.ImagePath" class="btn btn-default">下载</a></td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td align="center" colspan="4">暂无数据</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box-header">
+                <h3 class="box-title">产品信息</h3>
+            </div>
+            <div class="box">
+                <div class="box-body">
+                    <table id="info" class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <td align="center">中文标题</td>
+                                <td align="center">@Model.Title</td>
+                                <td align="center">英文标题</td>
+                                <td align="center">@Model.Title_En</td>
+                            </tr>
+                            <tr>
+                                <td align="center">SPU编号</td>
+                                <td align="center">@Model.Spu</td>
+                                <td align="center">所属分类</td>
+                                <td align="center">@ViewBag.className</td>
+                            </tr>
+                            <tr class="hidden">
+                                <td align="center">库存</td>
+                                <td align="center">@Model.Stock @Model.QuantityUnit</td>
+                                <td align="center">最小起订量</td>
+                                <td align="center">@Model.Moq @Model.QuantityUnit</td>
+                            </tr>
+                            <tr class="hidden">
+                                <td align="center">含税价</td>
+                                <td align="center">@Model.PriceUnit @Model.TaxPrice</td>
+                                <td align="center">不含税价</td>
+                                <td align="center">@Model.PriceUnit @Model.Price</td>
+                            </tr>
+                            <tr class="hidden">
+                                <td align="center">价格备注</td>
+                                <td align="center" colspan="3" style="max-width:600px;">@Model.PriceRemark</td>
+                            </tr>
+                            <tr class="hidden">
+                                <td align="center">颜色</td>
+                                <td align="center">@Model.Color</td>
+                                <td align="center">厚度</td>
+                                <td align="center">@Model.Thickness</td>
+                            </tr>
+                            <tr class="hidden">
+                                <td align="center">重量</td>
+                                <td align="center">@Model.Weight</td>
+                                <td align="center">规格</td>
+                                <td align="center">@Model.Specification</td>
+                            </tr>
+                            <tr class="hidden">
+                                <td align="center">HS编码</td>
+                                <td align="center">@Model.HS_Code</td>
+                                <td align="center">开票名</td>
+                                <td align="center">@Model.InvoiceName</td>
+                            </tr>
+                            <tr class="hidden">
+                                <td align="center">简单描述</td>
+                                <td align="center" colspan="3" style="max-width:600px;">@Model.Description</td>
+                            </tr>
+                            <tr class="hidden">
+                                <td align="center">适用法律法规</td>
+                                <td align="center" colspan="3" style="max-width:600px;">@Model.Regulation</td>
+                            </tr>
+                            <tr class="viewmore">
+                                <td align="center" colspan="4"><a id="viewmore" class="btn btn-default" href="javascript:void(0)">点击查看更多</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+@section Js{
+    <script src="/Content/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/jquery.validator.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/messages_cn.js"></script>
+    <script src="/Content/js/common/tools.js"></script>
+    <script>
+        layui.use(['layer', 'form'], function () {
+            var layer = layui.layer;
+            var form = layui.form();
+
+            //筛选项监听
+            form.on('select(type)', function (data) {
+                Filter();
+                return false;
+            });
+
+            form.on('radio(tag)', function (data) {
+                Filter();
+                return false;
+            });
+
+            //查看更多
+            $("#viewmore").click(function () {
+                var text = $(this).text();
+                if ($.trim(text) != "收起") {
+                    $("#info").find("tr:gt(1)").removeClass("hidden");
+                    $(this).text("收起");
+                } else {
+                    $("#info").find("tr:gt(1)").addClass("hidden").last().removeClass("hidden");
+                    $(this).text("点击查看更多");
+                }
+            })
+
+            //提交
+            $("#btn-submit").click(function () {
+                var where = "";
+                var spu = $("#spu").val();
+                if (spu != "") {
+                    where += "spu=" + spu;
+                    window.location.href = window.location.pathname + "?" + where;
+                } else {
+                    $("#spu").focus();
+                }
+            })
+
+            //页面跳转过滤
+            function SearchImg() {
+                var where = "";
+                var spu = $("#spu").val();
+                var type = $("#type").val();
+                var tag = $("input[name='tag']:checked").val();
+                if (spu != "") {
+                    where += "spu=" + spu;
+                    if (type > 0)
+                        where += "&type=" + type;
+                    if (tag != "")
+                        where += "&tag=" + tag;
+                    window.location.href = window.location.pathname + "?" + where;
+                } else {
+                    $("#spu").focus();
+                }
+            }
+
+            //当前页面过滤
+            function Filter() {
+                var type = $("#type").val();
+                var tag = $("input[name='tag']:checked").val();
+                var $imglist = $(".imglist");
+                var list = [];
+                $.each($imglist, function (i, v) {
+                    var $this = $(this);
+                    var typeVal = $this.data("type");
+                    var tagVal = $this.data("tag");
+                    if (type > 0 && tag != "") {
+                        if (typeVal == type && tagVal.indexOf(tag) > -1)
+                            list.push($this);
+                    }
+                    else if (type > 0) {
+                        if (typeVal == type)
+                            list.push($this);
+                    }
+                    else if (tag != "") {
+                        if (tagVal.indexOf(tag) > -1)
+                            list.push($this);
+                    }
+                });
+                if (list != [] && list.length > 0) {
+                    //只显示匹配项
+                    $imglist.addClass("hidden");
+                    $.each(list, function (i, v) {
+                        $(this).removeClass("hidden");
+                    });
+                } else {
+                    if (type > 0 || tag != "") {
+                        //有筛选项，但无匹配记录，则全部隐藏
+                        $imglist.addClass("hidden");
+                    } else {
+                        //无筛选项，全部显示
+                        $imglist.removeClass("hidden");
+                    }
+                }
+            }
+        })
+    </script>
+}
+

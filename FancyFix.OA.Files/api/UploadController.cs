@@ -26,6 +26,7 @@ namespace FancyFix.OA.Files.api
             string domain = HttpContext.Current.Request["domain"].Trim2();    //文件域
             string title = HttpContext.Current.Request["title"].Trim2();    //文件标题
             bool isproduct = HttpContext.Current.Request["Isproduct"].ToBool();//是否是产品图片
+            byte imagetype = HttpContext.Current.Request["imagetype"].ToByte();//图片类型
 
             string status = "success";
 
@@ -132,7 +133,7 @@ namespace FancyFix.OA.Files.api
                             //判断数据库记录是否存在
                             bool isExist = isFile ?
                                 Bll.BllProduct_Files.GetFileUrlByMd5(md5, ref url) :
-                                Bll.BllProduct_Image.GetImageUrlByMd5(md5, ref url);
+                                Bll.BllProduct_Image.GetImageUrlByMd5(md5, ref url, imagetype);
                             if (isExist)
                             {
                                 //判断真实文件是否存在

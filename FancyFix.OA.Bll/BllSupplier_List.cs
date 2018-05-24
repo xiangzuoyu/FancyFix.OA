@@ -38,14 +38,7 @@ namespace FancyFix.OA.Bll
         public static int HideModel(int id, int myuserId)
         {
             //先隐藏供应商副表
-            var vendorInfo = BllSupplier_VendorInfo.First(o => o.VendorId == id);
-            if (vendorInfo != null)
-            {
-                vendorInfo.Dispaly = 2;
-                vendorInfo.LastDate = DateTime.Now;
-                vendorInfo.LastUserId = myuserId;
-                BllSupplier_VendorInfo.Update(vendorInfo);
-            }
+            BllSupplier_VendorInfo.HideModel(id, myuserId);
 
             var model = First(o => o.Id == id);
             if (model == null)

@@ -202,6 +202,8 @@
                                 var td = '';
                                 td += "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnEdit btn btn-md btn-primary\">编辑</a> ";
                                 td += "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnDel btn btn-md btn-danger\">删除</a> ";
+                                td += "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnVendorEdit btn btn-md btn-primary\">编辑附加信息</a> ";
+                                td += "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnVendorDel btn btn-md btn-danger\">删除附加信息</a> ";
                                 return td
                             }
                         }]
@@ -246,14 +248,39 @@
                 OpenWin("编辑", "/supplier/suppliermanager/save/" + id, '800px', '90%');
             });
 
-            //删除单个产品
-            $("#table").on('click', '.btnDel', function () {
+            //编辑附加信息
+            $("#table").on('click', '.btnVendorEdit', function () {
+                var id = $(this).attr("data-id");
+                OpenWin("编辑", "/supplier/suppliermanager/addition?vendorId=" + id, '800px', '90%');
+            });
+            //删除单个附加信息
+            $("#table").on('click', '.btnVendorDel', function () {
                 var $this = $(this);
-                layer.confirm('确定删除该产品吗？', {
+                layer.confirm('确定删除该供应商的附加信息吗？', {
                     btn: ['确定', '取消']
                 }, function (index, layero) {
                     var id = $this.data("id");
-                    $.post('/supplier/suppliermanager/delete/' + id, function (data) {
+                    $.post('/supplier/suppliermanager/deletevendorinfo/' + id, function (data) {
+                        if (data)
+                            Reload();
+                        else
+                            ShowError('删除失败！');
+                    });
+                    layer.close(index);
+                }, function (index) {
+                    layer.close(index);
+                });
+            });
+
+
+            //删除单个供应商
+            $("#table").on('click', '.btnDel', function () {
+                var $this = $(this);
+                layer.confirm('确定删除该供应商吗？', {
+                    btn: ['确定', '取消']
+                }, function (index, layero) {
+                    var id = $this.data("id");
+                    $.post('/supplier/suppliermanager/deletevendorinfo/' + id, function (data) {
                         if (data)
                             Reload();
                         else

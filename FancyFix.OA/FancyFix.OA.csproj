@@ -1938,6 +1938,7 @@
     <Content Include="Areas\Order\Views\BatchProduct\Edit.cshtml" />
     <Content Include="Areas\Order\Views\Contract\ShowResult.cshtml" />
     <Content Include="Areas\Product\Views\Search\Index.cshtml" />
+    <Content Include="Areas\Supplier\Views\SupplierManager\Addition.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Common\GetAdminTree.cshtml" />
     <Content Include="Views\Shared\_baseconfig.cshtml" />

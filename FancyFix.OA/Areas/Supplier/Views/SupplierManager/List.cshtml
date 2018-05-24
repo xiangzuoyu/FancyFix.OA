@@ -7,6 +7,12 @@
 
 @section Css{
     <link href="/Content/js/plugins/datatables/bootstrap-table.min.css" rel="stylesheet" />
+    <style>
+        table tr td {
+            word-wrap: break-word;
+            word-break: break-all;
+        }
+    </style>
 }
 
 <div class="row">
@@ -149,6 +155,7 @@
                             field: 'Site',
                             title: '网址',
                             align: 'left',
+                            width: '200px'
                         }, {
                             field: 'Address',
                             title: '地址',
@@ -186,9 +193,11 @@
                             field: 'Note',
                             title: '备注',
                             align: 'left',
+                            width: '100px',
                         }, {
                             title: '操作',
                             align: 'center',
+                            width: '130px',
                             formatter: function (v, r, i) {
                                 var td = '';
                                 td += "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnEdit btn btn-md btn-primary\">编辑</a> ";

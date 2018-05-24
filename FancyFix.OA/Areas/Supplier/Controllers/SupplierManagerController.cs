@@ -107,13 +107,17 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
                     model.Code = code;
                     model.Name = row.GetCell(1)?.ToString();
                     model.SupplierAb = row.GetCell(2)?.ToString();
-                    model.SupplierType = Tools.Enums.Tools.GetValueByName(typeof(SupplierType), row.GetCell(3)?.ToString());
+                    var arr = row.GetCell(3)?.ToString().Split('/') ?? new string[1];
+                    model.SupplierType = Tools.Enums.Tools.GetValueByName(typeof(SupplierType), arr[0]);
                     model.BusinessScope = row.GetCell(4)?.ToString();
                     model.Contact1 = row.GetCell(5)?.ToString();
                     model.Contact2 = row.GetCell(6)?.ToString();
                     model.Site = row.GetCell(7)?.ToString();
                     model.Address = row.GetCell(8)?.ToString();
-                    model.StartDate = row.GetCell(9)?.ToString().ToDateTime();
+                    DateTime startdate;
+                    model.StartDate = DateTime.TryParse(row.GetCell(9)?.ToString(), out startdate)
+                        ? startdate.ToString("yyyy-MM-dd")
+                        : row.GetCell(9)?.ToString();
                     model.LabelId = Tools.Enums.Tools.GetValueByName(typeof(SupplierLabel), row.GetCell(10)?.ToString());
                     model.AccountDate = row.GetCell(11)?.ToString();
                     model.Note = row.GetCell(12)?.ToString();
@@ -123,9 +127,8 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
                     model.LastUserId = MyInfo.Id;
 
                     //如果关键几个字段没有数据，就跳过
-                    if (string.IsNullOrEmpty(model.Code) &&
-                        string.IsNullOrEmpty(model.Name) &&
-                        string.IsNullOrEmpty(model.BusinessScope))
+                    if (string.IsNullOrEmpty(model.Code) ||
+                        string.IsNullOrEmpty(model.Name))
                         continue;
                     supList.Add(model);
                 }
@@ -161,7 +164,7 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
 
             string where = "Display!=2 ";
             where += selectLabelid > 0 ? " and LabelId=" + selectLabelid : "";
-            var list = Bll.BllSupplier_List.GetList(0, cols, where, "");
+            var list = Bll.BllSupplier_List.GetList(0, cols, where, "Code");
             ToExcel(list, dt);
 
             return LayerClose();

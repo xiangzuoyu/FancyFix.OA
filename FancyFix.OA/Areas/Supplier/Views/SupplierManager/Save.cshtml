@@ -101,7 +101,8 @@
                         <td align="right"><label for="duedate" class="control-label">合作时间：</label></td>
                         <td>
                             <div class="form-group">
-                                @Html.TextBox("StartDate", ((Model?.StartDate == null) ? "" : Model.StartDate.GetValueOrDefault().ToString("yyyy-MM-dd")), new { @class = "form-control", required = "required", style = "width:250px;" })
+                                @Html.TextBox("StartDate", (Model?.StartDate ?? ""), new { @class = "form-control", style = "width:250px;" })
+
                                 @*<input type="text" class="form-control" id="duedate" name="duedate" required="required" style="width:250px;"
                                     value="@(Model != null ? Model.StartDate.Value.ToString("yyyy-MM-dd") : "")">*@
                             </div>
@@ -155,18 +156,18 @@
     <script>
         layui.use(['layer', 'laydate'], function () {
             var layer = layui.layer;
-            var laydate = layui.laydate;
+            //var laydate = layui.laydate;
 
-            //日期控件
-            $("#StartDate").click(function () {
-                laydate({
-                    elem: this,
-                    type: 'date',
-                    //min: laydate.now(),
-                    //format: 'YYYY-MM-DD hh:mm:ss',
-                    format: 'YYYY-MM-DD',
-                });
-            });
+            ////日期控件
+            //$("#StartDate").click(function () {
+            //    laydate({
+            //        elem: this,
+            //        type: 'date',
+            //        //min: laydate.now(),
+            //        //format: 'YYYY-MM-DD hh:mm:ss',
+            //        format: 'YYYY-MM-DD',
+            //    });
+            //});
 
             //表单验证
             var $form = $("#mainform");
@@ -175,9 +176,9 @@
                     Code: {
                         required: true,
                         remote: {
-                            url:"/supplier/suppliermanager/supplierisrepeat",
-                            type:"GET",
-                            dataType:"json",
+                            url: "/supplier/suppliermanager/supplierisrepeat",
+                            type: "GET",
+                            dataType: "json",
                             data: {
                                 id: $("#Id").val(),
                                 code: function () {
@@ -209,7 +210,7 @@
                 },
                 messages: {
                     Code: {
-                        required:"供应商代码不能为空",
+                        required: "供应商代码不能为空",
                         remote: "供应商代码已存在"
                     },
                     Name: {

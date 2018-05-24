@@ -35,8 +35,7 @@ namespace FancyFix.OA.Model
 		private string _Contact2;
 		private string _Site;
 		private string _Address;
-		private DateTime? _StartDate;
-		private DateTime? _EndDate;
+		private string _StartDate;
 		private int? _LabelId;
 		private string _Note;
 		private string _SupplierAb;
@@ -155,27 +154,15 @@ namespace FancyFix.OA.Model
 			}
 		}
 		/// <summary>
-		/// 开始时间
+		/// 合作时间
 		/// </summary>
-		public DateTime? StartDate
+		public string StartDate
 		{
 			get{ return _StartDate; }
 			set
 			{
 				this.OnPropertyValueChange(_.StartDate,_StartDate,value);
 				this._StartDate=value;
-			}
-		}
-		/// <summary>
-		/// 结束时间
-		/// </summary>
-		public DateTime? EndDate
-		{
-			get{ return _EndDate; }
-			set
-			{
-				this.OnPropertyValueChange(_.EndDate,_EndDate,value);
-				this._EndDate=value;
 			}
 		}
 		/// <summary>
@@ -320,7 +307,6 @@ namespace FancyFix.OA.Model
 				_.Site,
 				_.Address,
 				_.StartDate,
-				_.EndDate,
 				_.LabelId,
 				_.Note,
 				_.SupplierAb,
@@ -347,7 +333,6 @@ namespace FancyFix.OA.Model
 				this._Site,
 				this._Address,
 				this._StartDate,
-				this._EndDate,
 				this._LabelId,
 				this._Note,
 				this._SupplierAb,
@@ -407,13 +392,9 @@ namespace FancyFix.OA.Model
 			/// </summary>
 			public readonly static Field Address = new Field("Address","Supplier_List","地址");
 			/// <summary>
-			/// 开始时间
+			/// 合作时间
 			/// </summary>
-			public readonly static Field StartDate = new Field("StartDate","Supplier_List","开始时间");
-			/// <summary>
-			/// 结束时间
-			/// </summary>
-			public readonly static Field EndDate = new Field("EndDate","Supplier_List","结束时间");
+			public readonly static Field StartDate = new Field("StartDate","Supplier_List","合作时间");
 			/// <summary>
 			/// 供应商标签
 			/// </summary>

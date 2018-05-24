@@ -21,7 +21,9 @@ namespace FancyFix.OA.Areas.Supplier.Models
         [Description("FG")]
         FG = 3,
         [Description("Parts")]
-        Parts = 4
+        Parts = 4,
+        [Description("Convert")]
+        Convert = 5
     }
 
     public enum PriceFrequency : byte

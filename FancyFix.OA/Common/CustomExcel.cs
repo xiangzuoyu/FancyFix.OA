@@ -207,7 +207,7 @@ namespace FancyFix.OA.Common
                 left: BorderStyle.Thin, top: BorderStyle.Thin));
 
             sheet.MergeCells(rowIndex, rowIndex, 7, 9);
-            sheet.CreateCell(7, cell3, sheet.CellStyle(new NPOI.HSSF.Util.HSSFColor.White(), HorizontalAlignment.Center, VerticalAlignment.Center,
+            sheet.CreateCell(7, cell3, sheet.CellStyle(new NPOI.HSSF.Util.HSSFColor.White(), HorizontalAlignment.Center, VerticalAlignment.Bottom,
                 left: BorderStyle.Thin, top: BorderStyle.Thin));
             sheet.CreateCell(9, "", sheet.CellStyle(new NPOI.HSSF.Util.HSSFColor.White(), top: BorderStyle.Thin, right: BorderStyle.Thin));
         }
@@ -262,90 +262,3 @@ namespace FancyFix.OA.Common
     }
 }
 
-
-
-////HSSFWorkbook workbook = new HSSFWorkbook();
-////ISheet sheet1 = workbook.CreateSheet("sheet1");
-
-//NPOIHelper sheet = new NPOIHelper();
-
-//            //将Excel背景色改为白色
-//            for (int i = 0; i< 40; i++)
-//                sheet.SetDefaultColumnStyle(i, new NPOI.HSSF.Util.HSSFColor.Yellow(), HorizontalAlignment.Left, VerticalAlignment.Center);
-
-//            //设置列宽
-//            sheet.SetColumnWidth(7, 20 * 256);
-//            sheet.SetColumnWidth(8, 15 * 256);
-//            sheet.SetColumnWidth(9, 35 * 256);
-
-//            //row1
-//            IRow row = sheet.CreateRow(1);
-
-//ICellStyle cellstyle = sheet.GetCellStyle(new NPOI.HSSF.Util.HSSFColor.White(), HorizontalAlignment.Center, VerticalAlignment.Center,
-//    top: BorderStyle.Thin);
-//            for (int i = 0; i< 10; i++)
-//                row.CreateCell(i).CellStyle = cellstyle;
-
-//            row.Height = 25 * 20;
-//            var cell = row.CreateCell(9);
-//cell.SetCellValue("表格编号：" + vendor.TableNumber);
-//            cell.CellStyle = NPOIHelper.GetCellStyle(workbook, new NPOI.HSSF.Util.HSSFColor.White(), HorizontalAlignment.Left, VerticalAlignment.Bottom,
-//                right: BorderStyle.Thin);
-//            //row2
-//            row = sheet1.CreateRow(2);
-//            row.CreateCell(0).SetCellValue("所有者Owners" + vendor.Owners);
-//cell = row.CreateCell(9);
-//            cell.SetCellValue("版本号：" + vendor.Version);
-//            cell.CellStyle = NPOIHelper.GetCellStyle(workbook, new NPOI.HSSF.Util.HSSFColor.White(), HorizontalAlignment.Left, VerticalAlignment.Bottom,
-//                right: BorderStyle.Thin);
-//            //row3
-//            row = sheet1.CreateRow(3);
-//            cell = row.CreateCell(9);
-//            cell.SetCellValue("生效日期：" + vendor?.EffectiveDate?.ToString("yyyy-MM-dd") ?? "");
-//            cell.CellStyle = NPOIHelper.GetCellStyle(workbook, new NPOI.HSSF.Util.HSSFColor.White(), HorizontalAlignment.Left, VerticalAlignment.Bottom,
-//                right: BorderStyle.Thin, bottom: BorderStyle.Thin);
-//            //row4
-//            NPOIHelper.SetCellRangeAddress(sheet1, 4, 4, 0, 9);
-//            row = sheet1.CreateRow(4);
-//            cell = row.CreateCell(0);
-//            cell.SetCellValue(" New  Supplier  Registration and Approval  Form ");
-//            var boldFont = workbook.CreateFont();
-//boldFont.Boldweight = (short) FontBoldWeight.Bold;
-//cell.CellStyle = NPOIHelper.GetCellStyle(workbook, new NPOI.HSSF.Util.HSSFColor.White(), HorizontalAlignment.Center, VerticalAlignment.Center,
-//                font: boldFont);
-
-//            row.CreateCell(9).CellStyle = NPOIHelper.GetCellStyle(workbook, new NPOI.HSSF.Util.HSSFColor.White(), HorizontalAlignment.Center,
-//                VerticalAlignment.Center, right: BorderStyle.Thin, font: boldFont);
-//            //row5
-//            NPOIHelper.SetCellRangeAddress(sheet1, 5, 5, 5, 8);
-//            row = sheet1.CreateRow(5);
-//            cell = row.CreateCell(5);
-//            cell.SetCellValue("（新供应商信息登记与审批表）");
-//            cell.CellStyle = NPOIHelper.GetCellStyle(workbook, new NPOI.HSSF.Util.HSSFColor.White(), HorizontalAlignment.Center, VerticalAlignment.Center,
-//                font: boldFont);
-
-//            cell = row.CreateCell(9);
-//            cell.SetCellValue("供应商代码：" + supplier.Code);
-//            cell.CellStyle = NPOIHelper.GetCellStyle(workbook, new NPOI.HSSF.Util.HSSFColor.White(), HorizontalAlignment.Center, VerticalAlignment.Center,
-//                right: BorderStyle.Thin, font: boldFont);
-//            //row6 
-//            NPOIHelper.SetCellRangeAddress(sheet1, 6, 6, 0, 9);
-//            row = sheet1.CreateRow(6);
-//            //上划线
-//            for (int i = 0; i< 10; i++)
-//                row.CreateCell(i).CellStyle = cellstyle;
-
-//            cell = row.CreateCell(0);
-//            cell.SetCellValue(vendor.VersionType != null
-//                ? Tools.Enums.Tools.GetEnumDescription(typeof(GetVersionTypeId), vendor.VersionType.GetValueOrDefault().ToString().ToInt32()).ToString()
-//                : "");
-//            cell.CellStyle = NPOIHelper.GetCellStyle(workbook, new NPOI.HSSF.Util.HSSFColor.White(), HorizontalAlignment.Center, VerticalAlignment.Center,
-//                top: BorderStyle.Thin, font: boldFont);
-//            row.CreateCell(9).CellStyle = NPOIHelper.GetCellStyle(workbook, new NPOI.HSSF.Util.HSSFColor.White(), HorizontalAlignment.Center,
-//                VerticalAlignment.Center, right: BorderStyle.Thin, font: boldFont);
-
-//            //row7
-//            row = sheet1.CreateRow(7);
-//            row.CreateCell(1).SetCellValue("Date （日期）：" + vendor?.WriteDate?.ToString("yyyy-MM-dd") ?? "");
-//            row.CreateCell(9).CellStyle = NPOIHelper.GetCellStyle(workbook, new NPOI.HSSF.Util.HSSFColor.White(), HorizontalAlignment.Center,
-//                VerticalAlignment.Center, right: BorderStyle.Thin, font: boldFont);

@@ -1,10 +1,6 @@
 ﻿using Dos.ORM;
 using FancyFix.OA.Model;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FancyFix.OA.Bll
 {
@@ -26,7 +22,7 @@ namespace FancyFix.OA.Bll
 
                     Site = model.CompanyWebsiteAddress,
                     Address = model.AddressOfRegisteredOffice,
-                    Contact1 = $"{model.MainContactor}/{model.TelephoneNumber}",
+                    Contact1 = $"{model.MainContactor}/{model.TelephoneNumber}/{model.EmailForPO}",
                     Contact2 = $"{model.FinanceContact}/{model.FinanceContactPhone}/{model.FinanceContactEmail}",
                     AddDate = model.AddDate,
                     AddUserId = model.AddUserId,

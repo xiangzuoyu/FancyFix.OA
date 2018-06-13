@@ -404,6 +404,17 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             if (list == null || !list.Any()) return Json(new { result = false });
             return Json(new { result = Bll.BllSupplier_List.HideList(list, MyInfo.Id) > 0 });
         }
+
+        /// <summary>
+        /// 删除供应商副表数据
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult DeleteVendorInfo(int id)
+        {
+            return Json(new { result = Bll.BllSupplier_VendorInfo.HideModel(id, MyInfo.Id) > 0 });
+        }
         #endregion
 
         #region 修改供应商标签
@@ -419,7 +430,7 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
 
         #endregion
 
-        #region 编辑
+        #region 供应商主表编辑
         public ActionResult Save(int id = 0)
         {
             Supplier_List model = null;
@@ -483,6 +494,34 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             string result = model == null ? "false" : "true";
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+        #endregion
+
+        #region 供应商副表编辑
+        public ActionResult Addition(int vendorId = 0)
+        {
+            Supplier_VendorInfo model = null;
+            if (vendorId > 0)
+            {
+                model = Bll.BllSupplier_VendorInfo.First(o => o.VendorId == vendorId && o.Dispaly != 2);
+                if (model == null)
+                {
+                    model = new Supplier_VendorInfo();
+                    model.VendorId = vendorId;
+                }
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Addition(Supplier_VendorInfo supplier_VendorInfo)
+        {
+
+            bool isok = Bll.BllSupplier_VendorInfo.SaveVendorInfo(supplier_VendorInfo, MyInfo.Id);
+
+            return LayerMsgSuccessAndRefresh("保存" + (isok ? "成功" : "失败"));
+        }
+
         #endregion
 
         #region 辅助方法

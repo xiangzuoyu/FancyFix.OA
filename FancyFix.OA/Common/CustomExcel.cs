@@ -97,10 +97,13 @@ namespace FancyFix.OA.Common
             RowStencil1(13, ref sheet, "4", "Post Code 邮编", vendor.PostCode1);
             RowStencil1(14, ref sheet, "5", "Purchase Order addressed to 合同/订单送达地址", vendor.PurchaseOrderAddressedTo);
             RowStencil1(15, ref sheet, "6", "Post Code 邮编", vendor.PostCode2);
-            RowStencil1(16, ref sheet, "7", "Main Contactor  主要联系人", supplier.Contact1);
-            RowStencil1(17, ref sheet, "8", "Telephone Number 联系方式：含固话、手机和邮箱", supplier.Contact1);
+
+            var contactArr = supplier.Contact1?.Split('/') ?? new string[3];
+
+            RowStencil1(16, ref sheet, "7", "Main Contactor  主要联系人", contactArr[0]);
+            RowStencil1(17, ref sheet, "8", "Telephone Number 联系方式：含固话、手机和邮箱", contactArr[1]);
             RowStencil1(18, ref sheet, "9", "Fax Number 传真号码", vendor.FaxNumber);
-            RowStencil1(19, ref sheet, "10", "E-mail for PO  订单及日常工作邮箱", supplier.Contact1);
+            RowStencil1(19, ref sheet, "10", "E-mail for PO  订单及日常工作邮箱", contactArr[2]);
 
             //row20
             sheet.CreateRow(20);
@@ -111,8 +114,7 @@ namespace FancyFix.OA.Common
             sheet.CreateCell(1, "Finance Contact 财务联系人电话和邮箱", sheet.CellStyle(new NPOI.HSSF.Util.HSSFColor.White(), HorizontalAlignment.Left, VerticalAlignment.Center,
                 left: BorderStyle.Thin, top: BorderStyle.Thin));
 
-            string[] arr = new string[3];
-            arr = supplier.Contact2.Split('/') ?? new string[3];
+            string[] arr = supplier.Contact2?.Split('/') ?? new string[3];
 
             sheet.CreateCell(7, arr?[0].ToString() ?? "", sheet.CellStyle(new NPOI.HSSF.Util.HSSFColor.White(), HorizontalAlignment.Center, VerticalAlignment.Bottom,
                 left: BorderStyle.Thin, top: BorderStyle.Thin));

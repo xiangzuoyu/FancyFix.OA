@@ -1,0 +1,457 @@
+﻿@using FancyFix.OA.Model;
+@using FancyFix.Tools.Enums;
+@using FancyFix.OA.Areas.Supplier.Models;
+
+@model Supplier_VendorInfo
+@{
+    ViewBag.Title = "AddTime";
+    Layout = "~/Views/Shared/_Layout_In.cshtml";
+}
+
+@section Css{
+
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <form id="mainform" action="/supplier/suppliermanager/addition" method="post" style="margin-bottom:50px;">
+            <table class="layui-table">
+                <!--列宽度-->
+                <colgroup>
+                    <col class="col-lg-2">
+                    <col class="col-lg-10">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td align="right"><label for="Owners" class="control-label">所有者：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("Owners", (Model?.Owners ?? ""), new { @class = "form-control", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="TableNumber" class="control-label">表格编号：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("TableNumber", (Model?.TableNumber ?? ""), new { @class = "form-control", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="Version" class="control-label">版本号：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("Version", (Model?.Version ?? ""), new { @class = "form-control", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="EffectiveDate" class="control-label">生效日期：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="EffectiveDate" name="EffectiveDate" style="width:250px;"
+                                       value="@(Model?.EffectiveDate?.ToString("yyyy-MM-dd") ?? "")" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label class="control-label">供应商类型：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <select id="VersionType" name="VersionType" class="layui-select">
+                                    @Html.Raw(Tools.GetOptionHtml(typeof(GetVersionTypeId), (byte)(Model?.VersionType ?? 0)))
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="WriteDate" class="control-label">填写日期：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="WriteDate" name="WriteDate" style="width:250px;"
+                                       value="@(Model?.WriteDate?.ToString("yyyy-MM-dd") ?? "")" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="CompanyEnglishName" class="control-label">公司英文名称：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("CompanyEnglishName", (Model?.CompanyEnglishName ?? ""), new { @class = "form-control", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="PostCode1" class="control-label">公司注册地址邮编：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("PostCode1", (Model?.PostCode1 ?? ""), new { @class = "form-control", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="PurchaseOrderAddressedTo" class="control-label">合同/订单送达地址：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("PurchaseOrderAddressedTo", (Model?.PurchaseOrderAddressedTo ?? ""), new { @class = "form-control", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="PostCode2" class="control-label">合同/订单送达地址邮编：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("PostCode2", (Model?.PostCode2 ?? ""), new { @class = "form-control", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="FaxNumber" class="control-label">传真号码：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("FaxNumber", (Model?.FaxNumber ?? ""), new { @class = "form-control", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="EmailForPO" class="control-label">订单及日常工作邮箱：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("EmailForPO", (Model?.EmailForPO ?? ""), new { @class = "form-control", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="TaxNumber" class="control-label">税号：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("TaxNumber", (Model?.TaxNumber ?? ""), new { @class = "form-control", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="TaxRate" class="control-label">税率：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("TaxRate", (Model?.TaxRate ?? ""), new { @class = "form-control", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td align="right"><label for="OrderCurrency" class="control-label">交易币种：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("OrderCurrency", (Model?.OrderCurrency ?? ""), new { @class = "form-control", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="PaymentTerms" class="control-label">付款条件：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("PaymentTerms", (Model?.PaymentTerms ?? ""), new { @class = "form-control", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="Incoterms" class="control-label">交易方式：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("Incoterms", (Model?.Incoterms ?? ""), new { @class = "form-control", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="BankKey" class="control-label">开户行行号：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("BankKey", (Model?.BankKey ?? ""), new { @class = "form-control", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="SwiftCode" class="control-label">银行国际代码：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("SwiftCode", (Model?.SwiftCode ?? ""), new { @class = "form-control", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="NameOfBank" class="control-label">开户行名称：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("NameOfBank", (Model?.NameOfBank ?? ""), new { @class = "form-control", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="ACNo" class="control-label">银行账号：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("ACNo", (Model?.ACNo ?? ""), new { @class = "form-control", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label class="control-label">公司性质：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <select id="FormOfBusiness" name="FormOfBusiness" class="layui-select">
+                                    @Html.Raw(Tools.GetOptionHtml(typeof(GetFormOfBusinessId), (byte)(Model?.FormOfBusiness ?? 0)))
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td align="right"><label for="BusinessRegistrationNumber" class="control-label">公司注册码：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("BusinessRegistrationNumber", (Model?.BusinessRegistrationNumber ?? ""), new { @class = "form-control", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="RegisteredCapital" class="control-label">注册资金：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("RegisteredCapital", (Model?.RegisteredCapital ?? ""), new { @class = "form-control", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="CertificateOfCorporation" class="control-label">资质文件：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("CertificateOfCorporation", (Model?.CertificateOfCorporation ?? ""), new { @class = "form-control", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="ProductsOrServiceSales" class="control-label">交易的产品或服务名称：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("ProductsOrServiceSales", (Model?.ProductsOrServiceSales ?? ""), new { @class = "form-control", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="MOQ" class="control-label">最小订购量：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("MOQ", (Model?.MOQ ?? 0), new { @class = "form-control", type = "number", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="LeadTime" class="control-label">交货周期：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("LeadTime", (Model?.LeadTime ?? ""), new { @class = "form-control", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="ManagementMenberName1" class="control-label">主要负责人1 ：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("ManagementMenberName1", (Model?.ManagementMenberName1 ?? ""), new { @class = "form-control", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="ManagementMenberTitle1" class="control-label">主要负责人职位1：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("ManagementMenberTitle1", (Model?.ManagementMenberTitle1 ?? ""), new { @class = "form-control", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="ManagementMenberName2" class="control-label">主要负责人2 ：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("ManagementMenberName2", (Model?.ManagementMenberName2 ?? ""), new { @class = "form-control", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="ManagementMenberTitle2" class="control-label">主要负责人职位2：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("ManagementMenberTitle2", (Model?.ManagementMenberTitle2 ?? ""), new { @class = "form-control", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="ManagementMenberName3" class="control-label">主要负责人3 ：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("ManagementMenberName3", (Model?.ManagementMenberName3 ?? ""), new { @class = "form-control", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="ManagementMenberTitle3" class="control-label">主要负责人职位3：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("ManagementMenberTitle3", (Model?.ManagementMenberTitle3 ?? ""), new { @class = "form-control", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="ManagementMenberName4" class="control-label">主要负责人4 ：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("ManagementMenberName4", (Model?.ManagementMenberName1 ?? ""), new { @class = "form-control", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="ManagementMenberTitle4" class="control-label">主要负责人职位4：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("ManagementMenberTitle4", (Model?.ManagementMenberTitle4 ?? ""), new { @class = "form-control", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="ContactPersonsName1" class="control-label">其他联系人姓名1：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("ContactPersonsName1", (Model?.ContactPersonsName1 ?? ""), new { @class = "form-control", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="ContactPersonsTitle1" class="control-label">其他联系人职位1：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("ContactPersonsTitle1", (Model?.ContactPersonsTitle1 ?? ""), new { @class = "form-control", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="ContactPersonsTel1" class="control-label">其他联系人电话1：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("ContactPersonsTel1", (Model?.ContactPersonsTel1 ?? ""), new { @class = "form-control", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="ContactPersonsFax1" class="control-label">其他联系人传真1：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("ContactPersonsFax1", (Model?.ContactPersonsFax1 ?? ""), new { @class = "form-control", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="ContactPersonsEmail1" class="control-label">其他联系人邮箱1：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("ContactPersonsEmail1", (Model?.ContactPersonsEmail1 ?? ""), new { @class = "form-control", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="ContactPersonsName2" class="control-label">其他联系人姓名2：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("ContactPersonsName2", (Model?.ContactPersonsName2 ?? ""), new { @class = "form-control", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="ContactPersonsTitle2" class="control-label">其他联系人职位2：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("ContactPersonsTitle2", (Model?.ContactPersonsTitle2 ?? ""), new { @class = "form-control", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="ContactPersonsTel2" class="control-label">其他联系人电话2：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("ContactPersonsTel2", (Model?.ContactPersonsTel2 ?? ""), new { @class = "form-control", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="ContactPersonsFax2" class="control-label">其他联系人传真2：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("ContactPersonsFax2", (Model?.ContactPersonsFax2 ?? ""), new { @class = "form-control", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="ContactPersonsEmail2" class="control-label">其他联系人邮箱2：</label></td>
+                        <td>
+                            <div class="form-group">
+                                @Html.TextBox("ContactPersonsEmail2", (Model?.ContactPersonsEmail2 ?? ""), new { @class = "form-control", style = "width:250px;" })
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td align="right"></td>
+                        <td>
+                            @Html.Hidden("Id", (Model?.Id ?? 0))
+                            @Html.Hidden("VendorId", (Model?.VendorId ?? 0))
+                            <button type="submit" id="btnPass" class="btn btn-primary">保存</button>
+                            <button type="button" id="cancel" class="btn btn-default" onclick="CloseWin()">取消</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+
+@section Js{
+    <script src="/Content/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/jquery.validator.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/messages_cn.js"></script>
+    <script src="/Content/js/common/tools.js"></script>
+    <script>
+        layui.use(['layer', 'laydate'], function () {
+            var layer = layui.layer;
+            var laydate = layui.laydate;
+
+            //表单验证
+            var $form = $("#mainform");
+            $form.validate();
+
+            //日期控件
+            $("#EffectiveDate").click(function () {
+                laydate({
+                    elem: this,
+                    type: 'date',
+                    format: 'YYYY-MM-DD',
+                });
+            });
+            $("#WriteDate").click(function () {
+                laydate({
+                    elem: this,
+                    type: 'date',
+                    format: 'YYYY-MM-DD',
+                });
+            });
+
+            //通过
+            $("#btnPass").click(function () {
+                //$("#demandtypeid").attr("disabled", false);
+                //$("#detailtypeid").attr("disabled", false);
+                $form.valid();
+            });
+        })
+
+    </script>
+
+}

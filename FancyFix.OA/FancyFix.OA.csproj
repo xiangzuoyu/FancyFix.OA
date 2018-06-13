@@ -1955,6 +1955,7 @@
     <Content Include="Areas\Demand\Views\Demand\Add.cshtml" />
     <Content Include="Areas\Demand\Views\Demand\_DemandType.cshtml" />
     <Content Include="Areas\Demand\Views\Demand\UserList.cshtml" />
+    <Content Include="Areas\Supplier\Views\SupplierManager\Addition.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Common\GetAdminTree.cshtml" />
     <Content Include="Views\Shared\_baseconfig.cshtml" />

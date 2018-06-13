@@ -10,7 +10,7 @@ using System.Web.Http;
 
 namespace FancyFix.OA.api
 {
-    public class ProductController : BaseApiController
+    public class ProductApiController : BaseApiController
     {
         /// <summary>
         /// 获取产品属性

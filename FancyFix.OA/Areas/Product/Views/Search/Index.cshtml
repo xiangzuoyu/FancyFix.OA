@@ -68,7 +68,7 @@
                                     </div>
                                 </div>
                                 <div class="layui-inline pull-right">
-                                    <button id="btnDownload" class="btn bg-orange">下载</button>
+                                    <button type="button" id="btnDownload" class="btn bg-orange">下载</button>
                                 </div>
                             </div>
                         </form>
@@ -79,25 +79,26 @@
                                 <th style="text-align:center;">图片</th>
                                 <th style="text-align:center;">类型</th>
                                 <th style="text-align:center;">标签</th>
-                                <th style="text-align:center;">操作</th>
                             </tr>
                             @if (imglist != null && imglist.Count > 0)
                             {
                                 foreach (var item in imglist)
                                 {
-                                    var tagArr = item.Tag.Split(',');
+                                    var tagArr = item.Tag?.Split(',');
                                     <tr class="imglist" data-type="@(item.Type ?? 0)" data-tag="@item.Tag">
                                         <td align="center" width="400">
-                                            <a target="_blank" href="@item.ImagePath"><img src="@item.ImagePath" class="img-bordered-sm" style="max-width:180px;max-height:180px;"></a>
+                                            <a target="_blank" href="@item.ImagePath"><img src="@GetSmallPic(item.ImagePath)" class="img-bordered-sm" style="max-width:180px;max-height:180px;"></a>
                                         </td>
                                         <td align="center">@FancyFix.Tools.Enums.Tools.GetEnumDescription(typeof(FancyFix.Tools.Enums.ESite.ImageType), item.Type ?? 0)</td>
                                         <td align="center">
-                                            @foreach (var _tag in tagArr)
+                                            @if (tagArr != null && tagArr.Length > 0)
                                             {
-                                                <span class="bg-orange layui-layer-border" style="padding:5px;margin:15px 0;border-radius:5px;">@_tag</span>
+                                                foreach (var _tag in tagArr)
+                                                {
+                                                    <span class="bg-orange layui-layer-border" style="padding:5px;margin:15px 0;border-radius:5px;">@_tag</span>
+                                                }
                                             }
                                         </td>
-                                        <td align="center"><a target="_blank" href="@item.ImagePath" class="btn btn-default">下载</a></td>
                                     </tr>
                                 }
                             }
@@ -123,58 +124,58 @@
                     <table id="info" class="table table-bordered">
                         <tbody>
                             <tr>
-                                <td align="center">中文标题</td>
-                                <td align="center">@Model.Title</td>
-                                <td align="center">英文标题</td>
-                                <td align="center">@Model.Title_En</td>
+                                <td align="left">中文标题</td>
+                                <td align="left">@Model.Title</td>
+                                <td align="left">英文标题</td>
+                                <td align="left">@Model.Title_En</td>
                             </tr>
                             <tr>
-                                <td align="center">SPU编号</td>
-                                <td align="center">@Model.Spu</td>
-                                <td align="center">所属分类</td>
-                                <td align="center">@ViewBag.className</td>
+                                <td align="left">SPU编号</td>
+                                <td align="left">@Model.Spu</td>
+                                <td align="left">所属分类</td>
+                                <td align="left">@ViewBag.className</td>
                             </tr>
                             <tr class="hidden">
-                                <td align="center">库存</td>
-                                <td align="center">@Model.Stock @Model.QuantityUnit</td>
-                                <td align="center">最小起订量</td>
-                                <td align="center">@Model.Moq @Model.QuantityUnit</td>
+                                <td align="left">库存</td>
+                                <td align="left">@Model.Stock @Model.QuantityUnit</td>
+                                <td align="left">最小起订量</td>
+                                <td align="left">@Model.Moq @Model.QuantityUnit</td>
                             </tr>
                             <tr class="hidden">
-                                <td align="center">含税价</td>
-                                <td align="center">@Model.PriceUnit @Model.TaxPrice</td>
-                                <td align="center">不含税价</td>
-                                <td align="center">@Model.PriceUnit @Model.Price</td>
+                                <td align="left">含税价</td>
+                                <td align="left">@Model.PriceUnit @Model.TaxPrice</td>
+                                <td align="left">不含税价</td>
+                                <td align="left">@Model.PriceUnit @Model.Price</td>
                             </tr>
                             <tr class="hidden">
-                                <td align="center">价格备注</td>
-                                <td align="center" colspan="3" style="max-width:600px;">@Model.PriceRemark</td>
+                                <td align="left">价格备注</td>
+                                <td align="left" colspan="3" style="max-width:600px;">@Model.PriceRemark</td>
                             </tr>
                             <tr class="hidden">
-                                <td align="center">颜色</td>
-                                <td align="center">@Model.Color</td>
-                                <td align="center">厚度</td>
-                                <td align="center">@Model.Thickness</td>
+                                <td align="left">颜色</td>
+                                <td align="left">@Model.Color</td>
+                                <td align="left">厚度</td>
+                                <td align="left">@Model.Thickness</td>
                             </tr>
                             <tr class="hidden">
-                                <td align="center">重量</td>
-                                <td align="center">@Model.Weight</td>
-                                <td align="center">规格</td>
-                                <td align="center">@Model.Specification</td>
+                                <td align="left">重量</td>
+                                <td align="left">@Model.Weight</td>
+                                <td align="left">规格</td>
+                                <td align="left">@Model.Specification</td>
                             </tr>
                             <tr class="hidden">
-                                <td align="center">HS编码</td>
-                                <td align="center">@Model.HS_Code</td>
-                                <td align="center">开票名</td>
-                                <td align="center">@Model.InvoiceName</td>
+                                <td align="left">HS编码</td>
+                                <td align="left">@Model.HS_Code</td>
+                                <td align="left">开票名</td>
+                                <td align="left">@Model.InvoiceName</td>
                             </tr>
                             <tr class="hidden">
-                                <td align="center">简单描述</td>
-                                <td align="center" colspan="3" style="max-width:600px;">@Model.Description</td>
+                                <td align="left">简单描述</td>
+                                <td align="left" colspan="3" style="max-width:600px;">@Model.Description</td>
                             </tr>
                             <tr class="hidden">
-                                <td align="center">适用法律法规</td>
-                                <td align="center" colspan="3" style="max-width:600px;">@Model.Regulation</td>
+                                <td align="left">适用法律法规</td>
+                                <td align="left" colspan="3" style="max-width:600px;">@Model.Regulation</td>
                             </tr>
                             <tr class="viewmore">
                                 <td align="center" colspan="4"><a id="viewmore" class="btn btn-default" href="javascript:void(0)">点击查看更多</a></td>
@@ -185,7 +186,6 @@
             </div>
         </div>
     </div>
-
 }
 @section Js{
     <script src="/Content/js/plugins/iCheck/icheck.min.js"></script>
@@ -230,6 +230,19 @@
                 } else {
                     $("#spu").focus();
                 }
+            })
+
+            $("#btnDownload").click(function () {
+                var where = "";
+                var spu = $("#spu").val();
+                var type = $("#type").val();
+                var tag = $("input[name='tag']:checked").val();
+                where += "spu=" + spu;
+                if (type > 0)
+                    where += "&type=" + type;
+                if (tag != "")
+                    where += "&tag=" + tag;
+                window.location.href = window.imgUrl + "/api/download/GetFile?" + where;
             })
 
             //页面跳转过滤

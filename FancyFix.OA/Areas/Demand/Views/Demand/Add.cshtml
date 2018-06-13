@@ -1,0 +1,144 @@
+﻿@using FancyFix.OA.Model;
+@model Develop_Demand
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout_In.cshtml";
+}
+@section Css{
+    <link href="/Content/js/plugins/datepicker/datepicker3.css" rel="stylesheet" />
+}
+<div class="row">
+    <div class="col-md-12">
+        <form id="mainform">
+            <table class="layui-table">
+                <!--列宽度-->
+                <colgroup>
+                    <col class="col-lg-2">
+                    <col class="col-lg-10">
+                </colgroup>
+                <tbody id="headdata">
+                    <tr>
+
+                        <td align="right"><label for="deptid" class="control-label">需求部门：</label></td>
+                        <td>
+                            <div class="form-group form-inline">
+                                <select class="form-control" id="deptid" name="deptid" loadattr="true" style="width:250px" required="required">
+                                    <option value="">请选择一个部门</option>
+                                    @Html.Raw(ViewBag.showClass)
+                                </select>
+                                <input type="hidden" id="id" name="id" value="@(Model?.Id ?? 0)">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="joinperson" class="control-label">需求对接人：</label></td>
+                        <td>
+                            <div class="form-group form-inline">
+                                <input type="text" class="form-control" id="joinperson" name="joinperson" placeholder="需求对接人" value="@Model.JoinPerson" style="width:500px;" required="required" maxlength="200">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label class="control-label">附件：</label></td>
+                        <td>
+                            @Html.Partial("UploadFile", new FancyFix.OA.Config.FileUploadConfig { Files = Model?.AffixAddress ?? "", UploadNum = 1, MaxSize = 100 * 1024 * 1024, IsProduct = true, UploadName = "affixaddress", Domain = "files" })
+                        </td>
+                    </tr>
+                    <tr>
+
+                        <td align="right"><label for="title" class="control-label">预计完成时间：</label></td>
+                        <td>
+                            <div class="form-group form-inline">
+                                <input type="text" id="estimatecompletetime" name="estimatecompletetime" required="required" placeholder="预计完成时间" class="layui-input" style="width:120px;" value="@(Model.EstimateCompleteTime!=default(DateTime)?Model.EstimateCompleteTime.ToString("yyyy-MM-dd"):"")">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="type" class="control-label">需求类型：</label></td>
+                        <td>
+                            <div class="form-group form-inline">
+                                <select class="form-control" id="type" name="type" style="width:250px" required="required" onchange="GetPartView()">
+                                    <option value="">请选择一个类型</option>
+                                    @{
+                                        var demandType = ViewBag.DemandType as Dictionary<int, string>;
+                                        foreach (var item in demandType)
+                                        {
+                                            <option value="@item.Key" @((item.Key == Model.Type) ? "selected=selected" : "")>@item.Value</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+
+
+
+                </tbody>
+                <tbody id="part"></tbody>
+                @if (ViewBag.isshow != 1)
+                {
+                    <tr>
+                        <td align="right"></td>
+                        <td>
+                            <button type="button" id="btnPass" class="btn btn-primary" onclick="Save()">保存</button>
+                            <button type="button" id="cancel" class="btn btn-default" onclick="CloseWin()">取消</button>
+                        </td>
+                    </tr>
+                }
+            </table>
+
+        </form>
+    </div>
+</div>
+@section Js{
+
+    <script src="~/Content/js/common/dal.js"></script>
+    <script src="~/Content/js/common/jstools-all.js"></script>
+    <script src="~/Content/js/common/tools.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/jquery.validator.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/messages_cn.js"></script>
+    <script src="/Content/js/plugins/datepicker/bootstrap-datepicker.js"></script>
+    <script src="/Content/js/plugins/datepicker/locales/bootstrap-datepicker.zh-CN.js"></script>
+    <script type="text/javascript">
+
+
+        layui.use(['layer'], function () {
+            var layer = layui.layer;
+            GetPartView();
+            //表单验证
+            $("#mainform").validate();
+
+            $('#estimatecompletetime').datepicker({
+                format: 'yyyy-mm-dd',
+                language: 'zh-CN',
+                clearBtn: true
+            });
+        });
+        function GetPartView() {
+            var id =@Model.Id;
+            var type = $("#type").val() == "" ? 0 : $("#type").val();
+            dal.getHtml("/Demand/Demand/GetDemandType", "#part", { id: id, demandType: type });
+        }
+
+         function Save() {
+             if ($("#mainform").valid()) {
+                 var model = $("#part").toJson();
+                 var headdata = $("#headdata").toJson();
+                 //console.log(model);
+                 //console.log(headdata);
+
+                 $.post("/api/Demand/Demand/Save", { model: model, headdata: headdata }, function (res) {
+                     if (res.success) {
+                         return lMsgSucParentReload(res.msg);
+                     }
+                     else {
+                         return ShowError(res.msg);
+                     }
+
+                 });
+
+             }
+
+         }
+    </script>
+}

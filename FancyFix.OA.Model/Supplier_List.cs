@@ -36,6 +36,7 @@ namespace FancyFix.OA.Model
 		private string _Site;
 		private string _Address;
 		private string _StartDate;
+		private DateTime? _EndDate;
 		private int? _LabelId;
 		private string _Note;
 		private string _SupplierAb;
@@ -45,6 +46,7 @@ namespace FancyFix.OA.Model
 		private DateTime? _LastDate;
 		private int? _LastUserId;
 		private int? _Display;
+		private string _Attachment;
 		/// <summary>
 		/// 
 		/// </summary>
@@ -154,7 +156,7 @@ namespace FancyFix.OA.Model
 			}
 		}
 		/// <summary>
-		/// 合作时间
+		/// 开始时间
 		/// </summary>
 		public string StartDate
 		{
@@ -163,6 +165,18 @@ namespace FancyFix.OA.Model
 			{
 				this.OnPropertyValueChange(_.StartDate,_StartDate,value);
 				this._StartDate=value;
+			}
+		}
+		/// <summary>
+		/// 结束时间
+		/// </summary>
+		public DateTime? EndDate
+		{
+			get{ return _EndDate; }
+			set
+			{
+				this.OnPropertyValueChange(_.EndDate,_EndDate,value);
+				this._EndDate=value;
 			}
 		}
 		/// <summary>
@@ -273,6 +287,18 @@ namespace FancyFix.OA.Model
 				this._Display=value;
 			}
 		}
+		/// <summary>
+		/// 
+		/// </summary>
+		public string Attachment
+		{
+			get{ return _Attachment; }
+			set
+			{
+				this.OnPropertyValueChange(_.Attachment,_Attachment,value);
+				this._Attachment=value;
+			}
+		}
 		#endregion
 
 		#region Method
@@ -307,6 +333,7 @@ namespace FancyFix.OA.Model
 				_.Site,
 				_.Address,
 				_.StartDate,
+				_.EndDate,
 				_.LabelId,
 				_.Note,
 				_.SupplierAb,
@@ -315,7 +342,8 @@ namespace FancyFix.OA.Model
 				_.AddUserId,
 				_.LastDate,
 				_.LastUserId,
-				_.Display};
+				_.Display,
+				_.Attachment};
 		}
 		/// <summary>
 		/// 获取值信息
@@ -333,6 +361,7 @@ namespace FancyFix.OA.Model
 				this._Site,
 				this._Address,
 				this._StartDate,
+				this._EndDate,
 				this._LabelId,
 				this._Note,
 				this._SupplierAb,
@@ -341,7 +370,8 @@ namespace FancyFix.OA.Model
 				this._AddUserId,
 				this._LastDate,
 				this._LastUserId,
-				this._Display};
+				this._Display,
+				this._Attachment};
 		}
 		#endregion
 
@@ -392,9 +422,13 @@ namespace FancyFix.OA.Model
 			/// </summary>
 			public readonly static Field Address = new Field("Address","Supplier_List","地址");
 			/// <summary>
-			/// 合作时间
+			/// 开始时间
 			/// </summary>
-			public readonly static Field StartDate = new Field("StartDate","Supplier_List","合作时间");
+			public readonly static Field StartDate = new Field("StartDate","Supplier_List","开始时间");
+			/// <summary>
+			/// 结束时间
+			/// </summary>
+			public readonly static Field EndDate = new Field("EndDate","Supplier_List","结束时间");
 			/// <summary>
 			/// 供应商标签
 			/// </summary>
@@ -431,6 +465,10 @@ namespace FancyFix.OA.Model
 			/// _1：显示，2：隐藏
 			/// </summary>
 			public readonly static Field Display = new Field("Display","Supplier_List","_1：显示，2：隐藏");
+			/// <summary>
+			/// 
+			/// </summary>
+			public readonly static Field Attachment = new Field("Attachment","Supplier_List","Attachment");
 		}
 		#endregion
 

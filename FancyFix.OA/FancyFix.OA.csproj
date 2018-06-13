@@ -55,7 +55,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Utils\Doc.ORM\DataAccess\bin\Debug\Dos.ORM.dll</HintPath>
     </Reference>
-    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a" />
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
@@ -185,6 +187,10 @@
     <Compile Include="Areas\ArtTask\Controllers\ArtTaskListController.cs" />
     <Compile Include="Areas\ArtTask\Controllers\ArtTaskRankController.cs" />
     <Compile Include="Areas\BaseClassController.cs" />
+    <Compile Include="Areas\Demand\Controllers\ApiController\DemandApiController.cs" />
+    <Compile Include="Areas\Demand\Controllers\DemandController.cs" />
+    <Compile Include="Areas\Demand\DemandAreaRegistration.cs" />
+    <Compile Include="Areas\Demand\Models\DemandTypeModel.cs" />
     <Compile Include="Areas\Kpi\Controllers\KpiController.cs" />
     <Compile Include="Areas\Kpi\Controllers\KpiListController.cs" />
     <Compile Include="Areas\Kpi\KpiAreaRegistration.cs" />
@@ -257,6 +263,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helper\DemandTypeHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -351,7 +358,9 @@
     <Content Include="Content\js\calendar\calender.js" />
     <Content Include="Content\js\calendar\ChineseCalendar.js" />
     <Content Include="Content\js\calendar\tools.js" />
+    <Content Include="Content\js\common\dal.js" />
     <Content Include="Content\js\common\frame.js" />
+    <Content Include="Content\js\common\jstools-all.js" />
     <Content Include="Content\js\common\skuatter.js" />
     <Content Include="Content\js\common\tools.js" />
     <Content Include="Content\js\customer\html5shiv.min.js" />
@@ -1553,6 +1562,7 @@
     <Folder Include="Areas\Admin\Views\Shared\" />
     <Folder Include="Areas\ArtTask\Models\" />
     <Folder Include="Areas\ArtTask\Views\Shared\" />
+    <Folder Include="Areas\Demand\Views\Shared\" />
     <Folder Include="Areas\Kpi\Models\" />
     <Folder Include="Areas\Kpi\Views\Shared\" />
     <Folder Include="Areas\Order\Models\" />
@@ -1761,7 +1771,9 @@
     <Content Include="Areas\System\Views\web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="log4net.config" />
+    <Content Include="log4net.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Valuable\Views\web.config" />
@@ -1938,6 +1950,11 @@
     <Content Include="Areas\Order\Views\BatchProduct\Edit.cshtml" />
     <Content Include="Areas\Order\Views\Contract\ShowResult.cshtml" />
     <Content Include="Areas\Product\Views\Search\Index.cshtml" />
+    <Content Include="Areas\Demand\Views\web.config" />
+    <Content Include="Areas\Demand\Views\Demand\Index.cshtml" />
+    <Content Include="Areas\Demand\Views\Demand\Add.cshtml" />
+    <Content Include="Areas\Demand\Views\Demand\_DemandType.cshtml" />
+    <Content Include="Areas\Demand\Views\Demand\UserList.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Common\GetAdminTree.cshtml" />
     <Content Include="Views\Shared\_baseconfig.cshtml" />

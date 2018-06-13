@@ -40,31 +40,5 @@ namespace FancyFix.OA.Areas.Product.Controllers
             ViewBag.imglist = imglist;
             return View(model);
         }
-
-        public FileResult DownloadFiles()
-        {
-            string spu = RequestString("spu");
-            string tag = RequestString("tag");
-            byte type = RequestByte("type");
-
-            Product_Info model = Bll.BllProduct_Info.First(o => o.Spu == Tools.Usual.Utils.CheckSqlValue(spu));
-            if (model == null)
-            {
-
-            }
-
-            List<Product_Image> imglist = null;
-            if (model != null)
-            {
-                imglist = Bll.BllProduct_Image.GetList(model.Id, tag, type);
-            }
-
-            string root = Server.MapPath("~/App_Data");
-            string fileName = "test.jpg";
-            string filePath = Path.Combine(root, fileName);
-            string s = MimeMapping.GetMimeMapping(fileName);
-
-            return File(filePath, s, Path.GetFileName(filePath));
-        }
     }
 }

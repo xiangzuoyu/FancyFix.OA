@@ -307,5 +307,16 @@ namespace FancyFix.Tools.Enums
             return enumvalue;
 
         }
+
+
+        public static Dictionary<int, string> GetEnumList(Type enumType)
+        {
+            Dictionary<int, string> dict = new Dictionary<int, string>();
+            foreach (int i in Enum.GetValues(enumType))
+            {
+                dict.Add(i, enumType.GetEnumName(i));
+            }
+            return dict;
+        }
     }
 }

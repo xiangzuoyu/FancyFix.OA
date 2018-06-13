@@ -368,5 +368,11 @@ namespace FancyFix.OA.Bll
             string join = "left join Mng_DepartmentClass b on a.DepartId = b.Id left join Mng_PermissionGroup c on a.GroupId = c.Id";
             return Db.Context.FromSql($"select {cols} from Mng_User a {join} {where} order by a.InJob desc,a.Id asc").ToList<Mng_User>();
         }
+
+
+        public static List<Mng_User> GetListByIds(List<int> idList)
+        {
+           return Db.Context.From<Mng_User>().Where(p => p.Id.In(idList)).ToList();
+        }
     }
 }

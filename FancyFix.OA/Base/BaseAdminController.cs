@@ -554,9 +554,9 @@ namespace FancyFix.OA.Base
         /// </summary>
         /// <param name="getPics"></param>
         /// <returns></returns>
-        protected string GetFiles(string getPics)
+        protected string GetFiles(string getFiles = "file")
         {
-            string files = RequestString(getPics).TrimEnd(',');
+            string files = RequestString(getFiles).TrimEnd(',');
             return files;
         }
         #endregion

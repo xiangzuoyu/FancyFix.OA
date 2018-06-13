@@ -117,15 +117,21 @@ namespace FancyFix.OA.Areas.Order.Controllers
         }
 
         [HttpGet]
-        public void ToExcel(int id)
+        public void ToExcel(string idStr)
         {
-            if (id > 0)
+            var list = idStr.Split(',').ToList();
+            if (list != null && list.Count > 0)
             {
-                var batch = Bll.BllOrder_Batch.First(o => o.Id == id);
-                if (batch != null)
+                List<int> ids = new List<int>();
+                int id = 0;
+                foreach (var str in list)
                 {
-                    var contract = Bll.BllOrder_Contract.First(o => o.Id == batch.ContractId)?.ContractNo ?? "";
-                    var batchprolist = Bll.BllOrder_BatchProduct.GetListByBatchId(batch.Id);
+                    if (int.TryParse(str, out id) && id > 0)
+                        ids.Add(id);
+                }
+                var batchlist = Bll.BllOrder_Batch.GetListByIds(ids);
+                if (batchlist != null && batchlist.Count > 0)
+                {
                     DataTable dt = new DataTable();
                     dt.Columns.Add("合同编号", typeof(String));
                     dt.Columns.Add("批次", typeof(String));
@@ -135,42 +141,50 @@ namespace FancyFix.OA.Areas.Order.Controllers
                     dt.Columns.Add("平均费用", typeof(String));
                     dt.Columns.Add("总数量", typeof(String));
 
-                    var row = dt.NewRow();
-                    row["合同编号"] = contract;
-                    row["批次"] = "批次" + batch.Batch;
-                    row["物流总费用"] = batch.TotalCost;
-                    row["称重类型"] = "按" + (batch.UnitType == 1 ? "体积" : "重量"); ;
-                    row["总体积/重量"] = batch.UnitValue + " " + batch.Unit;
-                    row["平均费用"] = batch.UnitPerCost;
-                    row["总数量"] = batch.Quantity;
-                    dt.Rows.Add(row);
-
-                    if (batchprolist != null && batchprolist.Count > 0)
+                    var contract = Bll.BllOrder_Contract.First(o => o.Id == batchlist[0].ContractId)?.ContractNo ?? "";
+                    foreach (var item in batchlist)
                     {
-                        dt.Rows.Add(dt.NewRow());
-                        var row1 = dt.NewRow();
-                        row1["合同编号"] = "";
-                        row1["批次"] = "产品名称";
-                        row1["物流总费用"] = "总费用";
-                        row1["称重类型"] = "体积/重量";
-                        row1["总体积/重量"] = "总体积/重量";
-                        row1["平均费用"] = "平均费用";
-                        row1["总数量"] = "数量";
-                        dt.Rows.Add(row1);
-                        foreach (var item in batchprolist)
+                        var batchprolist = Bll.BllOrder_BatchProduct.GetListByBatchId(item.Id);
+
+                        var row = dt.NewRow();
+                        row["合同编号"] = contract;
+                        row["批次"] = "批次" + item.Batch;
+                        row["物流总费用"] = item.TotalCost;
+                        row["称重类型"] = "按" + (item.UnitType == 1 ? "体积" : "重量"); ;
+                        row["总体积/重量"] = item.UnitValue + " " + item.Unit;
+                        row["平均费用"] = item.UnitPerCost;
+                        row["总数量"] = item.Quantity;
+                        dt.Rows.Add(row);
+
+                        if (batchprolist != null && batchprolist.Count > 0)
                         {
-                            var row2 = dt.NewRow();
-                            row2["合同编号"] = "";
-                            row2["批次"] = item.Name;
-                            row2["物流总费用"] = item.TotalCost;
-                            row2["称重类型"] = item.UnitValue + " " + item.Unit;
-                            row2["总体积/重量"] = (item.UnitValue * item.Quantity).Value.ToString("F5");
-                            row2["平均费用"] = item.Cost;
-                            row2["总数量"] = item.Quantity;
-                            dt.Rows.Add(row2);
+                            dt.Rows.Add(dt.NewRow());//插入空行
+                            var row1 = dt.NewRow();
+                            row1["合同编号"] = "";
+                            row1["批次"] = "产品名称";
+                            row1["物流总费用"] = "总费用";
+                            row1["称重类型"] = "体积/重量";
+                            row1["总体积/重量"] = "总体积/重量";
+                            row1["平均费用"] = "平均费用";
+                            row1["总数量"] = "数量";
+                            dt.Rows.Add(row1);
+                            foreach (var pro in batchprolist)
+                            {
+                                var row2 = dt.NewRow();
+                                row2["合同编号"] = "";
+                                row2["批次"] = pro.Name;
+                                row2["物流总费用"] = pro.TotalCost;
+                                row2["称重类型"] = pro.UnitValue + " " + pro.Unit;
+                                row2["总体积/重量"] = (pro.UnitValue * pro.Quantity).Value.ToString("F5");
+                                row2["平均费用"] = pro.Cost;
+                                row2["总数量"] = pro.Quantity;
+                                dt.Rows.Add(row2);
+                            }
                         }
+                        dt.Rows.Add(dt.NewRow());//插入空行
                     }
-                    string fileName = $"合同{contract}-批次" + batch.Batch;
+
+                    string fileName = $"合同{contract}-批次";
                     Tools.Tool.ExcelHelper.ToExcelWeb(dt, fileName, fileName + ".xls");
                 }
             }

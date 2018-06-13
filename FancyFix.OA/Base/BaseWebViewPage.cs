@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace FancyFix.OA.Base
 {
@@ -290,6 +291,117 @@ namespace FancyFix.OA.Base
             catch
             {
                 return false;
+            }
+        }
+        #endregion
+
+        #region 常用
+
+        /// <summary>
+        /// (已检测)获取客户端IP
+        /// </summary>
+        /// <returns></returns>
+        public string GetRemoteIp()
+        {
+            return Tools.Utility.CheckClient.GetIP();
+        }
+
+        /// <summary>
+        /// 返回中文性别
+        /// </summary>
+        /// <param name="sex">Bool类型性别</param>
+        /// <returns>男(false)或女(true)</returns>
+        public static string GetChineseSex(bool sex)
+        {
+            return sex ? "男" : "女";
+        }
+
+        /// <summary>
+        /// 获取第一张图片
+        /// </summary>
+        /// <param name="uptype"></param>
+        /// <param name="picStr"></param>
+        /// <param name="getSmallPic"></param>
+        /// <returns></returns>
+        public static string GetFirstPic(string picStr, bool getSmallPic)
+        {
+            return Tools.Utility.Web.GetFirstPic(picStr, getSmallPic);
+        }
+
+        /// <summary>
+        /// 输出小图
+        /// </summary>
+        /// <param name="pic"></param>
+        /// <returns></returns>
+        public static string GetSmallPic(string pic)
+        {
+            return Tools.Usual.Utils.GetSmallPic(pic);
+        }
+
+        /// <summary>
+        /// 输出大图
+        /// </summary>
+        /// <param name="pic"></param>
+        /// <returns></returns>
+        public static string GetBigPic(string pic)
+        {
+            return Tools.Usual.Utils.GetBigPic(pic);
+        }
+        /// <summary>
+        /// 输出中图
+        /// </summary>
+        /// <param name="pic"></param>
+        /// <returns></returns>
+        public static string GetMiddlePic(string pic)
+        {
+            return Tools.Usual.Utils.GetMiddlePic(pic);
+        }
+
+        /// 返回表单下拉菜单或选框的还原项
+        /// </summary>
+        /// <param name="selValue">设置的值</param>
+        /// <param name="thisValue">表单框值</param>
+        /// <param name="isSelectBox">是否是下拉菜单，否则是选框</param>
+        /// <returns>下拉菜单选中返回selected ,选框选中返回checked</returns>
+        public string ReturnSel(string selValue, string thisValue, bool isSelectBox)
+        {
+            if (string.IsNullOrEmpty(selValue) || string.IsNullOrEmpty(thisValue))
+                return "";
+            if (selValue == thisValue)
+            {
+                if (isSelectBox)
+                    return " selected";
+                else
+                    return " checked";
+            }
+            else
+            {
+                return "";
+            }
+        }
+
+        /// <summary>
+        /// 返回前一页
+        /// </summary>
+        public void ReturnRefferPage()
+        {
+            Response.Redirect(RefferPageUrl());
+            Response.End();
+        }
+
+        /// <summary>
+        /// 获取前导页
+        /// </summary>
+        /// <returns></returns>
+        public string RefferPageUrl()
+        {
+            try
+            {
+                return HttpUtility.UrlDecode(Request.UrlReferrer.AbsoluteUri, System.Text.Encoding.GetEncoding("GB2312"));
+            }
+            catch
+            {
+                return "";
             }
         }
         #endregion

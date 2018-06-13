@@ -185,6 +185,15 @@ function GetBigPic(v) {
     return v.substring(0, index) + 'b' + v.substring(index);
 }
 
+function lMsgSucParentReload(msg) {
+    layer.msg(msg, { icon: 1 }, function () {
+        parent.location.reload();
+        //parent.window.location.href = parent.window.location.href;
+        parent.layer.closeAll();
+    });
+}
+
+
 
 
 

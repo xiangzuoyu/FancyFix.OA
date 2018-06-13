@@ -225,10 +225,14 @@
             });
 
             $("#btn_export").click(function () {
-                if (CheckSelectionsSingle()){
-                    var id = GetSelections()[0].Id;
-                    if (id > 0) {
-                        window.location.href = '/order/batch/toexcel/' + id;
+                if (CheckSelections()){
+                    var ids = GetSelections();
+                    if (ids.length > 0) {
+                        var param = "";
+                        for (var i in ids)
+                            param += ids[i].Id + ",";
+                        param = param.substring(0, param.length - 1);
+                        window.location.href = '/order/batch/toexcel?idStr=' + param;
                     }
                 }
             })

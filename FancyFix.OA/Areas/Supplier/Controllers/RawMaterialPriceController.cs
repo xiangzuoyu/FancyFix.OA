@@ -65,7 +65,7 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             DateTime startdate, enddate;
             GetDate(starttime, endtime, out startdate, out enddate);
             var pricelist = Bll.BllSupplier_Price.GetList(startdate, enddate);
-            var rawMaterialList = Bll.BllSupplier_RawMaterial.GetSelectList(0, "Id,SAPCode,Description", "display!=2", "") ?? new List<Supplier_RawMaterial>();
+            var rawMaterialList = Bll.BllSupplier_RawMaterial.GetSelectList(0, "Id,SAPCode,Description,Currency", "display!=2", "") ?? new List<Supplier_RawMaterial>();
             var supplierList = Bll.BllSupplier_List.GetSelectList(0, "Id,Code,Name", "display!=2", "") ?? new List<Supplier_List>();
 
             string table = CreateTable(rawMaterialPriceList, pricelist, rawMaterialList, supplierList, startdate, enddate);
@@ -107,6 +107,7 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
                 table.AddCol(supplier.Name);
                 table.AddCol(rawMaterial.SAPCode);
                 table.AddCol(rawMaterial.Description);
+                table.AddCol(rawMaterial.Currency);
 
                 while (startdate <= enddate)
                 {
@@ -131,6 +132,7 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             table.AddHeadCol("供应商名称", "min-width: 160px;");
             table.AddHeadCol("原材料代码", "min-width: 130px;");
             table.AddHeadCol("原材料名称", "min-width: 135px;");
+            table.AddHeadCol("价格单位", "min-width: 135px;");
             colNum = 4;
 
             while (startYears <= endYearsa)
@@ -692,7 +694,7 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             GetDate(startdate, enddate, out startMonth, out endMonth);
             var pricelist = Bll.BllSupplier_Price.GetList(startMonth, endMonth);
             var list = Bll.BllSupplier_RawMaterialPrice.GetList(id) ?? new List<Supplier_RawMaterialPrice>();
-            var rawMaterialList = Bll.BllSupplier_RawMaterial.GetSelectList(0, "Id,SAPCode,Description", "display!=2", "")
+            var rawMaterialList = Bll.BllSupplier_RawMaterial.GetSelectList(0, "Id,SAPCode,Description,Currency", "display!=2", "")
                 ?? new List<Supplier_RawMaterial>();
             var supplierList = Bll.BllSupplier_List.GetSelectList(0, "Id,Code,Name", "display!=2", "") ?? new List<Supplier_List>();
 
@@ -708,9 +710,11 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
                 {
                     DateTime start = startMonth, end = endMonth;
                     //填充legend
-                    var rawMaterialName = rawMaterialList.Where(o => o.SAPCode == item.RawMaterialId).FirstOrDefault()?.Description;
+                    var rawMaterial = rawMaterialList.Where(o => o.SAPCode == item.RawMaterialId).FirstOrDefault();
+                    var rawMaterialName = rawMaterial?.Description;
+                    var rawMaterialCurrency = rawMaterial?.Currency;
                     var supplierName = supplierList.Where(o => o.Code == item.VendorId).FirstOrDefault()?.Name;
-                    legend.Add($"{ rawMaterialName}_{supplierName}");
+                    legend.Add($"{rawMaterialName}_{supplierName}");
 
                     //循环价格
                     while (start <= end)
@@ -740,7 +744,9 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
                 foreach (var item in list)
                 {
                     DateTime start = startMonth, end = endMonth;
-                    var rawMaterialName = rawMaterialList.Where(o => o.SAPCode == item.RawMaterialId).FirstOrDefault()?.Description;
+                    var rawMaterial = rawMaterialList.Where(o => o.SAPCode == item.RawMaterialId).FirstOrDefault();
+                    var rawMaterialName = rawMaterial?.Description;
+                    var rawMaterialCurrency = rawMaterial?.Currency;
                     var supplierName = supplierList.Where(o => o.Code == item.VendorId).FirstOrDefault()?.Name;
                     legend.Add($"{ rawMaterialName}_{supplierName}");
 
@@ -820,7 +826,9 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
                 foreach (var item in list)
                 {
                     DateTime start = $"{startMonth.Year}-1-1".ToDateTime(), end = endMonth;
-                    var rawMaterialName = rawMaterialList.Where(o => o.SAPCode == item.RawMaterialId).FirstOrDefault()?.Description;
+                    var rawMaterial = rawMaterialList.Where(o => o.SAPCode == item.RawMaterialId).FirstOrDefault();
+                    var rawMaterialName = rawMaterial?.Description;
+                    var rawMaterialCurrency = rawMaterial?.Currency;
                     var supplierName = supplierList.Where(o => o.Code == item.VendorId).FirstOrDefault()?.Name;
                     legend.Add($"{ rawMaterialName}_{supplierName}");
 

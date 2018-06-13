@@ -456,6 +456,7 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
             model.Note = supplierList.Note;
             model.LastDate = DateTime.Now;
             model.LastUserId = MyInfo.Id;
+            model.Attachment = GetFiles();
             bool isok = false;
             //没有ID就新增，反之修改
             if (supplierList.Id < 1)

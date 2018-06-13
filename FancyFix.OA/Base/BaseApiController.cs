@@ -90,5 +90,10 @@ namespace FancyFix.OA.Base
                 return false;
             }
         }
+
+        public IHttpActionResult ReturnResult(bool success=true,string msg="操作成功")
+        {
+            return Ok(new { success = success, msg = msg });
+        }
     }
 }

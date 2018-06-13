@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using FancyFix.OA.Model;
+using FancyFix.OA.ViewModel;
 
 namespace FancyFix.Mapper.Profiles
 {
@@ -6,7 +8,7 @@ namespace FancyFix.Mapper.Profiles
     {
         public ModelToViewModelProfile()
         {
-
+            CreateMap<Develop_Demand, DemandModel>();
         }
     }
 }

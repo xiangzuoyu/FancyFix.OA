@@ -8,7 +8,7 @@ using System.Configuration;
 
 namespace FancyFix.OA.api
 {
-    public class UploadController : ApiController
+    public class UploadApiController : ApiController
     {
         private static Tools.Config.UploadConfig config = UploadProvice.Instance();
 

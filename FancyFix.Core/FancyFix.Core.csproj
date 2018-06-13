@@ -60,6 +60,7 @@
     <Compile Include="Admin\IAdminInfo.cs" />
     <Compile Include="Admin\PermissionManager.cs" />
     <Compile Include="Crypt\WebKey.cs" />
+    <Compile Include="Enum\Demand_TypeEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

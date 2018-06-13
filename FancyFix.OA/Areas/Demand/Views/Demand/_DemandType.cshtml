@@ -1,0 +1,23 @@
+﻿@model Dictionary<string, FancyFix.OA.Areas.Demand.Models.ContentModel>
+@{
+    foreach (var item in Model)
+    {
+        if (item.Value != null)
+        {
+            var id = item.Value.Field;
+            var isRequest = item.Value.IsRquest;
+            <tr>
+
+                <td align="right"><label for="title" class="control-label">@item.Key：</label></td>
+                <td>
+                    <div class="form-group form-inline">
+                        <textarea class="form-control" placeholder="@item.Value.Reminder" id="@id" name="@id" style="width:500px;" @(isRequest ? "required=required" : "")>@item.Value.Value</textarea>
+                        @*<input type="text" class="form-control"  placeholder="@item.Value.Reminder" id="@id" name="@id" value="@item.Value.Value" style="width:500px;" @(isRequest ? "required=required" : "") maxlength="500">*@
+                    </div>
+                </td>
+            </tr>
+        }
+
+    }
+    
+}

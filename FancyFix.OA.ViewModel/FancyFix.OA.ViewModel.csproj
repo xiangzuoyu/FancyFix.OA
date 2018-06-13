@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdminInfoModel.cs" />
+    <Compile Include="DemandModel.cs" />
     <Compile Include="ProductInfoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

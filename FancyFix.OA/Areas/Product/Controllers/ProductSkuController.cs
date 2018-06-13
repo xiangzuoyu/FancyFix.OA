@@ -179,9 +179,11 @@ namespace FancyFix.OA.Areas.Product.Controllers
             }
             modPro.Features = features.TrimEnd('|');
             //图案
-            if (modPro.PatternId > 0)
+            int patternid = RequestInt("patternid");
+            if (patternid > 0)
             {
-                modPro.Pattern = Bll.BllProduct_Pattern.GetPatternName(modPro.PatternId.Value);
+                modPro.PatternId = patternid;
+                modPro.Pattern = Bll.BllProduct_Pattern.GetPatternName(patternid);
             }
             //上架时间
             modPro.FirstPic = firstPic;

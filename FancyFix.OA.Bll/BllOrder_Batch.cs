@@ -72,5 +72,17 @@ namespace FancyFix.OA.Bll
         {
             return Db.Context.FromSql("select max(batch) from Order_Batch where ContractId=" + contractId).ToScalar<int>() + 1;
         }
+
+        /// <summary>
+        /// 根据Ids获取列表
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        public static List<Order_Batch> GetListByIds(List<int> ids)
+        {
+            var where = new Where<Order_Batch>();
+            where.And(o => o.Id.In(ids));
+            return Db.Context.From<Order_Batch>().Where(where).OrderBy(o => o.Id).ToList();
+        }
     }
 }

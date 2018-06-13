@@ -10,6 +10,7 @@
     //获取用户信息
     int userId = record?.UserId ?? 0;
     Mng_User userinfo = null;
+    bool isLock = ViewBag.isLock ?? false;
     if (userId > 0)
     {
         userinfo = FancyFix.OA.Bll.BllMng_User.First(o => o.Id == userId);
@@ -101,7 +102,7 @@
                             </div>
                         </td>
                     </tr>
-                    @if (ViewBag.isLock)
+                    @if (isLock)
                     {
                         <tr>
                             <td align="right"><label class="control-label">评分：</label></td>
@@ -149,7 +150,7 @@
                         <td>
                             <input type="hidden" id="id" name="id" value="@Model.Id">
                             <input type="hidden" id="rid" name="rid" value="@(record?.Id ?? 0)">
-                            @if (!ViewBag.isLock)
+                            @if (!isLock)
                             {
                                 <button type="submit" id="btnPass" class="btn btn-primary">提交</button>
                             }

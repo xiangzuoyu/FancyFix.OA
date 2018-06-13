@@ -59,5 +59,10 @@ namespace System
             Mapper.Map(typeof(IEnumerable<TFrom>).UnderlyingSystemType, typeof(IList<TResult>));
             return (IList<TResult>)Mapper.Map(self, result, typeof(IEnumerable<TFrom>), typeof(IList<TResult>));
         }
+
+        public static TDestination MapperConvert<TDestination>(this object source)
+        {
+            return Mapper.Map<TDestination>(source);
+        }
     }
 }

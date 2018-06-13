@@ -55,18 +55,10 @@
                                         }
                                         else if (item.ParUserId == MyInfo.Id)
                                         {
-                                            if (DateTime.Now.AddMonths(-1) > GetKpiApproveEndDay(year, month))
-                                            {
-                                                <span>超过截止时间，禁止评分</span>
-                                            }
-                                            else if ((item.IsSelfApprove ?? false) == false)
+                                            if ((item.IsSelfApprove ?? false) == false)
                                             {
                                                 <span>下级未自评，暂时不能评分</span>
                                             }
-                                            @*else if (item.IsApprove ?? false)
-                                            {
-                                                <span>已评分</span>
-                                            }*@
                                             else
                                             {
                                                 <a href="/kpi/kpi/childkpiapprove/@item.Id" class="btn btn-warning">评分</a>

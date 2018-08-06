@@ -191,6 +191,8 @@
     <Compile Include="Areas\Demand\Controllers\DemandController.cs" />
     <Compile Include="Areas\Demand\DemandAreaRegistration.cs" />
     <Compile Include="Areas\Demand\Models\DemandTypeModel.cs" />
+    <Compile Include="Areas\FinanceStatistics\Controllers\ListController.cs" />
+    <Compile Include="Areas\FinanceStatistics\FinanceStatisticsAreaRegistration.cs" />
     <Compile Include="Areas\Kpi\Controllers\KpiController.cs" />
     <Compile Include="Areas\Kpi\Controllers\KpiListController.cs" />
     <Compile Include="Areas\Kpi\KpiAreaRegistration.cs" />
@@ -1564,6 +1566,8 @@
     <Folder Include="Areas\ArtTask\Models\" />
     <Folder Include="Areas\ArtTask\Views\Shared\" />
     <Folder Include="Areas\Demand\Views\Shared\" />
+    <Folder Include="Areas\FinanceStatistics\Models\" />
+    <Folder Include="Areas\FinanceStatistics\Views\Shared\" />
     <Folder Include="Areas\Kpi\Models\" />
     <Folder Include="Areas\Kpi\Views\Shared\" />
     <Folder Include="Areas\Order\Models\" />
@@ -1962,6 +1966,8 @@
     <Content Include="Content\files\导入库存产品模版.xlsx" />
     <Content Include="Content\files\导入批次产品模版.xlsx" />
     <Content Include="Content\files\产品库产品导入模版.xlsx" />
+    <Content Include="Areas\FinanceStatistics\Views\web.config" />
+    <Content Include="Areas\FinanceStatistics\Views\List\List.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Common\GetAdminTree.cshtml" />
     <Content Include="Views\Shared\_baseconfig.cshtml" />

@@ -1,0 +1,55 @@
+﻿
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+@section Css{
+    <link href="/Content/js/plugins/datatables/bootstrap-table.min.css" rel="stylesheet" />
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box-header">
+            <h3 class="box-title">每日销售列表</h3>
+        </div>
+        <div class="box">
+            <div class="box-body">
+                <section class="panel">
+                    <div class="layui-form layui-form-pane">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">按字段</label>
+                            <div class="layui-input-inline">
+                                <select id="files" name="files" lay-filter="files">
+                                    <option value="">请选择</option>
+                                    <option value="Id">Id</option>
+                                </select>
+                            </div>
+                            <div class="layui-input-inline">
+                                @Html.TextBox("key", "", new { @class = "layui-input" })
+                            </div>
+                        </div>
+                        &nbsp;&nbsp;
+                        <div class="layui-input-inline">
+                            &nbsp;<button id="btnSearch" class="btn bg-blue" lay-submit lay-filter="formSearch">查询</button>
+                        </div>
+                        <div id="toolbar" class="btn-group">
+                            <button id="btn_add" type="button" class="btn btn-default">
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>添加
+                            </button>
+                            <button id="btn_delete" type="button" class="btn btn-default">
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
+                            </button>
+                        </div>
+
+                        <form id="excelForm" action="list" method="post" enctype="multipart/form-data">
+                            <input id="fileEle" name="file" type="file" style="display:none" />
+                        </form>
+                    </div>
+                </section>
+                <table id="table" class="table table-bordered table-hover"></table>
+            </div>
+        </div>
+    </div>
+</div>

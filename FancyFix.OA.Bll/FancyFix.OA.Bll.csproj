@@ -52,6 +52,7 @@
     <Compile Include="BllMng_PermissionGroup.cs" />
     <Compile Include="BllMng_PermissionGroupSet.cs" />
     <Compile Include="BllMng_PermissionPersonSet.cs" />
+    <Compile Include="BllOrder_ContractProduct.cs" />
     <Compile Include="BllOrder_BatchProduct.cs" />
     <Compile Include="BllOrder_Batch.cs" />
     <Compile Include="BllPoint_Records.cs" />

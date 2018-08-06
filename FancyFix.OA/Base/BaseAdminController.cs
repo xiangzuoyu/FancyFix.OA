@@ -598,6 +598,11 @@ namespace FancyFix.OA.Base
             return content;
         }
 
+        /// <summary>
+        /// 去除&nbsp;
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
         protected string EscapeSpace(string str)
         {
             return Regex.Replace(str, @"&nbsp;", " ");

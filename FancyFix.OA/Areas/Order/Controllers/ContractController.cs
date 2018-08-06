@@ -98,12 +98,42 @@ namespace FancyFix.OA.Areas.Order.Controllers
         {
             var contract = Bll.BllOrder_Contract.First(o => o.Id == id);
             if (contract == null) return LayerAlertErrorAndReturn("合同不存在！");
-            var dt = Bll.BllOrder_Contract.GetResult(id);
+            var dt = Bll.BllOrder_Contract.GetResult(contract.Id);
+            var prolist = Bll.BllOrder_ContractProduct.GetListByContractId(contract.Id);
             foreach (DataRow dr in dt.Rows)
             {
-                int count = (int)dr["Count"];
+                string name = dr["Name"].ToString();
+                decimal totalCost = (decimal)dr["TotalCost"];
                 decimal cost = (decimal)dr["Cost"];
-                dr["Cost"] = (cost / count).ToString("F5");
+                decimal quantity = (int)dr["Quantity"];
+                int count = (int)dr["Count"];
+
+                //匹配库存列表中的产品，一起核算
+                var pro = prolist.Find(o => o.Name == name);
+                if (pro != null)
+                {
+                    totalCost += pro.Quantity.Value * pro.Price.Value;
+                    quantity += pro.Quantity.Value;
+                    dr["Quantity"] = quantity;
+                    dr["TotalCost"] = totalCost;
+
+                    //从库存列表中移除当前匹配项
+                    prolist.Remove(pro);
+                }
+                dr["Cost"] = (totalCost / quantity).ToString("F5");
+            }
+            //插入其他不在批次中的库存产品
+            if (prolist != null && prolist.Count > 0)
+            {
+                foreach (var item in prolist)
+                {
+                    var newRow = dt.NewRow();
+                    newRow["Name"] = item.Name;
+                    newRow["Quantity"] = item.Quantity;
+                    newRow["Cost"] = item.Price;
+                    newRow["TotalCost"] = item.TotalPrice;
+                    dt.Rows.Add(newRow);
+                }
             }
             return View(dt);
         }

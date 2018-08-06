@@ -28,7 +28,7 @@ namespace FancyFix.OA.Bll
         /// <param name="pageSize"></param>
         /// <param name="records"></param>
         /// <returns></returns>
-        public static List<Product_Info> PageList(string title, string classParPath, string spu, int isshow, int page, int pageSize, out long records)
+        public static List<Product_Info> PageList(string title, string classParPath, string spu, string tag, int isshow, int page, int pageSize, out long records)
         {
             var where = new Where<Product_Info>();
             if (!string.IsNullOrEmpty(title))
@@ -39,9 +39,14 @@ namespace FancyFix.OA.Bll
                 where.And(Product_Info._.Spu.BeginWith(spu));
             if (isshow >= 0)
                 where.And(Product_Info._.IsShow == (isshow == 1 ? true : false));
+            if (!string.IsNullOrWhiteSpace(tag))
+            {
+                List<int> pids = Db.Context.FromSql($"select DISTINCT ProId from Product_Image where Tag like '%{tag.Trim()}%'").ToList<int>();
+                where.And(o => o.Id.In(pids));
+            }
 
             var p = Db.Context.From<Product_Info>()
-                 .Select<Mng_User>((a, b) => new { a.Id, a.Title, a.Color, a.Spu, a.FirstPic, a.Moq, a.QuantityUnit, a.AdminId, a.IsShow, a.CreateDate, a.Url, a.Stock, b.RealName })
+                 .Select<Mng_User>((a, b) => new { a.Id, a.Title, a.Color, a.Spu, a.FirstPic, a.Moq, a.QuantityUnit, a.AdminId, a.IsShow, a.CreateDate, a.Url, a.Stock, b.RealName, a.SupplierProductCode })
                  .LeftJoin<Mng_User>((a, b) => a.AdminId == b.Id)
                  .Where(where);
 

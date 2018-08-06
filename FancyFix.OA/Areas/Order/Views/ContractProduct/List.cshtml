@@ -1,6 +1,7 @@
 ﻿@{
-    ViewBag.Title = "ContractList";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "ContractProductList";
+    Layout = "~/Views/Shared/_Layout_In.cshtml";
+    int contractId = ViewBag.contractId;
 }
 @section Css{
     <link href="/Content/js/plugins/datatables/bootstrap-table.min.css" rel="stylesheet" />
@@ -8,18 +9,12 @@
 <div class="row">
     <div class="col-xs-12">
         <div class="box-header">
-            <h3 class="box-title">合同列表</h3>
+            <h3 class="box-title">库存产品列表</h3>
         </div>
         <div class="box">
             <div class="box-body">
                 <section class="panel">
                     <div class="layui-form layui-form-pane">
-                        <div class="layui-inline">
-                            <label class="layui-form-label">合同编号</label>
-                            <div class="layui-input-inline">
-                                <input type="text" id="contractNo" placeholder="合同编号" maxlength="30" class="layui-input" style="width:200px;">
-                            </div>
-                        </div>
                         <div class="layui-inline pull-right">
                             <button id="btnSearch" class="btn bg-orange" lay-submit lay-filter="formSearch">查询</button>
                         </div>
@@ -27,15 +22,20 @@
                 </section>
                 <div id="toolbar" class="btn-group">
                     <button id="btn_add" type="button" class="btn btn-default">
-                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增合同
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>添加产品
+                    </button>
+                    <button id="btn_import" type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>导入产品
                     </button>
                 </div>
                 <table id="table" class="table table-bordered table-hover"></table>
+                <form id="excelForm" method="post" enctype="multipart/form-data">
+                    <input id="fileEle" name="file" type="file" style="display:none" />
+                </form>
             </div>
         </div>
     </div>
 </div>
-
 @section Js{
     <script src="/Content/js/plugins/datatables/bootstrap-table.min.js"></script>
     <script src="/Content/js/plugins/datatables/bootstrap-table-zh-CN.js"></script>
@@ -50,7 +50,7 @@
                 //初始化Table
                 objTable.Init = function () {
                     $table.bootstrapTable({
-                        url: '/order/contract/PageList',
+                        url: '/order/contractproduct/PageList',
                         method: 'get',
                         toolbar: '#toolbar',                //工具按钮用哪个容器
                         idField: "Id",                      //指定主键列
@@ -80,23 +80,33 @@
                         //showToggle: true,                   //是否显示详细视图和列表视图的切换按钮
                         //detailView: true,                     //父子表
                         columns: [{
-                            checkbox: true
+                            field: 'Name',
+                            title: '产品名称',
+                            align: 'center'
                         }, {
-                            field: 'ContractNo',
-                            title: '合同编号',
-                            align: 'center',
+                            field: 'Price',
+                            title: '单价',
+                            align: 'center'
                         }, {
-                            field: 'AddTime',
-                            title: '添加时间',
+                            field: 'Quantity',
+                            title: '数量',
+                            align: 'center'
+                        },  {
+                            field: 'TotalPrice',
+                            title: '合计',
                             align: 'center'
                         }, {
                             title: '操作',
                             align: 'center',
                             formatter: function (v, r, i) {
-                                var html = "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnAddPro btn btn-md btn-primary\">库存产品</a> <a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnBtach btn btn-md btn-primary\">批次管理</a> <a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnResult btn btn-md btn-primary\">计算结果</a> <a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnEdit btn btn-md btn-primary\">编辑</a> <a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnDel btn btn-md btn-danger\">删除</a>";
+                                var html = "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnEdit btn btn-md btn-primary\">编辑</a> <a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnDel btn btn-md btn-danger\">删除</a>";
                                 return html;
                             }
-                        }]
+                        }],
+                        //注册加载子表的事件
+                        onExpandRow: function (index, row, $tr) {
+                            objTable.InitChildTable(index, row, $tr);
+                        }
                     });
                 };
 
@@ -110,7 +120,7 @@
                         ordername: params.sort,
 
                         //自定义参数
-                        contractno: $("#contractNo").val()
+                        contractId: '@contractId'
                     };
                     return temp;
                 };
@@ -119,49 +129,48 @@
             //初始化Table
             new TableInit().Init();
 
-            //添加产品
-            $("#table").on('click', '.btnAddPro', function () {
-                var id = $(this).attr("data-id");
-                OpenWin("库存产品列表", "/order/contractproduct/list/" + id, "80%", "90%");
-            });
-          
-            //合同编辑
-            $("#table").on('click', '.btnEdit', function () {
-                var id = $(this).attr("data-id");
-                OpenWin("合同编辑", "/order/contract/Edit/" + id, "600px", "250px");
-            });
-
-            //合同添加
-            $("#btn_add").on('click', function () {
-                OpenWin("合同添加", "/order/contract/Edit", "600px", "250px");
-            });
-
-            //批次管理
-            $("#table").on('click', '.btnBtach', function () {
-                var id = $(this).attr("data-id");
-                OpenWin("批次管理", "/order/batch/list/" + id, "80%", "90%");
-            });
-
-            //计算结果
-            $("#table").on('click', '.btnResult', function () {
-                var id = $(this).attr("data-id");
-                OpenWin("计算结果", "/order/contract/showresult/" + id, "80%", "80%");
-            });
-
             //监听提交
             form.on('submit(formSearch)', function (data) {
                 Reload();
                 return false;
             });
 
-            //删除单个
+            //添加
+            $("#btn_add").on('click', function () {
+                OpenWin("产品添加", "/order/contractproduct/Edit?contractId=@contractId", "600px", "450px");
+            });
+
+            //导入产品
+             $("#btn_import").on('click', function () {
+                 layer.confirm('Excel格式：<a target="_blank" href="/Content/files/导入库存产品模版.xlsx">点击下载</a><br>如果导入已有产品，数据会累计', {
+                    title: "提示",
+                    btn: ['确定', '取消']
+                }, function (index, layero) {
+                    excelForm.action = "/order/contractproduct/ImportProduct?contractId=@contractId";
+                    $("#fileEle").trigger("click");
+                    layer.close(index);
+                }, function (index) {
+                    layer.close(index);
+                });
+            });
+            $("#fileEle").on("change", function () {
+                excelForm.submit();
+            })
+
+            //编辑
+            $("#table").on('click', '.btnEdit', function () {
+                var id = $(this).data("id");
+                OpenWin("产品编辑", "/order/contractproduct/Edit/" + id + "?contractId=@contractId", "600px", "450px");
+            });
+
+            //删除
             $("#table").on('click', '.btnDel', function () {
                 var $this = $(this);
                 layer.confirm('确定删除该项吗?', {
                     btn: ['确定', '取消']
                 }, function (index, layero) {
                     var id = $this.data("id");
-                    $.post('/order/contract/delete/' + id, function (data) {
+                    $.post('/order/contractproduct/delete/' + id, function (data) {
                         if (data) {
                             var $$table = $this.closest("table");
                             ReloadTable($$table);

@@ -37,6 +37,7 @@ namespace FancyFix.OA.Model
 		private DateTime? _AddTime;
 		private int? _AdminId;
 		private decimal? _UnitPerCost;
+		private string _BatchNo;
 		/// <summary>
 		/// 
 		/// </summary>
@@ -169,6 +170,18 @@ namespace FancyFix.OA.Model
 				this._UnitPerCost=value;
 			}
 		}
+		/// <summary>
+		/// 
+		/// </summary>
+		public string BatchNo
+		{
+			get{ return _BatchNo; }
+			set
+			{
+				this.OnPropertyValueChange(_.BatchNo,_BatchNo,value);
+				this._BatchNo=value;
+			}
+		}
 		#endregion
 
 		#region Method
@@ -203,7 +216,8 @@ namespace FancyFix.OA.Model
 				_.TotalCost,
 				_.AddTime,
 				_.AdminId,
-				_.UnitPerCost};
+				_.UnitPerCost,
+				_.BatchNo};
 		}
 		/// <summary>
 		/// 获取值信息
@@ -221,7 +235,8 @@ namespace FancyFix.OA.Model
 				this._TotalCost,
 				this._AddTime,
 				this._AdminId,
-				this._UnitPerCost};
+				this._UnitPerCost,
+				this._BatchNo};
 		}
 		#endregion
 
@@ -279,6 +294,10 @@ namespace FancyFix.OA.Model
 			/// 
 			/// </summary>
 			public readonly static Field UnitPerCost = new Field("UnitPerCost","Order_Batch","UnitPerCost");
+			/// <summary>
+			/// 
+			/// </summary>
+			public readonly static Field BatchNo = new Field("BatchNo","Order_Batch","BatchNo");
 		}
 		#endregion
 

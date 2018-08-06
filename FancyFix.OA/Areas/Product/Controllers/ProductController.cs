@@ -9,6 +9,9 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using FancyFix.Tools.Config;
+using Tools.Tool;
+using NPOI.SS.UserModel;
+using System.Web;
 
 namespace FancyFix.OA.Areas.Product.Controllers
 {
@@ -21,7 +24,10 @@ namespace FancyFix.OA.Areas.Product.Controllers
         /// <returns></returns>
         public ActionResult List()
         {
+            var tagList = Bll.BllProduct_ImageTag.GetAll();
             ViewBag.classHtml = Bll.BllProduct_Class.Instance().ShowClassPath(0, "", true);
+            ViewBag.importClassHtml = Bll.BllProduct_Class.Instance().ShowClass(0, 0, true);
+            ViewBag.taglist = tagList;
             return View();
         }
 
@@ -34,8 +40,9 @@ namespace FancyFix.OA.Areas.Product.Controllers
             string classParPath = RequestString("classparpath");
             string spu = RequestString("spu");
             int isshow = RequestInt("isshow");
+            string tag = RequestString("tag");
 
-            var list = Bll.BllProduct_Info.PageList(title, classParPath, spu, isshow, page, pagesize, out records);
+            var list = Bll.BllProduct_Info.PageList(title, classParPath, spu, tag, isshow, page, pagesize, out records);
             foreach (var item in list)
             {
                 item.Url = GetProductUrl(item.Url, item.Id);
@@ -373,6 +380,109 @@ namespace FancyFix.OA.Areas.Product.Controllers
         public JsonResult DeleteBatch(List<Product_Info> list)
         {
             return Json(new { result = Bll.BllProduct_Info.DeleteAllBatch(list) });
+        }
+
+        /// <summary>
+        /// 导入产品
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult ImportProduct(HttpPostedFileBase file)
+        {
+            try
+            {
+                int classId = RequestInt("classId");
+                if (classId == 0) return LayerAlertErrorAndReturn("请选择一个分类！");
+                var classModel = Bll.BllProduct_Class.First(o => o.Id == classId);
+                if (classModel == null) return LayerAlertErrorAndClose("分类不存在！");
+                if (classModel.ChildNum > 0) return LayerAlertErrorAndReturn("请选择一个最底层分类！");
+
+                Tools.Config.UploadConfig config = UploadProvice.Instance();
+                SiteOption option = config.SiteOptions["local"];
+                string filePath = option.Folder + config.Settings["file"].FilePath + DateTime.Now.ToString("yyyyMMddHHmmss")
+                        + (file.FileName.IndexOf(".xlsx") > 0 ? ".xlsx" : ".xls");
+
+                string result = FileHelper.ValicationAndSaveFileToPath(file, filePath);
+                if (result != "0")
+                    return MessageBoxAndReturn($"上传失败，{result}！");
+
+                var sheet = Tools.Tool.ExcelHelper.ReadExcel(filePath);
+                if (sheet == null)
+                    return MessageBoxAndReturn($"Excel读取失败，请检查格式！");
+                if (sheet.LastRowNum < 1)
+                    return MessageBoxAndReturn($"Excel无数据！");
+
+                int succuessCount = 0;
+                List<Product_Info> list = new List<Product_Info>();
+                IRow row;
+                for (int i = 1; i <= sheet.LastRowNum; i++)  //从第二行开始读取
+                {
+                    row = sheet.GetRow(i);   //第i行数据  
+                    if (row != null)
+                    {
+                        string title = row.GetCell(0)?.ToString();
+                        if (string.IsNullOrEmpty(title)) continue; //标题为空，跳过
+                        if (Bll.BllProduct_Info.Any(o => o.Title == title)) continue; //标题和老SPU已存在，跳过
+
+                        //产品Spu
+                        var classIds = classModel.ParPath.TrimEnd(',').Split(',');
+                        string code = Bll.BllProduct_Class.GetCode(classId);
+                        string spu = code + Bll.BllProduct_CodeSequence.GetMaxId(classId);
+                        if (Bll.BllProduct_Info.IsExistsSpu(spu)) continue; //Spu重复，跳过
+
+                        string titleEn = row.GetCell(1)?.ToString();
+                        string oldSpu = row.GetCell(2)?.ToString();
+                        string supplierCode = row.GetCell(3)?.ToString();
+                        string supplierName = row.GetCell(4)?.ToString();
+                        string specification = row.GetCell(5)?.ToString();
+                        string priceRemark = row.GetCell(6)?.ToString();
+                        string hsCode = row.GetCell(7)?.ToString();
+                        string InvoiceName = row.GetCell(8)?.ToString();
+
+                        var model = new Product_Info()
+                        {
+                            ClassId_1 = classIds.Length > 0 ? classIds[0].ToInt32() : 0,
+                            ClassId_2 = classIds.Length > 1 ? classIds[1].ToInt32() : 0,
+                            ClassId = classModel.Id,
+                            ClassParPath = classModel.ParPath,
+                            Title = title,
+                            Title_En = titleEn,
+                            IsShow = true,
+                            Old_Spu = oldSpu,
+                            Spu = spu,
+                            SupplierProductCode = supplierCode,
+                            SupplierName = supplierName,
+                            Specification = specification,
+                            PriceRemark = priceRemark,
+                            HS_Code = hsCode,
+                            InvoiceName = InvoiceName,
+                            AdminId = MyInfo.Id,
+                            CreateDate = DateTime.Now,
+                            PriceUnit = "$",
+                            Currency = "USD",
+                            Price = 0,
+                            TaxPrice = 0,
+                            Moq = 1,
+                        };
+                        if (Bll.BllProduct_Info.Insert(model) > 0)
+                        {
+                            succuessCount++;
+                            //更新编码排序
+                            Bll.BllProduct_CodeSequence.UpdateSequence(classId, spu);
+                        }
+                    }
+                }
+                if (succuessCount > 0)
+                    return MessageBoxAndReturn("导入成功！");
+                else
+                    return MessageBoxAndReturn("导入失败，请联系管理员！");
+            }
+            catch (Exception ex)
+            {
+                Tools.Tool.LogHelper.WriteLog(typeof(ProductController), ex, MyInfo.Id, MyInfo.RealName);
+                return MessageBoxAndReturn("导入失败，请联系管理员！" + ex);
+            }
         }
     }
 }

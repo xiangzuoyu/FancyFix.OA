@@ -92,6 +92,7 @@
     <Compile Include="Order_Batch.cs" />
     <Compile Include="Order_BatchProduct.cs" />
     <Compile Include="Order_Contract.cs" />
+    <Compile Include="Order_ContractProduct.cs" />
     <Compile Include="Point_Class.cs" />
     <Compile Include="Point_List.cs" />
     <Compile Include="Point_Records.cs" />

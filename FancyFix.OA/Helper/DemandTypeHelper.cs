@@ -151,7 +151,7 @@ namespace FancyFix.OA.Helper
                 ContentModel fileld6 = new ContentModel();
                 fileld6.Value = demandTypeModel.Field6;
                 fileld6.Field = "Field6";
-                dict.Add("预期拿样时间", fileld6);
+                dict.Add("预计出货时间", fileld6);
             }
             else if (type == (int)Demand_TypeEnum.设计部打样)
             {
@@ -218,6 +218,21 @@ namespace FancyFix.OA.Helper
                 fileld10.Value = demandTypeModel.Field10;
                 fileld10.Field = "Field10";
                 dict.Add("项目预期目标", fileld10);
+            }
+            else if (type == (int)Demand_TypeEnum.样品需求)
+            {
+                ContentModel fileld1 = new ContentModel();
+                fileld1.Value = demandTypeModel.Field1;
+                fileld1.Field = "Field1";
+                dict.Add("样品型号", fileld1);
+                ContentModel fileld2 = new ContentModel();
+                fileld2.Value = demandTypeModel.Field2;
+                fileld2.Field = "Field2";
+                dict.Add("目录册编号", fileld2);
+                ContentModel fileld3 = new ContentModel();
+                fileld3.Value = demandTypeModel.Field3;
+                fileld3.Field = "Field3";
+                dict.Add("样品数量（每款几个）", fileld3); 
             }
             return dict;
 

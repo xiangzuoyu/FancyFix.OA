@@ -78,6 +78,7 @@ namespace FancyFix.OA.Areas.Order.Controllers
 
             model.ContractId = contractId;
             model.Batch = RequestInt("batch");
+            model.BatchNo = RequestString("batchno");
             model.TotalCost = RequestDecimal("totalcost");
             model.UnitType = RequestByte("unittype");
             model.UnitValue = RequestDecimal("unitvalue");

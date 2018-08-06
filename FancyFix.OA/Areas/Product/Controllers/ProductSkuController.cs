@@ -33,7 +33,7 @@ namespace FancyFix.OA.Areas.Product.Controllers
             string spu = RequestString("spu");
             int isshow = RequestInt("isshow");
 
-            var list = Bll.BllProduct_Info.PageList(title, classParPath, spu, isshow, page, pagesize, out records);
+            var list = Bll.BllProduct_Info.PageList(title, classParPath, spu, "", isshow, page, pagesize, out records);
             foreach (var item in list)
             {
                 item.Url = GetProductUrl(item.Url, item.Id);

@@ -32,6 +32,9 @@
                     </button>
                 </div>
                 <table id="table" class="table table-bordered table-hover"></table>
+                <form id="excelForm" method="post" enctype="multipart/form-data">
+                    <input id="fileEle" name="file" type="file" style="display:none" />
+                </form>
             </div>
         </div>
     </div>
@@ -89,6 +92,10 @@
                                 return "批次" + v;
                             }
                         }, {
+                            field: 'BatchNo',
+                            title: '批次编号',
+                            align: 'center'
+                        },  {
                             field: 'TotalCost',
                             title: '物流总费用',
                             align: 'center'
@@ -122,7 +129,7 @@
                             title: '操作',
                             align: 'center',
                             formatter: function (v, r, i) {
-                                var html = "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnAdd btn btn-md btn-warning\">添加产品</a> <a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnEdit btn btn-md btn-primary\">编辑</a> <a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnDel btn btn-md btn-danger\">删除</a>";
+                                var html = "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnImport btn btn-md btn-warning\">导入产品</a> <a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnAdd btn btn-md btn-warning\">添加产品</a> <a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnEdit btn btn-md btn-primary\">编辑</a> <a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnDel btn btn-md btn-danger\">删除</a>";
                                 return html;
                             }
                         }],
@@ -211,12 +218,12 @@
             //编辑
             $("#table").on('click', '.btnEdit', function () {
                 var id = $(this).data("id");
-                OpenWin("批次编辑", "/order/batch/Edit/" + id +"?contractid=@contractId", "70%", "90%");
+                OpenWin("批次编辑", "/order/batch/Edit/" + id +"?contractid=@contractId", "70%", "100%");
             });
 
             //添加
             $("#btn_add").on('click', function () {
-                OpenWin("批次添加", "/order/batch/Edit?contractid=@contractId", "70%", "90%");
+                OpenWin("批次添加", "/order/batch/Edit?contractid=@contractId", "70%", "100%");
             });
 
              //计算结果
@@ -249,6 +256,25 @@
                 var batchid = $(this).data("batchid");
                 OpenWin("批次编辑", "/order/batchproduct/Edit/" + id + "?batchid=" + batchid, "65%", "70%");
             });
+
+            //导入产品
+            $("#table").on('click', '.btnImport', function () {
+                var id = $(this).data("id");
+                layer.confirm('Excel模版：<a target="_blank" href="/Content/files/导入批次产品模版.xlsx">点击下载</a><br>如果导入已有产品，数据会累计', {
+                    title:"提示",
+                    btn: ['确定', '取消']
+                }, function (index, layero) {
+                    excelForm.action = "/order/batchproduct/ImportProduct?batchId=" + id;
+                    $("#fileEle").trigger("click");
+                    layer.close(index);
+                }, function (index) {
+                    layer.close(index);
+                });
+            });
+            $("#fileEle").on("change", function () {
+                excelForm.submit();
+            })
+
 
             //监听提交
             form.on('submit(formSearch)', function (data) {
@@ -297,6 +323,7 @@
                     layer.close(index);
                 });
             });
+
         })
     </script>
 }

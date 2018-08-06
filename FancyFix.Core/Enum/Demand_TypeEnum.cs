@@ -16,7 +16,8 @@ namespace FancyFix.Core.Enum
         跨境B2B新品=3,
         跨境B2C新品开发=4,
         设计部打样=5,
-        跨境B2C项目=6
+        跨境B2C项目=6,
+        样品需求=7
     }
     /// <summary>
     /// 新品需求状态

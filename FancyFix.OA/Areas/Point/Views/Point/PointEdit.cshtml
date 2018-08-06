@@ -64,33 +64,30 @@
                             </td>
                         </tr>
                     }
-                    @if (IsSuperAdmin || IsDepartAdmin)
-                    {
-                        <tr>
-                            <td align="right"><label for="groupid" class="control-label">当事人：</label></td>
-                            <td>
-                                @if (Model != null)
+                    <tr>
+                        <td align="right"><label for="groupid" class="control-label">当事人：</label></td>
+                        <td>
+                            @if (Model != null)
+                            {
+                                <input type="hidden" id="userid" name="userid" value="@Model.UserId">
+                                <span id="username">@Model.UserName</span>
+                                if (!Model.IsApprove.Value)
                                 {
-                                    <input type="hidden" id="userid" name="userid" value="@Model.UserId">
-                                    <span id="username">@Model.UserName</span>
-                                    if (!Model.IsApprove.Value)
-                                    {
-                                        <button type="button" id="btnClear" class="btn btn-default">清除</button>
+                                    <button type="button" id="btnClear" class="btn btn-default">清除</button>
                                         <button type="button" id="btnSetPar" class="btn btn-default">选择员工</button>
                                         <span>(不选则默认自己)</span>
-                                    }
                                 }
-                                else
-                                {
-                                    <input type="hidden" id="userid" name="userid" value="">
-                                    <span id="username"></span>
+                            }
+                            else
+                            {
+                                <input type="hidden" id="userid" name="userid" value="">
+                                <span id="username"></span>
                                     <button type="button" id="btnClear" class="btn btn-default hidden">清除</button>
                                     <button type="button" id="btnSetPar" class="btn btn-default">选择员工</button>
                                     <span>(不选则默认自己)</span>
-                                }
-                            </td>
-                        </tr>
-                    }
+                            }
+                        </td>
+                    </tr>
                     @if (Model != null && Model.IsApprove.Value)
                     {
 

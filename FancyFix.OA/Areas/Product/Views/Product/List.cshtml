@@ -1,6 +1,8 @@
-﻿@{
+﻿@using FancyFix.OA.Model;
+@{
     ViewBag.Title = "ProductList";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Product_ImageTag> taglist = ViewBag.taglist;
 }
 @section Css{
     <link href="/Content/js/plugins/datatables/bootstrap-table.min.css" rel="stylesheet" />
@@ -45,6 +47,22 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">标签</label>
+                            <div class="layui-input-inline">
+                                <select class="layui-selecct" id="tag" name="tag">
+                                    <option value=" ">所有</option>
+                                    @if (taglist != null && taglist.Count > 0)
+                                    {
+                                        foreach (var item in taglist)
+                                        {
+                                            <option value="@item.Tag">@item.Tag</option>
+                                        }
+                                    }
+                                </select>
+                                <span class="layui-word-aux">(标签查询可能需要多等一会儿)</span>
+                            </div>
+                        </div>
                         <div class="layui-inline pull-right">
                             <button id="btnSearch" class="btn bg-orange" lay-submit lay-filter="formSearch">查询</button>
                         </div>
@@ -57,14 +75,17 @@
                     <button id="btn_add" type="button" class="btn btn-default">
                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增产品
                     </button>
-                    @if (IsSuperAdmin)
-                    {
-                        <button id="btn_delete" type="button" class="btn btn-default">
-                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
-                        </button>
-                    }
+                    <button id="btn_import" type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>导入产品
+                    </button>
+                    <button id="btn_delete" type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
+                    </button>
                 </div>
                 <table id="table" class="table table-bordered table-hover"></table>
+                <form id="excelForm" method="post" enctype="multipart/form-data">
+                    <input id="fileEle" name="file" type="file" style="display:none" />
+                </form>
             </div>
         </div>
     </div>
@@ -137,18 +158,15 @@
                                 return "<a target=\"_blank\" href=\"" + r.Url + "\">" + v + "</a>"
                             }
                         }, {
-                            field: 'Stock',
-                            title: '库存量',
-                            align: 'center',
-                            formatter: function (v, r, i) {
-                                return (r.Stock == null ? "0" : r.Stock) + ' ' + (r.QuantityUnit == null ? "" : r.QuantityUnit)
-                            }
+                            field: 'SupplierProductCode',
+                            title: '供应商产品代码',
+                            align: 'center'
                         }, {
                             field: 'IsShow',
                             title: '有效',
                             align: 'center',
                             formatter: setShowFormatter
-                        },{
+                        }, {
                             field: 'CreateDate',
                             title: '创建时间',
                             align: 'center'
@@ -156,7 +174,7 @@
                             title: '操作',
                             align: 'center',
                             formatter: function (v, r, i) {
-                                var html = "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnAddSim btn btn-md btn-warning\">添加相似产品</a> <a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnEdit btn btn-md btn-primary\">编辑内容</a> <a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnAddRes btn btn-md btn-primary\">上传资源</a> <a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnAddImg btn btn-md btn-primary\">图片列表</a>";
+                                var html = "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnAddSim btn btn-md btn-warning\">添加相似产品</a> <a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnEdit btn btn-md btn-primary\">编辑内容</a> <a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnAddRes btn btn-md btn-primary\">上传资源</a> <a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnAddImg btn btn-md btn-primary\">图片列表</a> <a href=\"javascript:;\" data-spu=\"" + r.Spu + "\" class=\"btnDownload btn btn-md btn-primary\">下载</a>";
                                 return html;
                             }
                         }]
@@ -176,6 +194,7 @@
                         title: $("#title").val(),
                         classparpath: $("#classparpath").val(),
                         spu: $("#spu").val(),
+                        tag: $("#tag").val(),
                         isshow: $("#isshow").val()
                     };
                     return temp;
@@ -218,6 +237,12 @@
                 OpenWin("图片列表", "/product/image/list/" + id, "80%", "100%");
             });
 
+            //下载
+            $("#table").on('click', '.btnDownload', function () {
+                var spu = $(this).data("spu");
+                window.location.href = '/product/search?spu=' + spu;
+            });
+
             //新增产品
             $("#btn_add").on('click', function () {
                 OpenWin("产品添加", "/product/product/Edit", "80%", "100%");
@@ -227,7 +252,32 @@
             $("#btn_addspu").on('click', function () {
                 OpenWin("新增Spu", "/product/product/addspu", "550px", "350px");
             });
-          
+
+            //导入产品
+            $("#btn_import").click(function () {
+                var select = '<select class="form-control" id="importclass"><option value="0">选择分类</option>@(Html.Raw(ViewBag.importClassHtml))</select>';
+                layer.confirm('Excel模版：<a target="_blank" href="/Content/files/产品库产品导入模版.xlsx">点击下载</a><br>选择一个最底层分类：' + select + '<br>(重名已存在的产品会自动跳过)', {
+                    title: "提示",
+                    btn: ['确定', '取消']
+                }, function (index, layero) {
+                    var $class = $("#importclass").find("option:selected");
+                    var classId = parseInt($class.val());
+                    var childNum = parseInt($class.attr("child"));
+                    if (childNum > 0 || classId == 0)
+                        layer.msg('请选择一个最底层分类');
+                    else {
+                        excelForm.action = "/product/product/ImportProduct?classId=" + classId;
+                        $("#fileEle").trigger("click");
+                    }
+                    layer.close(index);
+                }, function (index) {
+                    layer.close(index);
+                });
+            });
+            $("#fileEle").on("change", function () {
+                excelForm.submit();
+            })
+
             function setShowFormatter(v, r, i) {
                 if (v > 0)
                     return "<a href=\"javascript:;\" data-id=\"" + r.Id + "\"  class=\"btnSetShow btn btn-success btn-circle btn-lg btn-xs\" type=\"button\"> <i class=\"fa fa-check\"></i></a>";

@@ -1,0 +1,93 @@
+﻿@using FancyFix.OA.Model;
+@model Order_ContractProduct
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout_In.cshtml";
+    Order_Contract contract = ViewBag.contract;
+}
+@section Css{
+    <link href="/Content/js/plugins/iCheck/flat/_all.css" rel="stylesheet" />
+}
+<div class="row">
+    <div class="col-md-12">
+        <form id="mainform" action="/order/contractproduct/save" method="post">
+            <table class="layui-table">
+                <!--列宽度-->
+                <colgroup>
+                    <col class="col-lg-4">
+                    <col class="col-lg-8">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">合同：</label></td>
+                        <td>
+                            <div class="form-group">
+                                批次@(contract.ContractNo)
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">产品名称：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="name" name="name" placeholder="产品名称" value="@(Model?.Name ?? "")" style="width:300px;" required="required" maxlength="50">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">单价：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="price" name="price" placeholder="单价" value="@(Model?.Price ?? 0)" style="width:100px;" required="required" max="@Model.Price">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="title" class="control-label">数量：</label></td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="quantity" name="quantity" placeholder="数量" value="@(Model?.Quantity ?? 0)" style="width:100px;" required="required" max="@Model.Quantity">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"></td>
+                        <td>
+                            <input type="hidden" id="id" name="id" value="@(Model?.Id ?? 0)">
+                            <input type="hidden" id="contractId" name="contractId" value="@contract.Id">
+                            <button type="submit" id="btnPass" class="btn btn-primary">保存</button>
+                            <button type="button" id="cancel" class="btn btn-default" onclick="CloseWin()">取消</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+@section Js{
+    <script src="/Content/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/jquery.validator.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/messages_cn.js"></script>
+    <script src="/Content/js/common/tools.js"></script>
+    <script src="/Content/js/common/skuatter.js"></script>
+    <script type="text/javascript">
+        layui.use(['layer'], function () {
+            var layer = layui.layer;
+
+            //iCheck初始化
+            $('input[type="checkbox"],input[type="radio"]').iCheck({
+                checkboxClass: 'icheckbox_flat-blue',
+                radioClass: 'iradio_flat-blue'
+            });
+
+            //表单验证
+            var $form = $("#mainform");
+            $form.validate();
+
+            //通过
+            $("#btnPass").click(function () {
+                $form.valid();
+            });
+        })
+    </script>
+}

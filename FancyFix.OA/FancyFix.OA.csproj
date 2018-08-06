@@ -194,6 +194,7 @@
     <Compile Include="Areas\Kpi\Controllers\KpiController.cs" />
     <Compile Include="Areas\Kpi\Controllers\KpiListController.cs" />
     <Compile Include="Areas\Kpi\KpiAreaRegistration.cs" />
+    <Compile Include="Areas\Order\Controllers\ContractProductController.cs" />
     <Compile Include="Areas\Order\Controllers\BatchProductController.cs" />
     <Compile Include="Areas\Order\Controllers\BatchController.cs" />
     <Compile Include="Areas\Order\Controllers\ContractController.cs" />
@@ -1956,6 +1957,11 @@
     <Content Include="Areas\Demand\Views\Demand\_DemandType.cshtml" />
     <Content Include="Areas\Demand\Views\Demand\UserList.cshtml" />
     <Content Include="Areas\Supplier\Views\SupplierManager\Addition.cshtml" />
+    <Content Include="Areas\Order\Views\ContractProduct\Edit.cshtml" />
+    <Content Include="Areas\Order\Views\ContractProduct\List.cshtml" />
+    <Content Include="Content\files\导入库存产品模版.xlsx" />
+    <Content Include="Content\files\导入批次产品模版.xlsx" />
+    <Content Include="Content\files\产品库产品导入模版.xlsx" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Common\GetAdminTree.cshtml" />
     <Content Include="Views\Shared\_baseconfig.cshtml" />

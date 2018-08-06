@@ -40,21 +40,29 @@ namespace FancyFix.OA.Bll
         /// <returns></returns>
         public static int UpdateSequence(int classId, string spuCode)
         {
-            string classCode = Bll.BllProduct_Class.GetCode(classId);
-            if (spuCode.Length <= classCode.Length) return 0;
-            int sequence = spuCode.Substring(classCode.Length).ToInt32();
-            Product_CodeSequence model = First(o => o.ClassId == classId);
-            if (model != null)
+            try
             {
-                model.Sequence = sequence;
-                return Update(model) > 0 ? model.Id : 0;
+                string classCode = Bll.BllProduct_Class.GetCode(classId);//eg: 102
+                if (spuCode.Length <= classCode.Length) return 0;
+                int sequence = spuCode.Substring(classCode.Length).TrimStart('0').ToInt32();
+                Product_CodeSequence model = First(o => o.ClassId == classId);
+                if (model != null)
+                {
+                    model.Sequence = sequence;
+                    return Update(model) > 0 ? model.Id : 0;
+                }
+                else
+                {
+                    model = new Product_CodeSequence();
+                    model.ClassId = classId;
+                    model.Sequence = sequence;
+                    return Insert(model);
+                }
             }
-            else
+            catch(Exception ex)
             {
-                model = new Product_CodeSequence();
-                model.ClassId = classId;
-                model.Sequence = sequence;
-                return Insert(model);
+                Tools.Tool.LogHelper.WriteLog(ex);
+                return 0;
             }
         }
     }

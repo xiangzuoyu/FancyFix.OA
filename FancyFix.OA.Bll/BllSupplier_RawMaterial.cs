@@ -21,6 +21,7 @@ namespace FancyFix.OA.Bll
             var where = new Where<Supplier_RawMaterial>();
             where.And(o => o.Display != 2);
             if (!string.IsNullOrEmpty(file) && !string.IsNullOrEmpty(key))
+
                 where.And(string.Format(" {0} like '%{1}%' ", file, key));
 
             var p = Db.Context.From<Supplier_RawMaterial>()

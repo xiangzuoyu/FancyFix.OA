@@ -46,6 +46,7 @@
     <Compile Include="BllDesign_DemandType.cs" />
     <Compile Include="BllDesign_DetailType.cs" />
     <Compile Include="BllDevelop_Demand.cs" />
+    <Compile Include="BllFinance_EveryDaySaleLog.cs" />
     <Compile Include="BllKpi_Process.cs" />
     <Compile Include="BllMng_User.cs" />
     <Compile Include="BllMng_DepartmentClass.cs" />

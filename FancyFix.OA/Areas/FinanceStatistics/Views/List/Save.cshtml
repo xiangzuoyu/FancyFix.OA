@@ -1,0 +1,313 @@
+﻿@using FancyFix.OA.Model;
+
+@model Finance_EveryDaySaleLog
+@{
+    ViewBag.Title = "Save";
+    Layout = "~/Views/Shared/_Layout_In.cshtml";
+}
+
+@section Css{
+    <style>
+        table tbody td .layui-input-inline .form-control {
+            width: 250px;
+        }
+
+        table tbody td .layui-input-inline.small .form-control {
+            width: 100px;
+        }
+
+        table tbody td .layui-input-inline.small {
+            width: auto;
+        }
+
+        table div.layui-form-switch {
+            width: 55px;
+        }
+    </style>
+
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <form id="mainform" class="layui-form" action="/financestatistics/list/save" method="post" style="margin-bottom:50px;">
+            <table class="layui-table">
+                <!--列宽度-->
+                <colgroup>
+                    <col class="col-lg-2">
+                    <col class="col-lg-10">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td align="right"><label for="SaleDate" class="control-label">销售日期：</label></td>
+                        <td>
+                            <div class="layui-input-inline">
+                                @Html.TextBox("SaleDate", (Model?.SaleDate?.ToString("yyyy-MM-dd") ?? ""), new { @class = "form-control", required = "required" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="DepartmentName" class="control-label">部门：</label></td>
+                        <td>
+                            <div class="layui-input-inline">
+                                @Html.TextBox("DepartmentName", (Model?.DepartmentName ?? ""), new { @class = "form-control" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="SaleName" class="control-label">销售员：</label></td>
+                        <td>
+                            <div class="layui-input-inline">
+                                @Html.TextBox("SaleName", (Model?.SaleName ?? ""), new { @class = "form-control", required = "required" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="Customer" class="control-label">客户/店铺：</label></td>
+                        <td>
+                            <div class="layui-input-inline">
+                                @Html.TextBox("Customer", (Model?.Customer ?? ""), new { @class = "form-control", required = "required" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="ContractNumber" class="control-label">合同号：</label></td>
+                        <td>
+                            <div class="layui-input-inline">
+                                @Html.TextBox("ContractNumber", (Model?.ContractNumber ?? ""), new { @class = "form-control" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="ProductName" class="control-label">产品名称：</label></td>
+                        <td>
+                            <div class="layui-input-inline">
+                                @Html.TextBox("ProductName", (Model?.ProductName ?? ""), new { @class = "form-control", required = "required" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="ProductSKU" class="control-label">产品SKU：</label></td>
+                        <td>
+                            <div class="layui-input-inline">
+                                @Html.TextBox("ProductSKU", (Model?.ProductSKU ?? ""), new { @class = "form-control", required = "required" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="SaleCount" class="control-label">销售数量：</label></td>
+                        <td>
+                            <div class="layui-input-inline">
+                                @Html.TextBox("SaleCount", (Model?.SaleCount?.ToString("f2") ?? ""), new { @class = "form-control", required = "required", type = "number" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="SalePrice" class="control-label">销售单价：</label></td>
+                        <td>
+                            <div class="layui-input-inline">
+                                @Html.TextBox("SalePrice", (Model?.SalePrice?.ToString("f2") ?? ""), new { @class = "form-control", required = "required", type = "number" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="Currency" class="control-label">货币：</label></td>
+                        <td>
+                            <div class="layui-input-inline">
+                                @Html.TextBox("Currency", (Model?.Currency ?? ""), new { @class = "form-control" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="ExchangeRate" class="control-label">汇率：</label></td>
+                        <td>
+                            <div class="layui-input-inline">
+                                @Html.TextBox("ExchangeRate", (Model?.ExchangeRate?.ToString("f2") ?? ""), new { @class = "form-control", required = "required", type = "number" })
+                            </div>
+                        </td>
+                    </tr>
+                    @*<tr>
+                            <td align="right"><label for="SaleIncome" class="control-label">销售收入：</label></td>
+                            <td>
+                                <div class="layui-input-inline">
+                                    @Html.TextBox("SaleIncome", (Model?.SaleIncome.ToString("f2") ?? ""), new { @class = "form-control", required = "required", type = "number" })
+                                </div>
+                            </td>
+                        </tr>*@
+                    <tr>
+                        <td align="right"><label for="MaterialUnitPrice" class="control-label">材料单价：</label></td>
+                        <td>
+                            <div class="layui-input-inline">
+                                @Html.TextBox("MaterialUnitPrice", (Model?.MaterialUnitPrice?.ToString("f2") ?? ""), new { @class = "form-control", type = "number" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="ProcessUnitPrice" class="control-label">加工费单价：</label></td>
+                        <td>
+                            <div class="layui-input-inline">
+                                @Html.TextBox("ProcessUnitPrice", (Model?.ProcessUnitPrice?.ToString("f2") ?? ""), new { @class = "form-control", type = "number" })
+                            </div>
+                        </td>
+                    </tr>
+                    @*<tr>
+                            <td align="right"><label for="MaterialTotalPrice" class="control-label">材料合计：</label></td>
+                            <td>
+                                <div class="layui-input-inline">
+                                    @Html.TextBox("MaterialTotalPrice", (Model?.MaterialTotalPrice?.ToString("f2") ?? ""), new { @class = "form-control", type = "number" })
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"><label for="ProcessTotalPrice" class="control-label">加工费合计：</label></td>
+                            <td>
+                                <div class="layui-input-inline">
+                                    @Html.TextBox("ProcessTotalPrice", (Model?.ProcessTotalPrice?.ToString("f2") ?? ""), new { @class = "form-control", type = "number" })
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"><label for="GrossProfit" class="control-label">毛利额：</label></td>
+                            <td>
+                                <div class="layui-input-inline">
+                                    @Html.TextBox("GrossProfit", (Model?.GrossProfit?.ToString("f2") ?? ""), new { @class = "form-control", type = "number" })
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right"><label for="GrossProfitRate" class="control-label">毛利率：</label></td>
+                            <td>
+                                <div class="layui-input-inline">
+                                    @Html.TextBox("GrossProfitRate", (Model?.GrossProfitRate?.ToString("f2") ?? ""), new { @class = "form-control", type = "number" })
+                                </div>
+                            </td>
+                        </tr>*@
+                    <tr>
+                        <td align="right"><label for="ChangeCostNumber" class="control-label">变动费用量：</label></td>
+                        <td>
+                            <div class="layui-input-inline">
+                                @Html.TextBox("ChangeCostNumber", (Model?.ChangeCostNumber?.ToString("f2") ?? ""), new { @class = "form-control", type = "number" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="ChangeCostMatter" class="control-label">变动费用事：</label></td>
+                        <td>
+                            <div class="layui-input-inline">
+                                @Html.TextBox("ChangeCostMatter", (Model?.ChangeCostMatter?.ToString("f2") ?? ""), new { @class = "form-control", type = "number" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="ContributionMoney" class="control-label">经营贡献金额：</label></td>
+                        <td>
+                            <div class="layui-input-inline">
+                                @Html.TextBox("ContributionMoney", (Model?.ContributionMoney?.ToString("f2") ?? ""), new { @class = "form-control", type = "number" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="ContributionRatio" class="control-label">经营贡献比例：</label></td>
+                        <td class="layui-form-item">
+                            <div class="layui-input-inline small">
+                                @Html.TextBox("ContributionRatio", (Model?.ContributionRatio?.ToString("f2") ?? ""), new { @class = "form-control ", type = "number" })
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">%</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="AvgCoatUndue" class="control-label">未到期资金成本：</label></td>
+                        <td>
+                            <div class="layui-input-inline">
+                                @Html.TextBox("AvgCoatUndue", (Model?.AvgCoatUndue?.ToString("f2") ?? ""), new { @class = "form-control", type = "number" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="AvgCoatCurrentdue" class="control-label">当期资金成本：</label></td>
+                        <td>
+                            <div class="layui-input-inline">
+                                @Html.TextBox("AvgCoatCurrentdue", (Model?.AvgCoatCurrentdue?.ToString("f2") ?? ""), new { @class = "form-control", type = "number" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="AvgCoatOverdue" class="control-label">逾期资金成本：</label></td>
+                        <td>
+                            <div class="layui-input-inline">
+                                @Html.TextBox("AvgCoatOverdue", (Model?.AvgCoatOverdue?.ToString("f2") ?? ""), new { @class = "form-control", type = "number" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="CustomerContributionMoney" class="control-label">客户贡献金额：</label></td>
+                        <td>
+                            <div class="layui-input-inline">
+                                @Html.TextBox("CustomerContributionMoney", (Model?.CustomerContributionMoney?.ToString("f2") ?? ""), new { @class = "form-control", type = "number" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="CustomerContributionRatio" class="control-label">客户贡献比例：</label></td>
+                        <td class="layui-form-item">
+                            <div class="layui-input-inline small">
+                                @Html.TextBox("CustomerContributionRatio", (Model?.CustomerContributionRatio?.ToString("f2") ?? ""), new { @class = "form-control ", type = "number" })
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">%</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="Follow" class="control-label">是否关注：</label></td>
+                        <td>
+                            <div class="layui-input-inline">
+                                <input type="checkbox" id="Follow" name="Follow" lay-skin="switch" lay-text="关注|取消" @(Model?.Follow == true ? "checked" : "") />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"></td>
+                        <td>
+                            @Html.Hidden("Id", (Model?.Id ?? 0))
+                            <button type="submit" id="btnPass" class="btn btn-primary">保存</button>
+                            <button type="button" id="cancel" class="btn btn-default" onclick="CloseWin()">取消</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </form>
+    </div>
+</div>
+
+@section Js{
+    <script src="/Content/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/jquery.validator.min.js"></script>
+    <script src="/Content/js/plugins/jqvalidate/messages_cn.js"></script>
+    <script src="/Content/js/common/tools.js"></script>
+    <script>
+        layui.use(['form', 'layer', 'laydate'], function () {
+            var form = layui.form();
+            var layer = layui.layer;
+            var laydate = layui.laydate;
+
+            //日期控件
+            $("#SaleDate").click(function () {
+                laydate({
+                    elem: this,
+                    istime: true,
+                    format: 'YYYY-MM-DD'
+                });
+            });
+            //表单验证
+            var $form = $("#mainform");
+            $form.validate();
+
+            //通过
+            $("#btnPass").click(function () {
+                $("#demandtypeid").attr("disabled", false);
+                $("#detailtypeid").attr("disabled", false);
+                $form.valid();
+            });
+        })
+
+    </script>
+}

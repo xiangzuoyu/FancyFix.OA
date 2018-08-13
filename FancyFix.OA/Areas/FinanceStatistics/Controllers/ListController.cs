@@ -102,27 +102,21 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
                 for (int i = startRow; i <= rowCount; i++)
                 {
                     IRow row = sheet.GetRow(i);
-                    var val = row.GetCell(1)?.ToString();
-                    var val1 = row.GetCell(2)?.ToString();
-                    var val2 = row.GetCell(3)?.ToString();
-                    var val3 = row.GetCell(5)?.ToString();
-                    var val4 = row.GetCell(6)?.ToString();
-                    var val5 = row.GetCell(8)?.ToString();
-                    //年月日、销售人员、客户、产品名称为空时跳过
+                    //年月日、销售人员、客户、产品名称、产品SKU为空时跳过
                     if (row == null ||
                         string.IsNullOrWhiteSpace(row.GetCell(1)?.ToString()) ||
                         string.IsNullOrWhiteSpace(row.GetCell(2)?.ToString()) ||
                         string.IsNullOrWhiteSpace(row.GetCell(3)?.ToString()) ||
                         string.IsNullOrWhiteSpace(row.GetCell(5)?.ToString()) ||
                         string.IsNullOrWhiteSpace(row.GetCell(6)?.ToString()) ||
-                        string.IsNullOrWhiteSpace(row.GetCell(8)?.ToString()))
+                        string.IsNullOrWhiteSpace(row.GetCell(8)?.ToString()) ||
+                        string.IsNullOrWhiteSpace(row.GetCell(9)?.ToString()))
                         continue;
 
                     var rawMaterialModel = CreateEveryDaySaleLogModel(row, addTime);
                     if (rawMaterialModel == null)
                         continue;
 
-                    int id = 0;
                     string isok = Bll.BllFinance_EveryDaySaleLog.Add(rawMaterialModel);
                     if (isok != "0")
                         return isok;
@@ -165,10 +159,6 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
                 ExchangeRate = getCellVal(row.GetCell(13)),
                 MaterialUnitPrice = getCellVal(row.GetCell(15)),
                 ProcessUnitPrice = getCellVal(row.GetCell(16)),
-                MaterialTotalPrice = getCellVal(row.GetCell(17)),
-                ProcessTotalPrice = getCellVal(row.GetCell(18)),
-                GrossProfit = getCellVal(row.GetCell(19)),
-                GrossProfitRate = getCellVal(row.GetCell(20)),
                 ChangeCostNumber = getCellVal(row.GetCell(21)),
                 ChangeCostMatter = getCellVal(row.GetCell(22)),
                 ContributionMoney = getCellVal(row.GetCell(23)),
@@ -184,14 +174,46 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
                 LastDate = addTime,
                 LastUserId = MyInfo.Id
             };
-
-            SaleIncome = getCellVal(row.GetCell(14)),
             model.SaleDate = $"{model.Year}-{model.Month}-{model.Day}".ToDateTime();
 
-            if (model.SaleDate == Tools.Usual.Common.InitDateTime() &&
-                string.IsNullOrEmpty(model.SaleName) &&
-                string.IsNullOrEmpty(model.Customer) &&
-                string.IsNullOrEmpty(model.ProductName))
+            return CountSaleDate(model);
+        }
+        /// <summary>
+        /// 根据数据计算收入成本
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        private Finance_EveryDaySaleLog CountSaleDate(Finance_EveryDaySaleLog model)
+        {
+            //销售收入
+            model.SaleIncome = (model.SaleCount != null && model.SalePrice != null && model.ExchangeRate != null)
+                            ? model.SaleCount * model.SalePrice * model.ExchangeRate
+                            : null;
+            //材料成本合计
+            model.MaterialTotalPrice = (model.SaleCount != null && model.MaterialUnitPrice != null)
+                                    ? model.SaleCount * model.MaterialUnitPrice
+                                    : null;
+            //加工成本合计    
+            model.ProcessTotalPrice = (model.SaleCount != null && model.ProcessUnitPrice != null)
+                                    ? model.SaleCount * model.ProcessUnitPrice
+                                    : null;
+            //毛利额
+            if (model.SaleIncome != null)
+            {
+                model.GrossProfit = model.SaleIncome;
+                if (model.MaterialTotalPrice != null)
+                    model.GrossProfit -= model.MaterialTotalPrice;
+                if (model.ProcessTotalPrice != null)
+                    model.GrossProfit -= model.ProcessTotalPrice;
+            }
+            //毛利率
+            model.GrossProfitRate = (model.GrossProfit / model.SaleIncome);
+
+            if (model.SaleDate == Tools.Usual.Common.InitDateTime() ||
+                string.IsNullOrEmpty(model.SaleName) ||
+                string.IsNullOrEmpty(model.Customer) ||
+                string.IsNullOrEmpty(model.ProductName) ||
+                string.IsNullOrEmpty(model.ProductSKU))
                 return null;
 
             return model;
@@ -218,52 +240,110 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
                 return val == "是";
         }
 
+        #endregion
 
-        //private bool AddPrice(IRow row, IRow headRow, int priceId, int cellTotal, DateTime logDate)
-        //{
-        //    if (row == null || headRow == null)
-        //        return false;
-        //    //List<Supplier_Price> list = new List<Supplier_Price>();
-        //    //遍历个每行原材料后面的价格
-        //    try
-        //    {
-        //        for (int i = 9; i < cellTotal; i++)
-        //        {
-        //            string price = row.GetCell(i).ToString();
-        //            //如果价格为空，跳过
-        //            if (string.IsNullOrEmpty(price))
-        //                continue;
+        #region 编辑
+        public ActionResult Save(int id = 0)
+        {
+            Finance_EveryDaySaleLog model = null;
+            if (id > 0)
+            {
+                model = Bll.BllFinance_EveryDaySaleLog.First(o => o.Id == id && o.Display != 2);
+                if (model == null)
+                    return LayerAlertSuccessAndRefresh("加载数据失败，未找到该数据");
+            }
 
-        //            var date = headRow.GetCell(i).ToString().Split('-');
-        //            if (date.Length != 2)
-        //                continue;
-        //            var years = date[0].TrimStart('\'').ToInt32();
+            return View(model);
+        }
 
-        //            var priceModel = new Supplier_Price
-        //            {
-        //                RawMaterialPriceId = priceId,
-        //                Years = years,
-        //                Month = date[1].ToInt32(),
-        //                Price = price.ToDecimal(),
-        //                AddDate = logDate,
-        //                AddUserId = MyInfo.Id,
-        //                LastDate = logDate,
-        //                LastUserId = MyInfo.Id,
-        //                Display = 1,
-        //                YearsMonth = $"{years.ToString()}-{date[1].ToString()}-1".ToDateTime()
-        //            };
+        [HttpPost]
+        public ActionResult Save(Finance_EveryDaySaleLog everyDaySaleLog)
+        {
+            everyDaySaleLog.Follow = Request["follow"] == "on" ? true : false;
 
-        //            Bll.BllSupplier_Price.DeleteAndAdd(priceModel);
-        //        }
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return false;
-        //    }
+            //关键字段不能为空
+            if (everyDaySaleLog.SaleDate == null ||
+                string.IsNullOrWhiteSpace(everyDaySaleLog.SaleName) ||
+                string.IsNullOrWhiteSpace(everyDaySaleLog.Customer) ||
+                string.IsNullOrWhiteSpace(everyDaySaleLog.ProductName) ||
+                string.IsNullOrWhiteSpace(everyDaySaleLog.ProductSKU))
+            {
+                return LayerMsgErrorAndReturn("字段不能为空！");
+            }
 
-        //    return true;
+            //数据是否重复
+            Finance_EveryDaySaleLog model = Bll.BllFinance_EveryDaySaleLog.First(o => o.Id != everyDaySaleLog.Id &&
+                                                                                o.SaleDate == everyDaySaleLog.SaleDate &&
+                                                                                o.SaleName == everyDaySaleLog.SaleName &&
+                                                                                o.Customer == everyDaySaleLog.Customer &&
+                                                                                o.ProductName == everyDaySaleLog.ProductName &&
+                                                                                o.ProductSKU == everyDaySaleLog.ProductSKU &&
+                                                                                o.Display != 2);
+            if (model != null)
+                return LayerMsgErrorAndReturn("添加数据失败，该条数据已存在，请确认后重新提交！");
 
-        //}
+            if (everyDaySaleLog.Id < 1)
+                model = new Finance_EveryDaySaleLog();
+            else
+                model = Bll.BllFinance_EveryDaySaleLog.First(o => o.Id == everyDaySaleLog.Id && o.Display != 2) ?? new Finance_EveryDaySaleLog();
+
+            model.Year = everyDaySaleLog.SaleDate.GetValueOrDefault().Year;
+            model.Month = everyDaySaleLog.SaleDate.GetValueOrDefault().Month;
+            model.Day = everyDaySaleLog.SaleDate.GetValueOrDefault().Day;
+            model.DepartmentName = everyDaySaleLog.DepartmentName;
+            model.ContractNumber = everyDaySaleLog.ContractNumber;
+            model.SaleCount = everyDaySaleLog.SaleCount;
+            model.SalePrice = everyDaySaleLog.SalePrice;
+            model.Currency = everyDaySaleLog.Currency;
+            model.ExchangeRate = everyDaySaleLog.ExchangeRate;
+            model.MaterialUnitPrice = everyDaySaleLog.MaterialUnitPrice;
+            model.ProcessUnitPrice = everyDaySaleLog.ProcessUnitPrice;
+            model.ChangeCostNumber = everyDaySaleLog.ChangeCostNumber;
+            model.ChangeCostMatter = everyDaySaleLog.ChangeCostMatter;
+            model.ContributionMoney = everyDaySaleLog.ContributionMoney;
+            model.ContributionRatio = everyDaySaleLog.ContributionRatio;
+            model.AvgCoatUndue = everyDaySaleLog.AvgCoatUndue;
+            model.AvgCoatCurrentdue = everyDaySaleLog.AvgCoatCurrentdue;
+            model.AvgCoatOverdue = everyDaySaleLog.AvgCoatOverdue;
+            model.CustomerContributionMoney = everyDaySaleLog.CustomerContributionMoney;
+            model.CustomerContributionRatio = everyDaySaleLog.CustomerContributionRatio;
+            model.Follow = everyDaySaleLog.Follow;
+
+            model.LastDate = DateTime.Now;
+            model.LastUserId = MyInfo.Id;
+
+            model = CountSaleDate(model);
+
+            bool isok = false;
+            //没有ID就新增，反之修改
+            if (model.Id < 1)
+            {
+                model.AddDate = model.LastDate;
+                model.AddUserId = model.LastUserId;
+                model.Display = 1;
+
+                isok = Bll.BllFinance_EveryDaySaleLog.Insert(model) > 0;
+            }
+            else
+                isok = Bll.BllFinance_EveryDaySaleLog.Update(model) > 0;
+
+            return LayerMsgSuccessAndRefresh("保存" + (isok ? "成功" : "失败"));
+        }
+        #endregion
+
+        #region 删除
+        [HttpPost]
+        public JsonResult Delete(int id)
+        {
+            return Json(new { result = Bll.BllFinance_EveryDaySaleLog.Delete(id, MyInfo.Id) > 0 });
+        }
+
+        [HttpPost]
+        public JsonResult DeleteBatch(List<Finance_EveryDaySaleLog> list)
+        {
+            if (list == null || !list.Any()) return Json(new { result = false });
+            return Json(new { result = Bll.BllFinance_EveryDaySaleLog.DeleteList(list, MyInfo.Id) > 0 });
+        }
         #endregion
     }
 }

@@ -46,7 +46,9 @@ namespace FancyFix.OA.Bll
                 var everyDaySaleLogModel = First(o => o.SaleDate == model.SaleDate &&
                                                  o.SaleName == model.SaleName &&
                                                  o.Customer == model.Customer &&
-                                                 o.ProductName == model.ProductName);
+                                                 o.ProductName == model.ProductName &&
+                                                 o.ProductSKU == model.ProductSKU
+                                                 && o.Display != 2);
 
                 int result = 0;
                 if (everyDaySaleLogModel != null)
@@ -54,7 +56,7 @@ namespace FancyFix.OA.Bll
                 else
                     result = Insert(model);
 
-                return result == 1 ? "0" : "4";
+                return result > 0 ? "0" : "4";
             }
             catch (Exception ex)
             {
@@ -127,5 +129,28 @@ namespace FancyFix.OA.Bll
 
             return oldModel;
         }
+
+        #region 删除
+        public static int Delete(int id, int myuserId)
+        {
+            var model = First(o => o.Id == id);
+            if (model == null)
+                return 0;
+            model.Display = 2;
+            model.LastDate = DateTime.Now;
+            model.LastUserId = myuserId;
+            return Update(model);
+        }
+
+        public static int DeleteList(IEnumerable<Finance_EveryDaySaleLog> list, int myuserId)
+        {
+            foreach (var item in list)
+                Delete(item.Id, myuserId);
+
+            return 1;
+        }
+        #endregion
+
+
     }
 }

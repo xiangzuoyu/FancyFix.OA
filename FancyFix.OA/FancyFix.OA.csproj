@@ -1968,6 +1968,7 @@
     <Content Include="Content\files\产品库产品导入模版.xlsx" />
     <Content Include="Areas\FinanceStatistics\Views\web.config" />
     <Content Include="Areas\FinanceStatistics\Views\List\List.cshtml" />
+    <Content Include="Areas\FinanceStatistics\Views\List\Save.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Common\GetAdminTree.cshtml" />
     <Content Include="Views\Shared\_baseconfig.cshtml" />

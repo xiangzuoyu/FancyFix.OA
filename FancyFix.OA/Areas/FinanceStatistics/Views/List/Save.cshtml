@@ -125,14 +125,14 @@
                             </div>
                         </td>
                     </tr>
-                    @*<tr>
-                            <td align="right"><label for="SaleIncome" class="control-label">销售收入：</label></td>
-                            <td>
-                                <div class="layui-input-inline">
-                                    @Html.TextBox("SaleIncome", (Model?.SaleIncome.ToString("f2") ?? ""), new { @class = "form-control", required = "required", type = "number" })
-                                </div>
-                            </td>
-                        </tr>*@
+                    <tr>
+                        <td align="right"><label for="SaleIncome" class="control-label">销售收入：</label></td>
+                        <td>
+                            <div class="layui-input-inline">
+                                @Html.TextBox("SaleIncome", (Model?.SaleIncome?.ToString("f2") ?? ""), new { @class = "form-control", @readonly = "readonly", type = "number" })
+                            </div>
+                        </td>
+                    </tr>
                     <tr>
                         <td align="right"><label for="MaterialUnitPrice" class="control-label">材料单价：</label></td>
                         <td>
@@ -149,38 +149,39 @@
                             </div>
                         </td>
                     </tr>
-                    @*<tr>
-                            <td align="right"><label for="MaterialTotalPrice" class="control-label">材料合计：</label></td>
-                            <td>
-                                <div class="layui-input-inline">
-                                    @Html.TextBox("MaterialTotalPrice", (Model?.MaterialTotalPrice?.ToString("f2") ?? ""), new { @class = "form-control", type = "number" })
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td align="right"><label for="ProcessTotalPrice" class="control-label">加工费合计：</label></td>
-                            <td>
-                                <div class="layui-input-inline">
-                                    @Html.TextBox("ProcessTotalPrice", (Model?.ProcessTotalPrice?.ToString("f2") ?? ""), new { @class = "form-control", type = "number" })
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td align="right"><label for="GrossProfit" class="control-label">毛利额：</label></td>
-                            <td>
-                                <div class="layui-input-inline">
-                                    @Html.TextBox("GrossProfit", (Model?.GrossProfit?.ToString("f2") ?? ""), new { @class = "form-control", type = "number" })
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td align="right"><label for="GrossProfitRate" class="control-label">毛利率：</label></td>
-                            <td>
-                                <div class="layui-input-inline">
-                                    @Html.TextBox("GrossProfitRate", (Model?.GrossProfitRate?.ToString("f2") ?? ""), new { @class = "form-control", type = "number" })
-                                </div>
-                            </td>
-                        </tr>*@
+                    <tr>
+                        <td align="right"><label for="MaterialTotalPrice" class="control-label">材料合计：</label></td>
+                        <td>
+                            <div class="layui-input-inline">
+                                @Html.TextBox("MaterialTotalPrice", (Model?.MaterialTotalPrice?.ToString("f2") ?? ""), new { @class = "form-control", @readonly = "readonly", type = "number" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="ProcessTotalPrice" class="control-label">加工费合计：</label></td>
+                        <td>
+                            <div class="layui-input-inline">
+                                @Html.TextBox("ProcessTotalPrice", (Model?.ProcessTotalPrice?.ToString("f2") ?? ""), new { @class = "form-control", @readonly = "readonly", type = "number" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="GrossProfit" class="control-label">毛利额：</label></td>
+                        <td>
+                            <div class="layui-input-inline">
+                                @Html.TextBox("GrossProfit", (Model?.GrossProfit?.ToString("f2") ?? ""), new { @class = "form-control", @readonly = "readonly", type = "number" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="GrossProfitRate" class="control-label">毛利率：</label></td>
+                        <td class="layui-form-item">
+                            <div class="layui-input-inline small">
+                                @Html.TextBox("GrossProfitRate", (Model?.GrossProfitRate?.ToString("f2") ?? ""), new { @class = "form-control", @readonly = "readonly", type = "number" })
+                            </div>
+                            <div class="layui-form-mid layui-word-aux">%</div>
+                        </td>
+                    </tr>
                     <tr>
                         <td align="right"><label for="ChangeCostNumber" class="control-label">变动费用量：</label></td>
                         <td>

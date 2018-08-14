@@ -207,7 +207,7 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
                     model.GrossProfit -= model.ProcessTotalPrice;
             }
             //毛利率
-            model.GrossProfitRate = (model.GrossProfit / model.SaleIncome);
+            model.GrossProfitRate = (model.GrossProfit / model.SaleIncome) * 100;
 
             if (model.SaleDate == Tools.Usual.Common.InitDateTime() ||
                 string.IsNullOrEmpty(model.SaleName) ||
@@ -287,9 +287,14 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
             else
                 model = Bll.BllFinance_EveryDaySaleLog.First(o => o.Id == everyDaySaleLog.Id && o.Display != 2) ?? new Finance_EveryDaySaleLog();
 
+            model.SaleName = everyDaySaleLog.SaleName;
+            model.Customer = everyDaySaleLog.Customer;
+            model.ProductName = everyDaySaleLog.ProductName;
+            model.ProductSKU = everyDaySaleLog.ProductSKU;
             model.Year = everyDaySaleLog.SaleDate.GetValueOrDefault().Year;
             model.Month = everyDaySaleLog.SaleDate.GetValueOrDefault().Month;
             model.Day = everyDaySaleLog.SaleDate.GetValueOrDefault().Day;
+            model.SaleDate = everyDaySaleLog.SaleDate;
             model.DepartmentName = everyDaySaleLog.DepartmentName;
             model.ContractNumber = everyDaySaleLog.ContractNumber;
             model.SaleCount = everyDaySaleLog.SaleCount;

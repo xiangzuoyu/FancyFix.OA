@@ -16,12 +16,16 @@ namespace FancyFix.OA.Bll
             return new BllFinance_EveryDaySaleLog();
         }
 
-        public static IEnumerable<Finance_EveryDaySaleLog> PageList(int page, int pageSize, out long records, string file, string key)
+        public static IEnumerable<Finance_EveryDaySaleLog> PageList(int page, int pageSize, out long records, string file, string key,DateTime? startdate,DateTime? enddate)
         {
             var where = new Where<Finance_EveryDaySaleLog>();
             where.And(o => o.Display != 2);
             if (!string.IsNullOrEmpty(file) && !string.IsNullOrEmpty(key))
                 where.And(string.Format(" {0} like '%{1}%' ", file, key));
+            if (startdate != null)
+                where.And(o => o.SaleDate >= startdate);
+            if (enddate != null)
+                where.And(o => o.SaleDate <= enddate);
 
             var p = Db.Context.From<Finance_EveryDaySaleLog>()
                 .Where(where);
@@ -60,7 +64,7 @@ namespace FancyFix.OA.Bll
             }
             catch (Exception ex)
             {
-                Tools.Tool.LogHelper.WriteLog(typeof(BllSupplier_RawMaterial), ex, 0, "");
+                Tools.Tool.LogHelper.WriteLog(typeof(Finance_EveryDaySaleLog), ex, 0, "");
                 return "-1";
             }
         }
@@ -150,7 +154,6 @@ namespace FancyFix.OA.Bll
             return 1;
         }
         #endregion
-
 
     }
 }

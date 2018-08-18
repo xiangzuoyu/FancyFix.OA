@@ -12,7 +12,7 @@
 <div class="row">
     <div class="col-xs-12">
         <div class="box-header">
-            <h3 class="box-title">每日销售列表</h3>
+            <h3 class="box-title">销售统计列表</h3>
         </div>
         <div class="box">
             <div class="box-body">
@@ -25,9 +25,6 @@
                                     <option value="">请选择</option>
                                     <option value="Id">Id</option>
                                     <option value="DepartmentName">部门</option>
-                                    <option value="SaleName">销售人员</option>
-                                    <option value="Customer">客户/店铺</option>
-                                    <option value="ProductName">产品名称</option>
                                 </select>
                             </div>
                             <div class="layui-input-inline">
@@ -37,7 +34,7 @@
                         <div class="layui-inline">
                             <label class="layui-form-label">销售日起</label>
                             <div class="layui-input-inline">
-                                <input type="text" class="layui-input" id="startdate" name="startdate" autocomplete="off" />
+                                <input type="text" class="layui-input" id="startdate" name="startdate" autocomplete="off"/>
                             </div>
                         </div>
                         <div class="layui-inline">
@@ -88,7 +85,7 @@
                 //初始化Table
                 objTable.Init = function () {
                     $table.bootstrapTable({
-                        url: '/financestatistics/list/pagelist',
+                        url: '/financestatistics/statistic/pagelist',
                         method: 'get',
                         toolbar: '#toolbar',                //工具按钮用哪个容器
                         idField: "Id",                      //指定主键列
@@ -131,75 +128,52 @@
                         }, {
                             field: 'DepartmentName',
                             title: '部门',
-                            align: 'left',
+                            align: 'left'
                         }, {
-                            field: 'SaleName',
-                            title: '销售人员',
-                            align: 'left',
+                            field: 'BusinessIncome',
+                            title: '营业收入',
+                            align: 'left'
                         }, {
-                            field: 'Customer',
-                            title: '客户/店铺',
-                            align: 'left',
+                            field: 'BudgetaryValue',
+                            title: '营业收入预算值',
+                            align: 'left'
                         }, {
-                            field: 'ContractNumber',
-                            title: '合同号',
-                            align: 'left',
-                        }, {
-                            field: 'ProductName',
-                            title: '产品名称',
-                            align: 'left',
-                        }, {
-                            field: 'ProductSKU',
-                            title: '产品SKU',
-                            align: 'left',
-                        }, {
-                            field: 'SaleCount',
-                            title: '销售数量',
-                            align: 'left',
-                        }, {
-                            field: 'SalePrice',
-                            title: '销售单价',
-                            align: 'left',
-                        }, {
-                            field: 'SaleIncome',
-                            title: '销售收入',
-                            align: 'left',
-                        }, {
-                            field: 'MaterialUnitPrice',
-                            title: '料单价',
-                            align: 'left',
-                        }, {
-                            field: 'ProcessUnitPrice',
-                            title: '工单价',
-                            align: 'left',
-                        }, {
-                            field: 'MaterialTotalPrice',
-                            title: '料合计',
-                            align: 'left',
-                        }, {
-                            field: 'ProcessTotalPrice',
-                            title: '工合计',
-                            align: 'left',
-                        }, {
-                            field: 'GrossProfit',
-                            title: '毛益额',
-                            align: 'left',
-                        }, {
-                            field: 'GrossProfitRate',
-                            title: '毛益率',
+                            field: 'BusinessIncomeRate',
+                            title: '营业收入达成率',
                             align: 'left',
                             formatter: function (v, r, i) {
-                                if (r.GrossProfitRate == null)
+                                if (r.BusinessIncomeRate == null)
                                     return "-";
                                 else
-                                    return r.GrossProfitRate + "%";
+                                    return r.BusinessIncomeRate + "%";
+                            }
+                        }, {
+                            field: 'ActualReceipts',
+                            title: '实际收款',
+                            align: 'left'
+                        }, {
+                            field: 'ActualDeliveryOrderNumber',
+                            title: '实际发货订单数量',
+                            align: 'left'
+                        }, {
+                            field: 'PlanDeliveryOrderNumber',
+                            title: '计划发货订单数量',
+                            align: 'left'
+                        }, {
+                            field: 'DeliveryPunctualityRate',
+                            title: '发货准时率',
+                            align: 'left',
+                            formatter: function (v, r, i) {
+                                if (r.DeliveryPunctualityRate == null)
+                                    return "-";
+                                else
+                                    return r.DeliveryPunctualityRate + "%";
                             }
                         }, {
                             title: '操作',
                             align: 'center',
                             formatter: function (v, r, i) {
                                 var td = '';
-                                //td += "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnPrice btn btn-md btn-primary\">价格</a> ";
                                 td += "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnEdit btn btn-md btn-primary\">编辑</a> ";
                                 td += "<a href=\"javascript:;\" data-id=\"" + r.Id + "\" class=\"btnDel btn btn-md btn-danger\">删除</a> ";
                                 return td
@@ -238,13 +212,13 @@
 
             //新增
             $("#btn_add").on('click', function () {
-                OpenWin("添加", "/financestatistics/list/save", '800px', '600px');
+                OpenWin("添加", "/financestatistics/statistic/save", '800px', '600px');
             });
 
             //查看
             $("#table").on('click', '.btnEdit', function () {
                 var id = $(this).attr("data-id");
-                OpenWin("编辑", "/financestatistics/list/save/" + id, '800px', '600px');
+                OpenWin("编辑", "/financestatistics/statistic/save/" + id, '800px', '600px');
             });
 
             //删除单条数据
@@ -254,7 +228,7 @@
                     btn: ['确定', '取消']
                 }, function (index, layero) {
                     var id = $this.data("id");
-                    $.post('/financestatistics/list/delete/' + id, function (data) {
+                    $.post('/financestatistics/statistic/delete/' + id, function (data) {
                         if (data)
                             Reload();
                         else
@@ -273,7 +247,7 @@
                         btn: ['确定', '取消']
                     }, function (index, layero) {
                         var list = GetSelections();
-                        $.post('/financestatistics/list/deletebatch', { list }, function (data) {
+                        $.post('/financestatistics/statistic/deletebatch', { list }, function (data) {
                             if (data)
                                 Reload();
                             else
@@ -306,6 +280,7 @@
                 }
             }
             fun.init();
+
 
             //年月选择器
             $("#startdate").click(function () {

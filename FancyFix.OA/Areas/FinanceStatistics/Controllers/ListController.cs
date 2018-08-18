@@ -12,26 +12,24 @@ using Tools.Tool;
 
 namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
 {
+    /// <summary>
+    /// 销售列表
+    /// </summary>
     public class ListController : BaseAdminController
     {
         #region 加载数据
-        /// <summary>
-        /// 财务统计
-        /// </summary>
-        /// <returns></returns>
-        // GET: FinanceStatistics/List
         public ActionResult List()
         {
             return View();
         }
 
-        public JsonResult PageList(int page = 0, int pagesize = 0)
+        public JsonResult PageList(int page = 0, int pagesize = 0, DateTime? startdate = null, DateTime? enddate = null)
         {
             long records = 0;
             //Sql注入检测
             string files = Tools.Usual.Utils.CheckSqlKeyword(RequestString("files"));
             string key = Tools.Usual.Utils.CheckSqlKeyword(RequestString("key")).Trim();
-            var list = Bll.BllFinance_EveryDaySaleLog.PageList(page, pagesize, out records, files, key);
+            var list = Bll.BllFinance_EveryDaySaleLog.PageList(page, pagesize, out records, files, key, startdate, enddate);
             return BspTableJson(list, records);
         }
         #endregion
@@ -91,12 +89,12 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
             if (sheet == null)
                 return "1";
 
+            List<Finance_Statistics> statistics = new List<Finance_Statistics>();
             var addTime = DateTime.Now;
             //第一行为标题
             try
             {
                 IRow headRow = sheet.GetRow(startRow);
-                //int cellTotal = headRow.LastCellNum;
                 int rowCount = sheet.LastRowNum;
 
                 for (int i = startRow; i <= rowCount; i++)
@@ -121,16 +119,44 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
                     if (isok != "0")
                         return isok;
 
-                    //AddPrice(row, headRow, id, cellTotal, logDate);
+                    statistics = SignNeedUpdateData(statistics, rawMaterialModel);
                 }
+
+                Bll.BllFinance_Statistics.AgainCountData(statistics);
 
                 return "0";
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return "-1";
             }
         }
+
+        /// <summary>
+        /// 标记哪些部门需要重新统计
+        /// </summary>
+        /// <returns></returns>
+        private List<Finance_Statistics> SignNeedUpdateData(List<Finance_Statistics> statistics, Finance_EveryDaySaleLog everyDaySaleLog)
+        {
+            //部门名称不能为空
+            if (string.IsNullOrWhiteSpace(everyDaySaleLog.DepartmentName))
+                return statistics;
+
+            var list = (from o in statistics where o.SaleDate == everyDaySaleLog.SaleDate && o.DepartmentName == everyDaySaleLog.DepartmentName select o).ToList();
+
+
+            if (list == null || list.Count < 1)
+                statistics.Add(new Finance_Statistics
+                {
+                    SaleDate = everyDaySaleLog.SaleDate,
+                    DepartmentName = everyDaySaleLog.DepartmentName,
+                    LastUserId = MyInfo.Id,
+                    LastDate = everyDaySaleLog.LastDate
+                });
+
+            return statistics;
+        }
+
 
         /// <summary>
         /// 数据填充映射模型
@@ -178,6 +204,7 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
 
             return CountSaleDate(model);
         }
+
         /// <summary>
         /// 根据数据计算收入成本
         /// </summary>
@@ -205,9 +232,10 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
                     model.GrossProfit -= model.MaterialTotalPrice;
                 if (model.ProcessTotalPrice != null)
                     model.GrossProfit -= model.ProcessTotalPrice;
+
+                //毛利率
+                model.GrossProfitRate = Math.Round(((model.GrossProfit / model.SaleIncome) * 100).GetValueOrDefault(), 2);
             }
-            //毛利率
-            model.GrossProfitRate = (model.GrossProfit / model.SaleIncome) * 100;
 
             if (model.SaleDate == Tools.Usual.Common.InitDateTime() ||
                 string.IsNullOrEmpty(model.SaleName) ||
@@ -218,19 +246,22 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
 
             return model;
         }
+
         /// <summary>
         /// 单元格值为空时返回null
         /// </summary>
         /// <param name="val"></param>
         /// <returns></returns>
+
         private decimal? getCellVal(ICell cell)
         {
             var val = cell.ToString();
             if (string.IsNullOrWhiteSpace(val))
                 return null;
             else
-                return val.ToDecimal();
+                return Math.Round(val.ToDecimal(), 2);
         }
+
         private bool? getCellVal2(ICell cell)
         {
             var val = cell.ToString();
@@ -331,6 +362,18 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
             }
             else
                 isok = Bll.BllFinance_EveryDaySaleLog.Update(model) > 0;
+
+            //重新统计
+            if (isok)
+                Bll.BllFinance_Statistics.AgainCountData(new List<Finance_Statistics>
+                {
+                    new Finance_Statistics(){
+                        SaleDate = everyDaySaleLog.SaleDate,
+                        DepartmentName = everyDaySaleLog.DepartmentName,
+                        LastUserId = MyInfo.Id,
+                        LastDate = everyDaySaleLog.LastDate
+                    }
+                });
 
             return LayerMsgSuccessAndRefresh("保存" + (isok ? "成功" : "失败"));
         }

@@ -82,6 +82,7 @@
     <Compile Include="Extensions\Mng_DepartmentClass.cs" />
     <Compile Include="Extensions\Mng_MenuClass.cs" />
     <Compile Include="Extensions\Mng_PermissionGroup.cs" />
+    <Compile Include="Finance_Statistics.cs" />
     <Compile Include="Kpi_Process.cs" />
     <Compile Include="Kpi_Records.cs" />
     <Compile Include="Mng_DepartmentClass.cs" />
@@ -138,6 +139,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Sql\Finance_EveryDaySaleLog.sql" />
+    <Content Include="Sql\Finance_Statistics.sql" />
     <Content Include="Sql\Supplier_Price.sql" />
     <Content Include="Sql\Supplier_RawMaterialPrice.sql" />
     <Content Include="Sql\Supplier_RawMaterial.sql" />

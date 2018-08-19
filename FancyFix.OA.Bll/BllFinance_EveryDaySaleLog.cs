@@ -16,7 +16,7 @@ namespace FancyFix.OA.Bll
             return new BllFinance_EveryDaySaleLog();
         }
 
-        public static IEnumerable<Finance_EveryDaySaleLog> PageList(int page, int pageSize, out long records, string file, string key,DateTime? startdate,DateTime? enddate)
+        public static IEnumerable<Finance_EveryDaySaleLog> PageList(int page, int pageSize, out long records, string file, string key, DateTime? startdate, DateTime? enddate)
         {
             var where = new Where<Finance_EveryDaySaleLog>();
             where.And(o => o.Display != 2);
@@ -51,8 +51,8 @@ namespace FancyFix.OA.Bll
                                                  o.SaleName == model.SaleName &&
                                                  o.Customer == model.Customer &&
                                                  o.ProductName == model.ProductName &&
-                                                 o.ProductSKU == model.ProductSKU
-                                                 && o.Display != 2);
+                                                 o.ProductSKU == model.ProductSKU &&
+                                                 o.Display != 2);
 
                 int result = 0;
                 if (everyDaySaleLogModel != null)
@@ -143,7 +143,21 @@ namespace FancyFix.OA.Bll
             model.Display = 2;
             model.LastDate = DateTime.Now;
             model.LastUserId = myuserId;
-            return Update(model);
+
+            int result = Update(model);
+            //重新统计
+            if (result > 0)
+                BllFinance_Statistics.AgainCountData(new List<Finance_Statistics>
+                {
+                    new Finance_Statistics(){
+                        SaleDate = model.SaleDate,
+                        DepartmentName = model.DepartmentName,
+                        LastUserId = myuserId,
+                        LastDate = DateTime.Now
+                    }
+                });
+
+            return result;
         }
 
         public static int DeleteList(IEnumerable<Finance_EveryDaySaleLog> list, int myuserId)

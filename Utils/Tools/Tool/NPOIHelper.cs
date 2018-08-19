@@ -101,7 +101,7 @@ namespace FancyFix.Tools.Tool
         /// <param name="left">左对齐</param>
         /// <param name="fillForegroundColor">图案的颜色</param>
         /// <returns></returns>
-        public ICellStyle CellStyle(HSSFColor fillBackgroundColor, HorizontalAlignment ha = HorizontalAlignment.Left, VerticalAlignment va = VerticalAlignment.Center,
+        public ICellStyle CellStyle(HSSFColor fillBackgroundColor = null, HorizontalAlignment ha = HorizontalAlignment.Left, VerticalAlignment va = VerticalAlignment.Center,
             BorderStyle top = BorderStyle.None, BorderStyle right = BorderStyle.None, BorderStyle bottom = BorderStyle.None, BorderStyle left = BorderStyle.None,
             IFont font = null, HSSFColor fillForegroundColor = null, FillPattern fillPattern = new FillPattern())
         {

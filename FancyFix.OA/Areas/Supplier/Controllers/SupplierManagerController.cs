@@ -382,11 +382,10 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
         private void ToSingleExcel(Supplier_List supplier, Supplier_VendorInfo vendor)
         {
             HSSFWorkbook workbook = CustomExcel.SingleSupperliExport(supplier, vendor);
-            //HSSFSheet sheet = (HSSFSheet)workbook.CreateSheet();
 
             //导出
             string fileName = "供应商信息" + DateTime.Now.ToString("yyyyMMddHHmmss");
-            Tools.Tool.ExcelHelper.ToExcelWeb(fileName + ".xls", workbook);
+            ExcelHelper.ToExcelWeb(fileName + ".xls", workbook);
         }
         #endregion
 

@@ -120,6 +120,7 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
                         return isok;
 
                     statistics = SignNeedUpdateData(statistics, rawMaterialModel);
+                    break;
                 }
 
                 Bll.BllFinance_Statistics.AgainCountData(statistics);
@@ -143,7 +144,6 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
                 return statistics;
 
             var list = (from o in statistics where o.SaleDate == everyDaySaleLog.SaleDate && o.DepartmentName == everyDaySaleLog.DepartmentName select o).ToList();
-
 
             if (list == null || list.Count < 1)
                 statistics.Add(new Finance_Statistics
@@ -234,7 +234,9 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
                     model.GrossProfit -= model.ProcessTotalPrice;
 
                 //毛利率
-                model.GrossProfitRate = Math.Round(((model.GrossProfit / model.SaleIncome) * 100).GetValueOrDefault(), 2);
+                model.GrossProfitRate = model.SaleIncome == 0
+                    ? 0
+                    : Math.Round(((model.GrossProfit / model.SaleIncome) * 100).GetValueOrDefault(), 2);
             }
 
             if (model.SaleDate == Tools.Usual.Common.InitDateTime() ||
@@ -252,10 +254,9 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
         /// </summary>
         /// <param name="val"></param>
         /// <returns></returns>
-
         private decimal? getCellVal(ICell cell)
         {
-            var val = cell.ToString();
+            var val = cell?.ToString();
             if (string.IsNullOrWhiteSpace(val))
                 return null;
             else
@@ -264,7 +265,7 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
 
         private bool? getCellVal2(ICell cell)
         {
-            var val = cell.ToString();
+            var val = cell?.ToString();
             if (string.IsNullOrWhiteSpace(val))
                 return null;
             else

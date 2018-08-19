@@ -191,6 +191,7 @@
     <Compile Include="Areas\Demand\Controllers\DemandController.cs" />
     <Compile Include="Areas\Demand\DemandAreaRegistration.cs" />
     <Compile Include="Areas\Demand\Models\DemandTypeModel.cs" />
+    <Compile Include="Areas\FinanceStatistics\Common\StatisticsExport.cs" />
     <Compile Include="Areas\FinanceStatistics\Controllers\ListController.cs" />
     <Compile Include="Areas\FinanceStatistics\Controllers\StatisticController.cs" />
     <Compile Include="Areas\FinanceStatistics\FinanceStatisticsAreaRegistration.cs" />

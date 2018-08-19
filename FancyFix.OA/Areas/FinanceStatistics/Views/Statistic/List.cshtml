@@ -16,54 +16,52 @@
         </div>
         <div class="box">
             <div class="box-body">
-                <section class="panel">
-                    <div class="layui-form layui-form-pane">
-                        <div class="layui-inline">
-                            <label class="layui-form-label">按字段</label>
-                            <div class="layui-input-inline">
-                                <select id="files" name="files" lay-filter="files">
-                                    <option value="">请选择</option>
-                                    <option value="Id">Id</option>
-                                    <option value="DepartmentName">部门</option>
-                                </select>
+                <form action="ExportExcel" method="post">
+                    <section class="panel">
+                        <div class="layui-form layui-form-pane">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">按字段</label>
+                                <div class="layui-input-inline">
+                                    <select id="files" name="files" lay-filter="files">
+                                        <option value="">请选择</option>
+                                        <option value="Id">Id</option>
+                                        <option value="DepartmentName">部门</option>
+                                    </select>
+                                </div>
+                                <div class="layui-input-inline">
+                                    @Html.TextBox("key", "", new { @class = "layui-input" })
+                                </div>
                             </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">销售日起</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" class="layui-input" id="startdate" name="startdate" autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">销售日止</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" class="layui-input" id="enddate" name="enddate" autocomplete="off" />
+                                </div>
+                            </div>
+                            &nbsp;&nbsp;
                             <div class="layui-input-inline">
-                                @Html.TextBox("key", "", new { @class = "layui-input" })
+                                &nbsp;<button id="btnSearch" class="btn bg-blue" lay-submit lay-filter="formSearch">查询</button>
+                            </div>
+                            <div class="layui-inline pull-right">
+                                <input type="submit" id="importBtn" class="btn bg-orange" value="导出">&nbsp;
+                            </div>
+                            <div id="toolbar" class="btn-group">
+                                <button id="btn_add" type="button" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>添加
+                                </button>
+                                <button id="btn_delete" type="button" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
+                                </button>
                             </div>
                         </div>
-                        <div class="layui-inline">
-                            <label class="layui-form-label">销售日起</label>
-                            <div class="layui-input-inline">
-                                <input type="text" class="layui-input" id="startdate" name="startdate" autocomplete="off"/>
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <label class="layui-form-label">销售日止</label>
-                            <div class="layui-input-inline">
-                                <input type="text" class="layui-input" id="enddate" name="enddate" autocomplete="off" />
-                            </div>
-                        </div>
-                        &nbsp;&nbsp;
-                        <div class="layui-input-inline">
-                            &nbsp;<button id="btnSearch" class="btn bg-blue" lay-submit lay-filter="formSearch">查询</button>
-                        </div>
-                        <div class="layui-inline pull-right">
-                            <input type="button" id="importBtn" class="btn bg-orange" value="导入">&nbsp;
-                        </div>
-                        <div id="toolbar" class="btn-group">
-                            <button id="btn_add" type="button" class="btn btn-default">
-                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>添加
-                            </button>
-                            <button id="btn_delete" type="button" class="btn btn-default">
-                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
-                            </button>
-                        </div>
-
-                        <form id="excelForm" action="list" method="post" enctype="multipart/form-data">
-                            <input id="fileEle" name="file" type="file" style="display:none" />
-                        </form>
-                    </div>
-                </section>
+                    </section>
+                </form>
                 <table id="table" class="table table-bordered table-hover"></table>
             </div>
         </div>
@@ -115,6 +113,11 @@
                         //showToggle: true,                   //是否显示详细视图和列表视图的切换按钮
                         columns: [{
                             checkbox: true
+                        }, {
+                            field: 'Id',
+                            title: 'ID',
+                            align: 'left',
+                            width: 100
                         }, {
                             field: 'SaleDate',
                             title: '销售日期',

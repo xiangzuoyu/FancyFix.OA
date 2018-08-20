@@ -31,6 +31,8 @@ namespace FancyFix.OA.Model
 		private int? _Year;
 		private int? _Month;
 		private int? _Day;
+		private string _DepartmentName;
+		private string _SaleName;
 		private string _Customer;
 		private string _ContractNumber;
 		private string _ProductName;
@@ -61,8 +63,7 @@ namespace FancyFix.OA.Model
 		private DateTime? _LastDate;
 		private int? _LastUserId;
 		private int? _Display;
-		private string _DepartmentName;
-		private string _SaleName;
+		private string _ProductSpecification;
 		/// <summary>
 		/// 
 		/// </summary>
@@ -121,6 +122,30 @@ namespace FancyFix.OA.Model
 			{
 				this.OnPropertyValueChange(_.Day,_Day,value);
 				this._Day=value;
+			}
+		}
+		/// <summary>
+		/// 部门
+		/// </summary>
+		public string DepartmentName
+		{
+			get{ return _DepartmentName; }
+			set
+			{
+				this.OnPropertyValueChange(_.DepartmentName,_DepartmentName,value);
+				this._DepartmentName=value;
+			}
+		}
+		/// <summary>
+		/// 销售员
+		/// </summary>
+		public string SaleName
+		{
+			get{ return _SaleName; }
+			set
+			{
+				this.OnPropertyValueChange(_.SaleName,_SaleName,value);
+				this._SaleName=value;
 			}
 		}
 		/// <summary>
@@ -484,27 +509,15 @@ namespace FancyFix.OA.Model
 			}
 		}
 		/// <summary>
-		/// 部门
+		/// 产品规格
 		/// </summary>
-		public string DepartmentName
+		public string ProductSpecification
 		{
-			get{ return _DepartmentName; }
+			get{ return _ProductSpecification; }
 			set
 			{
-				this.OnPropertyValueChange(_.DepartmentName,_DepartmentName,value);
-				this._DepartmentName=value;
-			}
-		}
-		/// <summary>
-		/// 销售员
-		/// </summary>
-		public string SaleName
-		{
-			get{ return _SaleName; }
-			set
-			{
-				this.OnPropertyValueChange(_.SaleName,_SaleName,value);
-				this._SaleName=value;
+				this.OnPropertyValueChange(_.ProductSpecification,_ProductSpecification,value);
+				this._ProductSpecification=value;
 			}
 		}
 		#endregion
@@ -536,6 +549,8 @@ namespace FancyFix.OA.Model
 				_.Year,
 				_.Month,
 				_.Day,
+				_.DepartmentName,
+				_.SaleName,
 				_.Customer,
 				_.ContractNumber,
 				_.ProductName,
@@ -566,8 +581,7 @@ namespace FancyFix.OA.Model
 				_.LastDate,
 				_.LastUserId,
 				_.Display,
-				_.DepartmentName,
-				_.SaleName};
+				_.ProductSpecification};
 		}
 		/// <summary>
 		/// 获取值信息
@@ -580,6 +594,8 @@ namespace FancyFix.OA.Model
 				this._Year,
 				this._Month,
 				this._Day,
+				this._DepartmentName,
+				this._SaleName,
 				this._Customer,
 				this._ContractNumber,
 				this._ProductName,
@@ -610,8 +626,7 @@ namespace FancyFix.OA.Model
 				this._LastDate,
 				this._LastUserId,
 				this._Display,
-				this._DepartmentName,
-				this._SaleName};
+				this._ProductSpecification};
 		}
 		#endregion
 
@@ -645,6 +660,14 @@ namespace FancyFix.OA.Model
 			/// 
 			/// </summary>
 			public readonly static Field Day = new Field("Day","Finance_EveryDaySaleLog","Day");
+			/// <summary>
+			/// 部门
+			/// </summary>
+			public readonly static Field DepartmentName = new Field("DepartmentName","Finance_EveryDaySaleLog","部门");
+			/// <summary>
+			/// 销售员
+			/// </summary>
+			public readonly static Field SaleName = new Field("SaleName","Finance_EveryDaySaleLog","销售员");
 			/// <summary>
 			/// 客户/店铺
 			/// </summary>
@@ -766,13 +789,9 @@ namespace FancyFix.OA.Model
 			/// </summary>
 			public readonly static Field Display = new Field("Display","Finance_EveryDaySaleLog","_1：显示，2：隐藏");
 			/// <summary>
-			/// 部门
+			/// 产品规格
 			/// </summary>
-			public readonly static Field DepartmentName = new Field("DepartmentName","Finance_EveryDaySaleLog","部门");
-			/// <summary>
-			/// 销售员
-			/// </summary>
-			public readonly static Field SaleName = new Field("SaleName","Finance_EveryDaySaleLog","销售员");
+			public readonly static Field ProductSpecification = new Field("ProductSpecification","Finance_EveryDaySaleLog","产品规格");
 		}
 		#endregion
 

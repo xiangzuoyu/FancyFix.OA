@@ -20,14 +20,14 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Common
         public static HSSFWorkbook CustomStatisticsExport(IEnumerable<Finance_Statistics> statisticsList)
         {
             //获取去重后的部门数量
-            var departmentList = (from o in statisticsList orderby o.DepartmentName ascending select o.DepartmentName)?.Distinct() ?? null;
+            var departmentList = (from o in statisticsList select o.DepartmentName)?.Distinct().ToList() ?? null;
             if (departmentList == null)
                 return null;
 
             int colTotal = otherColIndex + departmentList.Count() * 7;
 
-
-            NPOIHelper sheet = new NPOIHelper();
+            //boldweight: (short)FontBoldWeight.Bold,
+            NPOIHelper sheet = new NPOIHelper(defaultFontSize: 12);
 
             //将Excel背景色改为白色
             for (int i = 0; i <= colTotal; i++)
@@ -40,7 +40,7 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Common
             #region row0
             sheet.CreateRow(0);
             sheet.MergeCells(0, 0, 0, colTotal);
-            sheet.CreateCell(0, "各部门销售日控表", sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center));
+            sheet.CreateCell(0, "各部门销售日控表", sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, font: sheet.FontStyle(fontsize: 18)));
             sheet.SetHeight(25 * 25);
             #endregion
 
@@ -71,13 +71,14 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Common
 
             #region row2
             sheet.CreateRow(2);
+            sheet.SetHeight(20 * 20);
             sheet.MergeCells(2, 2, 0, 2);
             SetTopBorder(ref sheet, 0, colTotal);
             sheet.CreateCell(0, "日期", sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin));
             sheet.CreateCell(2, "", sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin));
 
             sheet.MergeCells(2, 2, 3, 5);
-            sheet.CreateCell(3, "营业收入情况", sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin));
+            sheet.CreateCell(3, "营业收入情况", sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin, left: BorderStyle.Thin));
 
             sheet.CreateCell(6, "收款情况", sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center
                , top: BorderStyle.Thin, left: BorderStyle.Thin));
@@ -110,6 +111,7 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Common
 
             #region row3
             sheet.CreateRow(3);
+            sheet.SetHeight(25 * 25);
             SetTopBorder(ref sheet, 0, colTotal);
             sheet.CreateCell(0, "年", sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin));
 
@@ -153,6 +155,7 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Common
                 var statisticsList2 = (from o in statisticsList where o.SaleDate == saledate2 select o).ToList();
 
                 sheet.CreateRow(++rowIndex);
+                sheet.SetHeight(20 * 20);
                 SetTopBorder(ref sheet, 0, colTotal);
                 //年
                 sheet.CreateCell(0, saledate2.Year.ToString(), sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin));
@@ -161,7 +164,7 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Common
                 //日
                 sheet.CreateCell(2, saledate2.Day.ToString(), sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin, left: BorderStyle.Thin));
 
-                LoadDepartmentDate(ref sheet, statisticsList2, departmentList);
+                LoadDepartmentDate(ref sheet, statisticsList2, departmentList, null);
                 #endregion
 
                 #region 月底结算 
@@ -172,11 +175,13 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Common
                     statisticsList2 = (from o in statisticsList where o.Year == saledate2.Year && o.Month == saledate2.Month select o).ToList();
 
                     sheet.CreateRow(++rowIndex);
+                    sheet.SetHeight(20 * 20);
                     SetTopBorder(ref sheet, 0, colTotal);
                     sheet.MergeCells(rowIndex, rowIndex, 0, 2);
-                    sheet.CreateCell(0, saledate2.ToString("yyyy年MM月") + "合计", sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin));
+                    sheet.CreateCell(0, saledate2.ToString("yyyy年MM月") + "合计", sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center,
+                        font: sheet.FontStyle(boldweight: (short)FontBoldWeight.Bold, fontsize: 12), top: BorderStyle.Thin));
 
-                    LoadDepartmentDate(ref sheet, statisticsList2, departmentList);
+                    LoadDepartmentDate(ref sheet, statisticsList2, departmentList, sheet.FontStyle(boldweight: (short)FontBoldWeight.Bold, fontsize: 12));
                 }
                 #endregion
 
@@ -188,17 +193,20 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Common
                     statisticsList2 = (from o in statisticsList where o.Year == saledate2.Year select o).ToList();
 
                     sheet.CreateRow(++rowIndex);
+                    sheet.SetHeight(20 * 20);
                     SetTopBorder(ref sheet, 0, colTotal);
                     sheet.MergeCells(rowIndex, rowIndex, 0, 2);
-                    sheet.CreateCell(0, year + "年累计", sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin));
+                    sheet.CreateCell(0, year + "年累计", sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center
+                        , font: sheet.FontStyle(boldweight: (short)FontBoldWeight.Bold, fontsize: 12), top: BorderStyle.Thin));
 
-                    LoadDepartmentDate(ref sheet, statisticsList2, departmentList);
+                    LoadDepartmentDate(ref sheet, statisticsList2, departmentList, sheet.FontStyle(boldweight: (short)FontBoldWeight.Bold, fontsize: 12));
                 }
                 #endregion
             }
 
             //结尾
             sheet.CreateRow(++rowIndex);
+            sheet.SetHeight(20 * 20);
             SetTopBorder(ref sheet, 0, colTotal, BorderStyle.Medium);
 
             #endregion
@@ -206,71 +214,71 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Common
             return sheet.GetWorkbook();
         }
 
-        private static void LoadDepartmentDate(ref NPOIHelper sheet, List<Finance_Statistics> statisticsList2, IEnumerable<string> departmentList)
+        private static void LoadDepartmentDate(ref NPOIHelper sheet, List<Finance_Statistics> statisticsList, IEnumerable<string> departmentList, IFont font = null)
         {
             decimal? valA = 0, valB = 0;
             //营业收入
-            valA = (from o in statisticsList2 select o.BusinessIncome)?.Sum() ?? null;
-            sheet.CreateCell(3, valA?.ToString("f2") ?? null, sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin, left: BorderStyle.Thin));
+            valA = (from o in statisticsList select o.BusinessIncome)?.Sum() ?? null;
+            sheet.CreateCell(3, valA?.ToString("f2") ?? null, sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin, left: BorderStyle.Thin, font: font));
             //营业收入预算值
-            valB = (from o in statisticsList2 select o.BudgetaryValue)?.Sum() ?? null;
-            sheet.CreateCell(4, valB?.ToString("f2") ?? null, sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin, left: BorderStyle.Thin));
+            valB = (from o in statisticsList select o.BudgetaryValue)?.Sum() ?? null;
+            sheet.CreateCell(4, valB?.ToString("f2") ?? null, sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin, left: BorderStyle.Thin, font: font));
             //营业收入达成率
-            sheet.CreateCell(5, Bll.BllFinance_Statistics.GetBusinessRate(valA, valB)?.ToString("f2") ?? null, sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center,
-            top: BorderStyle.Thin, left: BorderStyle.Thin));
+            sheet.CreateCell(5, dataFormat2(Bll.BllFinance_Statistics.GetBusinessRate(valA, valB)) ?? null, sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center,
+            top: BorderStyle.Thin, left: BorderStyle.Thin, dataFormat: 1, font: font));
             //实际收款
-            valA = (from o in statisticsList2 select o.ActualReceipts)?.Sum() ?? null;
-            sheet.CreateCell(6, valA?.ToString("f2") ?? null, sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin, left: BorderStyle.Thin));
+            valA = (from o in statisticsList select o.ActualReceipts)?.Sum() ?? null;
+            sheet.CreateCell(6, valA?.ToString("f2") ?? null, sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin, left: BorderStyle.Thin, font: font));
             //实际发货订单数量
-            valA = (from o in statisticsList2 select o.ActualDeliveryOrderNumber)?.Sum() ?? null;
-            sheet.CreateCell(7, valA?.ToString("f2") ?? null, sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin, left: BorderStyle.Thin));
+            valA = (from o in statisticsList select o.ActualDeliveryOrderNumber)?.Sum() ?? null;
+            sheet.CreateCell(7, valA?.ToString("f2") ?? null, sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin, left: BorderStyle.Thin, font: font));
             //计划发货订单数量
-            valB = (from o in statisticsList2 select o.PlanDeliveryOrderNumber)?.Sum() ?? null;
-            sheet.CreateCell(8, valB?.ToString("f2") ?? null, sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin, left: BorderStyle.Thin));
+            valB = (from o in statisticsList select o.PlanDeliveryOrderNumber)?.Sum() ?? null;
+            sheet.CreateCell(8, valB?.ToString("f2") ?? null, sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin, left: BorderStyle.Thin, font: font));
             //发货准时率
-            sheet.CreateCell(9, Bll.BllFinance_Statistics.GetBusinessRate(valA, valB)?.ToString("f2") ?? null, sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center,
-                top: BorderStyle.Thin, left: BorderStyle.Thin));
+            sheet.CreateCell(9, dataFormat2(Bll.BllFinance_Statistics.GetBusinessRate(valA, valB)) ?? null, sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center,
+                top: BorderStyle.Thin, left: BorderStyle.Thin, dataFormat: 1, font: font));
             //生产完工率
             sheet.CreateCell(10, "", sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center,
-                top: BorderStyle.Thin, left: BorderStyle.Thin));
+                top: BorderStyle.Thin, left: BorderStyle.Thin, dataFormat: 1, font: font));
             //采购入库及时率
             sheet.CreateCell(11, "", sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center,
-                top: BorderStyle.Thin, left: BorderStyle.Thin));
+                top: BorderStyle.Thin, left: BorderStyle.Thin, dataFormat: 1, font: font));
             //订单发货准时率
             sheet.CreateCell(12, "", sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center,
-                top: BorderStyle.Thin, left: BorderStyle.Thin, right: BorderStyle.Medium));
+                top: BorderStyle.Thin, left: BorderStyle.Thin, right: BorderStyle.Medium, dataFormat: 1, font: font));
 
             //循环每个部门
             int departmentCol = otherColIndex + 1;
             foreach (var item in departmentList)
             {
-                statisticsList2 = (from o in statisticsList2 where o.DepartmentName == item select o).ToList();
+                var statisticsList2 = (from o in statisticsList where o.DepartmentName == item select o).ToList();
                 //营业收入
                 valA = (from o in statisticsList2 select o.BusinessIncome)?.Sum() ?? null;
                 sheet.CreateCell(departmentCol, valA?.ToString("f2") ?? null, sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin
-                    , left: BorderStyle.Thin, right: BorderStyle.Thin));
+                    , left: BorderStyle.Thin, right: BorderStyle.Thin, font: font));
                 //营业收入预算值
                 valB = (from o in statisticsList2 select o.BudgetaryValue)?.Sum() ?? null;
                 sheet.CreateCell(departmentCol + 1, valB?.ToString("f2") ?? null, sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin
-                    , left: BorderStyle.Thin, right: BorderStyle.Thin));
+                    , left: BorderStyle.Thin, right: BorderStyle.Thin, font: font));
                 //营业收入达成率
-                sheet.CreateCell(departmentCol + 2, Bll.BllFinance_Statistics.GetBusinessRate(valA, valB)?.ToString("f2") ?? null, sheet.CellStyle(ha: HorizontalAlignment.Center
-                    , va: VerticalAlignment.Center, top: BorderStyle.Thin, left: BorderStyle.Thin));
+                sheet.CreateCell(departmentCol + 2, dataFormat2(Bll.BllFinance_Statistics.GetBusinessRate(valA, valB)) ?? null, sheet.CellStyle(ha: HorizontalAlignment.Center
+                    , va: VerticalAlignment.Center, top: BorderStyle.Thin, left: BorderStyle.Thin, dataFormat: 1, font: font));
                 //实际收款
                 valA = (from o in statisticsList2 select o.ActualReceipts)?.Sum() ?? null;
                 sheet.CreateCell(departmentCol + 3, valA?.ToString("f2") ?? null, sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin
-                    , left: BorderStyle.Thin, right: BorderStyle.Thin));
+                    , left: BorderStyle.Thin, right: BorderStyle.Thin, font: font));
                 //实际发货订单数量
                 valA = (from o in statisticsList2 select o.ActualDeliveryOrderNumber)?.Sum() ?? null;
                 sheet.CreateCell(departmentCol + 4, valA?.ToString("f2") ?? null, sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin
-                    , left: BorderStyle.Thin, right: BorderStyle.Thin));
+                    , left: BorderStyle.Thin, right: BorderStyle.Thin, font: font));
                 //计划发货订单数量
                 valB = (from o in statisticsList2 select o.PlanDeliveryOrderNumber)?.Sum() ?? null;
                 sheet.CreateCell(departmentCol + 5, valB?.ToString("f2") ?? null, sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin
-                    , left: BorderStyle.Thin, right: BorderStyle.Thin));
+                    , left: BorderStyle.Thin, right: BorderStyle.Thin, font: font));
                 //发货准时率
-                sheet.CreateCell(departmentCol + 6, Bll.BllFinance_Statistics.GetBusinessRate(valA, valB)?.ToString("f2") ?? null, sheet.CellStyle(ha: HorizontalAlignment.Center
-                    , va: VerticalAlignment.Center, top: BorderStyle.Thin, left: BorderStyle.Thin, right: BorderStyle.Medium));
+                sheet.CreateCell(departmentCol + 6, dataFormat2(Bll.BllFinance_Statistics.GetBusinessRate(valA, valB)), sheet.CellStyle(ha: HorizontalAlignment.Center
+                    , va: VerticalAlignment.Center, top: BorderStyle.Thin, left: BorderStyle.Thin, right: BorderStyle.Medium, dataFormat: 1, font: font));
 
                 departmentCol += 7;
             }
@@ -286,6 +294,14 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Common
         {
             for (int i = startCell; i <= endCell; i++)
                 sheet.CreateCell(i, "", sheet.CellStyle(top: borderStyle));
+        }
+
+        private static string dataFormat2(decimal? val)
+        {
+            if (val == null)
+                return null;
+
+            return val == null ? null : (val.GetValueOrDefault().ToString("f2") + "%");
         }
 
     }

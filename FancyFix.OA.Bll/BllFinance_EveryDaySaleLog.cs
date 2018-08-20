@@ -46,12 +46,14 @@ namespace FancyFix.OA.Bll
 
             try
             {
-                //组合键（日期+销售人员+商户+产品名称）如果已存在执行修改，跳过为空的字段，否则新增
+                //组合键（日期+销售人员+商户+产品名称+ 产品规格+合同号）如果已存在执行修改，跳过为空的字段，否则新增
                 var everyDaySaleLogModel = First(o => o.SaleDate == model.SaleDate &&
                                                  o.SaleName == model.SaleName &&
                                                  o.Customer == model.Customer &&
+                                                 o.ContractNumber == model.ContractNumber &&
                                                  o.ProductName == model.ProductName &&
                                                  o.ProductSKU == model.ProductSKU &&
+                                                 o.ProductSpecification == model.ProductSpecification &&
                                                  o.Display != 2);
 
                 int result = 0;
@@ -77,17 +79,17 @@ namespace FancyFix.OA.Bll
         /// <returns></returns>
         private static Finance_EveryDaySaleLog MappingModel(Finance_EveryDaySaleLog oldModel, Finance_EveryDaySaleLog newModel)
         {
-            if (string.IsNullOrEmpty(newModel.DepartmentName))
+            if (string.IsNullOrWhiteSpace(newModel.DepartmentName))
                 oldModel.DepartmentName = newModel.DepartmentName;
-            if (string.IsNullOrEmpty(newModel.ContractNumber))
-                oldModel.ContractNumber = newModel.ContractNumber;
-            if (string.IsNullOrEmpty(newModel.ProductSKU))
-                oldModel.ProductSKU = newModel.ProductSKU;
+            //if (string.IsNullOrWhiteSpace(newModel.ProductSKU))
+            //    oldModel.ProductSKU = newModel.ProductSKU;
+            //if (string.IsNullOrWhiteSpace(newModel.ProductSpecification))
+            //    oldModel.ProductSpecification = newModel.ProductSpecification;
             if (newModel.SaleCount != null)
                 oldModel.SaleCount = newModel.SaleCount;
             if (newModel.SalePrice != null)
                 oldModel.SalePrice = newModel.SalePrice;
-            if (string.IsNullOrEmpty(newModel.Currency))
+            if (string.IsNullOrWhiteSpace(newModel.Currency))
                 oldModel.Currency = newModel.Currency;
             if (newModel.ExchangeRate != null)
                 oldModel.ExchangeRate = newModel.ExchangeRate;

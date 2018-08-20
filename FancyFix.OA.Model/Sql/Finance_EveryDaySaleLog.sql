@@ -11,7 +11,7 @@ Target Server Type    : SQL Server
 Target Server Version : 110000
 File Encoding         : 65001
 
-Date: 2018-08-07 19:19:19
+Date: 2018-08-20 08:25:42
 */
 
 
@@ -26,6 +26,8 @@ CREATE TABLE [dbo].[Finance_EveryDaySaleLog] (
 [Year] int NULL ,
 [Month] int NULL ,
 [Day] int NULL ,
+[DepartmentName] nvarchar(128) NULL ,
+[SaleName] nvarchar(128) NULL ,
 [Customer] nvarchar(256) NULL ,
 [ContractNumber] nvarchar(64) NULL ,
 [ProductName] nvarchar(256) NULL ,
@@ -56,11 +58,12 @@ CREATE TABLE [dbo].[Finance_EveryDaySaleLog] (
 [LastDate] datetime NULL ,
 [LastUserId] int NULL ,
 [Display] int NULL ,
-[DepartmentName] nvarchar(128) NULL ,
-[SaleName] nvarchar(128) NULL 
+[ProductSpecification] nvarchar(512) NULL 
 )
 
 
+GO
+DBCC CHECKIDENT(N'[dbo].[Finance_EveryDaySaleLog]', RESEED, 3221)
 GO
 IF ((SELECT COUNT(*) from fn_listextendedproperty('MS_Description', 
 'SCHEMA', N'dbo', 
@@ -75,6 +78,34 @@ EXEC sp_addextendedproperty @name = N'MS_Description', @value = N'销售日期'
 , @level0type = 'SCHEMA', @level0name = N'dbo'
 , @level1type = 'TABLE', @level1name = N'Finance_EveryDaySaleLog'
 , @level2type = 'COLUMN', @level2name = N'SaleDate'
+GO
+IF ((SELECT COUNT(*) from fn_listextendedproperty('MS_Description', 
+'SCHEMA', N'dbo', 
+'TABLE', N'Finance_EveryDaySaleLog', 
+'COLUMN', N'DepartmentName')) > 0) 
+EXEC sp_updateextendedproperty @name = N'MS_Description', @value = N'部门'
+, @level0type = 'SCHEMA', @level0name = N'dbo'
+, @level1type = 'TABLE', @level1name = N'Finance_EveryDaySaleLog'
+, @level2type = 'COLUMN', @level2name = N'DepartmentName'
+ELSE
+EXEC sp_addextendedproperty @name = N'MS_Description', @value = N'部门'
+, @level0type = 'SCHEMA', @level0name = N'dbo'
+, @level1type = 'TABLE', @level1name = N'Finance_EveryDaySaleLog'
+, @level2type = 'COLUMN', @level2name = N'DepartmentName'
+GO
+IF ((SELECT COUNT(*) from fn_listextendedproperty('MS_Description', 
+'SCHEMA', N'dbo', 
+'TABLE', N'Finance_EveryDaySaleLog', 
+'COLUMN', N'SaleName')) > 0) 
+EXEC sp_updateextendedproperty @name = N'MS_Description', @value = N'销售员'
+, @level0type = 'SCHEMA', @level0name = N'dbo'
+, @level1type = 'TABLE', @level1name = N'Finance_EveryDaySaleLog'
+, @level2type = 'COLUMN', @level2name = N'SaleName'
+ELSE
+EXEC sp_addextendedproperty @name = N'MS_Description', @value = N'销售员'
+, @level0type = 'SCHEMA', @level0name = N'dbo'
+, @level1type = 'TABLE', @level1name = N'Finance_EveryDaySaleLog'
+, @level2type = 'COLUMN', @level2name = N'SaleName'
 GO
 IF ((SELECT COUNT(*) from fn_listextendedproperty('MS_Description', 
 'SCHEMA', N'dbo', 
@@ -443,30 +474,16 @@ GO
 IF ((SELECT COUNT(*) from fn_listextendedproperty('MS_Description', 
 'SCHEMA', N'dbo', 
 'TABLE', N'Finance_EveryDaySaleLog', 
-'COLUMN', N'DepartmentName')) > 0) 
-EXEC sp_updateextendedproperty @name = N'MS_Description', @value = N'部门'
+'COLUMN', N'ProductSpecification')) > 0) 
+EXEC sp_updateextendedproperty @name = N'MS_Description', @value = N'产品规格'
 , @level0type = 'SCHEMA', @level0name = N'dbo'
 , @level1type = 'TABLE', @level1name = N'Finance_EveryDaySaleLog'
-, @level2type = 'COLUMN', @level2name = N'DepartmentName'
+, @level2type = 'COLUMN', @level2name = N'ProductSpecification'
 ELSE
-EXEC sp_addextendedproperty @name = N'MS_Description', @value = N'部门'
+EXEC sp_addextendedproperty @name = N'MS_Description', @value = N'产品规格'
 , @level0type = 'SCHEMA', @level0name = N'dbo'
 , @level1type = 'TABLE', @level1name = N'Finance_EveryDaySaleLog'
-, @level2type = 'COLUMN', @level2name = N'DepartmentName'
-GO
-IF ((SELECT COUNT(*) from fn_listextendedproperty('MS_Description', 
-'SCHEMA', N'dbo', 
-'TABLE', N'Finance_EveryDaySaleLog', 
-'COLUMN', N'SaleName')) > 0) 
-EXEC sp_updateextendedproperty @name = N'MS_Description', @value = N'销售员'
-, @level0type = 'SCHEMA', @level0name = N'dbo'
-, @level1type = 'TABLE', @level1name = N'Finance_EveryDaySaleLog'
-, @level2type = 'COLUMN', @level2name = N'SaleName'
-ELSE
-EXEC sp_addextendedproperty @name = N'MS_Description', @value = N'销售员'
-, @level0type = 'SCHEMA', @level0name = N'dbo'
-, @level1type = 'TABLE', @level1name = N'Finance_EveryDaySaleLog'
-, @level2type = 'COLUMN', @level2name = N'SaleName'
+, @level2type = 'COLUMN', @level2name = N'ProductSpecification'
 GO
 
 -- ----------------------------

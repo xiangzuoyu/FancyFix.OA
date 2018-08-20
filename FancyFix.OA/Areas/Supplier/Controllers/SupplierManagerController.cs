@@ -232,7 +232,7 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
                 if (result != "0")
                     return MessageBoxAndJump("导入失败，" + result, "list");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return MessageBoxAndJump("导入失败:请联系管理员", "list");
             }

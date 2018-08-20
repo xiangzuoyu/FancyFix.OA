@@ -73,7 +73,7 @@
                         <td align="right"><label for="ContractNumber" class="control-label">合同号：</label></td>
                         <td>
                             <div class="layui-input-inline">
-                                @Html.TextBox("ContractNumber", (Model?.ContractNumber ?? ""), new { @class = "form-control" })
+                                @Html.TextBox("ContractNumber", (Model?.ContractNumber ?? ""), new { @class = "form-control", required = "required" })
                             </div>
                         </td>
                     </tr>
@@ -89,7 +89,15 @@
                         <td align="right"><label for="ProductSKU" class="control-label">产品SKU：</label></td>
                         <td>
                             <div class="layui-input-inline">
-                                @Html.TextBox("ProductSKU", (Model?.ProductSKU ?? ""), new { @class = "form-control", required = "required" })
+                                @Html.TextBox("ProductSKU", (Model?.ProductSKU ?? ""), new { @class = "form-control" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right"><label for="ProductSpecification" class="control-label">产品规格：</label></td>
+                        <td>
+                            <div class="layui-input-inline">
+                                @Html.TextBox("ProductSpecification", (Model?.ProductSpecification ?? ""), new { @class = "form-control" })
                             </div>
                         </td>
                     </tr>

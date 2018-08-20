@@ -13,10 +13,17 @@ namespace FancyFix.Tools.Tool
         private ICell temporaryCell;
         private ICellStyle temporaryCellStyle;
         private IFont temporaryFont;
+        private IFont defaultTemporaryFont;//默认字体
+        private IDataFormat dataformat;
         //初始化一个工作表
-        public NPOIHelper(string sheetName = "sheet1")
+        public NPOIHelper(string sheetName = "sheet1", int defaultFontSize = 0)
         {
             temporarySheet = workbook.CreateSheet(sheetName);
+
+            //设置默认字体样式
+            if (defaultFontSize > 0)
+                defaultTemporaryFont = FontStyle(fontsize: defaultFontSize);
+
         }
         public HSSFWorkbook GetWorkbook()
         {
@@ -41,12 +48,11 @@ namespace FancyFix.Tools.Tool
         public void CreateCell(int column, string cellValue = "", ICellStyle cellstyle = null)
         {
             temporaryCell = temporaryRow.CreateCell(column);
+            if (cellstyle != null)
+                temporaryCell.CellStyle = cellstyle;
 
             if (!string.IsNullOrEmpty(cellValue))
                 temporaryCell.SetCellValue(cellValue);
-
-            if (cellstyle != null)
-                temporaryCell.CellStyle = cellstyle;
         }
         //设置列样式
         public void SetCellStyle(ICellStyle cellStyle)
@@ -57,6 +63,20 @@ namespace FancyFix.Tools.Tool
         public void SetHeight(short height)
         {
             temporaryRow.Height = height;
+        }
+        //获取单元格格式
+        public ICellStyle GetCellFormat()
+        {
+            temporaryCellStyle = workbook.CreateCellStyle();
+            dataformat = workbook.CreateDataFormat();
+            //temporaryCellStyle.DataFormat = dataformat.GetFormat("0.00%");//百分数【小数点后有几个0表示精确到显示小数点后几位】
+            temporaryCellStyle.DataFormat = HSSFDataFormat.GetBuiltinFormat("0.00");//百分数【小数点后有几个0表示精确到显示小数点后几位】
+            return temporaryCellStyle;
+        }
+        //设置列的默认格式
+        public void SetDefaultColumnStyles(int column, ICellStyle cellStyle)
+        {
+            temporarySheet.SetDefaultColumnStyle(column, cellStyle);
         }
 
         /// <summary>
@@ -79,6 +99,7 @@ namespace FancyFix.Tools.Tool
 
             if (boldweight > 0)
                 temporaryFont.Boldweight = boldweight;
+
             if (fontsize > 0)
                 temporaryFont.FontHeightInPoints = (short)fontsize;
 
@@ -103,7 +124,7 @@ namespace FancyFix.Tools.Tool
         /// <returns></returns>
         public ICellStyle CellStyle(HSSFColor fillBackgroundColor = null, HorizontalAlignment ha = HorizontalAlignment.Left, VerticalAlignment va = VerticalAlignment.Center,
             BorderStyle top = BorderStyle.None, BorderStyle right = BorderStyle.None, BorderStyle bottom = BorderStyle.None, BorderStyle left = BorderStyle.None,
-            IFont font = null, HSSFColor fillForegroundColor = null, FillPattern fillPattern = new FillPattern())
+            IFont font = null, HSSFColor fillForegroundColor = null, FillPattern fillPattern = new FillPattern(), int? dataFormat = null)
         {
             temporaryCellStyle = workbook.CreateCellStyle();
             temporaryCellStyle.FillPattern = fillPattern;
@@ -118,6 +139,8 @@ namespace FancyFix.Tools.Tool
 
             if (font != null)
                 temporaryCellStyle.SetFont(font);
+            else if (defaultTemporaryFont != null)
+                temporaryCellStyle.SetFont(defaultTemporaryFont);
 
             temporaryCellStyle.FillPattern = FillPattern.SolidForeground;
             //加边框
@@ -129,6 +152,9 @@ namespace FancyFix.Tools.Tool
                 temporaryCellStyle.BorderBottom = bottom;
             if (left != BorderStyle.None)
                 temporaryCellStyle.BorderLeft = left;
+            //单元格格式
+            if (dataFormat != null)
+                temporaryCellStyle.DataFormat = DataStyle(dataFormat.GetValueOrDefault());
 
             return temporaryCellStyle;
         }
@@ -146,5 +172,18 @@ namespace FancyFix.Tools.Tool
             CellRangeAddress cellRangeAddress = new CellRangeAddress(rowStart, rowEnd, colStart, colEnd);
             temporarySheet.AddMergedRegion(cellRangeAddress);
         }
+
+        public short DataStyle(int type)
+        {
+            dataformat = workbook.CreateDataFormat();
+            switch (type)
+            {
+                case 1:
+                    return HSSFDataFormat.GetBuiltinFormat("0.00%");//百分数【小数点后有几个0表示精确到显示小数点后几位】
+            }
+
+            return 0;
+        }
     }
+
 }

@@ -102,13 +102,13 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
                     IRow row = sheet.GetRow(i);
                     //年月日、销售人员、客户、产品名称、产品SKU为空时跳过
                     if (row == null ||
-                        string.IsNullOrWhiteSpace(row.GetCell(1)?.ToString()) ||
-                        string.IsNullOrWhiteSpace(row.GetCell(2)?.ToString()) ||
-                        string.IsNullOrWhiteSpace(row.GetCell(3)?.ToString()) ||
-                        string.IsNullOrWhiteSpace(row.GetCell(5)?.ToString()) ||
-                        string.IsNullOrWhiteSpace(row.GetCell(6)?.ToString()) ||
-                        string.IsNullOrWhiteSpace(row.GetCell(8)?.ToString()) ||
-                        string.IsNullOrWhiteSpace(row.GetCell(9)?.ToString()))
+                        string.IsNullOrWhiteSpace(row.GetCell(1)?.ToString() ?? "") ||
+                        string.IsNullOrWhiteSpace(row.GetCell(2)?.ToString() ?? "") ||
+                        string.IsNullOrWhiteSpace(row.GetCell(3)?.ToString() ?? "") ||
+                        string.IsNullOrWhiteSpace(row.GetCell(5)?.ToString() ?? "") ||
+                        string.IsNullOrWhiteSpace(row.GetCell(6)?.ToString() ?? "") ||
+                        string.IsNullOrWhiteSpace(row.GetCell(7)?.ToString() ?? "") ||
+                        string.IsNullOrWhiteSpace(row.GetCell(8)?.ToString() ?? ""))
                         continue;
 
                     var rawMaterialModel = CreateEveryDaySaleLogModel(row, addTime);
@@ -120,7 +120,6 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
                         return isok;
 
                     statistics = SignNeedUpdateData(statistics, rawMaterialModel);
-                    break;
                 }
 
                 Bll.BllFinance_Statistics.AgainCountData(statistics);
@@ -174,31 +173,32 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
                 Month = row.GetCell(2)?.ToString().ToInt32(),
                 Day = row.GetCell(3)?.ToString().ToInt32(),
                 DepartmentName = row.GetCell(4)?.ToString(),
-                SaleName = row.GetCell(5)?.ToString(),
-                Customer = row.GetCell(6)?.ToString(),
-                ContractNumber = row.GetCell(7)?.ToString(),
-                ProductName = row.GetCell(8)?.ToString(),
-                ProductSKU = row.GetCell(9)?.ToString(),
-                SaleCount = getCellVal(row.GetCell(10)),
-                SalePrice = getCellVal(row.GetCell(11)),
-                Currency = row.GetCell(12)?.ToString(),
-                ExchangeRate = getCellVal(row.GetCell(13)),
-                MaterialUnitPrice = getCellVal(row.GetCell(15)),
-                ProcessUnitPrice = getCellVal(row.GetCell(16)),
-                ChangeCostNumber = getCellVal(row.GetCell(21)),
-                ChangeCostMatter = getCellVal(row.GetCell(22)),
-                ContributionMoney = getCellVal(row.GetCell(23)),
-                ContributionRatio = getCellVal(row.GetCell(24)),
-                AvgCoatUndue = getCellVal(row.GetCell(25)),
-                AvgCoatCurrentdue = getCellVal(row.GetCell(26)),
-                AvgCoatOverdue = getCellVal(row.GetCell(27)),
-                CustomerContributionMoney = getCellVal(row.GetCell(28)),
-                CustomerContributionRatio = getCellVal(row.GetCell(29)),
-                Follow = getCellVal2(row.GetCell(30)),
+                SaleName = row.GetCell(5)?.ToString() == "" ? null : row.GetCell(5)?.ToString(),
+                Customer = row.GetCell(6)?.ToString() == "" ? null : row.GetCell(6)?.ToString(),
+                ContractNumber = row.GetCell(7)?.ToString() == "" ? null : row.GetCell(7)?.ToString(),
+                ProductName = row.GetCell(8)?.ToString() == "" ? null : row.GetCell(8)?.ToString(),
+                ProductSKU = row.GetCell(9)?.ToString() == "" ? null : row.GetCell(9)?.ToString(),
+                ProductSpecification = row.GetCell(10)?.ToString() == "" ? null : row.GetCell(10)?.ToString(),
+                SaleCount = getCellVal(row.GetCell(11)),
+                SalePrice = getCellVal(row.GetCell(12)),
+                Currency = row.GetCell(13)?.ToString(),
+                ExchangeRate = getCellVal(row.GetCell(14)),
+                MaterialUnitPrice = getCellVal(row.GetCell(16)),
+                ProcessUnitPrice = getCellVal(row.GetCell(17)),
+                ChangeCostNumber = getCellVal(row.GetCell(22)),
+                ChangeCostMatter = getCellVal(row.GetCell(23)),
+                ContributionMoney = getCellVal(row.GetCell(24)),
+                ContributionRatio = getCellVal(row.GetCell(25)),
+                AvgCoatUndue = getCellVal(row.GetCell(26)),
+                AvgCoatCurrentdue = getCellVal(row.GetCell(27)),
+                AvgCoatOverdue = getCellVal(row.GetCell(28)),
+                CustomerContributionMoney = getCellVal(row.GetCell(29)),
+                CustomerContributionRatio = getCellVal(row.GetCell(30)),
+                Follow = getCellVal2(row.GetCell(31)),
                 AddDate = addTime,
                 AddUserId = MyInfo.Id,
                 LastDate = addTime,
-                LastUserId = MyInfo.Id
+                LastUserId = MyInfo.Id,
             };
             model.SaleDate = $"{model.Year}-{model.Month}-{model.Day}".ToDateTime();
 
@@ -242,8 +242,8 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
             if (model.SaleDate == Tools.Usual.Common.InitDateTime() ||
                 string.IsNullOrEmpty(model.SaleName) ||
                 string.IsNullOrEmpty(model.Customer) ||
-                string.IsNullOrEmpty(model.ProductName) ||
-                string.IsNullOrEmpty(model.ProductSKU))
+                string.IsNullOrEmpty(model.ContractNumber) ||
+                string.IsNullOrEmpty(model.ProductName))
                 return null;
 
             return model;
@@ -298,7 +298,7 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
                 string.IsNullOrWhiteSpace(everyDaySaleLog.SaleName) ||
                 string.IsNullOrWhiteSpace(everyDaySaleLog.Customer) ||
                 string.IsNullOrWhiteSpace(everyDaySaleLog.ProductName) ||
-                string.IsNullOrWhiteSpace(everyDaySaleLog.ProductSKU))
+                string.IsNullOrWhiteSpace(everyDaySaleLog.ContractNumber))
             {
                 return LayerMsgErrorAndReturn("字段不能为空！");
             }
@@ -308,8 +308,10 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
                                                                                 o.SaleDate == everyDaySaleLog.SaleDate &&
                                                                                 o.SaleName == everyDaySaleLog.SaleName &&
                                                                                 o.Customer == everyDaySaleLog.Customer &&
+                                                                                o.ContractNumber == everyDaySaleLog.ContractNumber &&
                                                                                 o.ProductName == everyDaySaleLog.ProductName &&
                                                                                 o.ProductSKU == everyDaySaleLog.ProductSKU &&
+                                                                                o.ProductSpecification == everyDaySaleLog.ProductSpecification &&
                                                                                 o.Display != 2);
             if (model != null)
                 return LayerMsgErrorAndReturn("添加数据失败，该条数据已存在，请确认后重新提交！");
@@ -323,6 +325,7 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
             model.Customer = everyDaySaleLog.Customer;
             model.ProductName = everyDaySaleLog.ProductName;
             model.ProductSKU = everyDaySaleLog.ProductSKU;
+            model.ProductSpecification = everyDaySaleLog.ProductSpecification;
             model.Year = everyDaySaleLog.SaleDate.GetValueOrDefault().Year;
             model.Month = everyDaySaleLog.SaleDate.GetValueOrDefault().Month;
             model.Day = everyDaySaleLog.SaleDate.GetValueOrDefault().Day;

@@ -122,7 +122,7 @@
                             field: 'SaleDate',
                             title: '销售日期',
                             align: 'left',
-                            width: 150,
+                            width: 90,
                             formatter: function (v, r, i) {
                                 if (r.SaleDate.length > 18) {
                                     return r.SaleDate.slice(0, 10);
@@ -151,6 +151,10 @@
                         }, {
                             field: 'ProductSKU',
                             title: '产品SKU',
+                            align: 'left',
+                        }, {
+                            field: 'ProductSpecification',
+                            title: '产品规格',
                             align: 'left',
                         }, {
                             field: 'SaleCount',

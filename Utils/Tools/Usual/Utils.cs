@@ -934,7 +934,17 @@ namespace FancyFix.Tools.Usual
                 return "";
             }
         }
+        /// <summary>
+        /// 输出缩略图
+        /// </summary>
+        /// <param name="pic"></param>
+        /// <returns></returns>
+        public static string GetMinPic(string pic)
+        {
+            if (string.IsNullOrEmpty(pic)) return "";
 
+            return pic.Insert(pic.LastIndexOf('.'), "xs");
+        }
 
         /// <summary>
         /// 输出小图

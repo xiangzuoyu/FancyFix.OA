@@ -168,20 +168,29 @@ namespace FancyFix.Tools.Utility
         /// <returns></returns>  
         public static string GetIP()
         {
-            string result = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
-            if (string.IsNullOrEmpty(result))
+            try
             {
-                result = HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
+                string result = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+                if (string.IsNullOrEmpty(result))
+                {
+                    result = HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
+                }
+                if (string.IsNullOrEmpty(result))
+                {
+                    result = HttpContext.Current.Request.UserHostAddress;
+                }
+                if (string.IsNullOrEmpty(result))
+                {
+                    return "0.0.0.0";
+                }
+                return result;
             }
-            if (string.IsNullOrEmpty(result))
+            catch (Exception)
             {
-                result = HttpContext.Current.Request.UserHostAddress;
+
+                return "";
             }
-            if (string.IsNullOrEmpty(result))
-            {
-                return "0.0.0.0";
-            }
-            return result;
+           
         }
 
         #endregion

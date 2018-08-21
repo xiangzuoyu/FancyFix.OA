@@ -16,54 +16,11 @@ namespace FancyFix.OA.Areas.Rank.Controllers
     {
         public ActionResult Index(int year = 0, int fromMonth = 0, int toMonth = 0, int departId = 0)
         {
-            CheckDate(ref year, ref fromMonth, ref toMonth);
-
-            var userlist = Bll.BllMng_User.GetAllUser();
-            var ranklist = Bll.BllPoint_Records.GetRankUserList(year, fromMonth, toMonth);
             double top = RequestDouble("top");
-
-            if (ranklist != null && ranklist.Count > 0)
-            {
-                foreach (var item in ranklist)
-                {
-                    var userInfo = userlist.Find(o => o.Id == item.UserId);
-                    if (userInfo != null)
-                    {
-                        item.DepartId = userInfo.DepartId.Value;
-                        item.DepartName = userInfo.DepartMentName;
-                        item.GroupName = userInfo.GroupName;
-                    }
-                }
-            }
-
-            //部门筛选
-            if (departId > 0)
-                ranklist = ranklist.FindAll(o => o.DepartId == departId);
-
-            //开始排名
-            int count = 0;
-            if (ranklist != null && ranklist.Count > 0)
-            {
-                int i = 0;
-                int lastScore = 0;
-                foreach (var item in ranklist)
-                {
-                    if (item.Score != lastScore) i++;
-                    item.Rank = i;
-                    lastScore = item.Score;
-                }
-                count = ranklist.Count;
-            }
-
-            //筛选百分比
-            if (count > 0 && top > 0)
-            {
-                var groupRankList = ranklist.GroupBy(o => o.Rank);
-                double val = top * groupRankList.Last().Key / 100; //取到最大排名
-                int take = val < 1 ? 1 : (int)Math.Round(val, MidpointRounding.AwayFromZero); //四舍五入取整
-                if (take > 0)
-                    ranklist = ranklist.Where(o => o.Rank <= take).ToList();
-            }
+            var injob = RequestInt("injob")==0?1: RequestInt("injob");
+            CheckDate(ref year, ref fromMonth, ref toMonth);
+            List<Rank_Point> ranklist = new List<Rank_Point>();
+            ranklist = GetRankPointList(year, fromMonth, toMonth, departId, injob,top);
 
             ViewBag.departHtml = GetDepartOptions(departId);
             ViewBag.year = year;
@@ -73,6 +30,7 @@ namespace FancyFix.OA.Areas.Rank.Controllers
             ViewBag.departId = departId;
             ViewBag.startyear = StartYear;
             ViewBag.ranklist = ranklist;
+            ViewBag.injob = injob;
             return View();
         }
 
@@ -100,51 +58,12 @@ namespace FancyFix.OA.Areas.Rank.Controllers
             int toMonth = RequestInt("toMonth");
             double top = RequestDouble("top");
             int departId = RequestInt("departId");
-
-            var ranklist = Bll.BllPoint_Records.GetRankUserList(year, fromMonth, toMonth);
+             var injob = RequestInt("injob");
+            List<Rank_Point> ranklist = new List<Rank_Point>();
+            ranklist = GetRankPointList(year, fromMonth, toMonth, departId, injob, top);
             if (ranklist != null && ranklist.Count > 0)
             {
-                var userlist = Bll.BllMng_User.GetAllUser();
-                foreach (var item in ranklist)
-                {
-                    var userInfo = userlist.Find(o => o.Id == item.UserId);
-                    if (userInfo != null)
-                    {
-                        item.DepartId = userInfo.DepartId.Value;
-                        item.DepartName = userInfo.DepartMentName;
-                        item.GroupName = userInfo.GroupName;
-                    }
-                }
-
-                //部门筛选
-                if (departId > 0)
-                    ranklist = ranklist.FindAll(o => o.DepartId == departId);
-
-                //开始排名
-                int count = 0;
-                if (ranklist != null && ranklist.Count > 0)
-                {
-                    int i = 0;
-                    int lastScore = 0;
-                    foreach (var item in ranklist)
-                    {
-                        if (item.Score != lastScore) i++;
-                        item.Rank = i;
-                        lastScore = item.Score;
-                    }
-                    count = ranklist.Count;
-                }
-
-                //筛选百分比
-                if (count > 0 && top > 0)
-                {
-                    var groupRankList = ranklist.GroupBy(o => o.Rank);
-                    double val = top * groupRankList.Last().Key / 100; //取到最大排名
-                    int take = val < 1 ? 1 : (int)Math.Round(val, MidpointRounding.AwayFromZero); //四舍五入取整
-                    if (take > 0)
-                        ranklist = ranklist.Where(o => o.Rank <= take).ToList();
-                }
-
+ 
                 DataTable dt = new DataTable();
                 dt.Columns.Add("排名", typeof(String));
                 dt.Columns.Add("员工", typeof(String));
@@ -187,6 +106,69 @@ namespace FancyFix.OA.Areas.Rank.Controllers
             ViewBag.record = record;
             ViewBag.classinfo = Bll.BllPoint_List.First(o => o.Id == record.PointId);
             return View();
+        }
+
+
+        private List<Rank_Point> GetRankPointList(int year = 0, int fromMonth = 0, int toMonth = 0, int departId = 0, int injob = 1,double top=0)
+        {
+            var userlist = Bll.BllMng_User.GetAllUser();
+            var ranklist = Bll.BllPoint_Records.GetRankUserList(year, fromMonth, toMonth);
+
+
+            if (ranklist != null && ranklist.Count > 0)
+            {
+                foreach (var item in ranklist)
+                {
+                    var userInfo = userlist.Find(o => o.Id == item.UserId);
+                    if (userInfo != null)
+                    {
+                        item.DepartId = userInfo.DepartId.Value;
+                        item.DepartName = userInfo.DepartMentName;
+                        item.GroupName = userInfo.GroupName;
+                        item.InJob = userInfo.InJob.HasValue ? userInfo.InJob.Value : false;
+                    }
+                }
+            }
+            if (injob > 0)
+            {
+                if (injob == 1)
+                {
+                    ranklist = ranklist.Where(p => p.InJob == true).ToList();
+                }
+                else
+                {
+                    ranklist = ranklist.Where(p => p.InJob == false).ToList();
+                }
+            }
+            //部门筛选
+            if (departId > 0)
+                ranklist = ranklist.FindAll(o => o.DepartId == departId);
+
+            //开始排名
+            int count = 0;
+            if (ranklist != null && ranklist.Count > 0)
+            {
+                int i = 0;
+                int lastScore = 0;
+                foreach (var item in ranklist)
+                {
+                    if (item.Score != lastScore) i++;
+                    item.Rank = i;
+                    lastScore = item.Score;
+                }
+                count = ranklist.Count;
+            }
+
+            //筛选百分比
+            if (count > 0 && top > 0)
+            {
+                var groupRankList = ranklist.GroupBy(o => o.Rank);
+                double val = top * groupRankList.Last().Key / 100; //取到最大排名
+                int take = val < 1 ? 1 : (int)Math.Round(val, MidpointRounding.AwayFromZero); //四舍五入取整
+                if (take > 0)
+                    ranklist = ranklist.Where(o => o.Rank <= take).ToList();
+            }
+            return ranklist;
         }
     }
 }

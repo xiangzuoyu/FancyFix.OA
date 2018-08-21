@@ -857,7 +857,7 @@ namespace Tools.Tool
                 file.SaveAs(filePath);
                 return "0";
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return "上传错误！";
             }

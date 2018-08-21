@@ -186,7 +186,7 @@ namespace FancyFix.OA.Bll
         /// <param name="toMonth"></param>
         /// <param name="realname"></param>
         /// <returns></returns>
-        public static List<Mng_User> GetUserRankList(int year, int fromMonth = 0, int toMonth = 0, int departId = 0, string realname = "")
+        public static List<Mng_User> GetUserRankList(int year, int fromMonth = 0, int toMonth = 0, int departId = 0, string realname = "",int injob=1)
         {
             string where = $"year={year}";
 
@@ -204,7 +204,19 @@ namespace FancyFix.OA.Bll
             if (realname != "")
                 where1 += $" and RealName like '{CheckSqlValue(realname)}%'";
             if (departId > 0)
+            {
                 where1 += " and a.DepartId=" + departId;
+            }
+            if (injob > 0)
+            {   if (injob == 1)
+                {
+                    where1 += " and a.InJob=" + 1;
+                }
+                else
+                {
+                    where1 += " and a.InJob=" + 0;
+                }
+            }
 
             string cols = "a.Id,UserName,RealName,Sex,Email,InJob,b.ClassName as DepartMentName,c.GroupName,ParUserId,";
             cols += $"(select sum(Score) from Kpi_Process where {where} and UserId = a.Id) as Score,";

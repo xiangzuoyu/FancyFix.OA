@@ -131,7 +131,7 @@ namespace FancyFix.OA.Bll
         /// <param name="fromMonth"></param>
         /// <param name="toMonth"></param>
         /// <returns></returns>
-        public static List<Mng_User> GetUserRankList(int year, int fromMonth = 0, int toMonth = 0, int departId = 0, string realname = "")
+        public static List<Mng_User> GetUserRankList(int year, int fromMonth = 0, int toMonth = 0, int departId = 0, string realname = "",int injob=0)
         {
             string where = $"IsApprove=1 and year={year}";
 
@@ -150,7 +150,17 @@ namespace FancyFix.OA.Bll
                 where1 += $" and RealName like '{CheckSqlValue(realname)}%'";
             if (departId > 0)
                 where1 += " and a.DepartId=" + departId;
-
+            if (injob > 0)
+            {
+                if (injob == 1)
+                {
+                    where1 += " and a.InJob=" + 1;
+                }
+                else
+                {
+                    where1 += " and a.InJob=" + 0;
+                }
+            }
             string cols = "a.Id,UserName,RealName,Sex,Email,InJob,b.ClassName as DepartMentName,c.GroupName,ParUserId,";
             cols += $"(select sum(Score) from Valuable_Records where {where} and UserId = a.Id) as Score,";
             cols += $"(select count(1) from (select Month from Valuable_Records where {where} and UserId = a.Id group by Month) as tb) as Count";

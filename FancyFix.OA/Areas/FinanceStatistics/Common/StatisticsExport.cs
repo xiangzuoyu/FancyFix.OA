@@ -17,12 +17,12 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Common
         //总列数索引
         public readonly static int otherColIndex = 12;
 
-        public static HSSFWorkbook CustomStatisticsExport(IEnumerable<Finance_Statistics> statisticsList)
+        public static HSSFWorkbook CustomStatisticsExport(IEnumerable<Finance_Statistics> statisticsList,List<string> departmentList)
         {
-            //获取去重后的部门数量
-            var departmentList = (from o in statisticsList select o.DepartmentName)?.Distinct().ToList() ?? null;
-            if (departmentList == null)
-                return null;
+            ////获取去重后的部门数量
+            //var departmentList = (from o in statisticsList select o.DepartmentName)?.Distinct().ToList() ?? null;
+            //if (departmentList == null)
+            //    return null;
 
             int colTotal = otherColIndex + departmentList.Count() * 7;
 

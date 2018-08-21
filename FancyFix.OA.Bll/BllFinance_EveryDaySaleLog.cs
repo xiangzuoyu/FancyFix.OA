@@ -171,5 +171,21 @@ namespace FancyFix.OA.Bll
         }
         #endregion
 
+
+        public static IEnumerable<Finance_EveryDaySaleLog> GetBusinessOrder(string files, string key, string startdate, string enddate)
+        {
+            //SELECT DepartmentName FROM[dbo].[Finance_EveryDaySaleLog] order by CHARINDEX(DepartmentName, N'事业一部,事业二部,事业三部,事业四部')
+            string where = " 1=1 ";
+
+            if (!string.IsNullOrWhiteSpace(files) && !string.IsNullOrWhiteSpace(key))
+                where += $" and {files} like '%{key}%' ";
+            if (!string.IsNullOrWhiteSpace(startdate))
+                where += $" and SaleDate >= '{startdate}'";
+            if (!string.IsNullOrWhiteSpace(enddate))
+                where += $" and SaleDate <= '{enddate}'";
+
+            string orderby = "CHARINDEX(DepartmentName, N'事业一部,事业二部,事业三部,事业四部,事业五部,事业六部,事业七部,事业八部,事业九部,事业十部,事业十一部,事业十二部,事业十三部,事业十四部')";
+            return GetSelectList(0, "DepartmentName", where, orderby);
+        }
     }
 }

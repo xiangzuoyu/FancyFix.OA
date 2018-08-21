@@ -44,8 +44,13 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
             var list = Bll.BllFinance_Statistics.GetList(files, key, startdate, enddate);
             if (list == null || list.Count() < 1)
                 return LayerAlertSuccessAndRefresh("加载数据失败，未找到该数据");
+            var list2 = Bll.BllFinance_EveryDaySaleLog.GetBusinessOrder(files, key, startdate?.ToString() ?? "", enddate?.ToString() ?? "");
+            if (list2 == null || list2.Count() < 1)
+                return LayerAlertSuccessAndRefresh("加载数据失败，未找到该数据");
 
-            HSSFWorkbook workbook = StatisticsExport.CustomStatisticsExport(list);
+            var departmentList = (from o in list2 select o.DepartmentName).Distinct().ToList();
+
+            HSSFWorkbook workbook = StatisticsExport.CustomStatisticsExport(list,departmentList);
             if (workbook == null)
                 return LayerAlertSuccessAndRefresh("加载数据失败，workbook返回为空");
 
@@ -106,7 +111,7 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
             model.ActualReceipts = statistics.ActualReceipts;
             model.ActualDeliveryOrderNumber = statistics.ActualDeliveryOrderNumber;
             model.PlanDeliveryOrderNumber = statistics.PlanDeliveryOrderNumber;
-            model.DeliveryPunctualityRate =Bll.BllFinance_Statistics.GetBusinessRate(model.ActualDeliveryOrderNumber, model.PlanDeliveryOrderNumber);
+            model.DeliveryPunctualityRate = Bll.BllFinance_Statistics.GetBusinessRate(model.ActualDeliveryOrderNumber, model.PlanDeliveryOrderNumber);
 
             model.LastDate = DateTime.Now;
             model.LastUserId = MyInfo.Id;
@@ -127,7 +132,7 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
             return LayerMsgSuccessAndRefresh("保存" + (isok ? "成功" : "失败"));
         }
 
-        
+
         #endregion
 
         #region 删除

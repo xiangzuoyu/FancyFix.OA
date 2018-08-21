@@ -142,7 +142,7 @@ namespace FancyFix.Tools.Tool
             else if (defaultTemporaryFont != null)
                 temporaryCellStyle.SetFont(defaultTemporaryFont);
 
-            temporaryCellStyle.FillPattern = FillPattern.SolidForeground;
+            //temporaryCellStyle.FillPattern = FillPattern.SolidForeground;
             //加边框
             if (top != BorderStyle.None)
                 temporaryCellStyle.BorderTop = top;

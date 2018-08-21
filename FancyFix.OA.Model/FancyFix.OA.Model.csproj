@@ -55,6 +55,7 @@
     <Compile Include="Design_DemandType.cs" />
     <Compile Include="Design_DetailType.cs" />
     <Compile Include="Develop_Demand.cs" />
+    <Compile Include="Finance_EveryDaySaleLog.cs" />
     <Compile Include="Extensions\Design_ArtTaskList.cs" />
     <Compile Include="Extensions\Point_Records.cs" />
     <Compile Include="Extensions\Point_Class.cs" />
@@ -81,6 +82,7 @@
     <Compile Include="Extensions\Mng_DepartmentClass.cs" />
     <Compile Include="Extensions\Mng_MenuClass.cs" />
     <Compile Include="Extensions\Mng_PermissionGroup.cs" />
+    <Compile Include="Finance_Statistics.cs" />
     <Compile Include="Kpi_Process.cs" />
     <Compile Include="Kpi_Records.cs" />
     <Compile Include="Mng_DepartmentClass.cs" />
@@ -136,6 +138,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Sql\Finance_EveryDaySaleLog.sql" />
+    <Content Include="Sql\Finance_Statistics.sql" />
     <Content Include="Sql\Supplier_Price.sql" />
     <Content Include="Sql\Supplier_RawMaterialPrice.sql" />
     <Content Include="Sql\Supplier_RawMaterial.sql" />

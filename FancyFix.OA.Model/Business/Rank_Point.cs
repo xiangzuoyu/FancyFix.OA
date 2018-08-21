@@ -24,5 +24,7 @@ namespace FancyFix.OA.Model.Business
         public int Year { get; set; }
 
         public int Month { get; set; }
+
+        public bool InJob { get; set; }
     }
 }

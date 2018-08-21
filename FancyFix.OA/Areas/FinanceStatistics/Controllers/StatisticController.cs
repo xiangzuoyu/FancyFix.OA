@@ -55,7 +55,7 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
                 return LayerAlertSuccessAndRefresh("加载数据失败，workbook返回为空");
 
             //导出
-            string fileName = "供应商信息" + DateTime.Now.ToString("yyyyMMddHHmmss");
+            string fileName = "销售统计信息" + DateTime.Now.ToString("yyyyMMddHHmmss");
             Tools.Tool.ExcelHelper.ToExcelWeb(fileName + ".xls", workbook);
 
             return View();

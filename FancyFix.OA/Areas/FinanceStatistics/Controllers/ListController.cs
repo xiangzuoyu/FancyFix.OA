@@ -77,6 +77,9 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
                 case "4":
                     msg = "修改数据失败";
                     break;
+                case "5":
+                    msg = "修改数据失败";
+                    break;
                 case "-1":
                     msg = "导入异常";
                     break;
@@ -94,7 +97,12 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
             //第一行为标题
             try
             {
-                IRow headRow = sheet.GetRow(startRow);
+                //判断Excel格式是否正确
+                IRow rowss = sheet.GetRow(2);
+                var val = rowss.GetCell(31)?.ToString() ?? "";
+                if (val != "是否关注")
+                    return "2";
+
                 int rowCount = sheet.LastRowNum;
 
                 for (int i = startRow; i <= rowCount; i++)

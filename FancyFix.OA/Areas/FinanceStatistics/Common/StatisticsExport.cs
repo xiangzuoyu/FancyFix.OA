@@ -29,6 +29,7 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Common
             //boldweight: (short)FontBoldWeight.Bold,
             NPOIHelper sheet = new NPOIHelper(defaultFontSize: 12);
 
+            
             //将Excel背景色改为白色
             for (int i = 0; i <= colTotal; i++)
                 sheet.SetDefaultColumnStyle(i, sheet.CellStyle(new NPOI.HSSF.Util.HSSFColor.Yellow()));

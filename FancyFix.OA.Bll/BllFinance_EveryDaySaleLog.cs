@@ -171,7 +171,14 @@ namespace FancyFix.OA.Bll
         }
         #endregion
 
-
+        /// <summary>
+        /// 根据查询条件获取所有部门并排序
+        /// </summary>
+        /// <param name="files"></param>
+        /// <param name="key"></param>
+        /// <param name="startdate"></param>
+        /// <param name="enddate"></param>
+        /// <returns></returns>
         public static IEnumerable<Finance_EveryDaySaleLog> GetBusinessOrder(string files, string key, string startdate, string enddate)
         {
             //SELECT DepartmentName FROM[dbo].[Finance_EveryDaySaleLog] order by CHARINDEX(DepartmentName, N'事业一部,事业二部,事业三部,事业四部')

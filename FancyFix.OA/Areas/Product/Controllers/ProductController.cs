@@ -12,6 +12,7 @@ using FancyFix.Tools.Config;
 using Tools.Tool;
 using NPOI.SS.UserModel;
 using System.Web;
+using FancyFix.OA.Config;
 
 namespace FancyFix.OA.Areas.Product.Controllers
 {
@@ -273,8 +274,6 @@ namespace FancyFix.OA.Areas.Product.Controllers
             int proId = Bll.BllProduct_Info.Insert(modPro);
             if (proId > 0)
             {
-                //更新编码排序
-                Bll.BllProduct_CodeSequence.UpdateSequence(modPro.ClassId, modPro.Spu);
                 return LayerAlertSuccessAndRefresh("添加成功");
             }
             else
@@ -427,8 +426,8 @@ namespace FancyFix.OA.Areas.Product.Controllers
 
                         //产品Spu
                         var classIds = classModel.ParPath.TrimEnd(',').Split(',');
-                        string code = Bll.BllProduct_Class.GetCode(classId);
-                        string spu = code + Bll.BllProduct_CodeSequence.GetMaxId(classId);
+                        string spu = Bll.BllProduct_Class.GetSpuCode(classId);
+                        if (string.IsNullOrEmpty(spu)) continue; //spu编码生成失败，跳过
                         if (Bll.BllProduct_Info.IsExistsSpu(spu)) continue; //Spu重复，跳过
 
                         string titleEn = row.GetCell(1)?.ToString();
@@ -439,7 +438,7 @@ namespace FancyFix.OA.Areas.Product.Controllers
                         string priceRemark = row.GetCell(6)?.ToString();
                         string hsCode = row.GetCell(7)?.ToString();
                         string InvoiceName = row.GetCell(8)?.ToString();
-
+                        string firstPic = row.GetCell(9)?.ToString();
                         var model = new Product_Info()
                         {
                             ClassId_1 = classIds.Length > 0 ? classIds[0].ToInt32() : 0,
@@ -464,13 +463,10 @@ namespace FancyFix.OA.Areas.Product.Controllers
                             Price = 0,
                             TaxPrice = 0,
                             Moq = 1,
+                            FirstPic = ImgConfig.GetProductUrl(firstPic)
                         };
                         if (Bll.BllProduct_Info.Insert(model) > 0)
-                        {
                             succuessCount++;
-                            //更新编码排序
-                            Bll.BllProduct_CodeSequence.UpdateSequence(classId, spu);
-                        }
                     }
                 }
                 if (succuessCount > 0)

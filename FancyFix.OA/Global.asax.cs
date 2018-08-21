@@ -1,4 +1,5 @@
-﻿using FancyFix.Tools.Log4netExt;
+﻿using FancyFix.OA.Helper;
+using FancyFix.Tools.Log4netExt;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,6 +39,7 @@ namespace FancyFix.OA
             DepartmentData.Load();
             //GroupData.Load();
             AdminData.Load();
+            ProdcutImgQueue.ProdcutImgQueueInstance.Start();
         }
 
         protected void Application_End(object sender, EventArgs e)

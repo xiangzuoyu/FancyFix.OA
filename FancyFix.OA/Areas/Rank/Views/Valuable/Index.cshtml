@@ -14,6 +14,7 @@
     double top = ViewBag.top;
     int departId = ViewBag.departId;
     string realname = ViewBag.realname;
+    int injob = ViewBag.injob;
 }
 @section Css{
     <link href="/Content/js/plugins/datatables/bootstrap-table.min.css" rel="stylesheet" />
@@ -53,6 +54,11 @@
                     <option value="0">├所有部门</option>
                     @Html.Raw(ViewBag.departHtml)
                 </select>
+                <select id="injob" name="injob" class="layui-select" style="max-width:100px;">
+                    <option value="-1" @(injob==-1?"selected":"")>全部</option>
+                    <option value="1" @(injob==1?"selected":"")>在职</option>
+                    <option value="2" @(injob==2?"selected":"")>离职</option>
+                </select>
             </div>
             <div class="pull-left form-group" style="margin-left:5px;">
                 <span class="form-contorl pull-left layui-form-mid">取前</span>
@@ -68,7 +74,7 @@
             <div class="form-group form-inline">
                 @if (IsSuperAdmin || IsDepartAdmin)
                 {
-                    <a href="/rank/valuable/toexcelrank?year=@year&fromMonth=@fromMonth&toMonth=@toMonth&top=@top&departId=@departId&realname=@realname" class="btn btn-default pull-left">导出到Excel</a>
+                    <a href="/rank/valuable/toexcelrank?year=@year&fromMonth=@fromMonth&toMonth=@toMonth&top=@top&departId=@departId&realname=@realname&injob=@injob" class="btn btn-default pull-left">导出到Excel</a>
                 }
             </div>
         </div>
@@ -128,7 +134,7 @@
         layui.use(['layer'], function () {
             var layer = layui.layer;
 
-            $("#year,#fromMonth,#toMonth,#departId").change(function () {
+            $("#year,#fromMonth,#toMonth,#departId,#injob").change(function () {
                 PostWhere();
             })
 
@@ -143,7 +149,7 @@
                 var departId = $("#departId").val();
                 var realname = $("#realname").val();
                 var top = $("#top").val();
-
+                var injob = $("#injob").val();
                 if (CheckMonth(fromMonth, toMonth)) {
                     var where = "year=" + parseInt(year);
                     if (toMonth > 0)
@@ -154,8 +160,11 @@
                         where += "&departId=" + parseInt(departId);
                     if (realname != "")
                         where += "&realname=" + realname;
-                    if (top > 0)
+                    if (top > 0) {
                         where += "&top=" + parseFloat(top);
+                    }
+                    where += "&injob=" + parseInt(injob);
+                    
                     window.location.href = window.location.pathname + "?" + where;
                 }
             }

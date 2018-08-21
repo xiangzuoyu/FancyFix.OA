@@ -6,7 +6,7 @@ using FancyFix.Tools.Log4netExt;
 
 namespace FancyFix.Tools.Tool
 {
-    public class LogHelper
+    public partial class LogHelper
     {
         /// <summary>
         /// 记录完整错误信息

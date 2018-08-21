@@ -16,7 +16,7 @@ namespace FancyFix.OA.Base
     public class BaseAdminController : BaseController, IAdminInfo
     {
         //设计部门Id
-        protected static int DesignDepartId = ConfigurationManager.AppSettings["DesignDepartId"]?.ToInt32() ?? 10;
+        protected static string DesignDepartId = ConfigurationManager.AppSettings["DesignDepartId"]?.ToString().Trim(',') ?? "";
 
         private Mng_User myInfo; //当前管理员对象 
 

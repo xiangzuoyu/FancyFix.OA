@@ -237,7 +237,7 @@ namespace FancyFix.OA.Bll
         /// <param name="pageSize"></param>
         /// <param name="records"></param>
         /// <returns></returns>
-        public static IEnumerable<Mng_User> PageList(string userName, string realName, int departId, int groupId, int page, int pageSize, ref long records)
+        public static IEnumerable<Mng_User> PageList(string userName, string realName, int departId, int groupId, int page, int pageSize,int injob, ref long records)
         {
             var where = new Where<Mng_User>();
             if (!string.IsNullOrEmpty(userName))
@@ -248,7 +248,17 @@ namespace FancyFix.OA.Bll
                 where.And(o => o.DepartId == departId);
             if (groupId > 0)
                 where.And(o => o.GroupId == groupId);
-
+            if (injob > 0)
+            {
+                if (injob == 1)
+                {
+                    where.And(o => o.InJob == true);
+                }
+                else
+                {
+                    where.And(o => o.InJob == false);
+                }
+            }
             var p = Db.Context.From<Mng_User>()
                 .LeftJoin<Mng_DepartmentClass>((a, b) => a.DepartId == b.Id)
                 .LeftJoin<Mng_PermissionGroup>((a, b) => a.GroupId == b.Id)

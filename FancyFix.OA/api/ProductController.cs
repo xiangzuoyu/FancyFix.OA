@@ -81,7 +81,7 @@ namespace FancyFix.OA.api
         [HttpPost]
         public string GetClassCode([FromBody]int classId)
         {
-            return Bll.BllProduct_Class.GetCode(classId) + Bll.BllProduct_CodeSequence.GetMaxId(classId);
+            return Bll.BllProduct_Class.GetSpuCode(classId);
         }
     }
 }

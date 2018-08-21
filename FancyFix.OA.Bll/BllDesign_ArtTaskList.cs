@@ -36,7 +36,7 @@ namespace FancyFix.OA.Bll
             return p.Page(pageSize, page).OrderByDescending(o => o.SubmittedDate).ToList();
         }
 
-        public static DataTable GetRankList(string startdate, int departId, int isAdmin)
+        public static DataTable GetRankList(string startdate, string departIds, int isAdmin)
         {
             var where = new Where<Design_ArtTaskList>();
             //where.And(o => o.Display == 5);
@@ -58,7 +58,7 @@ namespace FancyFix.OA.Bll
             cols += "(select sum(" + score + "Score) from Design_ArtTaskList " + sqlWhere + ") / (select count(*) from Design_ArtTaskList " + sqlWhere + ") as Score";
 
             string sql = $"select * from (select top 100 percent {cols} from Mng_User a " +
-                         $"left join Mng_PermissionGroup b on a.GroupId = b.Id where a.DepartId = {departId} and b.IsAdmin ={isAdmin}) as tb order by Score desc,Id asc";
+                         $"left join Mng_PermissionGroup b on a.GroupId = b.Id where a.DepartId in ({departIds}) and a.Injob=1 and b.IsAdmin ={isAdmin}) as tb order by Score desc,Id asc";
 
             return Db.Context.FromSql(sql).ToDataTable();
         }
@@ -69,9 +69,11 @@ namespace FancyFix.OA.Bll
         /// <param name="departId"></param>
         /// <param name="isAdmin"></param>
         /// <returns></returns>
-        public static List<int> DesignIds(int departId, int isAdmin)
+        public static List<int> DesignIds(string departIds, int isAdmin)
         {
-            string sql = "select a.id from Mng_User a LEFT JOIN Mng_PermissionGroup b on a.GroupId = b.Id where a.DepartId = " + departId + " and b.IsAdmin = " + isAdmin;
+            string sql = "select a.id from Mng_User a LEFT JOIN Mng_PermissionGroup b on a.GroupId = b.Id where a.Injob=1 and b.IsAdmin = " + isAdmin;
+            if (departIds.IsNullOrEmpty())
+                sql += "a.DepartId in (" + departIds + ")";
 
             return Db.Context.FromSql(sql).ToList<int>();
         }

@@ -16,22 +16,9 @@ namespace FancyFix.OA.Areas.Rank.Controllers
         public ActionResult Index(int year = 0, int fromMonth = 0, int toMonth = 0, int departId = 0)
         {
             CheckDate(ref year, ref fromMonth, ref toMonth);
-
             string realname = RequestString("realname");
-            var ranklist = Bll.BllKpi_Process.GetUserRankList(year, fromMonth, toMonth, departId, realname);
-
-            //把离职的单独排到最后去
-            int i = 0;
-            int lastScore = 0;
-            foreach (var item in ranklist)
-            {
-                if (item.InJob.HasValue && !item.InJob.Value)
-                    item.RealName = item.RealName + "【离职】";
-                if (item.Score != lastScore) i++;
-                item.Rank = i;
-                lastScore = item.Score;
-            }
-
+            var injob= RequestInt("injob") == 0 ? 1 : RequestInt("injob");
+            var ranklist = GetRankList(year, fromMonth, toMonth, departId, realname, injob);
             ViewBag.departHtml = GetDepartOptions(departId);
             ViewBag.year = year;
             ViewBag.fromMonth = fromMonth;
@@ -40,6 +27,7 @@ namespace FancyFix.OA.Areas.Rank.Controllers
             ViewBag.departId = departId;
             ViewBag.startyear = StartYear;
             ViewBag.ranklist = ranklist;
+            ViewBag.injob = injob;
             return View();
         }
 
@@ -105,21 +93,8 @@ namespace FancyFix.OA.Areas.Rank.Controllers
             int toMonth = RequestInt("toMonth");
             int departId = RequestInt("departId");
             string realname = RequestString("realname");
-
-            var ranklist = Bll.BllKpi_Process.GetUserRankList(year, fromMonth, toMonth, departId, realname);
-
-            //把离职的单独排到最后去
-            int i = 0;
-            int lastScore = 0;
-            foreach (var item in ranklist)
-            {
-                if (item.InJob.HasValue && !item.InJob.Value)
-                    item.RealName = item.RealName + "【离职】";
-                if (item.Score != lastScore) i++;
-                item.Rank = i;
-                lastScore = item.Score;
-            }
-
+            var injob = RequestInt("injob");
+            var ranklist = GetRankList(year, fromMonth, toMonth, departId, realname, injob);
             if (ranklist != null && ranklist.Count() > 0)
             {
                 DataTable dt = new DataTable();
@@ -147,6 +122,24 @@ namespace FancyFix.OA.Areas.Rank.Controllers
                 string fileName = "进程：" + year + "年" + fromMonth + (toMonth > fromMonth ? "至" + toMonth : "") + "月" + "KPI考核排名";
                 Tools.Tool.ExcelHelper.ToExcelWeb(dt, fileName, fileName + ".xls");
             }
+        }
+
+        private List<Mng_User> GetRankList(int year = 0, int fromMonth = 0, int toMonth = 0, int departId = 0,string realname="",int injob=1)
+        {
+            var ranklist = Bll.BllKpi_Process.GetUserRankList(year, fromMonth, toMonth, departId, realname, injob);
+
+            //把离职的单独排到最后去
+            int i = 0;
+            int lastScore = 0;
+            foreach (var item in ranklist)
+            {
+                if (item.InJob.HasValue && !item.InJob.Value)
+                    item.RealName = item.RealName + "【离职】";
+                if (item.Score != lastScore) i++;
+                item.Rank = i;
+                lastScore = item.Score;
+            }
+            return ranklist;
         }
     }
 }

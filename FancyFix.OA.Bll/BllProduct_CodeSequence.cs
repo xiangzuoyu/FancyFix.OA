@@ -36,13 +36,13 @@ namespace FancyFix.OA.Bll
         /// 更新排序
         /// </summary>
         /// <param name="classId">分类Id</param>
-        /// <param name="spuCode">产品编码</param>
+        /// <param name="spuCode">产品编码,eg：130172</param>
         /// <returns></returns>
         public static int UpdateSequence(int classId, string spuCode)
         {
             try
             {
-                string classCode = Bll.BllProduct_Class.GetCode(classId);//eg: 102
+                string classCode = Bll.BllProduct_Class.GetSpuCode(classId);//eg: 102
                 if (spuCode.Length <= classCode.Length) return 0;
                 int sequence = spuCode.Substring(classCode.Length).TrimStart('0').ToInt32();
                 Product_CodeSequence model = First(o => o.ClassId == classId);

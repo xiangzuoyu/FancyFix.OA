@@ -1,6 +1,10 @@
-﻿using System;
+﻿using FancyFix.OA.Helper;
+using FancyFix.Tools.Config;
+using FancyFix.Tools.Tool;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Web;
 
@@ -38,5 +42,41 @@ namespace FancyFix.OA.Config
         public string UploadName { get { return _UploadName; } set { _UploadName = value; } }
         public int ProId { get; set; }
         public byte Type { get; set; }
+    }
+
+
+    public class ImgConfig
+    {
+        private static Tools.Config.UploadConfig config = UploadProvice.Instance();
+        public static string GetProductUrl(string imgurl)
+        {
+            if (string.IsNullOrWhiteSpace(imgurl))
+                return string.Empty;
+
+            imgurl = imgurl.Replace("\\", "/").TrimStart('/');
+            var ext = Path.GetExtension(imgurl);
+            string url = string.Empty;
+            SiteOption option = config.SiteOptions["files"];
+            var productConfig = config.Settings["product"];
+            //图片
+            string dirPath = option.Folder.TrimEnd('\\') + productConfig.FilePath + "upload\\";
+            string imgPath = string.Concat(dirPath, imgurl.Replace("/", "\\"));
+            if (ext == ".jpg" || ext == ".gif" || ext == ".jpeg" || ext == ".bmp" || ext == ".png")
+            {
+                if (option != null && productConfig != null)
+                {
+                    imgurl = "upload/" + imgurl;
+                    url = string.Concat(option.Url, productConfig.UrlFilePath, imgurl);
+                    if (File.Exists(imgPath))
+                    {
+                        ProductImgQueueInfo queueInfo = new ProductImgQueueInfo();
+                        queueInfo.ImgPath = imgPath;
+                        queueInfo.ImgUrl = imgurl;
+                        ProdcutImgQueue.ProdcutImgQueueInstance.AddQueue(queueInfo);
+                    }
+                }
+            }
+            return url;
+        }
     }
 }

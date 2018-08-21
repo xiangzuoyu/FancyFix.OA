@@ -23,20 +23,28 @@ namespace FancyFix.OA.Bll
         /// </summary>
         /// <param name="classId"></param>
         /// <returns></returns>
-        public static string GetCode(int classId)
+        public static string GetSpuCode(int classId)
         {
             if (classId == 0) return "";
-            string code = string.Empty;
-            var classModel = First(o => o.Id == classId);
-            string[] pars = classModel?.ParPath.TrimEnd(',').Split(',');
-            if (pars != null && pars.Length > 0)
+            string code = BllProduct_Info.FirstSelect(o => o.ClassId == classId, o => o.Spu, o => o.Spu, "desc")?.Spu ?? "";
+            if (!string.IsNullOrEmpty(code))
             {
-                foreach (var cid in pars)
+                code = (code.ToInt32() + 1).ToString();
+            }
+            else
+            {
+                var classModel = First(o => o.Id == classId);
+                string[] pars = classModel?.ParPath.TrimEnd(',').Split(',');
+                if (pars != null && pars.Length > 0)
                 {
-                    if (int.TryParse(cid, out classId) && classId > 0)
+                    foreach (var cid in pars)
                     {
-                        code += First(o => o.Id == classId).Code;
+                        if (int.TryParse(cid, out classId) && classId > 0)
+                        {
+                            code += First(o => o.Id == classId).Code;
+                        }
                     }
+                    code += "001";
                 }
             }
             return code;

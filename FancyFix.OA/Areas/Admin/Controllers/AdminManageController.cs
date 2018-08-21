@@ -32,13 +32,13 @@ namespace FancyFix.OA.Areas.Admin.Controllers
             string keyword = RequestString("keyword").Trim2();
             int departId = RequestInt("departid");
             int groupId = RequestInt("groupid");
-
+            var injob = RequestInt("injob");
             string userName = string.Empty;
             string realName = string.Empty;
             if (searchType == 1) userName = keyword;
             if (searchType == 2) realName = keyword;
 
-            var list = Bll.BllMng_User.PageList(userName, realName, departId, groupId, page, pagesize, ref records);
+            var list = Bll.BllMng_User.PageList(userName, realName, departId, groupId, page, pagesize,injob, ref records);
             var adminlist = AdminData.GetList();
             foreach (var item in list)
             {

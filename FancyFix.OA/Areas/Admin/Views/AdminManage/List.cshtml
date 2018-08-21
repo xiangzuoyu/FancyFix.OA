@@ -41,6 +41,17 @@
                                 </select>
                             </div>
                         </div>
+
+                        <div class="layui-inline">
+                            <label class="layui-form-label">在职情况</label>
+                            <div class="layui-input-inline">
+                                <select id="injob" name="injob" lay-filter="injob">
+                                    <option value="0">全部</option>
+                                    <option value="1" selected="selected">在职</option>
+                                    <option value="2">离职</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="layui-inline pull-right">
                             <button id="btnSearch" class="btn bg-orange" lay-submit lay-filter="formSearch">查询</button>
                         </div>
@@ -162,7 +173,8 @@
                         keyword: $("#keyword").val(),
                         searhtype: $("#searhtype").val(),
                         departid: $("#departid").val(),
-                        groupid: $("#groupid").val()
+                        groupid: $("#groupid").val(),
+                        injob: $("#injob").val()
                     };
                     return temp;
                 };

@@ -104,7 +104,6 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
                     return "2";
 
                 int rowCount = sheet.LastRowNum;
-
                 for (int i = startRow; i <= rowCount; i++)
                 {
                     IRow row = sheet.GetRow(i);

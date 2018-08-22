@@ -17,7 +17,7 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Common
         //总列数索引
         public readonly static int otherColIndex = 12;
 
-        public static HSSFWorkbook CustomStatisticsExport(IEnumerable<Finance_Statistics> statisticsList,List<string> departmentList)
+        public static HSSFWorkbook CustomStatisticsExport(IEnumerable<Finance_Statistics> statisticsList, List<string> departmentList)
         {
             ////获取去重后的部门数量
             //var departmentList = (from o in statisticsList select o.DepartmentName)?.Distinct().ToList() ?? null;
@@ -29,7 +29,7 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Common
             //boldweight: (short)FontBoldWeight.Bold,
             NPOIHelper sheet = new NPOIHelper(defaultFontSize: 12);
 
-            
+
             //将Excel背景色改为白色
             for (int i = 0; i <= colTotal; i++)
                 sheet.SetDefaultColumnStyle(i, sheet.CellStyle(new NPOI.HSSF.Util.HSSFColor.Yellow()));
@@ -49,22 +49,35 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Common
             sheet.CreateRow(1);
             sheet.MergeCells(1, 1, 0, 2);
             sheet.SetHeight(20 * 20);
-            SetTopBorder(ref sheet, 0, colTotal, BorderStyle.Medium);
+            SetTopBorder(ref sheet, 0, colTotal, BorderStyle.Medium, font: sheet.FontStyle(boldweight: (short)FontBoldWeight.Normal, fontsize: 12));
+            //SetTopBorder(ref sheet, 0, colTotal, BorderStyle.Medium, sheet.FontStyle(boldweight: (short)FontBoldWeight.Bold, fontsize: 12));
             sheet.CreateCell(0, "项目", sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center
-                , top: BorderStyle.Medium, right: BorderStyle.Medium));
-            sheet.CreateCell(2, "", sheet.CellStyle(top: BorderStyle.Medium, right: BorderStyle.Thin));
+                , top: BorderStyle.Medium, right: BorderStyle.Medium, font: sheet.FontStyle(boldweight: (short)FontBoldWeight.Normal, fontsize: 12)));
+            sheet.CreateCell(1, "", sheet.CellStyle(top: BorderStyle.Medium, right: BorderStyle.Thin, font: sheet.FontStyle(boldweight: (short)FontBoldWeight.Bold, fontsize: 12)));
+            sheet.CreateCell(2, "", sheet.CellStyle(top: BorderStyle.Medium, right: BorderStyle.Thin, font: sheet.FontStyle(boldweight: (short)FontBoldWeight.Normal, fontsize: 12)));
 
             sheet.MergeCells(1, 1, 3, otherColIndex);
-            sheet.CreateCell(3, "公司", sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Medium));
-            sheet.CreateCell(12, "", sheet.CellStyle(top: BorderStyle.Medium, right: BorderStyle.Medium));
+            sheet.CreateCell(3, "公司", sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Medium, font: sheet.FontStyle(boldweight: (short)FontBoldWeight.Normal, fontsize: 12)));
+
+            for (int i = 4; i < 12; i++)
+                sheet.CreateCell(i, "", sheet.CellStyle(top: BorderStyle.Medium, right: BorderStyle.Thin, font: sheet.FontStyle(boldweight: (short)FontBoldWeight.Bold, fontsize: 12)));
+
+            sheet.CreateCell(12, "", sheet.CellStyle(top: BorderStyle.Medium, right: BorderStyle.Medium, font: sheet.FontStyle(boldweight: (short)FontBoldWeight.Normal, fontsize: 12)));
             //循环显示部门
             int departmentCol = otherColIndex + 1;
             foreach (var item in departmentList)
             {
                 sheet.MergeCells(1, 1, departmentCol, departmentCol + 6);
                 sheet.CreateCell(departmentCol, item, sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center
-                    , top: BorderStyle.Medium, left: BorderStyle.Medium));
-                sheet.CreateCell(departmentCol + 6, "", sheet.CellStyle(top: BorderStyle.Medium, right: BorderStyle.Medium));
+                    , top: BorderStyle.Medium, left: BorderStyle.Medium, font: sheet.FontStyle(boldweight: (short)FontBoldWeight.Normal, fontsize: 12)));
+
+                sheet.CreateCell(departmentCol + 1, "", sheet.CellStyle(top: BorderStyle.Medium, right: BorderStyle.Thin, font: sheet.FontStyle(boldweight: (short)FontBoldWeight.Normal, fontsize: 12)));
+                sheet.CreateCell(departmentCol + 2, "", sheet.CellStyle(top: BorderStyle.Medium, right: BorderStyle.Thin, font: sheet.FontStyle(boldweight: (short)FontBoldWeight.Bold, fontsize: 12)));
+                sheet.CreateCell(departmentCol + 3, "", sheet.CellStyle(top: BorderStyle.Medium, right: BorderStyle.Thin, font: sheet.FontStyle(boldweight: (short)FontBoldWeight.Bold, fontsize: 12)));
+                sheet.CreateCell(departmentCol + 4, "", sheet.CellStyle(top: BorderStyle.Medium, right: BorderStyle.Thin, font: sheet.FontStyle(boldweight: (short)FontBoldWeight.Normal, fontsize: 12)));
+                sheet.CreateCell(departmentCol + 5, "", sheet.CellStyle(top: BorderStyle.Medium, right: BorderStyle.Thin, font: sheet.FontStyle(boldweight: (short)FontBoldWeight.Normal, fontsize: 12)));
+
+                sheet.CreateCell(departmentCol + 6, "", sheet.CellStyle(top: BorderStyle.Medium, right: BorderStyle.Medium, font: sheet.FontStyle(boldweight: (short)FontBoldWeight.Normal, fontsize: 12)));
 
                 departmentCol += 7;
             }
@@ -74,7 +87,7 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Common
             sheet.CreateRow(2);
             sheet.SetHeight(20 * 20);
             sheet.MergeCells(2, 2, 0, 2);
-            SetTopBorder(ref sheet, 0, colTotal);
+            SetTopBorder(ref sheet, 0, colTotal, BorderStyle.Thin, sheet.FontStyle(boldweight: (short)FontBoldWeight.Bold, fontsize: 12));
             sheet.CreateCell(0, "日期", sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin));
             sheet.CreateCell(2, "", sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin));
 
@@ -99,11 +112,12 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Common
             {
                 sheet.MergeCells(2, 2, departmentCol, departmentCol + 2);
                 sheet.CreateCell(departmentCol, "营业收入情况", sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin, left: BorderStyle.Medium));
-
+                sheet.CreateCell(departmentCol + 1, "", sheet.CellStyle(top: BorderStyle.Thin, right: BorderStyle.Thin, font: sheet.FontStyle(boldweight: (short)FontBoldWeight.Normal, fontsize: 12)));
+                sheet.CreateCell(departmentCol + 2, "", sheet.CellStyle(top: BorderStyle.Thin, right: BorderStyle.Thin, font: sheet.FontStyle(boldweight: (short)FontBoldWeight.Normal, fontsize: 12)));
                 sheet.CreateCell(departmentCol + 3, "收款情况", sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin, left: BorderStyle.Thin));
-
                 sheet.MergeCells(2, 2, departmentCol + 4, departmentCol + 6);
                 sheet.CreateCell(departmentCol + 4, "销售发货情况", sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin, left: BorderStyle.Thin));
+                sheet.CreateCell(departmentCol + 5, "", sheet.CellStyle(top: BorderStyle.Thin, right: BorderStyle.Thin, font: sheet.FontStyle(boldweight: (short)FontBoldWeight.Normal, fontsize: 12)));
                 sheet.CreateCell(departmentCol + 6, "", sheet.CellStyle(top: BorderStyle.Thin, right: BorderStyle.Medium));
 
                 departmentCol += 7;
@@ -114,13 +128,13 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Common
             sheet.CreateRow(3);
             sheet.SetHeight(25 * 25);
             SetTopBorder(ref sheet, 0, colTotal);
-            sheet.CreateCell(0, "年", sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin));
+            sheet.CreateCell(0, "年", sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin, font: sheet.FontStyle(boldweight: (short)FontBoldWeight.Normal, fontsize: 12)));
 
             List<string> colStr = new List<string> { "月", "日", "营业收入", "营业收入预算值", "营业收入达成率", "实际收款", "实际发货\r\n订单数量", "计划发货\r\n订单数量", "发货准时率", "生产完工率", "采购入库及时率" };
 
             //循环显示
             for (int i = 0; i < colStr.Count; i++)
-                sheet.CreateCell(1 + i, colStr[i], sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin, left: BorderStyle.Thin));
+                sheet.CreateCell(1 + i, colStr[i], sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin, left: BorderStyle.Thin, font: sheet.FontStyle(boldweight: (short)FontBoldWeight.Normal, fontsize: 12)));
 
             sheet.CreateCell(otherColIndex, "订单发货准时率", sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin, left: BorderStyle.Thin, right: BorderStyle.Medium));
 
@@ -141,31 +155,35 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Common
             #endregion
 
             #region 循环其余行
-            var saledateList = (from o in statisticsList orderby o.SaleDate ascending select o.SaleDate)?.Distinct() ?? null;
-            if (saledateList == null)
-                return null;
+            var saledateList = (from o in statisticsList orderby o.SaleDate ascending select o.SaleDate)?.Distinct().ToList();
 
             int month = 0;
             int year = 0;
             int rowIndex = 3;
             DateTime lastDate = saledateList.Last().GetValueOrDefault();
+
             foreach (var saledate in saledateList)
             {
                 var saledate2 = saledate.GetValueOrDefault();
+                var statisticsList2 = new List<Finance_Statistics>();
+
                 #region 普通结算
-                var statisticsList2 = (from o in statisticsList where o.SaleDate == saledate2 select o).ToList();
+                //最后一条记录时闲执行普通结算
+                if (saledate2 == lastDate)
+                {
+                    statisticsList2 = (from o in statisticsList where o.SaleDate == saledate2 select o).ToList();
+                    sheet.CreateRow(++rowIndex);
+                    sheet.SetHeight(20 * 20);
+                    SetTopBorder(ref sheet, 0, colTotal);
+                    //年
+                    sheet.CreateCell(0, saledate2.Year.ToString(), sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin, font: sheet.FontStyle(boldweight: (short)FontBoldWeight.Normal, fontsize: 12)));
+                    //月
+                    sheet.CreateCell(1, saledate2.Month.ToString(), sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin, font: sheet.FontStyle(boldweight: (short)FontBoldWeight.Normal, fontsize: 12), left: BorderStyle.Thin));
+                    //日
+                    sheet.CreateCell(2, saledate2.Day.ToString(), sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin, font: sheet.FontStyle(boldweight: (short)FontBoldWeight.Normal, fontsize: 12), left: BorderStyle.Thin));
 
-                sheet.CreateRow(++rowIndex);
-                sheet.SetHeight(20 * 20);
-                SetTopBorder(ref sheet, 0, colTotal);
-                //年
-                sheet.CreateCell(0, saledate2.Year.ToString(), sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin));
-                //月
-                sheet.CreateCell(1, saledate2.Month.ToString(), sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin, left: BorderStyle.Thin));
-                //日
-                sheet.CreateCell(2, saledate2.Day.ToString(), sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin, left: BorderStyle.Thin));
-
-                LoadDepartmentDate(ref sheet, statisticsList2, departmentList, null);
+                    LoadDepartmentDate(ref sheet, statisticsList2, departmentList, sheet.FontStyle(boldweight: (short)FontBoldWeight.Normal, fontsize: 12));
+                }
                 #endregion
 
                 #region 月底结算 
@@ -173,13 +191,13 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Common
                 month = saledate2.Month;
                 if ((month != month2 && month2 != 0) || saledate2 == lastDate)
                 {
-                    statisticsList2 = (from o in statisticsList where o.Year == saledate2.Year && o.Month == saledate2.Month select o).ToList();
+                    statisticsList2 = (from o in statisticsList where o.Year == saledate2.Year && o.Month == month2 select o).ToList();
 
                     sheet.CreateRow(++rowIndex);
                     sheet.SetHeight(20 * 20);
                     SetTopBorder(ref sheet, 0, colTotal);
                     sheet.MergeCells(rowIndex, rowIndex, 0, 2);
-                    sheet.CreateCell(0, saledate2.ToString("yyyy年MM月") + "合计", sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center,
+                    sheet.CreateCell(0, $"{month2}月合计", sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center,
                         font: sheet.FontStyle(boldweight: (short)FontBoldWeight.Bold, fontsize: 12), top: BorderStyle.Thin));
 
                     LoadDepartmentDate(ref sheet, statisticsList2, departmentList, sheet.FontStyle(boldweight: (short)FontBoldWeight.Bold, fontsize: 12));
@@ -191,7 +209,7 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Common
                 year = saledate2.Year;
                 if ((year != year2 && year2 != 0) || saledate2 == lastDate)
                 {
-                    statisticsList2 = (from o in statisticsList where o.Year == saledate2.Year select o).ToList();
+                    statisticsList2 = (from o in statisticsList where o.Year == year2 select o).ToList();
 
                     sheet.CreateRow(++rowIndex);
                     sheet.SetHeight(20 * 20);
@@ -203,12 +221,31 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Common
                     LoadDepartmentDate(ref sheet, statisticsList2, departmentList, sheet.FontStyle(boldweight: (short)FontBoldWeight.Bold, fontsize: 12));
                 }
                 #endregion
+
+                #region 普通结算
+                if (saledate2 != lastDate)
+                {
+                    statisticsList2 = (from o in statisticsList where o.SaleDate == saledate2 select o).ToList();
+                    sheet.CreateRow(++rowIndex);
+                    sheet.SetHeight(20 * 20);
+                    SetTopBorder(ref sheet, 0, colTotal);
+                    //年
+                    sheet.CreateCell(0, saledate2.Year.ToString(), sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin, font: sheet.FontStyle(boldweight: (short)FontBoldWeight.Normal, fontsize: 12)));
+                    //月
+                    sheet.CreateCell(1, saledate2.Month.ToString(), sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin, font: sheet.FontStyle(boldweight: (short)FontBoldWeight.Normal, fontsize: 12), left: BorderStyle.Thin));
+                    //日
+                    sheet.CreateCell(2, saledate2.Day.ToString(), sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin, font: sheet.FontStyle(boldweight: (short)FontBoldWeight.Normal, fontsize: 12), left: BorderStyle.Thin));
+
+                    LoadDepartmentDate(ref sheet, statisticsList2, departmentList, sheet.FontStyle(boldweight: (short)FontBoldWeight.Normal, fontsize: 12));
+                }
+                #endregion
             }
 
             //结尾
             sheet.CreateRow(++rowIndex);
             sheet.SetHeight(20 * 20);
-            SetTopBorder(ref sheet, 0, colTotal, BorderStyle.Medium);
+            for (int i = 0; i <= colTotal; i++)
+                sheet.CreateCell(i, "", sheet.CellStyle(top: BorderStyle.Medium, font: sheet.FontStyle(boldweight: (short)FontBoldWeight.Bold, fontsize: 12)));
 
             #endregion
 
@@ -291,10 +328,10 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Common
         /// <param name="sheet"></param>
         /// <param name="startCell"></param>
         /// <param name="endCell"></param>
-        private static void SetTopBorder(ref NPOIHelper sheet, int startCell = 0, int endCell = 0, BorderStyle borderStyle = BorderStyle.Thin)
+        private static void SetTopBorder(ref NPOIHelper sheet, int startCell = 0, int endCell = 0, BorderStyle borderStyle = BorderStyle.Thin, IFont font = null)
         {
             for (int i = startCell; i <= endCell; i++)
-                sheet.CreateCell(i, "", sheet.CellStyle(top: borderStyle));
+                sheet.CreateCell(i, "", sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin, font: font));
         }
 
         private static string dataFormat2(decimal? val)

@@ -23,9 +23,6 @@ namespace FancyFix.OA.Areas.Supplier.Controllers
         #region 加载列表
         public ActionResult List()
         {
-            //ViewBag.prices = Bll.BllSupplier_RawMaterialPrice.GetSelectList(0, "distinct(Years)", "display!=2", "Years");
-            //ViewBag.prices = Bll.BllSupplier_Price.GetSelectList(0, "distinct(Years)", "display!=2", "Years");
-
             return View();
         }
 

@@ -18,7 +18,7 @@ namespace FancyFix.OA.Bll
             , List<int> ids = null)
         {
             var where = new Where<Supplier_RawMaterialPrice>();
-            if (!string.IsNullOrEmpty(file) && !string.IsNullOrEmpty(key))
+            if (!string.IsNullOrEmpty(file) && !string.IsNullOrEmpty(key) & file != "0")
             {
                 file = CheckSqlValue(file);
                 key = CheckSqlKeyword(key);

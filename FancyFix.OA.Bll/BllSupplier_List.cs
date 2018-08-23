@@ -22,7 +22,7 @@ namespace FancyFix.OA.Bll
                 where.And(o => o.LabelId == labelId);
 
 
-            if (!string.IsNullOrEmpty(file) && !string.IsNullOrEmpty(key))
+            if (!string.IsNullOrEmpty(file) && !string.IsNullOrEmpty(key) && file != "0")
             {
                 file = CheckSqlValue(file);
                 key = CheckSqlKeyword(key);

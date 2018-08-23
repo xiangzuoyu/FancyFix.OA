@@ -3,6 +3,7 @@
     ViewBag.Title = "List";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
+    List<string> departmentList = ViewBag.departmentList;
 }
 
 @section Css{
@@ -23,8 +24,6 @@
                             <div class="layui-input-inline">
                                 <select id="files" name="files" lay-filter="files">
                                     <option value="">请选择</option>
-                                    <option value="Id">Id</option>
-                                    <option value="DepartmentName">部门</option>
                                     <option value="SaleName">销售人员</option>
                                     <option value="Customer">客户/店铺</option>
                                     <option value="ProductName">产品名称</option>
@@ -32,6 +31,22 @@
                             </div>
                             <div class="layui-input-inline">
                                 @Html.TextBox("key", "", new { @class = "layui-input" })
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">按部门</label>
+                            <div class="layui-input-inline">
+                                <select id="department" name="department" lay-filter="files">
+                                    <option value="">请选择</option>
+                                    @if (departmentList != null && departmentList.Count > 0)
+                                    {
+                                        <option value="">请选择</option>
+                                        foreach (var item in departmentList)
+                                        {
+                                            <option value="@item">@item</option>
+                                        }
+                                    }
+                                </select>
                             </div>
                         </div>
                         <div class="layui-inline">
@@ -225,7 +240,8 @@
                         files: $("#files").val(),
                         key: $("#key").val(),
                         startdate: $("#startdate").val(),
-                        enddate: $("#enddate").val()
+                        enddate: $("#enddate").val(),
+                        department: $("#department").val()
                     };
                     return temp;
                 };

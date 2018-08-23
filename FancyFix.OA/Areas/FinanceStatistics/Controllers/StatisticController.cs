@@ -19,29 +19,32 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
         #region 加载数据
         public ActionResult List()
         {
+            ViewBag.departmentList = Bll.BllFinance_EveryDaySaleLog.GetBusinessOrder("", "", "", "")?.Select(o => o.DepartmentName)?.Distinct()?.ToList() ?? null;
             return View();
         }
 
-        public JsonResult PageList(int page = 0, int pagesize = 0, string files = "", string key = "", DateTime? startdate = null, DateTime? enddate = null)
+        public JsonResult PageList(int page = 0, int pagesize = 0, string files = "", string key = "", DateTime? startdate = null, DateTime? enddate = null
+            , string department = "")
         {
             long records = 0;
             //Sql注入检测
             string file = Tools.Usual.Utils.CheckSqlKeyword(files);
             string keys = Tools.Usual.Utils.CheckSqlKeyword(key).Trim();
-            var list = Bll.BllFinance_Statistics.PageList(page, pagesize, out records, files, keys, startdate, enddate);
+            string departmentName = Tools.Usual.Utils.CheckSqlKeyword(department).Trim();
+            var list = Bll.BllFinance_Statistics.PageList(page, pagesize, out records, files, keys, startdate, enddate, departmentName);
             return BspTableJson(list, records);
         }
         #endregion
 
         #region 导出
         [HttpPost]
-        public ActionResult ExportExcel(string files = "", string key = "", DateTime? startdate = null, DateTime? enddate = null)
+        public ActionResult ExportExcel(string files = "", string key = "", DateTime? startdate = null, DateTime? enddate = null, string department = "")
         {
             //Sql注入检测
             string file = Tools.Usual.Utils.CheckSqlKeyword(files);
             string keys = Tools.Usual.Utils.CheckSqlKeyword(key).Trim();
-
-            var list = Bll.BllFinance_Statistics.GetList(files, key, startdate, enddate);
+            string departmentName = Tools.Usual.Utils.CheckSqlKeyword(department).Trim();
+            var list = Bll.BllFinance_Statistics.GetList(files, key, startdate, enddate, departmentName);
             if (list == null || list.Count() < 1)
                 return LayerAlertSuccessAndRefresh("加载数据失败，未找到该数据");
             var list2 = Bll.BllFinance_EveryDaySaleLog.GetBusinessOrder(files, key, startdate?.ToString() ?? "", enddate?.ToString() ?? "");
@@ -50,7 +53,7 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
 
             var departmentList = (from o in list2 select o.DepartmentName).Distinct().ToList();
 
-            HSSFWorkbook workbook = StatisticsExport.CustomStatisticsExport(list,departmentList);
+            HSSFWorkbook workbook = StatisticsExport.CustomStatisticsExport(list, departmentList);
             if (workbook == null)
                 return LayerAlertSuccessAndRefresh("加载数据失败，workbook返回为空");
 

@@ -20,16 +20,18 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
         #region 加载数据
         public ActionResult List()
         {
+            ViewBag.departmentList = Bll.BllFinance_EveryDaySaleLog.GetBusinessOrder("", "", "", "")?.Select(o => o.DepartmentName)?.Distinct()?.ToList() ?? null;
             return View();
         }
 
-        public JsonResult PageList(int page = 0, int pagesize = 0, DateTime? startdate = null, DateTime? enddate = null)
+        public JsonResult PageList(int page = 0, int pagesize = 0, DateTime? startdate = null, DateTime? enddate = null, string department = "")
         {
             long records = 0;
             //Sql注入检测
             string files = Tools.Usual.Utils.CheckSqlKeyword(RequestString("files"));
             string key = Tools.Usual.Utils.CheckSqlKeyword(RequestString("key")).Trim();
-            var list = Bll.BllFinance_EveryDaySaleLog.PageList(page, pagesize, out records, files, key, startdate, enddate);
+            string departmentName = Tools.Usual.Utils.CheckSqlKeyword(RequestString("department")).Trim();
+            var list = Bll.BllFinance_EveryDaySaleLog.PageList(page, pagesize, out records, files, key, startdate, enddate, departmentName);
             return BspTableJson(list, records);
         }
         #endregion

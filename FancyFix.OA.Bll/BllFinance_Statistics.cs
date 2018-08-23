@@ -16,12 +16,15 @@ namespace FancyFix.OA.Bll
             return new BllFinance_Statistics();
         }
 
-        public static IEnumerable<Finance_Statistics> PageList(int page, int pageSize, out long records, string file, string key, DateTime? startdate, DateTime? enddate)
+        public static IEnumerable<Finance_Statistics> PageList(int page, int pageSize, out long records, string file, string key, DateTime? startdate, DateTime? enddate
+            , string departmentName)
         {
             var where = new Where<Finance_Statistics>();
             where.And(o => o.Display != 2);
             if (!string.IsNullOrEmpty(file) && !string.IsNullOrEmpty(key))
                 where.And(string.Format(" {0} like '%{1}%' ", file, key));
+            if (!string.IsNullOrEmpty(departmentName))
+                where.And(string.Format(" DepartmentName like '%{0}%' ", departmentName));
             if (startdate != null)
                 where.And(o => o.SaleDate >= startdate);
             if (enddate != null)
@@ -33,12 +36,14 @@ namespace FancyFix.OA.Bll
             return p.Page(pageSize, page).OrderByDescending(o => o.Id).ToList();
         }
 
-        public static IEnumerable<Finance_Statistics> GetList(string file, string key, DateTime? startdate, DateTime? enddate)
+        public static IEnumerable<Finance_Statistics> GetList(string file, string key, DateTime? startdate, DateTime? enddate, string departmentName)
         {
             var where = new Where<Finance_Statistics>();
             where.And(o => o.Display != 2);
             if (!string.IsNullOrEmpty(file) && !string.IsNullOrEmpty(key))
                 where.And(string.Format(" {0} like '%{1}%' ", file, key));
+            if (!string.IsNullOrEmpty(departmentName))
+                where.And(string.Format(" DepartmentName like '%{0}%' ", departmentName));
             if (startdate != null)
                 where.And(o => o.SaleDate >= startdate);
             if (enddate != null)
@@ -128,6 +133,6 @@ namespace FancyFix.OA.Bll
                 return null;
             else
                 return 0;
-        } 
+        }
     }
 }

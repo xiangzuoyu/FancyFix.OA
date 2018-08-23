@@ -16,12 +16,17 @@ namespace FancyFix.OA.Bll
             return new BllFinance_EveryDaySaleLog();
         }
 
-        public static IEnumerable<Finance_EveryDaySaleLog> PageList(int page, int pageSize, out long records, string file, string key, DateTime? startdate, DateTime? enddate)
+        public static IEnumerable<Finance_EveryDaySaleLog> PageList(int page, int pageSize, out long records, string file, string key, DateTime? startdate, DateTime? enddate
+            , string departmentName = "")
         {
             var where = new Where<Finance_EveryDaySaleLog>();
             where.And(o => o.Display != 2);
             if (!string.IsNullOrEmpty(file) && !string.IsNullOrEmpty(key))
                 where.And(string.Format(" {0} like '%{1}%' ", file, key));
+
+            if (!string.IsNullOrEmpty(departmentName))
+                where.And(string.Format(" DepartmentName like '%{0}%' ", departmentName));
+
             if (startdate != null)
                 where.And(o => o.SaleDate >= startdate);
             if (enddate != null)

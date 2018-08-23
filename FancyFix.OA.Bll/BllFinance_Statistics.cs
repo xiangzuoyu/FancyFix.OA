@@ -23,7 +23,7 @@ namespace FancyFix.OA.Bll
             where.And(o => o.Display != 2);
             if (!string.IsNullOrEmpty(file) && !string.IsNullOrEmpty(key))
                 where.And(string.Format(" {0} like '%{1}%' ", file, key));
-            if (!string.IsNullOrEmpty(departmentName))
+            if (!string.IsNullOrEmpty(departmentName) && departmentName != "0")
                 where.And(string.Format(" DepartmentName like '%{0}%' ", departmentName));
             if (startdate != null)
                 where.And(o => o.SaleDate >= startdate);
@@ -42,7 +42,7 @@ namespace FancyFix.OA.Bll
             where.And(o => o.Display != 2);
             if (!string.IsNullOrEmpty(file) && !string.IsNullOrEmpty(key))
                 where.And(string.Format(" {0} like '%{1}%' ", file, key));
-            if (!string.IsNullOrEmpty(departmentName))
+            if (!string.IsNullOrEmpty(departmentName) && departmentName != "0")
                 where.And(string.Format(" DepartmentName like '%{0}%' ", departmentName));
             if (startdate != null)
                 where.And(o => o.SaleDate >= startdate);

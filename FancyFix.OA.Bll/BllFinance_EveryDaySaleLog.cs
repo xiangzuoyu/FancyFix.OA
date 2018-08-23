@@ -21,10 +21,10 @@ namespace FancyFix.OA.Bll
         {
             var where = new Where<Finance_EveryDaySaleLog>();
             where.And(o => o.Display != 2);
-            if (!string.IsNullOrEmpty(file) && !string.IsNullOrEmpty(key))
+            if (!string.IsNullOrEmpty(file) && !string.IsNullOrEmpty(key) && file != "0")
                 where.And(string.Format(" {0} like '%{1}%' ", file, key));
 
-            if (!string.IsNullOrEmpty(departmentName))
+            if (!string.IsNullOrEmpty(departmentName) && departmentName != "0")
                 where.And(string.Format(" DepartmentName like '%{0}%' ", departmentName));
 
             if (startdate != null)

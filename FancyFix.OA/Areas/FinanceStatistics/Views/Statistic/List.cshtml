@@ -21,25 +21,24 @@
                     <section class="panel">
                         <div class="layui-form layui-form-pane">
                             @*<div class="layui-inline">
-                                <label class="layui-form-label">按字段</label>
-                                <div class="layui-input-inline">
-                                    <select id="files" name="files" lay-filter="files">
-                                        <option value="">请选择</option>
-                                        <option value="DepartmentName">部门</option>
-                                    </select>
-                                </div>
-                                <div class="layui-input-inline">
-                                    @Html.TextBox("key", "", new { @class = "layui-input" })
-                                </div>
-                            </div>*@
+                                    <label class="layui-form-label">按字段</label>
+                                    <div class="layui-input-inline">
+                                        <select id="files" name="files" lay-filter="files">
+                                            <option value="">请选择</option>
+                                            <option value="DepartmentName">部门</option>
+                                        </select>
+                                    </div>
+                                    <div class="layui-input-inline">
+                                        @Html.TextBox("key", "", new { @class = "layui-input" })
+                                    </div>
+                                </div>*@
                             <div class="layui-inline">
                                 <label class="layui-form-label">按部门</label>
                                 <div class="layui-input-inline">
                                     <select id="department" name="department" lay-filter="files">
-                                        <option value="">请选择</option>
+                                        <option value="0">请选择</option>
                                         @if (departmentList != null && departmentList.Count > 0)
                                         {
-                                            <option value="">请选择</option>
                                             foreach (var item in departmentList)
                                             {
                                                 <option value="@item">@item</option>

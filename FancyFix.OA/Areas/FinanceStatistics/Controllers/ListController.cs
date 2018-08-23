@@ -206,6 +206,7 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
                 AddUserId = MyInfo.Id,
                 LastDate = addTime,
                 LastUserId = MyInfo.Id,
+                Display = 1
             };
             model.SaleDate = $"{model.Year}-{model.Month}-{model.Day}".ToDateTime();
 

@@ -80,10 +80,10 @@ namespace FancyFix.OA.Bll
                                                  o.Display != 2);
 
                 int result = 0;
-                //if (everyDaySaleLogModel != null)
-                //    result = Update(MappingModel(everyDaySaleLogModel, model));
-                //else
-                for (int i = 0; i < 50; i++)
+                if (everyDaySaleLogModel != null)
+                    result = Update(MappingModel(everyDaySaleLogModel, model));
+                else
+                    //for (int i = 0; i < 50; i++)
                     result = Insert(model);
 
                 return result > 0 ? "0" : "4";

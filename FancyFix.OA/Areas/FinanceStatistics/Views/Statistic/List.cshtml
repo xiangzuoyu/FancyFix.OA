@@ -20,18 +20,6 @@
                 <form action="ExportExcel" method="post">
                     <section class="panel">
                         <div class="layui-form layui-form-pane">
-                        @*<div class="layui-inline">
-                                <label class="layui-form-label">按字段</label>
-                                <div class="layui-input-inline">
-                                    <select id="files" name="files" lay-filter="files">
-                                        <option value="">请选择</option>
-                                        <option value="DepartmentName">部门</option>
-                                    </select>
-                                </div>
-                                <div class="layui-input-inline">
-                                    @Html.TextBox("key", "", new { @class = "layui-input" })
-                                </div>
-                            </div>*@
                             <div class="layui-inline">
                                 <label class="layui-form-label">按部门</label>
                                 <div class="layui-input-inline">
@@ -64,7 +52,7 @@
                                 &nbsp;<button id="btnSearch" class="btn bg-blue" lay-submit lay-filter="formSearch">查询</button>
                             </div>
                             <div class="layui-inline pull-right">
-                                <input type="submit" id="importBtn" class="btn bg-orange" value="导出">&nbsp;
+                                <input type="submit" class="btn bg-orange" value="导出">&nbsp;
                             </div>
                             <div id="toolbar" class="btn-group">
                                 <button id="btn_add" type="button" class="btn btn-default">
@@ -273,28 +261,6 @@
                     });
                 }
             });
-
-            var fun = {
-                init: function () {
-                    $("#importBtn").bind("click", function () {
-                        $("#fileEle").trigger("click");
-                    })
-                    $("#fileEle").bind("change", function () {
-                        excelForm.action = "list";
-                        excelForm.submit();
-                    })
-
-                    $("#exportBtn").bind("click", function () {
-                        var par = 'files=' + $("#files").val()
-                            + '&key=' + $("#key").val()
-                            + '&priceFrequency=' + $("#priceFrequency").val()
-                            + '&years=' + $("#years").val()
-                        OpenWin("导出供应商列表", "/supplier/rawmaterialprice/exportexcel?" + par, '726px', '580px');
-                    })
-                }
-            }
-            fun.init();
-
 
             //年月选择器
             $("#startdate").click(function () {

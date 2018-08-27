@@ -55,6 +55,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Utils\Doc.ORM\DataAccess\bin\Debug\Dos.ORM.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
     </Reference>
@@ -191,6 +194,7 @@
     <Compile Include="Areas\Demand\Controllers\DemandController.cs" />
     <Compile Include="Areas\Demand\DemandAreaRegistration.cs" />
     <Compile Include="Areas\Demand\Models\DemandTypeModel.cs" />
+    <Compile Include="Areas\FinanceStatistics\Common\EveryDaySaleLogExport.cs" />
     <Compile Include="Areas\FinanceStatistics\Common\StatisticsExport.cs" />
     <Compile Include="Areas\FinanceStatistics\Controllers\ListController.cs" />
     <Compile Include="Areas\FinanceStatistics\Controllers\StatisticController.cs" />

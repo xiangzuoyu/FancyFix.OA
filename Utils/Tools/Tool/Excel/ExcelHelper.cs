@@ -13,6 +13,7 @@ using System.Web.UI.WebControls;
 using NPOI.XSSF.UserModel;
 using NPOI.SS.Util;
 using NPOI.HSSF.Util;
+using Tools.Tool;
 
 namespace FancyFix.Tools.Tool
 {
@@ -181,6 +182,28 @@ namespace FancyFix.Tools.Tool
                     HttpContext.Current.Response.Flush();
                     HttpContext.Current.Response.End();
                 }
+            }
+        }
+
+        public static void ToExcelWeb(string fileName, XSSFWorkbook workbook)
+        {
+            using (NPOIMemoryStream ms = new NPOIMemoryStream())
+            {
+                ms.AllowClose = false;
+                workbook.Write(ms);
+                ms.Flush();
+                ms.Seek(0, SeekOrigin.Begin);
+                ms.AllowClose = true;
+
+                HttpContext curContext = HttpContext.Current;
+                curContext.Response.ContentType = "application/vnd.ms-excel";
+                curContext.Response.ContentEncoding = Encoding.UTF8;
+                curContext.Response.Charset = "";
+                curContext.Response.AppendHeader("Content-Disposition", "attachment;filename=" + HttpUtility.UrlEncode(fileName, Encoding.UTF8));
+                long fileSize = ms.Length;
+                curContext.Response.AddHeader("Content-Length", fileSize.ToString());
+                curContext.Response.BinaryWrite(ms.GetBuffer());
+                curContext.Response.End();
             }
         }
 

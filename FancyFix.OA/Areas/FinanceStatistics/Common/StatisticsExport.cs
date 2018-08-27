@@ -5,7 +5,7 @@ using NPOI.SS.UserModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+
 
 namespace FancyFix.OA.Areas.FinanceStatistics.Common
 {
@@ -19,20 +19,14 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Common
 
         public static HSSFWorkbook CustomStatisticsExport(IEnumerable<Finance_Statistics> statisticsList, List<string> departmentList)
         {
-            ////获取去重后的部门数量
-            //var departmentList = (from o in statisticsList select o.DepartmentName)?.Distinct().ToList() ?? null;
-            //if (departmentList == null)
-            //    return null;
-
             int colTotal = otherColIndex + departmentList.Count() * 7;
 
-            //boldweight: (short)FontBoldWeight.Bold,
             NPOIHelper sheet = new NPOIHelper(defaultFontSize: 12);
 
-
             //将Excel背景色改为白色
-            for (int i = 0; i <= colTotal; i++)
-                sheet.SetDefaultColumnStyle(i, sheet.CellStyle(new NPOI.HSSF.Util.HSSFColor.Yellow()));
+            //for (int i = 0; i <= colTotal; i++)
+            //    //sheet.SetDefaultColumnStyle(i, sheet.CellStyle(new NPOI.HSSF.Util.HSSFColor.Yellow()));
+            //    sheet.SetDefaultColumnStyle(i, sheet.CellStyle(new NPOI.XSSF.UserModel.XSSFColor().RGB)));
 
             //设置列宽
             for (int i = 3; i <= colTotal; i++)
@@ -157,8 +151,10 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Common
             #region 循环其余行
             var saledateList = (from o in statisticsList orderby o.SaleDate ascending select o.SaleDate)?.Distinct().ToList();
 
-            int month = 0;
             int year = 0;
+            int month = 0;
+            int year2 = 0;
+            int month2 = 0;
             int rowIndex = 3;
             DateTime lastDate = saledateList.Last().GetValueOrDefault();
 
@@ -186,12 +182,15 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Common
                 }
                 #endregion
 
-                #region 月底结算 
-                var month2 = month;
+                year2 = year;
+                year = saledate2.Year;
+                month2 = month;
                 month = saledate2.Month;
+
+                #region 月底结算 
                 if ((month != month2 && month2 != 0) || saledate2 == lastDate)
                 {
-                    statisticsList2 = (from o in statisticsList where o.Year == saledate2.Year && o.Month == month2 select o).ToList();
+                    statisticsList2 = (from o in statisticsList where o.Year == year2 && o.Month == month2 select o).ToList();
 
                     sheet.CreateRow(++rowIndex);
                     sheet.SetHeight(20 * 20);
@@ -205,8 +204,6 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Common
                 #endregion
 
                 #region 年底结算
-                var year2 = year;
-                year = saledate2.Year;
                 if ((year != year2 && year2 != 0) || saledate2 == lastDate)
                 {
                     statisticsList2 = (from o in statisticsList where o.Year == year2 select o).ToList();
@@ -252,7 +249,7 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Common
             return sheet.GetWorkbook();
         }
 
-        private static void LoadDepartmentDate(ref NPOIHelper sheet, List<Finance_Statistics> statisticsList, IEnumerable<string> departmentList, IFont font = null)
+        private static void LoadDepartmentDate(ref NPOIHelper sheet, List<Finance_Statistics> statisticsList, IEnumerable<string> departmentList, IFont font)
         {
             decimal? valA = 0, valB = 0;
             //营业收入

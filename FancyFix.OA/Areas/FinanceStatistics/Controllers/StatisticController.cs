@@ -19,7 +19,7 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
         #region 加载数据
         public ActionResult List()
         {
-            ViewBag.departmentList = Bll.BllFinance_EveryDaySaleLog.GetBusinessOrder("", "", "", "")?.Select(o => o.DepartmentName)?.Distinct()?.ToList() ?? null;
+            ViewBag.departmentList = Bll.BllFinance_EveryDaySaleLog.GetBusinessOrder("", "", "", "", "")?.Select(o => o.DepartmentName)?.Distinct()?.ToList() ?? null;
             return View();
         }
 
@@ -46,22 +46,22 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
             string departmentName = Tools.Usual.Utils.CheckSqlKeyword(department).Trim();
             var list = Bll.BllFinance_Statistics.GetList(files, key, startdate, enddate, departmentName);
             if (list == null || list.Count() < 1)
-                return LayerAlertSuccessAndRefresh("加载数据失败，未找到该数据");
-            var list2 = Bll.BllFinance_EveryDaySaleLog.GetBusinessOrder(files, key, startdate?.ToString() ?? "", enddate?.ToString() ?? "");
+                return MessageBoxAndReturn("加载数据失败，未找到该数据");
+            var list2 = Bll.BllFinance_EveryDaySaleLog.GetBusinessOrder(files, key, startdate?.ToString() ?? "", enddate?.ToString() ?? "", department);
             if (list2 == null || list2.Count() < 1)
-                return LayerAlertSuccessAndRefresh("加载数据失败，未找到该数据");
+                return MessageBoxAndReturn("加载数据失败，未找到该数据");
 
             var departmentList = (from o in list2 select o.DepartmentName).Distinct().ToList();
 
             HSSFWorkbook workbook = StatisticsExport.CustomStatisticsExport(list, departmentList);
             if (workbook == null)
-                return LayerAlertSuccessAndRefresh("加载数据失败，workbook返回为空");
+                return MessageBoxAndReturn("加载数据失败，workbook返回为空");
 
             //导出
             string fileName = "销售统计信息" + DateTime.Now.ToString("yyyyMMddHHmmss");
             Tools.Tool.ExcelHelper.ToExcelWeb(fileName + ".xls", workbook);
 
-            return View();
+            return View("List");
         }
 
         #endregion

@@ -27,6 +27,7 @@ namespace FancyFix.Tools.Tool
         }
         public HSSFWorkbook GetWorkbook()
         {
+            //workbook.Dispose();
             return workbook;
         }
         //设置单元列默认样式
@@ -144,6 +145,7 @@ namespace FancyFix.Tools.Tool
 
             //temporaryCellStyle.FillPattern = FillPattern.SolidForeground;
             //加边框
+
             if (top != BorderStyle.None)
                 temporaryCellStyle.BorderTop = top;
             if (right != BorderStyle.None)

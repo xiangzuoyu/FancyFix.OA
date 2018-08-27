@@ -163,13 +163,15 @@
     <Compile Include="Tool\CheckFilesRealFormat.cs" />
     <Compile Include="Tool\CompressHelper.cs" />
     <Compile Include="Tool\DataTableHelper.cs" />
-    <Compile Include="Tool\ExcelHelper.cs" />
+    <Compile Include="Tool\Excel\ExcelHelper.cs" />
+    <Compile Include="Tool\Excel\NPOIMemoryStream.cs" />
     <Compile Include="Tool\FileHelper.cs" />
     <Compile Include="Tool\ImageTools.cs" />
     <Compile Include="Tool\JsonHelper.cs" />
     <Compile Include="Tool\Log.cs" />
     <Compile Include="Tool\LogHelper.cs" />
-    <Compile Include="Tool\NPOIHelper.cs" />
+    <Compile Include="Tool\Excel\NPOIHelper.cs" />
+    <Compile Include="Tool\Excel\NPOIHelper2.cs" />
     <Compile Include="Tool\PathHandle.cs" />
     <Compile Include="Tool\SendMail.cs" />
     <Compile Include="Tool\SpiderHelper.cs" />

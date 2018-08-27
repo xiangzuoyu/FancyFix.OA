@@ -64,6 +64,7 @@ namespace FancyFix.OA.Model
 		private int? _LastUserId;
 		private int? _Display;
 		private string _ProductSpecification;
+		private string _Supplier;
 		/// <summary>
 		/// 
 		/// </summary>
@@ -520,6 +521,18 @@ namespace FancyFix.OA.Model
 				this._ProductSpecification=value;
 			}
 		}
+		/// <summary>
+		/// 供应商
+		/// </summary>
+		public string Supplier
+		{
+			get{ return _Supplier; }
+			set
+			{
+				this.OnPropertyValueChange(_.Supplier,_Supplier,value);
+				this._Supplier=value;
+			}
+		}
 		#endregion
 
 		#region Method
@@ -581,7 +594,8 @@ namespace FancyFix.OA.Model
 				_.LastDate,
 				_.LastUserId,
 				_.Display,
-				_.ProductSpecification};
+				_.ProductSpecification,
+				_.Supplier};
 		}
 		/// <summary>
 		/// 获取值信息
@@ -626,7 +640,8 @@ namespace FancyFix.OA.Model
 				this._LastDate,
 				this._LastUserId,
 				this._Display,
-				this._ProductSpecification};
+				this._ProductSpecification,
+				this._Supplier};
 		}
 		#endregion
 
@@ -792,6 +807,10 @@ namespace FancyFix.OA.Model
 			/// 产品规格
 			/// </summary>
 			public readonly static Field ProductSpecification = new Field("ProductSpecification","Finance_EveryDaySaleLog","产品规格");
+			/// <summary>
+			/// 供应商
+			/// </summary>
+			public readonly static Field Supplier = new Field("Supplier","Finance_EveryDaySaleLog","供应商");
 		}
 		#endregion
 

@@ -1,8 +1,11 @@
-﻿using FancyFix.OA.Base;
+﻿using FancyFix.OA.Areas.FinanceStatistics.Common;
+using FancyFix.OA.Base;
 using FancyFix.OA.Model;
 using FancyFix.Tools.Config;
 using FancyFix.Tools.Tool;
+using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +23,7 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
         #region 加载数据
         public ActionResult List()
         {
-            ViewBag.departmentList = Bll.BllFinance_EveryDaySaleLog.GetBusinessOrder("", "", "", "")?.Select(o => o.DepartmentName)?.Distinct()?.ToList() ?? null;
+            ViewBag.departmentList = Bll.BllFinance_EveryDaySaleLog.GetBusinessOrder("", "", "", "", "")?.Select(o => o.DepartmentName)?.Distinct()?.ToList() ?? null;
             return View();
         }
 
@@ -101,7 +104,7 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
             {
                 //判断Excel格式是否正确
                 IRow rowss = sheet.GetRow(2);
-                var val = rowss.GetCell(31)?.ToString() ?? "";
+                var val = rowss.GetCell(32)?.ToString() ?? "";
                 if (val != "是否关注")
                     return "2";
 
@@ -117,7 +120,7 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
                         string.IsNullOrWhiteSpace(row.GetCell(5)?.ToString() ?? "") ||
                         string.IsNullOrWhiteSpace(row.GetCell(6)?.ToString() ?? "") ||
                         string.IsNullOrWhiteSpace(row.GetCell(7)?.ToString() ?? "") ||
-                        string.IsNullOrWhiteSpace(row.GetCell(8)?.ToString() ?? ""))
+                        string.IsNullOrWhiteSpace(row.GetCell(9)?.ToString() ?? ""))
                         continue;
 
                     var rawMaterialModel = CreateEveryDaySaleLogModel(row, addTime);
@@ -176,40 +179,40 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
         {
             if (row == null) return null;
 
-            var model = new Finance_EveryDaySaleLog()
-            {
-                Year = row.GetCell(1)?.ToString().ToInt32(),
-                Month = row.GetCell(2)?.ToString().ToInt32(),
-                Day = row.GetCell(3)?.ToString().ToInt32(),
-                DepartmentName = row.GetCell(4)?.ToString(),
-                SaleName = row.GetCell(5)?.ToString() == "" ? null : row.GetCell(5)?.ToString(),
-                Customer = row.GetCell(6)?.ToString() == "" ? null : row.GetCell(6)?.ToString(),
-                ContractNumber = row.GetCell(7)?.ToString() == "" ? null : row.GetCell(7)?.ToString(),
-                ProductName = row.GetCell(8)?.ToString() == "" ? null : row.GetCell(8)?.ToString(),
-                ProductSKU = row.GetCell(9)?.ToString() == "" ? null : row.GetCell(9)?.ToString(),
-                ProductSpecification = row.GetCell(10)?.ToString() == "" ? null : row.GetCell(10)?.ToString(),
-                SaleCount = getCellVal(row.GetCell(11)),
-                SalePrice = getCellVal(row.GetCell(12)),
-                Currency = row.GetCell(13)?.ToString(),
-                ExchangeRate = getCellVal(row.GetCell(14)),
-                MaterialUnitPrice = getCellVal(row.GetCell(16)),
-                ProcessUnitPrice = getCellVal(row.GetCell(17)),
-                ChangeCostNumber = getCellVal(row.GetCell(22)),
-                ChangeCostMatter = getCellVal(row.GetCell(23)),
-                ContributionMoney = getCellVal(row.GetCell(24)),
-                ContributionRatio = getCellVal(row.GetCell(25)),
-                AvgCoatUndue = getCellVal(row.GetCell(26)),
-                AvgCoatCurrentdue = getCellVal(row.GetCell(27)),
-                AvgCoatOverdue = getCellVal(row.GetCell(28)),
-                CustomerContributionMoney = getCellVal(row.GetCell(29)),
-                CustomerContributionRatio = getCellVal(row.GetCell(30)),
-                Follow = getCellVal2(row.GetCell(31)),
-                AddDate = addTime,
-                AddUserId = MyInfo.Id,
-                LastDate = addTime,
-                LastUserId = MyInfo.Id,
-                Display = 1
-            };
+            var model = new Finance_EveryDaySaleLog();
+            model.Year = row.GetCell(1)?.ToString().ToInt32();
+            model.Month = row.GetCell(2)?.ToString().ToInt32();
+            model.Day = row.GetCell(3)?.ToString().ToInt32();
+            model.DepartmentName = row.GetCell(4)?.ToString();
+            model.SaleName = row.GetCell(5)?.ToString() == "" ? null : row.GetCell(5)?.ToString();
+            model.Customer = row.GetCell(6)?.ToString() == "" ? null : row.GetCell(6)?.ToString();
+            model.ContractNumber = row.GetCell(7)?.ToString() == "" ? null : row.GetCell(7)?.ToString();
+            model.Supplier = row.GetCell(8)?.ToString() == "" ? null : row.GetCell(8)?.ToString();
+            model.ProductName = row.GetCell(9)?.ToString() == "" ? null : row.GetCell(9)?.ToString();
+            model.ProductSKU = row.GetCell(10)?.ToString() == "" ? null : row.GetCell(10)?.ToString();
+            model.ProductSpecification = row.GetCell(11)?.ToString() == "" ? null : row.GetCell(11)?.ToString();
+            model.SaleCount = getCellVal(row.GetCell(12));
+            model.SalePrice = getCellVal(row.GetCell(13));
+            model.Currency = row.GetCell(14)?.ToString();
+            model.ExchangeRate = getCellVal(row.GetCell(15));
+            model.MaterialUnitPrice = getCellVal(row.GetCell(17));
+            model.ProcessUnitPrice = getCellVal(row.GetCell(18));
+            model.ChangeCostNumber = getCellVal(row.GetCell(23));
+            model.ChangeCostMatter = getCellVal(row.GetCell(24));
+            model.ContributionMoney = getCellVal(row.GetCell(25));
+            model.ContributionRatio = getCellVal(row.GetCell(26));
+            model.AvgCoatUndue = getCellVal(row.GetCell(27));
+            model.AvgCoatCurrentdue = getCellVal(row.GetCell(28));
+            model.AvgCoatOverdue = getCellVal(row.GetCell(29));
+            model.CustomerContributionMoney = getCellVal(row.GetCell(30));
+            model.CustomerContributionRatio = getCellVal(row.GetCell(31));
+            model.Follow = getCellVal2(row.GetCell(32));
+            model.AddDate = addTime;
+            model.AddUserId = MyInfo.Id;
+            model.LastDate = addTime;
+            model.LastUserId = MyInfo.Id;
+            model.Display = 1;
+
             model.SaleDate = $"{model.Year}-{model.Month}-{model.Day}".ToDateTime();
 
             return CountSaleDate(model);
@@ -280,6 +283,31 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
                 return null;
             else
                 return val == "是";
+        }
+
+        #endregion
+
+        #region 导出 Excel
+        [HttpPost]
+        public ActionResult ExportExcel(string files = "", string key = "", DateTime? startdate = null, DateTime? enddate = null, string department = "")
+        {
+            //Sql注入检测
+            string file = Tools.Usual.Utils.CheckSqlKeyword(files);
+            string keys = Tools.Usual.Utils.CheckSqlKeyword(key).Trim();
+            string departmentName = Tools.Usual.Utils.CheckSqlKeyword(department).Trim();
+            var list = Bll.BllFinance_EveryDaySaleLog.GetList(files, key, startdate, enddate, departmentName);
+            if (list == null || list.Count() < 1)
+                return MessageBoxAndReturn("加载数据失败，未找到该数据");
+
+            XSSFWorkbook workbook = EveryDaySaleLogExport.CustomEveryDaySaleLogExport(list, department);
+            if (workbook == null)
+                return MessageBoxAndReturn("加载数据失败，workbook返回为空");
+
+            //导出
+            string fileName = "价值分析导出信息" + DateTime.Now.ToString("yyyyMMddHHmmss");
+            ExcelHelper.ToExcelWeb(fileName + ".xls", workbook);
+
+            return View("List");
         }
 
         #endregion

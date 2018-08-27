@@ -18,68 +18,72 @@
         <div class="box">
             <div class="box-body">
                 <section class="panel">
-                    <div class="layui-form layui-form-pane">
-                        <div class="layui-inline">
-                            <label class="layui-form-label">按字段</label>
-                            <div class="layui-input-inline">
-                                <select id="files" name="files" lay-filter="files">
-                                    <option value="0">请选择</option>
-                                    <option value="SaleName">销售人员</option>
-                                    <option value="Customer">客户/店铺</option>
-                                    <option value="ProductName">产品名称</option>
-                                </select>
+                    <form action="ExportExcel" method="post">
+                        <div class="layui-form layui-form-pane">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">按字段</label>
+                                <div class="layui-input-inline">
+                                    <select id="files" name="files" lay-filter="files">
+                                        <option value="0">请选择</option>
+                                        <option value="SaleName">销售人员</option>
+                                        <option value="Customer">客户/店铺</option>
+                                        <option value="ProductName">产品名称</option>
+                                        <option value="Supplier">供应商</option>
+                                    </select>
+                                </div>
+                                <div class="layui-input-inline">
+                                    @Html.TextBox("key", "", new { @class = "layui-input" })
+                                </div>
                             </div>
-                            <div class="layui-input-inline">
-                                @Html.TextBox("key", "", new { @class = "layui-input" })
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <label class="layui-form-label">按部门</label>
-                            <div class="layui-input-inline">
-                                <select id="department" name="department" lay-filter="files">
-                                    <option value="0">请选择</option>
-                                    @if (departmentList != null && departmentList.Count > 0)
-                                    {
-                                        foreach (var item in departmentList)
+                            <div class="layui-inline">
+                                <label class="layui-form-label">按部门</label>
+                                <div class="layui-input-inline">
+                                    <select id="department" name="department" lay-filter="files">
+                                        <option value="0">请选择</option>
+                                        @if (departmentList != null && departmentList.Count > 0)
                                         {
-                                            <option value="@item">@item</option>
+                                            foreach (var item in departmentList)
+                                            {
+                                                <option value="@item">@item</option>
+                                            }
                                         }
-                                    }
-                                </select>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
-                        <div class="layui-inline">
-                            <label class="layui-form-label">销售日起</label>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">销售日起</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" class="layui-input" id="startdate" name="startdate" autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">销售日止</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" class="layui-input" id="enddate" name="enddate" autocomplete="off" />
+                                </div>
+                            </div>
+                            &nbsp;&nbsp;
                             <div class="layui-input-inline">
-                                <input type="text" class="layui-input" id="startdate" name="startdate" autocomplete="off" />
+                                &nbsp;<button id="btnSearch" class="btn bg-blue" lay-submit lay-filter="formSearch">查询</button>
                             </div>
-                        </div>
-                        <div class="layui-inline">
-                            <label class="layui-form-label">销售日止</label>
-                            <div class="layui-input-inline">
-                                <input type="text" class="layui-input" id="enddate" name="enddate" autocomplete="off" />
+                            <div class="layui-inline pull-right">
+                                <input type="button" id="importBtn" class="btn bg-orange" value="导入">&nbsp;
+                                <input type="submit" class="btn bg-orange" value="导出">&nbsp;
                             </div>
-                        </div>
-                        &nbsp;&nbsp;
-                        <div class="layui-input-inline">
-                            &nbsp;<button id="btnSearch" class="btn bg-blue" lay-submit lay-filter="formSearch">查询</button>
-                        </div>
-                        <div class="layui-inline pull-right">
-                            <input type="button" id="importBtn" class="btn bg-orange" value="导入">&nbsp;
-                        </div>
-                        <div id="toolbar" class="btn-group">
-                            <button id="btn_add" type="button" class="btn btn-default">
-                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>添加
-                            </button>
-                            <button id="btn_delete" type="button" class="btn btn-default">
-                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
-                            </button>
-                        </div>
+                            <div id="toolbar" class="btn-group">
+                                <button id="btn_add" type="button" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>添加
+                                </button>
+                                <button id="btn_delete" type="button" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
+                                </button>
+                            </div>
 
-                        <form id="excelForm" action="list" method="post" enctype="multipart/form-data">
-                            <input id="fileEle" name="file" type="file" style="display:none" />
-                        </form>
-                    </div>
+                        </div>
+                    </form>
+                    <form id="excelForm" action="list" method="post" enctype="multipart/form-data">
+                        <input id="fileEle" name="file" type="file" style="display:none" />
+                    </form>
                 </section>
                 <table id="table" class="table table-bordered table-hover"></table>
             </div>
@@ -161,6 +165,10 @@
                         }, {
                             field: 'ProductName',
                             title: '产品名称',
+                            align: 'left',
+                        }, {
+                            field: 'Supplier',
+                            title: '供应商',
                             align: 'left',
                         }, {
                             field: 'ProductSKU',
@@ -313,14 +321,6 @@
                     $("#fileEle").bind("change", function () {
                         excelForm.action = "list";
                         excelForm.submit();
-                    })
-
-                    $("#exportBtn").bind("click", function () {
-                        var par = 'files=' + $("#files").val()
-                            + '&key=' + $("#key").val()
-                            + '&priceFrequency=' + $("#priceFrequency").val()
-                            + '&years=' + $("#years").val()
-                        OpenWin("导出供应商列表", "/supplier/rawmaterialprice/exportexcel?" + par, '726px', '580px');
                     })
                 }
             }

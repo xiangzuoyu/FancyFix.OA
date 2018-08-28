@@ -97,7 +97,7 @@ namespace Tools.Tool
         public IFont FontStyle(string fontfamily = "", HSSFColor fontcolor = null, short boldweight = 0, int fontsize = 0, bool isItalic = false)
         {
             temporaryFont = workbook.CreateFont();
-            if (string.IsNullOrEmpty(fontfamily))
+            if (!string.IsNullOrEmpty(fontfamily))
                 temporaryFont.FontName = fontfamily;
 
             if (fontcolor != null)

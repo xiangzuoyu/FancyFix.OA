@@ -305,7 +305,7 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
 
             //导出
             string fileName = "价值分析导出信息" + DateTime.Now.ToString("yyyyMMddHHmmss");
-            ExcelHelper.ToExcelWeb(fileName + ".xls", workbook);
+            ExcelHelper.ToExcelWeb(fileName + ".xlsx", workbook);
 
             return View("List");
         }

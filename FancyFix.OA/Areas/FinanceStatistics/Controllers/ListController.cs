@@ -12,6 +12,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Tools.Tool;
+using System.Configuration;
 
 namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
 {
@@ -119,7 +120,7 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
                         string.IsNullOrWhiteSpace(row.GetCell(3)?.ToString() ?? "") ||
                         string.IsNullOrWhiteSpace(row.GetCell(5)?.ToString() ?? "") ||
                         string.IsNullOrWhiteSpace(row.GetCell(6)?.ToString() ?? "") ||
-                        string.IsNullOrWhiteSpace(row.GetCell(7)?.ToString() ?? "") ||
+                        //string.IsNullOrWhiteSpace(row.GetCell(7)?.ToString() ?? "") ||
                         string.IsNullOrWhiteSpace(row.GetCell(9)?.ToString() ?? ""))
                         continue;
 
@@ -298,6 +299,13 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
             var list = Bll.BllFinance_EveryDaySaleLog.GetList(files, key, startdate, enddate, departmentName);
             if (list == null || list.Count() < 1)
                 return MessageBoxAndReturn("加载数据失败，未找到该数据");
+
+            int maxExportCount = ConfigurationManager.AppSettings["ExportMaxCount"]?.ToInt32() ?? 0;
+            if (maxExportCount == 0)
+                return MessageBoxAndReturn("web.config中为“ExportMaxCount”配置导出最大值");
+
+            if (maxExportCount > list.Count())
+                return MessageBoxAndReturn("本次导出数据量超过最大值，请重新筛选");
 
             XSSFWorkbook workbook = EveryDaySaleLogExport.CustomEveryDaySaleLogExport(list, department);
             if (workbook == null)

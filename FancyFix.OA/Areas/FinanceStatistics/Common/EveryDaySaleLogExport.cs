@@ -22,9 +22,9 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Common
             int rowIndex = 0;
             NPOIHelper2 sheet = new NPOIHelper2(defaultFontSize: 12);
 
-            ////将Excel背景色改为白色
-            //for (int i = 0; i <= ColTotalIndex; i++)
-            //    sheet.SetDefaultColumnStyle(i, sheet.CellStyle(new NPOI.HSSF.Util.HSSFColor.White()));
+            //将Excel背景色改为白色
+            for (int i = 0; i <= ColTotalIndex; i++)
+                sheet.SetDefaultColumnStyle(i, sheet.CellStyle(new NPOI.HSSF.Util.HSSFColor.White()));
 
             var cellStyleDefault1 = sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin, left: BorderStyle.Thin, font: sheet.FontStyle(boldweight: (short)FontBoldWeight.Normal, fontsize: 12));
 
@@ -62,7 +62,7 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Common
             for (int i = 0; i <= ColTotalIndex; i++)
                 sheet.CreateCell(i, "", sheet.CellStyle(top: BorderStyle.Thin, right: BorderStyle.Thin, font: sheet.FontStyle(boldweight: (short)FontBoldWeight.Bold, fontsize: 12)));
 
-            sheet.CreateCell(0, "内容", sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin, font: sheet.FontStyle(boldweight: (short)FontBoldWeight.Normal, fontsize: 12)));
+            sheet.CreateCell(0, "内容", sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin, left: BorderStyle.Thin, font: sheet.FontStyle(boldweight: (short)FontBoldWeight.Normal, fontsize: 12)));
 
             sheet.MergeCells(2, 2, 1, 3);
             sheet.CreateCell(1, "日期", cellStyleDefault1);
@@ -99,7 +99,7 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Common
             sheet.CreateRow(++rowIndex);
 
             sheet.MergeCells(3, 4, 0, 0);
-            sheet.CreateCell(0, "序号", sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin, font: sheet.FontStyle(boldweight: (short)FontBoldWeight.Normal, fontsize: 12)));
+            sheet.CreateCell(0, "序号", sheet.CellStyle(ha: HorizontalAlignment.Center, va: VerticalAlignment.Center, top: BorderStyle.Thin, left: BorderStyle.Thin, font: sheet.FontStyle(boldweight: (short)FontBoldWeight.Normal, fontsize: 12)));
 
             sheet.MergeCells(3, 4, 1, 1);
             sheet.CreateCell(1, "年", cellStyleDefault1);
@@ -186,8 +186,10 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Common
             foreach (var item in statisticsList)
             {
                 dataIndex++;
+                //if (dataIndex > 200000)
+                //    break;
 
-                #region 普通记录
+                #region 普通记录 在最后一条数据时显示
                 if (item.Id == lastId)
                     AddData(ref sheet, dataIndex.ToString(), ++rowIndex, item, cellStyleDefault1, cellStyleDefault3);
                 #endregion

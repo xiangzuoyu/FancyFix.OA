@@ -83,7 +83,6 @@ namespace FancyFix.OA.Bll
                 if (everyDaySaleLogModel != null)
                     result = Update(MappingModel(everyDaySaleLogModel, model));
                 else
-                    //for (int i = 0; i < 50; i++)
                     result = Insert(model);
 
                 return result > 0 ? "0" : "4";

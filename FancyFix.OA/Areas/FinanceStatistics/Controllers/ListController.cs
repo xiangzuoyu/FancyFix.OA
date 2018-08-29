@@ -120,7 +120,7 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
                         string.IsNullOrWhiteSpace(row.GetCell(3)?.ToString() ?? "") ||
                         string.IsNullOrWhiteSpace(row.GetCell(5)?.ToString() ?? "") ||
                         string.IsNullOrWhiteSpace(row.GetCell(6)?.ToString() ?? "") ||
-                        //string.IsNullOrWhiteSpace(row.GetCell(7)?.ToString() ?? "") ||
+                        string.IsNullOrWhiteSpace(row.GetCell(7)?.ToString() ?? "") ||
                         string.IsNullOrWhiteSpace(row.GetCell(9)?.ToString() ?? ""))
                         continue;
 

@@ -152,6 +152,8 @@ namespace FancyFix.OA.Bll
                 oldModel.CustomerContributionRatio = newModel.CustomerContributionRatio;
             if (newModel.Follow != null)
                 oldModel.Follow = newModel.Follow;
+            if (newModel.SPU != null)
+                oldModel.SPU = newModel.SPU;
 
             oldModel.AddDate = newModel.AddDate;
             oldModel.AddUserId = newModel.AddUserId;

@@ -105,7 +105,7 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
             {
                 //判断Excel格式是否正确
                 IRow rowss = sheet.GetRow(2);
-                var val = rowss.GetCell(32)?.ToString() ?? "";
+                var val = rowss.GetCell(33)?.ToString() ?? "";
                 if (val != "是否关注")
                     return "2";
 
@@ -113,7 +113,7 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
                 for (int i = startRow; i <= rowCount; i++)
                 {
                     IRow row = sheet.GetRow(i);
-                    //年月日、销售人员、客户、产品名称、产品SKU为空时跳过
+                    //年月日、销售人员、客户、合同号、产品名称为空时跳过
                     if (row == null ||
                         string.IsNullOrWhiteSpace(row.GetCell(1)?.ToString() ?? "") ||
                         string.IsNullOrWhiteSpace(row.GetCell(2)?.ToString() ?? "") ||
@@ -190,24 +190,25 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
             model.ContractNumber = row.GetCell(7)?.ToString() == "" ? null : row.GetCell(7)?.ToString();
             model.Supplier = row.GetCell(8)?.ToString() == "" ? null : row.GetCell(8)?.ToString();
             model.ProductName = row.GetCell(9)?.ToString() == "" ? null : row.GetCell(9)?.ToString();
-            model.ProductSKU = row.GetCell(10)?.ToString() == "" ? null : row.GetCell(10)?.ToString();
-            model.ProductSpecification = row.GetCell(11)?.ToString() == "" ? null : row.GetCell(11)?.ToString();
-            model.SaleCount = getCellVal(row.GetCell(12));
-            model.SalePrice = getCellVal(row.GetCell(13));
-            model.Currency = row.GetCell(14)?.ToString();
-            model.ExchangeRate = getCellVal(row.GetCell(15));
-            model.MaterialUnitPrice = getCellVal(row.GetCell(17));
-            model.ProcessUnitPrice = getCellVal(row.GetCell(18));
-            model.ChangeCostNumber = getCellVal(row.GetCell(23));
-            model.ChangeCostMatter = getCellVal(row.GetCell(24));
-            model.ContributionMoney = getCellVal(row.GetCell(25));
-            model.ContributionRatio = getCellVal(row.GetCell(26));
-            model.AvgCoatUndue = getCellVal(row.GetCell(27));
-            model.AvgCoatCurrentdue = getCellVal(row.GetCell(28));
-            model.AvgCoatOverdue = getCellVal(row.GetCell(29));
-            model.CustomerContributionMoney = getCellVal(row.GetCell(30));
-            model.CustomerContributionRatio = getCellVal(row.GetCell(31));
-            model.Follow = getCellVal2(row.GetCell(32));
+            model.SPU = row.GetCell(10)?.ToString() == "" ? null : row.GetCell(10)?.ToString();
+            model.ProductSKU = row.GetCell(11)?.ToString() == "" ? null : row.GetCell(11)?.ToString();
+            model.ProductSpecification = row.GetCell(12)?.ToString() == "" ? null : row.GetCell(12)?.ToString();
+            model.SaleCount = getCellVal(row.GetCell(13));
+            model.SalePrice = getCellVal(row.GetCell(14));
+            model.Currency = row.GetCell(15)?.ToString();
+            model.ExchangeRate = getCellVal(row.GetCell(16));
+            model.MaterialUnitPrice = getCellVal(row.GetCell(18));
+            model.ProcessUnitPrice = getCellVal(row.GetCell(19));
+            model.ChangeCostNumber = getCellVal(row.GetCell(24));
+            model.ChangeCostMatter = getCellVal(row.GetCell(25));
+            model.ContributionMoney = getCellVal(row.GetCell(26));
+            model.ContributionRatio = getCellVal(row.GetCell(27));
+            model.AvgCoatUndue = getCellVal(row.GetCell(28));
+            model.AvgCoatCurrentdue = getCellVal(row.GetCell(29));
+            model.AvgCoatOverdue = getCellVal(row.GetCell(30));
+            model.CustomerContributionMoney = getCellVal(row.GetCell(31));
+            model.CustomerContributionRatio = getCellVal(row.GetCell(32));
+            model.Follow = getCellVal2(row.GetCell(33));
             model.AddDate = addTime;
             model.AddUserId = MyInfo.Id;
             model.LastDate = addTime;
@@ -304,7 +305,7 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
             if (maxExportCount == 0)
                 return MessageBoxAndReturn("web.config中为“ExportMaxCount”配置导出最大值");
 
-            if (maxExportCount > list.Count())
+            if (list.Count() > maxExportCount)
                 return MessageBoxAndReturn("本次导出数据量超过最大值，请重新筛选");
 
             XSSFWorkbook workbook = EveryDaySaleLogExport.CustomEveryDaySaleLogExport(list, department);
@@ -394,6 +395,7 @@ namespace FancyFix.OA.Areas.FinanceStatistics.Controllers
             model.CustomerContributionMoney = everyDaySaleLog.CustomerContributionMoney;
             model.CustomerContributionRatio = everyDaySaleLog.CustomerContributionRatio;
             model.Follow = everyDaySaleLog.Follow;
+            model.SPU = everyDaySaleLog.SPU;
 
             model.LastDate = DateTime.Now;
             model.LastUserId = MyInfo.Id;

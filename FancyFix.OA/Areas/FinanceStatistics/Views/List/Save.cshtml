@@ -86,6 +86,14 @@
                         </td>
                     </tr>
                     <tr>
+                        <td align="right"><label for="SPU" class="control-label">SPU：</label></td>
+                        <td>
+                            <div class="layui-input-inline">
+                                @Html.TextBox("SPU", (Model?.SPU ?? ""), new { @class = "form-control" })
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
                         <td align="right"><label for="ProductSKU" class="control-label">产品SKU：</label></td>
                         <td>
                             <div class="layui-input-inline">

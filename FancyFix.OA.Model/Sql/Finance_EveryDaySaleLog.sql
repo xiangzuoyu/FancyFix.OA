@@ -11,7 +11,7 @@ Target Server Type    : SQL Server
 Target Server Version : 110000
 File Encoding         : 65001
 
-Date: 2018-08-27 11:36:28
+Date: 2018-09-20 09:43:21
 */
 
 
@@ -59,12 +59,13 @@ CREATE TABLE [dbo].[Finance_EveryDaySaleLog] (
 [LastUserId] int NULL ,
 [Display] int NULL DEFAULT ((1)) ,
 [ProductSpecification] nvarchar(512) NULL ,
-[Supplier] nvarchar(512) NULL 
+[Supplier] nvarchar(512) NULL ,
+[SPU] nvarchar(256) NULL 
 )
 
 
 GO
-DBCC CHECKIDENT(N'[dbo].[Finance_EveryDaySaleLog]', RESEED, 186972)
+DBCC CHECKIDENT(N'[dbo].[Finance_EveryDaySaleLog]', RESEED, 1040117)
 GO
 IF ((SELECT COUNT(*) from fn_listextendedproperty('MS_Description', 
 'SCHEMA', N'dbo', 

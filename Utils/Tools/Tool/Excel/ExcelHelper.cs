@@ -187,8 +187,10 @@ namespace FancyFix.Tools.Tool
 
         public static void ToExcelWeb(string fileName, XSSFWorkbook workbook)
         {
-            using (NPOIMemoryStream ms = new NPOIMemoryStream())
+            NPOIMemoryStream ms = new NPOIMemoryStream();
+            try
             {
+
                 ms.AllowClose = false;
                 workbook.Write(ms);
                 ms.Flush();
@@ -196,6 +198,7 @@ namespace FancyFix.Tools.Tool
                 ms.AllowClose = true;
 
                 HttpContext curContext = HttpContext.Current;
+
                 curContext.Response.ContentType = "application/vnd.ms-excel";
                 curContext.Response.ContentEncoding = Encoding.UTF8;
                 curContext.Response.Charset = "";
@@ -204,6 +207,16 @@ namespace FancyFix.Tools.Tool
                 curContext.Response.AddHeader("Content-Length", fileSize.ToString());
                 curContext.Response.BinaryWrite(ms.GetBuffer());
                 curContext.Response.End();
+            }
+            catch (Exception ex)
+            {
+                return;
+            }
+            finally
+            {
+                if (ms != null)
+                    ms.Dispose();
+
             }
         }
 

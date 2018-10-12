@@ -1,0 +1,131 @@
+﻿@using FancyFix.OA.Model
+@using System.Data
+@{
+    ViewBag.Title = "UnCreateList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    DataTable list = ViewBag.list;
+    int startyear = ViewBag.StartYear;
+    int year = ViewBag.year;
+    int month = ViewBag.month;
+    int inJob = ViewBag.inJob;
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box-header">
+            <h3 class="box-title">已生成进程人员：</h3>
+            <select id="year" name="year" class="layui-select" style="max-width:100px;">
+                @for (int i = startyear; i <= DateTime.Now.Year + 1; i++)
+                {
+                    <option value="@i" @(i == year ? "selected" : "")>@i 年</option>
+                }
+            </select>
+            <select id="month" name="month" class="layui-select" style="max-width:80px;">
+                @for (int i = 1; i <= 12; i++)
+                {
+                    <option value="@i" @(month == i ? "selected" : "")>@i 月</option>
+                }
+            </select>
+            <select id="depart" name="depart" class="layui-select" style="max-width:150px;">
+                <option value="0">├所有部门</option>
+                @Html.Raw(ViewBag.departHtml)
+            </select>
+            <select id="injob" name="injob" class="layui-select" style="max-width:150px;">
+                <option value="1" @(inJob == 1 ? "selected" : "")>在职</option>
+                <option value="0" @(inJob == 0 ? "selected" : "")>离职</option>
+            </select>
+            <a href="/kpi/kpi/index" class="btn btn-default pull-right">返回</a>
+        </div>
+        <div class="box">
+            <div class="box-body">
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <th style="text-align:center;">进程</th>
+                            <th style="text-align:center;">生成进程人员</th>
+                            <th style="text-align:center;">指标完成度(%)</th>
+                            <th style="text-align:center;">部门</th>
+                            <th style="text-align:center;">操作</th>
+                        </tr>
+                        @if (list != null && list.Rows.Count > 0)
+                        {
+                            foreach (DataRow row in list.Rows)
+                            {
+                                <tr>
+                                    <td align="center">@year 年 @month 月</td>
+                                    <td align="center">@row["RealName"]</td>
+                                    <td align="center">@row["ScoreSum"]</td>
+                                    <td align="center">@row["DepartName"]</td>
+                                    <td align="center">
+                                        @if ((bool)row["IsApprove"])
+                                        {
+                                            <a href="javascript:void(0)" class="btn btn-default">上级已评</a>
+                                        }
+                                        else
+                                        {
+                                            <a href="javascript:void(0)" data-id="@row["UserId"]" class="btn btn-danger">取消生成</a>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td align="center" colspan="5">暂无数据</td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Js{
+    <script src="/Content/js/common/tools.js"></script>
+    <script>
+        layui.use(['layer'], function () {
+            var layer = layui.layer;
+
+            $("a.btn-danger").click(function () {
+                var userId = $(this).data("id");
+                layer.confirm('确定取消该人员的进程？', {
+                    icon: 3,
+                    btn: ['确定', '取消']
+                }, function () {
+                     if (userId > 0) {
+                        $.post('/kpi/kpilist/cancelcreate', { userIds: userId, year: '@year', month: '@month' }, function (data) {
+                            if (data && data.status) {
+                                 window.location.reload();
+                            } else {
+                                ShowError("操作失败！");
+                            }
+                         })
+                     } else {
+                         ShowError("操作失败, 参数有误！");
+                     }
+                });
+            })
+
+            $("#year,#month,#depart,#injob").change(function () {
+                PostWhere();
+            })
+
+            function PostWhere() {
+                var year = $("#year").val();
+                var month = $("#month").val();
+                var depart = $("#depart").val();
+                var injob = $("#injob").val();
+                var where = "year=" + parseInt(year);
+                if (month > 0)
+                    where += "&month=" + parseInt(month);
+                where += "&departId=" + parseInt(depart);
+                where += "&injob=" + parseInt(injob);
+                window.location.href = window.location.pathname + "?" + where;
+            }
+        })
+    </script>
+}
+
+
+

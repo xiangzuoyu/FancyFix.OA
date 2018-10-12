@@ -33,15 +33,14 @@
             </select>
         </div>
         <div class="box-body">
-            <a href="/kpi/kpi/kpiadd?year=@year&month=@month&pid=@Model.Id" id="addnew" class="btn btn-default pull-left">新建指标</a>
-            @*@if (DateTime.Now < GetKpiCreateEndDay(year, month))
+            @if (DateTime.Now < GetKpiCreateEndDay(year, month))
             {
                 <a href="/kpi/kpi/kpiadd?year=@year&month=@month&pid=@Model.Id" id="addnew" class="btn btn-default pull-left">新建指标</a>
             }
             else
             {
                 <a href="javascript:void(0)" class="btn btn-default pull-left btnTimeout" disabled="disabled">新建指标</a>
-            }*@
+            }
             <a href="/kpi/kpi/index" class="btn btn-default pull-right">返回</a>
         </div>
         <div class="box">

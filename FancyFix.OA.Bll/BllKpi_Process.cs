@@ -186,7 +186,7 @@ namespace FancyFix.OA.Bll
         /// <param name="toMonth"></param>
         /// <param name="realname"></param>
         /// <returns></returns>
-        public static List<Mng_User> GetUserRankList(int year, int fromMonth = 0, int toMonth = 0, int departId = 0, string realname = "",int injob=1)
+        public static List<Mng_User> GetUserRankList(int year, int fromMonth = 0, int toMonth = 0, int departId = 0, string realname = "", int injob = 1)
         {
             string where = $"year={year}";
 
@@ -208,7 +208,8 @@ namespace FancyFix.OA.Bll
                 where1 += " and a.DepartId=" + departId;
             }
             if (injob > 0)
-            {   if (injob == 1)
+            {
+                if (injob == 1)
                 {
                     where1 += " and a.InJob=" + 1;
                 }
@@ -231,6 +232,37 @@ namespace FancyFix.OA.Bll
                  $" order by InJob desc,a.Id asc" +
                  $") as tb order by Score desc";
             return Db.Context.FromSql(sql).ToList<Mng_User>();
+        }
+
+        /// <summary>
+        /// 取消生成
+        /// </summary>
+        /// <param name="userIds"></param>
+        /// <param name="year"></param>
+        /// <param name="month"></param>
+        /// <returns></returns>
+        public static bool CancelCreate(List<int> userIds, int year, int month)
+        {
+            using (var trans = Db.Context.BeginTransaction())
+            {
+                var ids = string.Join(",", userIds);
+                //指标生成
+                int count = trans.FromSql($"update Kpi_Process set iscreated = 0 where iscreated = 1 and year = {year} and month = {month} and userid in ({ids})").ExecuteNonQuery();
+                if (count == 0)
+                {
+                    trans.Rollback();
+                    return false;
+                }
+                //进程生成
+                count = trans.FromSql($"update Kpi_Records set iscreated = 0 where iscreated = 1 and year = {year} and month = {month} and userid in ({ids})").ExecuteNonQuery();
+                if (count == 0)
+                {
+                    trans.Rollback();
+                    return false;
+                }
+                trans.Commit();
+                return true;
+            }
         }
 
     }

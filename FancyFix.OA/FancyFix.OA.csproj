@@ -1970,6 +1970,7 @@
     <Content Include="Areas\FinanceStatistics\Views\List\Save.cshtml" />
     <Content Include="Areas\FinanceStatistics\Views\Statistic\List.cshtml" />
     <Content Include="Areas\FinanceStatistics\Views\Statistic\Save.cshtml" />
+    <Content Include="Areas\Kpi\Views\KpiList\CreatedList.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Common\GetAdminTree.cshtml" />
     <Content Include="Views\Shared\_baseconfig.cshtml" />
